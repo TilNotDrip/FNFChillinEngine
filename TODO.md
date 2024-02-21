@@ -1,0 +1,6 @@
+ - [x] Ghost Tapping
+ - [x] Strums Glow Dad
+ - [] Misses and Accuracy 
+ - [] Ending Screen
+ - [] Actual Options Menu
+ - [] Healthbar Colors (and make it )
