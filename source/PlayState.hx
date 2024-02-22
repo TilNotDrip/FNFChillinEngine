@@ -138,8 +138,8 @@ class PlayState extends MusicBeatState
 	var songMisses:Int = 0;
 	var scoreTxt:FlxText;
 
-	var possibleScore:Int;
-	var songAccuracy:Float;
+	var possibleScore:Int = 0;
+	var songAccuracy:Float = 0;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
@@ -2849,7 +2849,11 @@ class PlayState extends MusicBeatState
 			});
 	}
 
-	function calculateAccuracy() songAccuracy = FlxMath.roundDecimal((songScore / possibleScore) * 100, 2);
+	function calculateAccuracy()
+	{
+		songAccuracy = FlxMath.roundDecimal((songScore / possibleScore) * 100, 2);
+		if(songAccuracy == Math.NaN) songAccuracy = 0;
+	}
 
 	var fastCarCanDrive:Bool = true;
 
