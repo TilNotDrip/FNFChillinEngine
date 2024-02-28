@@ -17,7 +17,8 @@
  - [x] Ghost Tapping
  - [x] Strums Glow Dad
  - [x] Healthbar Colors (Done for now ig)
- - [ ] Custom FPS (`FPS`, `MEMORY`, and `STATE`)
+ - [x] Custom FPS (`FPS`, `MEMORY`, and `STATE`)
+ - [ ] Make FPS more accurate (maybe memory too if possible) and add a border around the Counter
  - [ ] Seperate Menu Character assets
  - [ ] Seperate Main Menu assets
  - [ ] Seperate Story Menu UI assets

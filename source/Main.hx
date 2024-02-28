@@ -1,12 +1,14 @@
 package;
 
+import display.FPS;
+
 import flixel.FlxGame;
+
 import openfl.Lib;
-import openfl.display.FPS;
+
 import openfl.display.Sprite;
+
 import openfl.events.Event;
-import openfl.media.Video;
-import openfl.net.NetStream;
 
 class Main extends Sprite
 {
@@ -47,8 +49,6 @@ class Main extends Sprite
 		setupGame();
 	}
 
-	var video:Video;
-	var netStream:NetStream;
 	private var overlay:Sprite;
 
 	public static var fpsCounter:FPS;

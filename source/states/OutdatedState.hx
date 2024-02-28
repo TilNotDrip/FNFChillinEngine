@@ -9,10 +9,9 @@ class OutdatedState extends MusicBeatState
 		super.create();
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
-		var ver = "v" + Application.current.meta.get('version');
 		var txt:FlxText = new FlxText(0, 0, FlxG.width,
 			"Woah! You are currently running an outdated version of TilNotDrip Engine
-			You are on version " + ver + " while the current version is vardontexist
+			You are on version " + Application.current.meta.get('version') + " while the current version is vardontexist
 			\n
 			Press ENTER to update
 			Press ESC to exit anyways

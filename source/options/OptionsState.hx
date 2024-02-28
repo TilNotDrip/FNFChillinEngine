@@ -158,9 +158,6 @@ class OptionsMenu extends Page
 		add(items = new TextMenuList());
 		createItem('preferences', function() switchPage(Preferences));
 		createItem("controls", function() switchPage(Controls));
-		#if cpp
-		createItem('mods', function() switchPage(Mods));
-		#end
 
 		createItem("exit", exit);
 	}
@@ -199,6 +196,5 @@ enum PageName
 	Options;
 	Controls;
 	Colors;
-	Mods;
 	Preferences;
 }
