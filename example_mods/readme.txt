@@ -1,2 +1,1 @@
-THIS MOD FOLDER DOES NOT ENTIRELY WORK JUST YET!!!
-DONT EXPECT MUCH OUT OF IT RIGHT NOW!!!
+The mods folder is just here as of right now. This will be used later on

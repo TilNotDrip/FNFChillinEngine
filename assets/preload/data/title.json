@@ -5,7 +5,7 @@
         {
             "id":"logo",
             "pos":[-150, -100],
-            "path":"logoBumpin",
+            "path":"titleScreen/logoBumpin",
             "animations":
             [
                 {
@@ -19,7 +19,7 @@
         {
             "id":"gf",
             "pos":[512, 50.4],
-            "path":"gfDanceTitle",
+            "path":"titleScreen/gfDanceTitle",
             "animations":
             [
                 {
@@ -41,7 +41,7 @@
         {
             "id":"title",
             "pos":[100, 576],
-            "path":"titleEnter",
+            "path":"titleScreen/titleEnter",
             "animations":
             [
                 {
@@ -62,7 +62,7 @@
             "id":"ngSpr",
             "pos":[459, 374.4],
             "scale":[0.8, 0.8],
-            "path":"newgrounds_logo",
+            "path":"titleScreen/newgrounds_logo",
             "titleSpr":true
         }
     ],
