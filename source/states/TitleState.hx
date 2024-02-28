@@ -190,11 +190,6 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		#if debug
-		if (FlxG.keys.justPressed.EIGHT)
-			FlxG.switchState(new CutsceneAnimTestState());
-		#end
-
 		if (FlxG.keys.justPressed.R) {
 			initialized = false;
 			FlxG.resetGame();
