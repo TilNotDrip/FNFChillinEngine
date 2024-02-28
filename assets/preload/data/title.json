@@ -1,0 +1,147 @@
+{
+    "bpm":102,
+    "sprites":
+    [
+        {
+            "id":"logo",
+            "pos":[-150, -100],
+            "path":"logoBumpin",
+            "animations":
+            [
+                {
+                    "name":"idle",
+                    "anim":"logo bumpin",
+                    "loop":false,
+                    "fps":24
+                }
+            ]
+        },
+        {
+            "id":"gf",
+            "pos":[512, 50.4],
+            "path":"gfDanceTitle",
+            "animations":
+            [
+                {
+                    "name":"danceLeft",
+                    "anim":"gfDance",
+                    "loop":false,
+                    "indices":[30,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+                    "fps":24
+                },
+                {
+                    "name":"danceRight",
+                    "anim":"gfDance",
+                    "loop":false,
+                    "indices":[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+                    "fps":24
+                }
+            ]
+        },
+        {
+            "id":"title",
+            "pos":[100, 576],
+            "path":"titleEnter",
+            "animations":
+            [
+                {
+                    "name":"begin",
+                    "anim":"Press Enter to Begin",
+                    "loop":true,
+                    "fps":24
+                },
+                {
+                    "name":"press",
+                    "anim":"ENTER PRESSED",
+                    "loop":true,
+                    "fps":24
+                }
+            ]
+        },
+        {
+            "id":"ngSpr",
+            "pos":[459, 374.4],
+            "scale":[0.8, 0.8],
+            "path":"newgrounds_logo",
+            "titleSpr":true
+        }
+    ],
+    "titleText":
+    [
+        {
+            "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er",
+            "beat": 1,
+            "removeSelected": false
+        },
+        {
+            "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er\npresent",
+            "beat": 3,
+            "removeSelected": false
+        },
+        {
+            "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er\npresent",
+            "beat": 4,
+            "removeSelected": true
+        },
+        {
+            "text": "In association\nwith",
+            "beat": 5,
+            "removeSelected": false
+        },
+        {
+            "text": "In association\nwith\nnewgrounds",
+            "beat": 7,
+            "showSprite":"ngSpr",
+            "removeSelected": false
+        },
+        {
+            "text": "In association\nwith\nnewgrounds",
+            "beat": 8,
+            "showSprite":"ngSpr",
+            "removeSelected": true
+        },
+        {
+            "text": "Shoutouts Tom Fulp",
+            "beat": 9,
+            "useIntroText": true, 
+            "removeSelected": false
+        },
+        {
+            "text": "Shoutouts Tom Fulp\nlmao",
+            "beat": 11,
+            "useIntroText": true,
+            "removeSelected": false
+        },
+        {
+            "text": "Shoutouts Tom Fulp\nlmao",
+            "beat": 12,
+            "useIntroText": true,
+            "removeSelected": true
+        },
+        {
+            "text": "Friday",
+            "beat": 13,
+            "removeSelected": false
+        },
+        {
+            "text": "Friday\nNight",
+            "beat": 14,
+            "removeSelected": false
+        },
+        {
+            "text": "Friday\nNight\nFunkin'",
+            "beat": 15,
+            "removeSelected": false
+        },
+        {
+            "text": "Friday\nNight\nFunkin'",
+            "beat": 16,
+            "removeSelected": true
+        }
+    ],
+    "introText":
+    {
+        "path":"introText",
+        "lines":2
+    }
+}

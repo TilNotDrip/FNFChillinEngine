@@ -1,5 +1,6 @@
 package;
 
+import haxe.Json;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;
@@ -45,6 +46,33 @@ import sys.io.File;
 import sys.thread.Thread;
 #end
 
+typedef TitleNico = //heheheheehehehehehe
+{
+	var bpm:Float;
+	var sprites:Array<{
+		var id:String;
+		var pos:Array<Float>;
+		@:optional var scale:Array<Float>;
+		var path:String;
+		var animations:Array<{
+			var name:String;
+			var anim:String;
+			var loop:Bool;
+			@:optional var indices:Array<Int>;
+			var fps:Int;
+		}>;
+		@:optional var titleSpr:Bool;
+	}>;
+	var titleText:Array<{
+		var text:String;
+		var beat:Int;
+		@:optional var showSprite:String;
+		@:optional var useIntroText:Bool;
+		var removeSelected:Bool;
+	}>;
+	var introText:{path:String, lines:Int};
+}
+
 class TitleState extends MusicBeatState
 {
 	public static var initialized:Bool = false;
@@ -52,9 +80,7 @@ class TitleState extends MusicBeatState
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
-	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
-	var ngSpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
 	var wackyImage:FlxSprite;
@@ -63,9 +89,14 @@ class TitleState extends MusicBeatState
 	var alphaShader:BuildingShaders;
 	var thingie:FlxSprite;
 
-	var video:Video;
-	var netStream:NetStream;
-	private var overlay:Sprite;
+	var introText:TitleNico;
+	var introTextSprites:Map<String, FlxSprite> = new Map();
+
+	var idleBoppers:Array<FlxSprite> = [];
+	var idleDancers:Array<FlxSprite> = [];
+	var pressDancers:Array<FlxSprite> = [];
+	
+	var titleSprites:FlxTypedGroup<FlxSprite>;
 
 	override public function create():Void
 	{
@@ -78,7 +109,7 @@ class TitleState extends MusicBeatState
 
 		FlxG.sound.muteKeys = [ZERO];
 
-		curWacky = FlxG.random.getObject(getIntroTextShit());
+		introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
 
 		// DEBUG BULLSHIT
 
@@ -162,47 +193,7 @@ class TitleState extends MusicBeatState
 		#end
 	}
 
-	private function client_onMetaData(metaData:Dynamic)
-	{
-		video.attachNetStream(netStream);
-
-		video.width = video.videoWidth;
-		video.height = video.videoHeight;
-		// video.
-	}
-
-	private function netStream_onAsyncError(event:AsyncErrorEvent):Void
-	{
-		trace("Error loading video");
-	}
-
-	private function netConnection_onNetStatus(event:NetStatusEvent):Void
-	{
-		if (event.info.code == 'NetStream.Play.Complete')
-		{
-			// netStream.dispose();
-			// FlxG.stage.removeChild(video);
-
-			startIntro();
-		}
-
-		trace(event.toString());
-	}
-
-	private function overlay_onMouseDown(event:MouseEvent):Void
-	{
-		netStream.soundTransform.volume = 0.2;
-		netStream.soundTransform.pan = -1;
-		// netStream.play(Paths.file('music/kickstarterTrailer.mp4'));
-
-		FlxG.stage.removeChild(overlay);
-	}
-
-	var logoBl:FlxSprite;
-
-	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
-	var titleText:FlxSprite;
 
 	function startIntro()
 	{
@@ -224,7 +215,7 @@ class TitleState extends MusicBeatState
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
-		Conductor.changeBPM(102);
+		Conductor.changeBPM(introText.bpm);
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -234,46 +225,9 @@ class TitleState extends MusicBeatState
 
 		add(bg);
 
-		logoBl = new FlxSprite(-150, -100);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-		logoBl.antialiasing = true;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
-		logoBl.animation.play('bump');
+		generateJsonSprites();
 
-		logoBl.updateHitbox();
-
-		logoBl.shader = swagShader.shader;
-		// logoBl.shader = alphaShader.shader;
-
-		// trace();
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
-
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = true;
-		add(gfDance);
-
-		gfDance.shader = swagShader.shader;
-
-		add(logoBl);
-
-		titleText = new FlxSprite(100, FlxG.height * 0.8);
-		titleText.frames = Paths.getSparrowAtlas('titleEnter');
-		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
-		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
-		titleText.antialiasing = true;
-		titleText.animation.play('idle');
-		titleText.updateHitbox();
-		// titleText.screenCenter(X);
-		add(titleText);
-
-		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('logo'));
-		logo.screenCenter();
-		logo.antialiasing = true;
-		// add(logo);
+		curWacky = getIntroTextShit();
 
 		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
@@ -289,22 +243,9 @@ class TitleState extends MusicBeatState
 		// atlasBullShit.frames = CoolUtil.fromAnimate(Paths.image('money'), Paths.file('images/money.json'));
 		// credGroup.add(atlasBullShit);
 
-		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
-		credTextShit.screenCenter();
-
 		// credTextShit.alignment = CENTER;
 
-		credTextShit.visible = false;
-
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
-		add(ngSpr);
-		ngSpr.visible = false;
-		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
-		ngSpr.updateHitbox();
-		ngSpr.screenCenter(X);
-		ngSpr.antialiasing = true;
-
-		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
+		add(titleSprites);
 
 		FlxG.mouse.visible = false;
 
@@ -317,12 +258,11 @@ class TitleState extends MusicBeatState
 			FlxG.sound.music.onComplete = function() FlxG.switchState(new VideoState());
 
 		startedIntro = true;
-		// credGroup.add(credTextShit);
 	}
 
-	function getIntroTextShit():Array<Array<String>>
+	function getIntroTextShit():Array<String>
 	{
-		var fullText:String = Assets.getText(Paths.txt('introText'));
+		var fullText:String = Assets.getText(Paths.txt(introText.introText.path));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -332,7 +272,7 @@ class TitleState extends MusicBeatState
 			swagGoodArray.push(i.split('--'));
 		}
 
-		return swagGoodArray;
+		return FlxG.random.getObject(swagGoodArray);
 	}
 
 	var transitioning:Bool = false;
@@ -343,6 +283,11 @@ class TitleState extends MusicBeatState
 		if (FlxG.keys.justPressed.EIGHT)
 			FlxG.switchState(new CutsceneAnimTestState());
 		#end
+
+		if (FlxG.keys.justPressed.R) {
+			initialized = false;
+			FlxG.resetGame();
+		}
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
@@ -380,7 +325,11 @@ class TitleState extends MusicBeatState
 				FlxG.sound.music.onComplete = null;
 			// netStream.play(Paths.file('music/kickstarterTrailer.mp4'));
 
-			titleText.animation.play('press');
+			for(i in pressDancers) {
+				i.animation.play('press', true);
+				idleDancers.remove(i);
+				idleBoppers.remove(i);
+			}
 
 			FlxG.camera.flash(FlxColor.WHITE, 1);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
@@ -448,8 +397,8 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	var isRainbow:Bool = false;
-
+	var curCurWacky:Int = 0;
+	var curText:String = '';
 	override function beatHit()
 	{
 		super.beatHit();
@@ -459,14 +408,16 @@ class TitleState extends MusicBeatState
 
 		if (skippedIntro)
 		{
-			logoBl.animation.play('bump', true);
+			for(i in idleBoppers) i.animation.play('idle', true);
 
 			danceLeft = !danceLeft;
 
-			if (danceLeft)
-				gfDance.animation.play('danceRight');
-			else
-				gfDance.animation.play('danceLeft');
+			for(i in idleDancers) {
+				if (danceLeft)
+					i.animation.play('danceRight');
+				else
+					i.animation.play('danceLeft');
+			}
 		}
 		else
 		{
@@ -477,7 +428,50 @@ class TitleState extends MusicBeatState
 			{
 				for (i in lastBeat...curBeat)
 				{
-					switch (i + 1)
+					trace(curCurWacky);
+					for(beatThing in introText.titleText) {
+						if(beatThing.beat == i + 1) {
+							if(beatThing.useIntroText && !beatThing.removeSelected) {
+								if(curCurWacky != 0) {
+									addMoreText(curWacky[curCurWacky]);
+									trace('addin ' + curWacky[curCurWacky]);
+								} else {
+									createCoolText([curWacky[curCurWacky]]);
+									trace('creatin ' + curWacky[curCurWacky]);
+								}
+
+								curText = '';
+								curCurWacky++;
+								
+								trace(curCurWacky);
+
+								if(curCurWacky == introText.introText.lines) curCurWacky = 0;
+							} if(beatThing.useIntroText && beatThing.removeSelected) {
+								deleteCoolText();
+							}
+
+							if(!beatThing.removeSelected && !beatThing.useIntroText) {
+								if(curText == '')
+									createCoolText(beatThing.text.split('\n'));
+								else {
+									var daText:Array<String> = beatThing.text.split('\n');
+									for(j in curText.split('\n')) daText.remove(j);
+									for(j in daText) addMoreText(j);
+								}
+								curText = beatThing.text;
+							} if(beatThing.removeSelected && !beatThing.useIntroText) {
+								curText.replace(beatThing.text, '');
+								deleteCoolText();
+								if(curText.split('\n') == []) createCoolText(curText.split('\n'));
+							}
+
+							if(beatThing.showSprite != null)
+								introTextSprites[beatThing.showSprite].visible = !beatThing.removeSelected;
+
+							if(beatThing == introText.titleText[introText.titleText.length-1]) skipIntro();
+						}
+					}
+					/*switch (i + 1)
 					{
 						case 1:
 							createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
@@ -526,10 +520,57 @@ class TitleState extends MusicBeatState
 
 						case 16:
 							skipIntro();
-					}
+					}*/
 				}
 			}
 			lastBeat = curBeat;
+		}
+	}
+
+	function generateJsonSprites()
+	{
+		introTextSprites = new Map();
+		idleDancers = [];
+		idleBoppers = [];
+		pressDancers = [];
+
+		titleSprites = new FlxTypedGroup<FlxSprite>();
+
+		for(jsonSpr in introText.sprites) {
+			var daSprite:FlxSprite = new FlxSprite(jsonSpr.pos[0], jsonSpr.pos[1]);
+			if(jsonSpr.scale != null) daSprite.scale.set(jsonSpr.scale[0], jsonSpr.scale[1]);
+
+			if(jsonSpr.animations == null)
+				daSprite.loadGraphic(Paths.image(jsonSpr.path));
+			else
+				daSprite.frames = Paths.getSparrowAtlas(jsonSpr.path);
+
+			if(jsonSpr.animations != null) {
+				for(jsonAnim in jsonSpr.animations) {
+					if(jsonAnim.indices != null)
+						daSprite.animation.addByIndices(jsonAnim.name, jsonAnim.anim, jsonAnim.indices, '', jsonAnim.fps, jsonAnim.loop);
+					else
+						daSprite.animation.addByPrefix(jsonAnim.name, jsonAnim.anim, jsonAnim.fps, jsonAnim.loop);
+	
+					if(jsonAnim.name.contains('dance'))
+						idleDancers.push(daSprite);
+					else if(jsonAnim.name.contains('idle'))
+						idleBoppers.push(daSprite);
+	
+					if(jsonAnim.name.contains('press')) // if your anim name is press, you will play an animation when enter is pressed!
+						pressDancers.push(daSprite);
+				}
+				daSprite.animation.play(jsonSpr.animations[0].name);
+			}
+
+			daSprite.visible = !jsonSpr.titleSpr;
+	
+			introTextSprites.set(jsonSpr.id, daSprite);
+			
+			if(!jsonSpr.titleSpr)
+				add(daSprite);
+			else
+				titleSprites.add(daSprite);
 		}
 	}
 
@@ -539,7 +580,7 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
-			remove(ngSpr);
+			remove(titleSprites);
 
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
