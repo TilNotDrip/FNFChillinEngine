@@ -2,9 +2,9 @@ What happens when two secret twins (@TechnikTil & @CrusherNotDrip) make an engin
 # Introducing... TechNotDrip Engine
 
 ## Credits
-[TechnikTil](https://twitter.com/TechnikTil) - Programmer
-[CrusherNotDrip](https://twitter.com/CrusherNotDrip) - Programmer + Pixel Note Splashes
-[gameboy1969](https://twitter.com/gameboy1969) - Artist + Musician
+- [TechnikTil](https://twitter.com/TechnikTil) - Programmer
+- [CrusherNotDrip](https://twitter.com/CrusherNotDrip) - Programmer + Pixel Note Splashes
+- [gameboy1969](https://twitter.com/gameboy1969) - Artist + Musician
 
 # Friday Night Funkin
 
@@ -12,7 +12,7 @@ What happens when two secret twins (@TechnikTil & @CrusherNotDrip) make an engin
 
 ## Credits
 
-- [ninjamuffin99)](https://twitter.com/ninja_muffin99) - Programmer
+- [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
 - [PhantomArcade3K](https://twitter.com/phantomarcade3k) - Art + Animator
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 - [Evilsk8r](https://twitter.com/evilsk8r) - Art Design
