@@ -3,7 +3,7 @@
  - [ ] Actual Options Menu
  - [ ] Credits Menu
  - [ ] Ending Screen
- - [ ] Title Screen Softcoded
+ - [x] Title Screen Softcoded
 
 # Medium Changes
 
