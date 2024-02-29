@@ -1,6 +1,7 @@
 # Big Changes
 
  - [ ] Actual Options Menu
+ - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
  - [ ] Ending Screen
  - [ ] Use Discord Game SDK instead of the other
