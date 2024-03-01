@@ -14,10 +14,10 @@ class NoteSplash extends FlxSprite
 			animation.add('note1-0', [4, 5, 6, 7], 24, false);
 			animation.add('note2-0', [8, 9, 10, 11], 24, false);
 			animation.add('note3-0', [12, 13, 14, 15], 24, false);
-			animation.add('note0-1', [0, 1, 2, 3], 24, false);
-			animation.add('note1-1', [4, 5, 6, 7], 24, false);
-			animation.add('note2-1', [8, 9, 10, 11], 24, false);
-			animation.add('note3-1', [12, 13, 14, 15], 24, false);
+			animation.add('note0-1', [16, 17, 18, 19], 24, false);
+			animation.add('note1-1', [20, 21, 22, 23], 24, false);
+			animation.add('note2-1', [24, 25, 26, 27], 24, false);
+			animation.add('note3-1', [28, 29, 30, 31], 24, false);
 
 			setGraphicSize(Std.int(width * 8));
 			updateHitbox();

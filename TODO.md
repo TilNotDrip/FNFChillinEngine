@@ -10,7 +10,7 @@
  - [x] Misses and Accuracy
  - [ ] Accuracy going down when ghost tapping
  - [x] Pixel Note Splashes (`impact 1` animations)
- - [ ] Pixel Note Splashes (`impact 2` animations)
+ - [x] Pixel Note Splashes (`impact 2` animations)
 
 # Small Changes
 
@@ -21,4 +21,4 @@
  - [ ] Make FPS more accurate (maybe memory too if possible) and add a border around the Counter
  - [ ] Seperate Menu Character assets
  - [ ] Seperate Main Menu assets
- - [ ] Seperate Story Menu UI assets
+ - [x] Seperate Story Menu UI assets

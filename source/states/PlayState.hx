@@ -7,7 +7,6 @@ import flixel.FlxCamera;
 import flixel.FlxObject;
 
 import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.chainable.FlxWaveEffect;
 
 import flixel.addons.transition.FlxTransitionableState;
 
@@ -2134,8 +2133,8 @@ class PlayState extends MusicBeatState
 
 			if (isPixel)
 			{
-				noteX += 145;
-				noteY += 145;
+				noteX += 142;
+				noteY += 143;
 			}
 
 			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
@@ -2505,12 +2504,28 @@ class PlayState extends MusicBeatState
 		daNote.destroy();
 
 		opponentStrums.forEach(function(spr:FlxSprite)
+		{
+			if (Math.abs(daNote.noteData) == spr.ID)
 			{
-				if (Math.abs(daNote.noteData) == spr.ID)
-				{
-					spr.animation.play('confirm', true);
-				}
-			});
+				spr.animation.play('confirm', true);
+			}
+		});
+
+		if (!daNote.isSustainNote)
+		{
+			var noteX = daNote.x;
+			var noteY = daNote.y;
+	
+			if (isPixel)
+			{
+				noteX += 142;
+				noteY += 143;
+			}
+	
+			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+			noteSplash.setupNoteSplash(noteX, noteY, daNote.noteData);
+			grpNoteSplashes.add(noteSplash);
+		}
 	}
 
 	function calculateAccuracy()

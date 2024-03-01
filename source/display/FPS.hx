@@ -38,8 +38,8 @@ class FPS extends TextField
 		defaultTextFormat = new TextFormat("_sans", 12, color);
 		text = "FPS: " + currentFPS
             + "\nMEM: " + currentMEM
-            + "\nSTATE: " + currentState
-            + "\nVERSION: " + Application.current.meta.get('version');
+            + "\nState: " + currentState
+            + "\nVersion: " + Application.current.meta.get('version');
 		multiline = true;
 		width += 100;
 
