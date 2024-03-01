@@ -25,3 +25,4 @@
  - [ ] Seperate Menu Character assets
  - [ ] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
+ - [ ] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`)
