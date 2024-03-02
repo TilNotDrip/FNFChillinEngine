@@ -72,7 +72,7 @@ class MainMenuState extends MusicBeatState
 		});
 
 		menuItems.enabled = false;
-		menuItems.createItem('story mode', function() startExitState(new StoryMenuState()));
+		menuItems.createItem('story-mode', function() startExitState(new StoryMenuState()));
 		menuItems.createItem('freeplay', function() startExitState(new FreeplayState()));
 		var hasPopupBlocker = #if web true #else false #end;
 		menuItems.createItem('donate', selectDonate, hasPopupBlocker);
@@ -184,13 +184,11 @@ private class MainMenuList extends MenuTypedList<MainMenuItem>
 	public var atlas:FlxAtlasFrames;
 
 	public function new()
-	{
-		atlas = Paths.getSparrowAtlas('main_menu');
 		super(Vertical);
-	}
 
 	public function createItem(x = 0.0, y = 0.0, name:String, callback, fireInstantly = false)
 	{
+		atlas = Paths.getSparrowAtlas('menuUI/items/' + name);
 		var item = new MainMenuItem(x, y, name, atlas, callback);
 		item.fireInstantly = fireInstantly;
 		item.ID = length;

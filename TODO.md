@@ -23,6 +23,6 @@
  - [x] Custom FPS (`FPS`, `MEMORY`, and `STATE`)
  - [ ] Make FPS more accurate (maybe memory too if possible) and add a border around the Counter
  - [ ] Seperate Menu Character assets
- - [ ] Seperate Main Menu assets
+ - [x] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
  - [ ] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`)

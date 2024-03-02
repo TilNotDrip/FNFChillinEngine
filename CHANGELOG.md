@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Old Game Over easter egg (0.1% Chance to get it at death)
 - Misses + Accuracy right below the healthbar
-- Custom Healthbar Colors (WIP)j
+- Custom Healthbar Colors (WIP)
 - Pixel Note Splashes
+- Softcoded Title Screen (`assets/data/title.json`)
 
 ### Changed
 
+- FPS Counter displays more than FPS
 - Week 7 Cutscenes now in realtime! (Kinda buggy right now though as we just used the code that was commented out in Base Game Repo)
 
 ### Removed

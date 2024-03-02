@@ -119,14 +119,12 @@ class StoryMenuState extends MusicBeatState
 
 			if (!weekUnlocked[i])
 			{
-				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x).loadGraphic(Paths.image('storymenu/ui/lock'));
+				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x).loadGraphic(Paths.image('storyMenu/ui/lock'));
 				lock.ID = i;
 				lock.antialiasing = true;
 				grpLocks.add(lock);
 			}
 		}
-
-		trace("Line 96");
 
 		for (char in 0...3)
 		{
@@ -162,19 +160,19 @@ class StoryMenuState extends MusicBeatState
 		trace("Line 124");
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
-		leftArrow.frames = Paths.getSparrowAtlas('storymenu/ui/arrowLeft');
+		leftArrow.frames = Paths.getSparrowAtlas('storyMenu/ui/arrowLeft');
 		leftArrow.animation.addByPrefix('idle', "arrow left");
 		leftArrow.animation.addByPrefix('press', "arrow push left");
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
-		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storymenu/difficulties/' + difficultyName));
+		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + difficultyName));
 		changeDifficulty();
 
 		difficultySelectors.add(sprDifficulty);
 
 		rightArrow = new FlxSprite(leftArrow.x + 380, leftArrow.y);
-		rightArrow.frames = Paths.getSparrowAtlas('storymenu/ui/arrowRight');
+		rightArrow.frames = Paths.getSparrowAtlas('storyMenu/ui/arrowRight');
 		rightArrow.animation.addByPrefix('idle', 'arrow right');
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
 		rightArrow.animation.play('idle');
@@ -339,7 +337,7 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty.offset.x = 20;
 		}
 
-		sprDifficulty.loadGraphic(Paths.image('storymenu/difficulties/' + difficultyName));
+		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + difficultyName));
 
 		sprDifficulty.alpha = 0;
 
