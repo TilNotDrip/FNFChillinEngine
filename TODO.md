@@ -8,9 +8,11 @@
 # Medium Changes
 
  - [x] Misses and Accuracy
+ - [ ] Character `-end`, `-loop` and `-hold` anims
  - [ ] Accuracy going down when ghost tapping
  - [x] Pixel Note Splashes (`impact 1` animations)
  - [ ] Pixel Note Splashes (`impact 2` animations)
+ - [ ] Make stages load from a `stages` folder, the stage name, then `images`
 
 # Small Changes
 
