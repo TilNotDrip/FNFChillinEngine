@@ -10,6 +10,7 @@
 # Medium Changes
 
  - [x] Misses and Accuracy
+ - [ ] Character `-end` and `-hold` anims
  - [ ] Make Accuracy more milisecond based than using ratings
  - [ ] Accuracy going down when ghost tapping
  - [x] Pixel Note Splashes (`impact 1` animations)
