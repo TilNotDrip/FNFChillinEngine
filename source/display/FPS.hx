@@ -2,11 +2,6 @@ package display;
 
 import flixel.util.FlxStringUtil;
 
-import openfl.Lib;
-
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
@@ -38,8 +33,8 @@ class FPS extends TextField
 		defaultTextFormat = new TextFormat("_sans", 12, color);
 		text = "FPS: " + currentFPS
             + "\nMEM: " + currentMEM
-            + "\nSTATE: " + currentState
-            + "\nVERSION: " + Application.current.meta.get('version');
+            + "\nState: " + currentState
+            + "\nVersion: " + Application.current.meta.get('version');
 		multiline = true;
 		width += 100;
 
