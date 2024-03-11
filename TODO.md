@@ -4,7 +4,8 @@
  - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
  - [ ] Ending Screen
- - [ ] Use Discord Game SDK instead of the other
+ - [ ] Discord Game SDK integration
+ - [ ] HScript
  - [x] Title Screen Softcoded
 
 # Medium Changes
