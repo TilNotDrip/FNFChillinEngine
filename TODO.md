@@ -1,7 +1,7 @@
 <!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION SO IT DOESN'T GET THAT MESSY -->
 # Big Changes
 
- - [ ] Actual Options Menu
+ - [ ] Full Options Menu Rework (This includes saving)
  - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
  - [ ] Ending Screen
@@ -20,7 +20,6 @@
  - [ ] Stage background images load from a bg folder, then the stage name
  - [ ] Seperate Voices File (`Voices.ogg` => `Voices-Opponent` + `Voices-Player`)
  - [ ] Botplay
- - [ ] Make Options actually save and not just controls
  - [ ] Old BF icon but pixel for pixel stages
  - [ ] Put song watermark ingame
  - [ ] Make GF Changable via Song Json file
