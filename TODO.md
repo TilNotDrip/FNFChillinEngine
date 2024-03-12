@@ -6,7 +6,7 @@
  - [ ] Credits Menu
  - [ ] Ending Screen
  - [ ] Discord Game SDK integration
- - [ ] HScript
+ - [ ] Modding API using a custom polymod! (HScript included)
  - [x] Title Screen Softcoded
 
 # Medium Changes
@@ -27,13 +27,13 @@
 # Small Changes
 
  - [x] Tutorial Voices are in its own `Voices.ogg` file
- - [ ] When events done, make pickle in stress event based <!-- pickle? oh hell naw - crusher-->
+ - [ ] When events done, make pickle in stress event based <!-- pickle? oh hell naw - crusher. oh yesssss pico but pickle -Til-->
  - [x] Ghost Tapping
  - [x] Strums Glow Dad
  - [x] Healthbar Colors (Done for now ig)
  - [x] Custom FPS (`FPS`, `MEMORY`, and `STATE`)
  - [ ] Make FPS more accurate (maybe memory too if possible) and add a border around the Counter
- - [ ] Seperate Menu Character assets
+ - [x] Seperate Menu Character assets
  - [x] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
  - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`)
