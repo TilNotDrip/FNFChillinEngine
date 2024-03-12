@@ -76,6 +76,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		Main.changeWindowName('Title Screen');
+
 		startedIntro = false;
 
 		FlxG.game.focusLostFramerate = 60;
@@ -94,14 +96,14 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 		Highscore.load();
 
-		if (FlxG.save.data.weekUnlocked != null)
+		/*if (FlxG.save.data.weekUnlocked != null)
 		{
 			if (StoryMenuState.weekUnlocked.length < 4)
-				StoryMenuState.weekUnlocked.insert(0, true);
+				StoryMenuState.weekUnlocked.insert('tutorial', true);
 
-			if (!StoryMenuState.weekUnlocked[0])
-				StoryMenuState.weekUnlocked[0] = true;
-		}
+			if (!StoryMenuState.weekUnlocked['tutorial'])
+				StoryMenuState.weekUnlocked['tutorial'] = true;
+		}*/
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{

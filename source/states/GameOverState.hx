@@ -25,6 +25,8 @@ class GameOverState extends MusicBeatState
 
 	override function create()
 	{
+		Application.current.window.title += ' [Secret Game Over]';
+
 		var loser:FlxSprite = new FlxSprite(100, 100);
 		loser.frames = Paths.getSparrowAtlas('lose');
 		loser.animation.addByPrefix('lose', 'lose', 24, false);
@@ -73,7 +75,7 @@ class GameOverState extends MusicBeatState
 				FlxG.switchState(new FreeplayState());
 		}
 
-		if (PlayState.storyWeek == 7)
+		if (PlayState.storyWeek.name == 'week7')
 		{
 			if (!playingDeathSound)
 			{

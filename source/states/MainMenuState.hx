@@ -24,6 +24,8 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		Main.changeWindowName('Main Menu');
+
 		#if discord_rpc
 		DiscordClient.changePresence("In the Menus", null);
 		#end

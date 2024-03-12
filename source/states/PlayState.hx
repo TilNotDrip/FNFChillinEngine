@@ -60,8 +60,20 @@ class PlayState extends MusicBeatState
 	private var curSong:String = "";
 
 	private var gfSpeed:Int = 1;
+
 	private var health:Float = 1;
 	private var combo:Int = 0;
+
+	var songScore:Int = 0;
+	var songMisses:Int = 0;
+
+	public static var campaignScore:Int = 0;
+	public static var campaignMisses:Int = 0;
+
+	private var sicks:Int = 0;
+	private var goods:Int = 0;
+	private var bads:Int = 0;
+	private var shits:Int = 0;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -103,17 +115,16 @@ class PlayState extends MusicBeatState
 	var tankGround:BGSprite;
 
 	var talking:Bool = true;
-	var songScore:Int = 0;
-	var songMisses:Int = 0;
+
+	var ratingCounterTxt:FlxText;
+	var healthOppTxt:FlxText;
+	var healthPlayerTxt:FlxText;
 	var scoreTxt:FlxText;
 
 	var possibleScore:Int = 0;
 	var songAccuracy:Float = 0;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
-
-	public static var campaignScore:Int = 0;
-	public static var campaignMisses:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
 
@@ -136,6 +147,8 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		Main.changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + storyDifficulty + ')');
+
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -293,9 +306,6 @@ class PlayState extends MusicBeatState
 					dancer.scrollFactor.set(0.4, 0.4);
 					grpLimoDancers.add(dancer);
 				}
-
-				var overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic(Paths.image('limo/limoOverlay'));
-				overlayShit.alpha = 0.5;
 
 				limo = new FlxSprite(-120, 550);
 				limo.frames = Paths.getSparrowAtlas('limo/limoDrive');
@@ -727,6 +737,22 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		add(healthBar);
 
+		ratingCounterTxt = new FlxText(5, 0, FlxG.width, "", 20);
+		ratingCounterTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ratingCounterTxt.screenCenter(Y);
+		ratingCounterTxt.scrollFactor.set();
+		add(ratingCounterTxt);
+
+		healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -15, healthBarBG.y, FlxG.width, "", 20);
+		healthOppTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		healthOppTxt.scrollFactor.set();
+		add(healthOppTxt);
+
+		healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 15, healthBarBG.y, FlxG.width, "", 20);
+		healthPlayerTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		healthPlayerTxt.scrollFactor.set();
+		add(healthPlayerTxt);
+
 		scoreTxt = new FlxText(0, healthBarBG.y + 30, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.screenCenter(X);
@@ -742,6 +768,8 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
+		healthOppTxt.color = iconP2.curHealthBarColor;
+		healthPlayerTxt.color = iconP1.curHealthBarColor;
 
 		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
@@ -750,6 +778,9 @@ class PlayState extends MusicBeatState
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
+		ratingCounterTxt.cameras = [camHUD];
+		healthOppTxt.cameras = [camHUD];
+		healthPlayerTxt.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
@@ -1689,6 +1720,15 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		ratingCounterTxt.text =
+		"Sicks: " + sicks +
+		"\nGoods: " + goods +
+		"\nBads: " + bads +
+		"\nShits: " + shits;
+
+		healthOppTxt.text = "Health: " + FlxMath.roundDecimal(100 - (health * 50), 2) + "%";
+		healthPlayerTxt.text = "Health: " + FlxMath.roundDecimal(health * 50, 2) + "%";
+
 		scoreTxt.text = 
 		"Score: " + songScore 
 		+ "  " + 
@@ -1730,6 +1770,9 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.NINE) {
 			iconP1.swapOldIcon();
 			healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
+			healthBar.updateFilledBar();
+			healthOppTxt.color = iconP2.curHealthBarColor;
+			healthPlayerTxt.color = iconP1.curHealthBarColor;
 			health -= 0.01;
 			health += 0.01;
 		}
@@ -2095,18 +2138,24 @@ class PlayState extends MusicBeatState
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9)
 		{
+			shits++;
+
 			daRating = 'shit';
 			score = 50;
 			isSick = false;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
+			bads++;
+
 			daRating = 'bad';
 			score = 100;
 			isSick = false;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
+			goods++;
+
 			daRating = 'good';
 			score = 200;
 			isSick = false;
@@ -2114,6 +2163,8 @@ class PlayState extends MusicBeatState
 
 		if (isSick)
 		{
+			sicks++;
+
 			var noteX = daNote.x;
 			var noteY = daNote.y;
 

@@ -11,7 +11,7 @@ import openfl.net.FileReference;
 
 class AnimationDebug extends FlxState
 {
-	var bf:objects.Boyfriend;
+	var bf:objects.Character;
 	var dad:objects.Character;
 	var char:objects.Character;
 	var textAnim:FlxText;
@@ -51,7 +51,7 @@ class AnimationDebug extends FlxState
 		}
 		else
 		{
-			bf = new objects.Boyfriend(0, 0);
+			bf = new objects.Character(0, 0);
 			bf.screenCenter();
 			bf.debugMode = true;
 			add(bf);

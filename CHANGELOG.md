@@ -13,21 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom Healthbar Colors (WIP)
 - Pixel Note Splashes
 - Softcoded Title Screen (`assets/data/title.json`)
+- Window Name Changing
 
 ### Changed
 
 - FPS Counter displays more than FPS
-- Week 7 Cutscenes now in realtime! (Kinda buggy right now though as we just used the code that was commented out in Base Game Repo)
+- Week 7 Cutscenes isnt a video!
+- Tutorial now has a Voices audio file
+- Discord RPC is handled differently
 
 ### Removed
 
 - Kickstarter Trailer
 - Newgrounds (Except for the title screen intro text)
 
-<!--
-## [Version]
+### Fixed
 
-### Added / Changed / Deprecated / Removed / Fixed / Security
-
-- Change
--->
+- 

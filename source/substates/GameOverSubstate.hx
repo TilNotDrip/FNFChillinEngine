@@ -4,7 +4,7 @@ import flixel.FlxObject;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:objects.Boyfriend;
+	var bf:objects.Character;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
@@ -12,6 +12,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
+		Application.current.window.title += ' [Game Over]';
+
 		var daBf:String = '';
 		if (PlayState.isPixel)
 		{
@@ -33,7 +35,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bf = new objects.Boyfriend(x, y, daBf);
+		bf = new objects.Character(x, y, daBf);
 		add(bf);
 
 		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
@@ -62,9 +64,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		super.update(elapsed);
 
 		if (controls.ACCEPT)
-		{
 			endBullshit();
-		}
 
 		if (controls.BACK)
 		{
@@ -88,9 +88,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 		}
 
-		switch (PlayState.storyWeek)
+		switch (PlayState.storyWeek.name)
 		{
-			case 7:
+			case 'week7':
 				if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished && !playingDeathSound)
 				{
 					playingDeathSound = true;

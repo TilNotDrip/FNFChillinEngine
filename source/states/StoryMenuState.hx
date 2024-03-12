@@ -32,6 +32,8 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
+		Main.changeWindowName('Story Menu');
+
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
@@ -80,7 +82,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...daWeeks.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
+			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, 'weeks/' + daWeeks[curWeek].name);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -291,7 +293,6 @@ class StoryMenuState extends MusicBeatState
 		switch (curDifficulty)
 		{
 			case 0:
-<<<<<<< Updated upstream
 				difficultyName = 'easy';
 				sprDifficulty.offset.x = 20;
 			case 1:
@@ -299,12 +300,6 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty.offset.x = 70;
 			case 2:
 				difficultyName = 'hard';
-=======
-				sprDifficulty.offset.x = 20;
-			case 1:
-				sprDifficulty.offset.x = 70;
-			case 2:
->>>>>>> Stashed changes
 				sprDifficulty.offset.x = 20;
 		}
 

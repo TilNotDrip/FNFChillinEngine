@@ -9,7 +9,7 @@ class CoolTools
 		var toDash:String = '~&\\;:<>#/';
 		var toHide:String = '.,\'"%?![]';
 
-		var converted:String;
+		var converted:String = '';
 
 		for(i in 0...original.length)
 		{

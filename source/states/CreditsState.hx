@@ -11,6 +11,7 @@ class CreditsState extends MusicBeatState
 {
     override function create()
     {
+        Main.changeWindowName('Credits Menu');
         //cast Json.parse('https://api.github.com/repos/TechnikTil/TechNotDripEngine/contributors'.trim());
         //bg.color = FlxColor.interpolate(bg.color, coolColors[songs[curSelected].week % coolColors.length], CoolUtil.camLerpShit(0.045));
     }
