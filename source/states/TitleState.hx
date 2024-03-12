@@ -61,11 +61,9 @@ class TitleState extends MusicBeatState
 	var textGroup:FlxGroup;
 
 	var curWacky:Array<String> = [];
-	var wackyImage:FlxSprite;
 	var lastBeat:Int = 0;
 	var swagShader:ColorSwap;
 	var alphaShader:BuildingShaders;
-	var thingie:FlxSprite;
 
 	var introText:TitleNico;
 	var introTextSprites:Map<String, FlxSprite> = new Map();

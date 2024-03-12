@@ -10,6 +10,7 @@ class Character extends FlxSprite
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
+	public var startedDeath:Bool = false;
 	public var curCharacter:String = 'bf';
 
 	public var holdTimer:Float = 0;
@@ -528,15 +529,20 @@ class Character extends FlxSprite
 		}
 	}
 
+	var playingEndAnim:Bool = false;
 	override function update(elapsed:Float)
 	{
-		if (!curCharacter.startsWith('bf'))
-		{
-			if (animation.curAnim.name.startsWith('sing'))
-			{
-				holdTimer += elapsed;
-			}
+		if (animation.curAnim.name.startsWith('sing'))
+			holdTimer += elapsed;
 
+		if(playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished)
+		{
+			dance();
+			playingEndAnim = false;
+		}
+
+		if (!isPlayer)
+		{
 			var dadVar:Float = 4;
 
 			if (curCharacter == 'dad')
@@ -545,6 +551,19 @@ class Character extends FlxSprite
 			{
 				dance();
 				holdTimer = 0;
+			}
+		} else {
+			if (!animation.curAnim.name.startsWith('sing'))
+				holdTimer = 0;
+
+			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+			{
+				playAnim('idle', true, false, 10);
+			}
+
+			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished && startedDeath)
+			{
+				playAnim('deathLoop');
 			}
 		}
 
@@ -593,6 +612,13 @@ class Character extends FlxSprite
 	{
 		if (!debugMode)
 		{
+			if(!playingEndAnim && !animation.curAnim.name.endsWith('-end'))
+			{
+				playAnim(animation.curAnim.name + '-end', true);
+				playingEndAnim = true;
+				return;
+			}
+
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel' | 'gf-tankmen':
@@ -637,21 +663,18 @@ class Character extends FlxSprite
 		else
 			offset.set(0, 0);
 
-		if (curCharacter == 'gf')
+		if (AnimName == 'singLEFT')
 		{
-			if (AnimName == 'singLEFT')
-			{
-				danced = true;
-			}
-			else if (AnimName == 'singRIGHT')
-			{
-				danced = false;
-			}
+			danced = true;
+		}
+		else if (AnimName == 'singRIGHT')
+		{
+			danced = false;
+		}
 
-			if (AnimName == 'singUP' || AnimName == 'singDOWN')
-			{
-				danced = !danced;
-			}
+		if (AnimName == 'singUP' || AnimName == 'singDOWN')
+		{
+			danced = !danced;
 		}
 	}
 

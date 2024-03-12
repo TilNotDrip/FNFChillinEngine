@@ -1,4 +1,4 @@
-package addons;
+package addons.discord;
 
 #if discord_rpc
 import discord_rpc.DiscordRpc;
@@ -6,7 +6,10 @@ import discord_rpc.DiscordRpc;
 
 import Sys.sleep;
 
-class DiscordClient
+/**
+ * if you are reading this, and even THINKING about using this.. FUCK YOU.
+ */
+class LegacyDiscord
 {
 	#if discord_rpc
 	public function new()

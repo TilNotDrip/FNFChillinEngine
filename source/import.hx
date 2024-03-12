@@ -26,8 +26,13 @@ import lime.app.Application;
 // Stuff from TechNotDrip Engine/Base Friday Night Funkin' itself
 import addons.*;
 import addons.Controls;
+
 #if discord_rpc
-import addons.Discord.DiscordClient;
+import addons.discord.LegacyDiscord as DiscordClient;
+#end
+
+#if DISCORD
+import addons.discord.Discord;
 #end
 
 import objects.Alphabet;
@@ -40,3 +45,7 @@ import states.LoadingState;
 
 // String Tools!
 using StringTools;
+
+// Cool Thingies
+import addons.CoolUtil;
+using addons.CoolTools;

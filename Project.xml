@@ -16,6 +16,10 @@
 	<window if="mobile"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
 	<window if="switch"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
 
+	<!-- ____________________________ TechNotDrip Settings ___________________________ -->
+
+	<define name="DISCORD" if="cpp" />
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
@@ -99,10 +103,14 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
+	<haxedef name="FLX_RECORD" />
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
 
 	<haxelib name="discord_rpc" if="cpp"/>
+
+	<haxedef name="DISCORD_WOOOO" if="cpp"/>
+
 	<haxelib name="hxCodec"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->

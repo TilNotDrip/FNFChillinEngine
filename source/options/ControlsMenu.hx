@@ -187,7 +187,7 @@ class ControlsMenu extends options.OptionsState.Page
 		super.update(elapsed);
 
 		var controls = PlayerSettings.player1.controls;
-		if (controlGrid.enabled && deviceList != null && deviceListSelected == false && controls.BACK)
+		if (controlGrid.enabled && deviceList != null && !deviceListSelected && controls.BACK)
 			goToDeviceList();
 
 		if (prompt.exists)
@@ -272,7 +272,7 @@ class ControlsMenu extends options.OptionsState.Page
 
 	override function set_enabled(value:Bool)
 	{
-		if (value == false)
+		if (!value)
 		{
 			controlGrid.enabled = false;
 			if (deviceList != null)
