@@ -10,7 +10,6 @@ class StoryMenuState extends MusicBeatState
 	var scoreText:FlxText;
 
 	var curDifficulty:Int = 1;
-	var difficultyName:String = 'normal';
 
 	var txtWeekTitle:FlxText;
 
@@ -82,7 +81,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...daWeeks.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, 'weeks/' + daWeeks[curWeek].name);
+			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, daWeeks[i].name);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -139,7 +138,7 @@ class StoryMenuState extends MusicBeatState
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
-		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + difficultyName));
+		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].toLowerCase()));
 		changeDifficulty();
 
 		difficultySelectors.add(sprDifficulty);
@@ -178,7 +177,7 @@ class StoryMenuState extends MusicBeatState
 		txtWeekTitle.text = curWeekClass.motto.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
-		difficultySelectors.visible = curWeekClass.locked;
+		difficultySelectors.visible = !curWeekClass.locked;
 
 		grpLocks.forEach(function(lock:FlxSprite)
 		{
@@ -249,7 +248,7 @@ class StoryMenuState extends MusicBeatState
 
 	function selectWeek()
 	{
-		if (curWeekClass.locked) 
+		if (!curWeekClass.locked) 
 		{
 			if (!stopspamming)
 			{
@@ -282,28 +281,20 @@ class StoryMenuState extends MusicBeatState
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
+			curDifficulty = curWeekClass.difficulties.length - 1;
+		if (curDifficulty >= curWeekClass.difficulties.length)
 			curDifficulty = 0;
 
 		sprDifficulty.offset.x = 0;
 
-		sprDifficulty.animation.play(curWeekClass.difficulties[curDifficulty].formatToPath());
-
-		switch (curDifficulty)
+		switch (curWeekClass.difficulties[curDifficulty].toUpperCase())
 		{
-			case 0:
-				difficultyName = 'easy';
-				sprDifficulty.offset.x = 20;
-			case 1:
-				difficultyName = 'normal';
-				sprDifficulty.offset.x = 70;
-			case 2:
-				difficultyName = 'hard';
-				sprDifficulty.offset.x = 20;
+			case 'EASY': sprDifficulty.offset.x = 20;
+			case 'NORMAL': sprDifficulty.offset.x = 70;
+			case 'HARD': sprDifficulty.offset.x = 20;
 		}
 
-		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + difficultyName));
+		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].toLowerCase()));
 
 		sprDifficulty.alpha = 0;
 
@@ -327,6 +318,9 @@ class StoryMenuState extends MusicBeatState
 
 		curWeekClass = daWeeks[curWeek];
 
+		if (!curWeekClass.difficulties.contains(curWeekClass.difficulties[curDifficulty]))
+			changeDifficulty();
+
 		var bullShit:Int = 0;
 
 		for (item in grpWeekText.members)
@@ -349,6 +343,8 @@ class StoryMenuState extends MusicBeatState
 		for(i in 0...3) grpWeekCharacters.members[i].animation.play(curWeekClass.characters[i]);
 
 		txtTracklist.text = "Tracks:\n";
+
+		grpWeekCharacters.members[0].flipX = false;
 
 		switch (grpWeekCharacters.members[0].animation.curAnim.name)
 		{
@@ -378,6 +374,11 @@ class StoryMenuState extends MusicBeatState
 				grpWeekCharacters.members[0].offset.set(100, 100);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
 		}
+
+		if (grpWeekCharacters.members[0].animation.curAnim.name == grpWeekCharacters.members[2].animation.curAnim.name) // Todo: make it so if its '' in Week.hx it doesnt have a heart attack but this is to fix it for now... for tutorial only
+			grpWeekCharacters.members[0].alpha = 0;
+		else
+			grpWeekCharacters.members[0].alpha = 1;
 
 		var stringThing:Array<String> = curWeekClass.songs;
 

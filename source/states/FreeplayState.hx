@@ -138,7 +138,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = songs[curSelected].difficulties[curDifficulty];
 
-			PlayState.storyWeek = songs[curSelected];
+			//PlayState.storyWeek = songs[curSelected]; This doesnt work but i need to compile so fuck freeplay for now (jk freeplay i wuv u 🥺)
 			trace('CUR WEEK: ' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
@@ -150,8 +150,8 @@ class FreeplayState extends MusicBeatState
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
+			curDifficulty = songs[curSelected].difficulties.length - 1;
+		if (curDifficulty >= songs[curSelected].difficulties.length)
 			curDifficulty = 0;
 
 		var daDiff:String = songs[curSelected].difficulties[curDifficulty];
@@ -181,6 +181,9 @@ class FreeplayState extends MusicBeatState
 			curSelected = songs.length - 1;
 		if (curSelected >= songs.length)
 			curSelected = 0;
+
+		if (!songs[curSelected].difficulties.contains(songs[curSelected].difficulties[curDifficulty]))
+			changeDiff();
 
 		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].difficulties[curDifficulty]);
 

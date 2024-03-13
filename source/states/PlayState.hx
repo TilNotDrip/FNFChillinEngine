@@ -790,8 +790,8 @@ class PlayState extends MusicBeatState
 		{
 			seenCutscene = true;
 
-			if(dialogue != ["blah blah blah", "coolswag"]) schoolIntro(doof);
-			else {
+			/*if(dialogue != ["blah blah blah", "coolswag"]) schoolIntro(doof);
+			else {*/
 				switch (curSong.toLowerCase())
 				{
 					case "winter-horrorland":
@@ -822,6 +822,8 @@ class PlayState extends MusicBeatState
 								});
 							});
 						});
+					case 'senpai' | 'roses' | 'thorns':
+						schoolIntro(doof);
 					case 'ugh':
 						ughIntro();
 					case 'guns':
@@ -832,7 +834,7 @@ class PlayState extends MusicBeatState
 					default:
 						startCountdown();
 				}
-			}
+			//}
 		}
 		else
 			startCountdown();
@@ -2076,7 +2078,7 @@ class PlayState extends MusicBeatState
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
 
-				FlxG.resetState();
+				FlxG.switchState(new StoryMenuState());
 
 				storyWeek.locked = false;
 
@@ -2104,7 +2106,7 @@ class PlayState extends MusicBeatState
 
 					FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
 					{
-						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + storyDifficulty, storyPlaylist[0]);
+						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + '-' + storyDifficulty, storyPlaylist[0]);
 						LoadingState.loadAndSwitchState(new PlayState());
 					});
 				}
@@ -2112,7 +2114,7 @@ class PlayState extends MusicBeatState
 				{
 					prevCamFollow = camFollow;
 
-					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + storyDifficulty, storyPlaylist[0]);
+					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + '-' + storyDifficulty, storyPlaylist[0]);
 					LoadingState.loadAndSwitchState(new PlayState());
 				}
 			}

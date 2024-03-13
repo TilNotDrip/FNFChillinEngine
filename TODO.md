@@ -1,5 +1,7 @@
 <!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION SO IT DOESN'T GET THAT MESSY -->
-# Big Changes
+# TechNotDrip Engine - Todo List
+
+## Big Changes
 
  - [ ] Full Options Menu Rework (This includes saving)
  - [ ] News Menu?? (like fnf news, engine news, etc)
@@ -9,7 +11,7 @@
  - [ ] Modding API using a custom polymod! (HScript included)
  - [x] Title Screen Softcoded
 
-# Medium Changes
+## Medium Changes
 
  - [x] Misses and Accuracy
  - [ ] Make events
@@ -23,8 +25,9 @@
  - [ ] Old BF icon but pixel for pixel stages
  - [ ] Put song watermark ingame
  - [ ] Make GF Changable via Song Json file
+ - [ ] Outdated Warning
 
-# Small Changes
+## Small Changes
 
  - [x] Tutorial Voices are in its own `Voices.ogg` file
  - [ ] When events done, make pickle in stress event based <!-- pickle? oh hell naw - crusher. oh yesssss pico but pickle -Til-->
@@ -33,8 +36,55 @@
  - [x] Healthbar Colors (Done for now ig)
  - [x] Custom FPS (`FPS`, `MEMORY`, and `STATE`)
  - [ ] Make FPS more accurate (maybe memory too if possible) and add a border around the Counter
- - [x] Seperate Menu Character assets
+ - [ ] Seperate Menu Character assets
  - [x] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
  - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`)
  - [ ] Make Philly window lights white so i can just change colors throughout the code
+
+# TechNotDrip Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
+
+## Controls
+
+ - [ ] ok this is prettyt self explanitory just port the original controls to new one
+ - [ ] Optional but Hey! button and when pressed makes bf go Hey! mid-game
+
+## Audio (THIS WHOLE SECTION IS OPTIONAL BUT WOULD BE KINDA COOL)
+ - [ ] Master Volume (Hitting - and + basically in game)
+ - [ ] Sound Effects
+ - [ ] Game Music (Music in PlayState)
+ - [ ] Menu Music (Menus and Pause Music)
+ - [ ] Cutscenes (Week 6 & 7)
+
+## Display
+
+ - [ ] Fullscreen
+ - [ ] Game Resolution (Optional and might break things but would be cool)
+ - [ ] FPS
+ - [ ] FPS Counter
+ - [ ] Antialiasing
+
+## Gameplay
+
+ - [ ] Ghost Tapping
+ - [ ] Downscroll
+ - [ ] Middlescroll (Optional but would be cool)
+ - [ ] Camera Zoom
+ - [ ] Note Splashes
+ - [ ] Cutscenes (Prevents Story Mode cutscenes from happening if disabled also optional)
+ - [ ] Easter Eggs (Optional but said EE's are BF Old Icon, Gitaroo Pause and Old Game Over)
+ - [ ] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
+
+## deadass dont know what to name this but its for menus n stuff
+
+ - [ ] Flashing Lights
+
+## Flixel (or we can put this under **Other** as well)
+
+ - [ ] Auto Pause
+ - [ ] System Cursor
+
+## Other
+
+ - [ ] Discord (Self explanitory)
+ - [ ] Dev Mode (Enables stuff like chart editor and animation debug and the Test song (maybe))

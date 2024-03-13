@@ -149,7 +149,7 @@ class Discord
 	 * @param what you are about to do
 	 * @return Application is not responding.
 	 */
-	function cocksexbuttasscock(what:String)
+	static function cocksexbuttasscock(what:String)
 	{
 		var holdon:String = '';
 		for(i in 0...FlxMath.MAX_VALUE_INT) {
@@ -164,6 +164,16 @@ class DiscordLobby
 {
 	public var capacity(default, set):Int = 4;
 	public var isPrivate(default, set):Bool = false;
+
+	function set_capacity(capacity:Int) 
+	{
+		return capacity;
+	}
+
+	function set_isPrivate(pprivate:Bool) 
+	{
+		return pprivate;
+	}
 
 	@:functionCode("
 		discord::LobbyTransaction lobby{};
