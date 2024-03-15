@@ -37,7 +37,7 @@ class ChartingState extends MusicBeatState
 	var bpmTxt:FlxText;
 
 	var strumLine:FlxSprite;
-	var curSong:String = 'Dadbattle';
+	var curSong:String = 'Test';
 	var amountSteps:Int = 0;
 	var bullshitUI:FlxGroup;
 
@@ -66,7 +66,7 @@ class ChartingState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Charting Menu');
+		Main.changeWindowName('Charting Menu - ' + PlayState.SONG.song);
 
 		curSection = lastSection;
 
@@ -104,6 +104,7 @@ class ChartingState extends MusicBeatState
 				needsVoices: true,
 				player1: 'bf',
 				player2: 'dad',
+				player3: 'gf',
 				stage: '',
 				speed: 1,
 				validScore: false
@@ -224,6 +225,13 @@ class ChartingState extends MusicBeatState
 		});
 		player2DropDown.selectedLabel = _song.player2;
 
+		var player3DropDown = new FlxUIDropDownMenu(140, 160, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
+		{
+			_song.player3 = characters[Std.parseInt(character)];
+			updateHeads();
+		});
+		player3DropDown.selectedLabel = _song.player3;
+
 
 		var stageDropDown = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(stage:String)
 		{
@@ -245,6 +253,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(stageDropDown);
+		tab_group_song.add(player3DropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(player2DropDown);
 
@@ -958,7 +967,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(song:String):Void
 	{
-		PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
+		PlayState.SONG = Song.loadFromJson(song.toLowerCase() + '-' + PlayState.storyDifficulty.toLowerCase(), song.toLowerCase());
 		LoadingState.loadAndSwitchState(new ChartingState());
 	}
 
@@ -990,7 +999,7 @@ class ChartingState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), _song.song.toLowerCase() + ".json");
+			_file.save(data.trim(), _song.song.toLowerCase() + '-' + PlayState.storyDifficulty.toLowerCase() + ".json");
 		}
 	}
 

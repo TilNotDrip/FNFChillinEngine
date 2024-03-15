@@ -255,7 +255,7 @@ class StoryMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
 				grpWeekText.members[curWeek].startFlashing();
-				grpWeekCharacters.members[1].animation.play('bfConfirm');
+				grpWeekCharacters.members[1].animation.play(curWeekClass.characters[1] + 'Confirm');
 				stopspamming = true;
 			}
 
@@ -326,7 +326,7 @@ class StoryMenuState extends MusicBeatState
 		for (item in grpWeekText.members)
 		{
 			item.targetY = bullShit - curWeek;
-			if (item.targetY == Std.int(0) && curWeekClass.locked)
+			if (item.targetY == Std.int(0) && !curWeekClass.locked)
 				item.alpha = 1;
 			else
 				item.alpha = 0.6;
@@ -340,39 +340,42 @@ class StoryMenuState extends MusicBeatState
 
 	function updateText()
 	{
-		for(i in 0...3) grpWeekCharacters.members[i].animation.play(curWeekClass.characters[i]);
+		for(i in 0...3)
+		{
+			grpWeekCharacters.members[i].character = curWeekClass.characters[i];
+			grpWeekCharacters.members[i].animation.play(curWeekClass.characters[i]);
+		}
 
 		txtTracklist.text = "Tracks:\n";
 
 		grpWeekCharacters.members[0].flipX = false;
+		grpWeekCharacters.members[0].offset.set(100, 100);
+		grpWeekCharacters.members[0].scale.set(1, 1);
 
 		switch (grpWeekCharacters.members[0].animation.curAnim.name)
 		{
 			case 'parents-christmas':
 				grpWeekCharacters.members[0].offset.set(200, 200);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 0.99));
+				grpWeekCharacters.members[0].scale.set(0.99, 0.99);
 
 			case 'senpai':
 				grpWeekCharacters.members[0].offset.set(130, 0);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1.4));
+				grpWeekCharacters.members[0].scale.set(1.4, 1.4);
 
 			case 'mom':
 				grpWeekCharacters.members[0].offset.set(100, 200);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].scale.set(1, 1);
 
 			case 'dad':
 				grpWeekCharacters.members[0].offset.set(120, 200);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].scale.set(1, 1);
 			case 'tankman':
 				grpWeekCharacters.members[0].offset.set(60, -20);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].scale.set(1, 1);
 			case 'bf':
 				grpWeekCharacters.members[0].flipX = true;
 				grpWeekCharacters.members[0].offset.set(100, 100);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
-			default:
-				grpWeekCharacters.members[0].offset.set(100, 100);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].scale.set(1, 1);
 		}
 
 		if (grpWeekCharacters.members[0].animation.curAnim.name == grpWeekCharacters.members[2].animation.curAnim.name) // Todo: make it so if its '' in Week.hx it doesnt have a heart attack but this is to fix it for now... for tutorial only

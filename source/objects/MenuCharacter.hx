@@ -2,29 +2,42 @@ package objects;
 
 class MenuCharacter extends FlxSprite
 {
-	public var character:String;
+	public var character(default, set):String;
 
 	public function new(x:Float, character:String = 'bf')
 	{
 		super(x);
 
 		this.character = character;
+	}
 
-		var tex = Paths.getSparrowAtlas('campaign_menu_UI_characters');
-		frames = tex;
+	function set_character(value:String)
+	{
+		frames = Paths.getSparrowAtlas('storyMenu/characters/' + value);
 
-		animation.addByPrefix('bf', "BF idle dance white", 24, false);
-		animation.addByPrefix('bfConfirm', 'BF HEY!!', 24, false);
-		animation.addByPrefix('gf', "GF Dancing Beat WHITE", 24, false);
-		animation.addByPrefix('dad', "Dad idle dance BLACK LINE", 24, false);
-		animation.addByPrefix('spooky', "spooky dance idle BLACK LINES", 24, false);
-		animation.addByPrefix('pico', "Pico Idle Dance", 24, false);
-		animation.addByPrefix('mom', "Mom Idle BLACK LINES", 24, false);
-		animation.addByPrefix('parents-christmas', "Parent Christmas Idle Black Lines", 24, false);
-		animation.addByPrefix('senpai', "SENPAI idle Black Lines", 24, false);
-		animation.addByPrefix('tankman', "Tankman Menu BLACK", 24, false);
+		switch (value)
+		{
+			case 'bf': quickAnimAdd('bf', 'BF idle dance white', 'BF HEY!!');
+			case 'gf': quickAnimAdd('gf', 'GF Dancing Beat WHITE');
+			case 'dad': quickAnimAdd('dad', 'Dad idle dance BLACK LINE');
+			case 'spooky': quickAnimAdd('spooky', 'spooky dance idle BLACK LINES');
+			case 'pico': quickAnimAdd('pico', 'Pico Idle Dance');
+			case 'mom': quickAnimAdd('mom', 'Mom Idle BLACK LINES');
+			case 'parents-christmas': quickAnimAdd('parents-christmas', 'Parent Christmas Idle Black Lines');
+			case 'senpai': quickAnimAdd('senpai', 'SENPAI idle Black Lines');
+			case 'tankman': quickAnimAdd('tankman', 'Tankman Menu BLACK');
+		}
 
-		animation.play(character);
 		updateHitbox();
+
+		return this.character = value;
+	}
+
+	function quickAnimAdd(name:String, prefix:String = '', ?confirmPrefix:String = '')
+	{
+		animation.addByPrefix(name, prefix, 24, false);
+
+		if (confirmPrefix != null)
+			animation.addByPrefix(name + 'Confirm', confirmPrefix, 24, false);
 	}
 }

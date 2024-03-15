@@ -166,7 +166,7 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 
 		if (SONG == null)
-			SONG = Song.loadFromJson('tutorial');
+			SONG = Song.loadFromJson('test-normal');
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
@@ -528,27 +528,10 @@ class PlayState extends MusicBeatState
 				foregroundSprites.add(fgTank3);
 		}
 
-		var gfVersion:String = 'gf';
-
-		switch (curStage)
-		{
-			case 'limo':
-				gfVersion = 'gf-car';
-			case 'mall' | 'mallEvil':
-				gfVersion = 'gf-christmas';
-			case 'school' | 'schoolEvil':
-				gfVersion = 'gf-pixel';
-			case 'tank':
-				gfVersion = 'gf-tankmen';
-		}
-
-		if (SONG.song.toLowerCase() == 'stress')
-			gfVersion = 'pico-speaker';
-
-		gf = new Character(400, 130, gfVersion);
+		gf = new Character(400, 130, SONG.player3);
 		gf.scrollFactor.set(0.95, 0.95);
 
-		switch (gfVersion)
+		switch (SONG.player3)
 		{
 			case 'pico-speaker':
 				gf.x -= 50;
@@ -577,14 +560,6 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
-			case 'gf':
-				dad.setPosition(gf.x, gf.y);
-				gf.visible = false;
-				if (isStoryMode)
-				{
-					camPos.x += 600;
-					tweenCam(true);
-				}
 			case "spooky":
 				dad.y += 200;
 			case "monster":
@@ -608,6 +583,17 @@ class PlayState extends MusicBeatState
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'tankman':
 				dad.y += 180;
+		}
+
+		if (SONG.player2 == SONG.player3)
+		{
+			dad.setPosition(gf.x, gf.y);
+			gf.visible = false;
+			if (isStoryMode)
+			{
+				camPos.x += 600;
+				tweenCam(true);
+			}
 		}
 
 		boyfriend = new Character(770, 450, SONG.player1, true);
@@ -651,7 +637,7 @@ class PlayState extends MusicBeatState
 				dad.y += 60;
 				dad.x -= 80;
 
-				if (gfVersion != 'pico-speaker')
+				if (SONG.player3 != 'pico-speaker')
 				{
 					gf.x -= 170;
 					gf.y -= 75;
