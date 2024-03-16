@@ -1155,7 +1155,7 @@ class PlayState extends MusicBeatState
 		#if discord_rpc
 		iconRPC = SONG.player2;
 
-		if (iconRPC != 'bf-pixel' && iconRPC != 'bf-old')
+		if (iconRPC != 'bf-pixel' && iconRPC != 'bf-old' && iconRPC != 'bf-old-pixel')
 			iconRPC = iconRPC.split('-')[0].trim();
 
 		detailsText = isStoryMode ? "Story Mode: Week " + storyWeek : "Freeplay";
@@ -1778,7 +1778,8 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2)
+		var curDate = Date.now();
+		if (health > 2 && curDate.getDate() != 1 && curDate.getMonth() != 4) //April Fools Prank
 			health = 2;
 
 		if (healthBar.percent < 20)

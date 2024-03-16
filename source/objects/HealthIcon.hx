@@ -6,6 +6,7 @@ class HealthIcon extends FlxSprite
 		'bf' => 0xFF31B0D1,
 		'bf-old' => 0xFFE9FF48,
 		'bf-pixel' => 0xFF7BD6F6,
+		'bf-old-pixel' => 0xFFFFF97A,
 		'dad' => 0xFFAF66CE,
 		'face' => 0xFFA1A1A1,
 		'gf' => 0xFFA5004D,
@@ -43,26 +44,26 @@ class HealthIcon extends FlxSprite
 		isOldIcon = !isOldIcon;
 
 		if (isOldIcon)
-			changeIcon('bf-old');
+			(PlayState.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
 		else
 			changeIcon(PlayState.SONG.player1);
 	}
 
 	public function changeIcon(newChar:String):Void
 	{
-		if (newChar != 'bf-pixel' && newChar != 'bf-old')
+		if (newChar != 'bf-pixel' && newChar != 'bf-old' && newChar != 'bf-old-pixel')
 			newChar = newChar.split('-')[0].trim();
 
 		curHealthBarColor = healthBarColors.get(newChar);
 
-		if(['bf-pixel', 'senpai', 'spirit'].contains(newChar))
+		if(['bf-pixel', 'bf-old-pixel', 'senpai', 'spirit'].contains(newChar))
 			antialiasing = false;
 
 		if (newChar != char)
 		{
 			if (animation.getByName(newChar) == null)
 			{
-				loadGraphic(Paths.image('icons/icon-' + newChar), true, 150, 150);
+				loadGraphic(Paths.image('icons/' + newChar), true, 150, 150);
 				animation.add(newChar, [0, 1], 0, false, isPlayer);
 			}
 			animation.play(newChar);
