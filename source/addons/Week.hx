@@ -100,7 +100,7 @@ class Week
             var songySong:SwagSong = Song.loadFromJson(Highscore.formatSong(song, difficulties[0]), song.formatToPath());
             var daIcon:String = songySong.player2;
 
-            if (daIcon != 'bf-pixel' && daIcon != 'bf-old')
+            if (daIcon != 'bf-pixel' && daIcon != 'bf-old' && daIcon != 'bf-old-pixel')
                 daIcon = daIcon.split('-')[0].trim();
 
             icons.push(daIcon);
