@@ -100,18 +100,6 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 		Highscore.load();
 
-<<<<<<< Updated upstream
-		/*if (FlxG.save.data.weekUnlocked != null)
-		{
-			if (StoryMenuState.weekUnlocked.length < 4)
-				StoryMenuState.weekUnlocked.insert('tutorial', true);
-
-			if (!StoryMenuState.weekUnlocked['tutorial'])
-				StoryMenuState.weekUnlocked['tutorial'] = true;
-		}*/
-
-=======
->>>>>>> Stashed changes
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
 			startIntro();

@@ -11,10 +11,6 @@ class PauseSubState extends MusicBeatSubstate
 		'Toggle Practice Mode',
 		'Exit to menu'
 	];
-<<<<<<< Updated upstream
-	var difficultyChoices:Array<String> = ['Easy', 'Normal', 'Hard', 'BACK'];
-=======
->>>>>>> Stashed changes
 
 	var menuItems:Array<String> = [];
 	var curSelected:Int = 0;
@@ -138,21 +134,9 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
-<<<<<<< Updated upstream
-				case "Easy" | 'Normal' | "Hard":
-					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song.toLowerCase(), daSelected),
-						PlayState.SONG.song.toLowerCase());
-
-					PlayState.storyDifficulty = daSelected;
-
-					FlxG.resetState();
-
-=======
->>>>>>> Stashed changes
 				case 'Toggle Practice Mode':
 					PlayState.practiceMode = !PlayState.practiceMode;
 					practiceText.visible = PlayState.practiceMode;
-
 				case 'Change Difficulty':
 					openDifficultyMenu();
 				case "Restart Song":

@@ -282,19 +282,20 @@ class StoryMenuState extends MusicBeatState
 
 		if (curDifficulty < 0)
 			curDifficulty = curWeekClass.difficulties.length - 1;
-		if (curDifficulty >= curWeekClass.difficulties.length)
+		if (curDifficulty >= curWeekClass.difficulties.length-1)
 			curDifficulty = 0;
 
 		sprDifficulty.offset.x = 0;
 
-		switch (curWeekClass.difficulties[curDifficulty].toUpperCase())
+		switch (curWeekClass.difficulties[curDifficulty].formatToPath()) // I SWEAR TO FUCKING GOD CRUSHER (burps)
 		{
-			case 'EASY': sprDifficulty.offset.x = 20;
-			case 'NORMAL': sprDifficulty.offset.x = 70;
-			case 'HARD': sprDifficulty.offset.x = 20;
+			case 'easy': sprDifficulty.offset.x = 20;
+			case 'normal': sprDifficulty.offset.x = 70;
+			case 'hard': sprDifficulty.offset.x = 20;
+			// TO-DO: when returned, add your own offset
 		}
 
-		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].toLowerCase()));
+		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
 
 		sprDifficulty.alpha = 0;
 
@@ -377,8 +378,11 @@ class StoryMenuState extends MusicBeatState
 				grpWeekCharacters.members[0].offset.set(100, 100);
 				grpWeekCharacters.members[0].scale.set(1, 1);
 		}
+		grpWeekCharacters.members[0].updateHitbox();
 
-		if (grpWeekCharacters.members[0].animation.curAnim.name == grpWeekCharacters.members[2].animation.curAnim.name) // Todo: make it so if its '' in Week.hx it doesnt have a heart attack but this is to fix it for now... for tutorial only
+		// Todo: make it so if its '' in Week.hx it doesnt have a heart attack but this is to fix it for now... for tutorial only -Crusher
+		// why am i so stupid -Til
+		if (grpWeekCharacters.members[0].animation.curAnim.name == grpWeekCharacters.members[2].animation.curAnim.name)
 			grpWeekCharacters.members[0].alpha = 0;
 		else
 			grpWeekCharacters.members[0].alpha = 1;

@@ -136,11 +136,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = songs[curSelected].week.difficulties[curDifficulty];
 
-<<<<<<< Updated upstream
-			//PlayState.storyWeek = songs[curSelected]; This doesnt work but i need to compile so fuck freeplay for now (jk freeplay i wuv u 🥺)
-=======
 			PlayState.storyWeek = songs[curSelected].week;
->>>>>>> Stashed changes
 			trace('CUR WEEK: ' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
@@ -151,13 +147,8 @@ class FreeplayState extends MusicBeatState
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
-<<<<<<< Updated upstream
-			curDifficulty = songs[curSelected].difficulties.length - 1;
-		if (curDifficulty >= songs[curSelected].difficulties.length)
-=======
 			curDifficulty = songs[curSelected].week.difficulties.length-1;
-		if (curDifficulty > songs[curSelected].week.difficulties.length-1)
->>>>>>> Stashed changes
+		if (curDifficulty >= songs[curSelected].week.difficulties.length)
 			curDifficulty = 0;
 
 		var daDiff:String = songs[curSelected].week.difficulties[curDifficulty];
@@ -183,16 +174,9 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length-1)
 			curSelected = 0;
 
-<<<<<<< Updated upstream
-		if (!songs[curSelected].difficulties.contains(songs[curSelected].difficulties[curDifficulty]))
-			changeDiff();
-
-		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].difficulties[curDifficulty]);
-=======
-		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
-
 		changeDiff();
->>>>>>> Stashed changes
+
+		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
 
 		/*#if PRELOAD_ALL
 		FlxG.sound.playMusic(Paths.inst(songs[curSelected].song), 0);
