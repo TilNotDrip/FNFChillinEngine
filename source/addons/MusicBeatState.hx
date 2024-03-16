@@ -1,5 +1,10 @@
 package addons;
 
+import openfl.Assets;
+#if MOD_SUPPORT
+import hscript.InterpEx;
+import hscript.AbstractScriptClass;
+#end
 import addons.Conductor.BPMChangeEvent;
 
 import flixel.addons.ui.FlxUIState;
@@ -13,12 +18,29 @@ class MusicBeatState extends FlxUIState
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
+	#if MOD_SUPPORT
+	public var stateScript:AbstractScriptClass;
+	private var _interp:InterpEx = new InterpEx(); // stole all interp code from examples cuz THERE IS NO FUCKING DOCUMENTATION 
+
+	override public function new()
+	{
+		var classArray:Array<String> = Type.getClassName(Type.getClass(FlxG.state)).split('.');
+		var className:String = classArray[classArray.length-1];
+		var contents:String = Assets.getText(Paths.file('states/$className.hx', TEXT, null));
+		_interp.addModule(contents);
+		stateScript = _interp.createScriptClassInstance(className);
+
+		super();
+	}
+	#end
+
 	override function create()
 	{
 		if (transIn != null)
 			trace('reg ' + transIn.region);
 
 		super.create();
+		runFunction('create');
 	}
 
 	override function update(elapsed:Float)
@@ -28,10 +50,15 @@ class MusicBeatState extends FlxUIState
 		updateCurStep();
 		updateBeat();
 
-		if (oldStep != curStep && curStep >= 0)
+		if (oldStep != curStep && curStep >= 0) {
 			stepHit();
 
+			if (curStep % 4 == 0)
+				beatHit();
+		}
+
 		super.update(elapsed);
+		runFunction('update', [elapsed]);
 	}
 
 	private function updateBeat():Void
@@ -56,10 +83,17 @@ class MusicBeatState extends FlxUIState
 	}
 
 	public function stepHit():Void
-	{
-		if (curStep % 4 == 0)
-			beatHit();
-	}
+		runFunction('stepHit');
 
-	public function beatHit():Void {}
+	public function beatHit():Void
+		runFunction('beatHit');
+
+	public function runFunction(name:String, ?args:Null<Array<Dynamic>> = null):Void
+	{
+		#if MOD_SUPPORT
+		if(stateScript.hasField(name)) stateScript.callFunction(name, args);
+		#else
+		//FlxG.log.add("Ran the major function " + name + ((args == null) ? 'with no args.' : 'with args: ' + Std.string(args))); // this was a fucking dumb idea
+		#end
+	}
 }

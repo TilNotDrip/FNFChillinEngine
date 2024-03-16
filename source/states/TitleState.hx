@@ -80,6 +80,10 @@ class TitleState extends MusicBeatState
 
 		startedIntro = false;
 
+		#if MOD_SUPPORT
+		new ModLoader(); // yay
+		#end
+
 		FlxG.game.focusLostFramerate = 60;
 
 		swagShader = new ColorSwap();
@@ -96,6 +100,7 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 		Highscore.load();
 
+<<<<<<< Updated upstream
 		/*if (FlxG.save.data.weekUnlocked != null)
 		{
 			if (StoryMenuState.weekUnlocked.length < 4)
@@ -105,6 +110,8 @@ class TitleState extends MusicBeatState
 				StoryMenuState.weekUnlocked['tutorial'] = true;
 		}*/
 
+=======
+>>>>>>> Stashed changes
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
 			startIntro();
@@ -316,16 +323,16 @@ class TitleState extends MusicBeatState
 			{
 				for (i in lastBeat...curBeat)
 				{
-					trace(curCurWacky);
+					//trace(curCurWacky);
 					for(beatThing in introText.titleText) {
 						if(beatThing.beat == i + 1) {
 							if(beatThing.useIntroText && !beatThing.removeSelected) {
 								if(curCurWacky != 0) {
 									addMoreText(curWacky[curCurWacky]);
-									trace('addin ' + curWacky[curCurWacky]);
+									//trace('addin ' + curWacky[curCurWacky]);
 								} else {
 									createCoolText([curWacky[curCurWacky]]);
-									trace('creatin ' + curWacky[curCurWacky]);
+									//trace('creatin ' + curWacky[curCurWacky]);
 								}
 
 								curText = '';

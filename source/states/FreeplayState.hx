@@ -9,15 +9,13 @@ import lime.utils.Assets;
 
 class FreeplayState extends MusicBeatState
 {
-	var songs:Array<{
+	public var songs:Array<{
 		song:String, 
-		difficulties:Array<String>, 
-		week:String, 
-		color:FlxColor
-	}>;
+		week:Week
+	}> = [];
 
-	var curSelected:Int = 0;
-	var curDifficulty:Int = 1;
+	public static var curSelected:Int = 0;
+	public static var curDifficulty:Int = 1;
 
 	var scoreText:FlxText;
 	var diffText:FlxText;
@@ -28,7 +26,7 @@ class FreeplayState extends MusicBeatState
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<objects.HealthIcon> = [];
-	var bg:FlxSprite;
+	public var bg:FlxSprite;
 	var colorTween:ColorTween;
 	var scoreBG:FlxSprite;
 
@@ -56,7 +54,7 @@ class FreeplayState extends MusicBeatState
 		{
 			for (i in 0...week.songs.length)
 			{
-				songs.push({song: week.songs[i], difficulties: week.difficulties, week: week.name, color: week.color});
+				songs.push({song: week.songs[i], week: week});
 
 				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, week.songs[i], true, false);
 				songText.isMenuItem = true;
@@ -133,42 +131,45 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted)
 		{
-			var poop:String = Highscore.formatSong(songs[curSelected].song, songs[curSelected].difficulties[curDifficulty]);
+			var poop:String = Highscore.formatSong(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].song.formatToPath());
 			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = songs[curSelected].difficulties[curDifficulty];
+			PlayState.storyDifficulty = songs[curSelected].week.difficulties[curDifficulty];
 
+<<<<<<< Updated upstream
 			//PlayState.storyWeek = songs[curSelected]; This doesnt work but i need to compile so fuck freeplay for now (jk freeplay i wuv u 🥺)
+=======
+			PlayState.storyWeek = songs[curSelected].week;
+>>>>>>> Stashed changes
 			trace('CUR WEEK: ' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
 	}
-
-	var lastDifficulty:String;
+	
 	function changeDiff(change:Int = 0)
 	{
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
+<<<<<<< Updated upstream
 			curDifficulty = songs[curSelected].difficulties.length - 1;
 		if (curDifficulty >= songs[curSelected].difficulties.length)
+=======
+			curDifficulty = songs[curSelected].week.difficulties.length-1;
+		if (curDifficulty > songs[curSelected].week.difficulties.length-1)
+>>>>>>> Stashed changes
 			curDifficulty = 0;
 
-		var daDiff:String = songs[curSelected].difficulties[curDifficulty];
-
-		if(lastDifficulty != daDiff) {
-			curDifficulty = Std.int((songs[curSelected].difficulties.length / 2) - 1);
-			daDiff = songs[curSelected].difficulties[curDifficulty];
-		}
+		var daDiff:String = songs[curSelected].week.difficulties[curDifficulty];
 
 		intendedScore = Highscore.getScore(songs[curSelected].song, daDiff);
 
-		PlayState.storyDifficulty = songs[curSelected].difficulties[curDifficulty];
+		PlayState.storyDifficulty = songs[curSelected].week.difficulties[curDifficulty];
 
 		diffText.text = "< " + daDiff.toUpperCase() + " >";
 		positionHighscore();
 
-		lastDifficulty = daDiff;
+		runFunction('changeDiff', [curDifficulty]);
 	}
 
 	function changeSelection(change:Int = 0)
@@ -179,20 +180,26 @@ class FreeplayState extends MusicBeatState
 
 		if (curSelected < 0)
 			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
+		if (curSelected >= songs.length-1)
 			curSelected = 0;
 
+<<<<<<< Updated upstream
 		if (!songs[curSelected].difficulties.contains(songs[curSelected].difficulties[curDifficulty]))
 			changeDiff();
 
 		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].difficulties[curDifficulty]);
+=======
+		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
+
+		changeDiff();
+>>>>>>> Stashed changes
 
 		/*#if PRELOAD_ALL
 		FlxG.sound.playMusic(Paths.inst(songs[curSelected].song), 0);
 		#end*/
 
-		colorTween.cancel();
-		colorTween = FlxTween.color(bg, 3, bg.color, songs[curSelected].color);
+		if(colorTween != null) colorTween.cancel();
+		colorTween = FlxTween.color(bg, 0.6, bg.color, songs[curSelected].week.color);
 
 		var bullShit:Int = 0;
 
@@ -213,6 +220,8 @@ class FreeplayState extends MusicBeatState
 			if (item.targetY == 0)
 				item.alpha = 1;
 		}
+
+		runFunction('changeSelection', [curSelected]);
 	}
 
 	function positionHighscore()

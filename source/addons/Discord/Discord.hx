@@ -19,7 +19,7 @@ class Discord
 	@:functionCode("
 		DiscordState state{};
 		discord::Core* core{};
-		auto response = discord::Core::Create(id, DiscordCreateFlags_Default, &core);
+		auto response = discord::Core::Create(id, DiscordCreateFlags_NoRequireDiscord, &core);
 		state.core.reset(core);
 		if (!state.core) {
 			return FALSE;
@@ -131,6 +131,7 @@ class Discord
 		return stamp;
 	}
 
+<<<<<<< Updated upstream
 	/**
 	 * please never fucking use this 
 	 * lol (yea 𝓕𝓻𝓮𝓪𝓴𝔂GPT)
@@ -158,6 +159,8 @@ class Discord
 		trace('im bouta ' + what.toUpperCase() + holdon);
 	}
 
+=======
+>>>>>>> Stashed changes
 }
 
 class DiscordLobby

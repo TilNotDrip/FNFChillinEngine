@@ -18,7 +18,22 @@
 
 	<!-- ____________________________ TechNotDrip Settings ___________________________ -->
 
-	<define name="DISCORD" if="cpp" />
+	<!--define name="DISCORD"/-->
+	<define name="MOD_SUPPORT" if="release"/>
+
+	<section if="MOD_SUPPORT">
+		<haxedef name="POLYMOD_DEBUG" if="debug"/>
+		<haxedef name="POLYMOD_ROOT_PATH" value="mods/" />
+		<haxedef name="POLYMOD_USE_NAMESPACE" value="false" />
+		<haxedef name="POLYMOD_USE_HSCRIPTEX" value="false" />
+		<haxedef name="POLYMOD_API_VERSION_MATCH" value="MATCH_MAJOR" />
+
+		<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
+		<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
+		<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
+		<haxedef name="POLYMOD_MOD_PACK_FILE" value="pack.txt" />
+		<haxedef name="POLYMOD_MOD_ICON_FILE" value="icon.png" />
+	</section>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -93,17 +108,16 @@
 	<haxelib name="flixel" />
 	<haxedev set='webgl' />
 	<haxelib name="flixel-addons" />
-	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
-	<haxedef name="FLX_RECORD" />
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
 
 	<haxelib name="discord_rpc" if="cpp"/>
-
-	<haxedef name="DISCORD_WOOOO" if="cpp"/>
+	<haxelib name="flxanimate"/>
 
 	<haxelib name="hxCodec"/>
+	<haxelib name="polymod" if="MOD_SUPPORT"/>
+	<haxelib name="hscript-ex" if="MOD_SUPPORT"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -111,6 +125,7 @@
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 	<haxedef name="hscriptPos" />
+	<haxedef name="FLX_RECORD" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 

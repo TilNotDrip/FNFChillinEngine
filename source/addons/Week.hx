@@ -4,6 +4,7 @@ import addons.Song;
 
 class Week
 {
+    public static var noDashDifficulty:String = 'Normal';
     public static var weeks(get, never):Array<Week>;
 
     @:noCompletion
@@ -96,7 +97,7 @@ class Week
         this.difficulties = difficulties;
 
         for(song in songs) {
-            var songySong:SwagSong = Song.loadFromJson(Highscore.formatSong(song, difficulties[0]), song.toLowerCase());
+            var songySong:SwagSong = Song.loadFromJson(Highscore.formatSong(song, difficulties[0]), song.formatToPath());
             var daIcon:String = songySong.player2;
 
             if (daIcon != 'bf-pixel' && daIcon != 'bf-old')

@@ -6,7 +6,7 @@ class CoolTools
 {
 	public static function formatToPath(original:String):String
 	{
-		var toDash:String = '~&\\;:<>#/';
+		var toDash:String = '~&\\;:<>#/ ';
 		var toHide:String = '.,\'"%?![]';
 
 		var converted:String = '';

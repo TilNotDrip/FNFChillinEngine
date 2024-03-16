@@ -11,7 +11,10 @@ class PauseSubState extends MusicBeatSubstate
 		'Toggle Practice Mode',
 		'Exit to menu'
 	];
+<<<<<<< Updated upstream
 	var difficultyChoices:Array<String> = ['Easy', 'Normal', 'Hard', 'BACK'];
+=======
+>>>>>>> Stashed changes
 
 	var menuItems:Array<String> = [];
 	var curSelected:Int = 0;
@@ -106,6 +109,7 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 	}
 
+	var difficultyChoices:Array<String> = [];
 	override function update(elapsed:Float)
 	{
 		if (pauseMusic.volume < 0.5)
@@ -134,6 +138,7 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
+<<<<<<< Updated upstream
 				case "Easy" | 'Normal' | "Hard":
 					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song.toLowerCase(), daSelected),
 						PlayState.SONG.song.toLowerCase());
@@ -142,16 +147,14 @@ class PauseSubState extends MusicBeatSubstate
 
 					FlxG.resetState();
 
+=======
+>>>>>>> Stashed changes
 				case 'Toggle Practice Mode':
 					PlayState.practiceMode = !PlayState.practiceMode;
 					practiceText.visible = PlayState.practiceMode;
 
 				case 'Change Difficulty':
-					menuItems = difficultyChoices;
-					regenMenu();
-				case 'BACK':
-					menuItems = pauseOG;
-					regenMenu();
+					openDifficultyMenu();
 				case "Restart Song":
 					FlxG.resetState();
 				case "Exit to menu":
@@ -162,7 +165,43 @@ class PauseSubState extends MusicBeatSubstate
 					else
 						FlxG.switchState(new states.FreeplayState());
 			}
+
+			if(difficultyChoices.contains(daSelected)) {
+				if(daSelected == 'BACK') {
+					menuItems = pauseOG;
+					regenMenu();
+				} else {
+					var difficulty:String = PlayState.storyWeek.difficulties[curSelected];
+
+					for(i in PlayState.storyWeek.difficulties) {
+						if(i.toLowerCase() == daSelected.toLowerCase()) {
+							difficulty = i;
+							break;
+						}
+					}
+					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song, difficulty), PlayState.SONG.song.formatToPath());
+
+					PlayState.storyDifficulty = difficulty;
+
+					FlxG.resetState();
+				}
+			}
+
+
 		}
+	}
+
+	function openDifficultyMenu()
+	{
+		difficultyChoices = [];
+
+		for(i in PlayState.storyWeek.difficulties)
+			difficultyChoices.push(i.toUpperCase());
+
+		difficultyChoices.push('BACK');
+
+		menuItems = difficultyChoices;
+		regenMenu();
 	}
 
 	override function destroy()

@@ -9,7 +9,7 @@ import openfl.system.System;
 
 class FPS extends TextField
 {
-	public var currentFPS(default, null):Int;
+	public var currentFPS(default, null):Float;
     public var currentMEM(default, null):String;
 	public var currentState(default, null):String;
 
@@ -54,8 +54,14 @@ class FPS extends TextField
 		}
 
 		var currentCount = times.length;
-		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 1);
+
+		// frames / time = framerate. then every frame, i should divide 1 by the time, which should get me it, right??
+		currentFPS = FlxMath.roundDecimal(1 / (deltaTime / 1000), 2);
+		FlxG.watch.addQuick('ACTUAL FPS', 1 / (deltaTime / 1000)); // for the funnies
+
+		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
+		FlxG.watch.addQuick('ACTUAL MEM', System.totalMemory + " Bytes"); // for the funnies again
+
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 
 		if (currentCount != cacheCount)
