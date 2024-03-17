@@ -1,4 +1,4 @@
-<!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION SO IT DOESN'T GET THAT MESSY -->
+<!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION WE WORKING ON SO IT DOESN'T GET THAT MESSY (at least for the ones that are checkedf out) UNLESS I CHANGE I MIND -->
 # TechNotDrip Engine - Todo List
 
 ## Big Changes
@@ -22,9 +22,9 @@
  - [ ] Stage background images load from a bg folder, then the stage name
  - [ ] Seperate Voices File (`Voices.ogg` => `Voices-Opponent` + `Voices-Player`)
  - [ ] Botplay
- - [ ] Old BF icon but pixel for pixel stages
+ - [x] Old BF icon but pixel for pixel stages (my god i horribly did this 😭)
  - [ ] Put song watermark ingame
- - [ ] Make GF Changable via Song Json file
+ - [x] Make GF Changable via Song Json file
  - [ ] Outdated Warning
 
 ## Small Changes
@@ -36,7 +36,7 @@
  - [x] Healthbar Colors (Done for now ig)
  - [x] Custom FPS (`FPS`, `MEMORY`, and `STATE`)
  - [ ] Make FPS more accurate (maybe memory too if possible) and add a border around the Counter
- - [ ] Seperate Menu Character assets
+ - [x] Seperate Menu Character assets
  - [x] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
  - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`)

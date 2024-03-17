@@ -730,12 +730,12 @@ class PlayState extends MusicBeatState
 		ratingCounterTxt.scrollFactor.set();
 		add(ratingCounterTxt);
 
-		healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -15, healthBarBG.y, FlxG.width, "", 20);
+		healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -135, healthBarBG.y, FlxG.width, "", 20);
 		healthOppTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		healthOppTxt.scrollFactor.set();
 		add(healthOppTxt);
 
-		healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 15, healthBarBG.y, FlxG.width, "", 20);
+		healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 135, healthBarBG.y, FlxG.width, "", 20);
 		healthPlayerTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		healthPlayerTxt.scrollFactor.set();
 		add(healthPlayerTxt);

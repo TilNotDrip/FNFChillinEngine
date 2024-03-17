@@ -163,7 +163,7 @@ class PauseSubState extends MusicBeatSubstate
 							break;
 						}
 					}
-					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song, difficulty), PlayState.SONG.song.formatToPath());
+					PlayState.SONG = Song.loadFromJson(difficulty.formatToPath(), PlayState.SONG.song.formatToPath());
 
 					PlayState.storyDifficulty = difficulty;
 

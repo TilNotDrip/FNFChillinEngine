@@ -967,7 +967,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(song:String):Void
 	{
-		PlayState.SONG = Song.loadFromJson(song.toLowerCase() + '-' + PlayState.storyDifficulty.toLowerCase(), song.toLowerCase());
+		PlayState.SONG = Song.loadFromJson(PlayState.storyDifficulty.toLowerCase(), song.toLowerCase());
 		LoadingState.loadAndSwitchState(new ChartingState());
 	}
 
@@ -999,7 +999,7 @@ class ChartingState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), _song.song.toLowerCase() + '-' + PlayState.storyDifficulty.toLowerCase() + ".json");
+			_file.save(data.trim(), PlayState.storyDifficulty.toLowerCase() + ".json");
 		}
 	}
 

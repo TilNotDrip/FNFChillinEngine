@@ -265,7 +265,7 @@ class StoryMenuState extends MusicBeatState
 
 			PlayState.storyDifficulty = curWeekClass.difficulties[curDifficulty];
 
-			var whatToLoad:String = Highscore.formatSong(PlayState.storyPlaylist[0], PlayState.storyDifficulty);
+			var whatToLoad:String = PlayState.storyDifficulty.formatToPath();
 			PlayState.SONG = Song.loadFromJson(whatToLoad, PlayState.storyPlaylist[0].formatToPath());
 			PlayState.storyWeek = curWeekClass;
 			PlayState.campaignScore = 0;
@@ -282,7 +282,7 @@ class StoryMenuState extends MusicBeatState
 
 		if (curDifficulty < 0)
 			curDifficulty = curWeekClass.difficulties.length - 1;
-		if (curDifficulty >= curWeekClass.difficulties.length-1)
+		if (curDifficulty >= curWeekClass.difficulties.length)
 			curDifficulty = 0;
 
 		sprDifficulty.offset.x = 0;
