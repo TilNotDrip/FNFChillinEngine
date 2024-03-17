@@ -77,8 +77,6 @@ class Main extends Sprite
 		#end
 	}
 
-	public static function changeWindowName(windowName:String = '') 
-		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
 	/**
 	 * please never fucking use this 
 	 * lol (yea 𝓕𝓻𝓮𝓪𝓴𝔂GPT)

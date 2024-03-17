@@ -96,4 +96,7 @@ class MusicBeatState extends FlxUIState
 		//FlxG.log.add("Ran the major function " + name + ((args == null) ? 'with no args.' : 'with args: ' + Std.string(args))); // this was a fucking dumb idea
 		#end
 	}
+
+	public function changeWindowName(windowName:String = '') 
+		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
 }

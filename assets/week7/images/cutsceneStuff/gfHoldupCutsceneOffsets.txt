@@ -1,7 +1,0 @@
-GF STARTS TO TURN PART 1 instance 1 --- 0 0
-GF STARTS TO TURN PART 2 instance 1 --- -224 -443
-PICO ARRIVES PART 1 instance 1 --- -118 -180
-PICO ARRIVES PART 2 instance 1 --- -698 -251
-PICO ARRIVES PART 2 POINT FIVE instance 1 --- -743 -339
-PICO ARRIVES PART 3 instance 1 --- -711 -132
-Pico Dual Wield on Speaker idle instance 1 --- 106 2

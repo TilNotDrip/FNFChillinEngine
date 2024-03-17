@@ -53,4 +53,7 @@ class MusicBeatSubstate extends FlxSubState
 	}
 
 	public function beatHit():Void {}
+
+	public function changeWindowName(windowName:String = '') 
+		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
 }

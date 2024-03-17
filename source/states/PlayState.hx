@@ -93,9 +93,10 @@ class PlayState extends MusicBeatState
 
 	var halloweenBG:FlxSprite;
 
-	var phillyCityLights:FlxTypedGroup<FlxSprite>;
+	var phillyCityLight:FlxSprite;
 	var phillyTrain:FlxSprite;
 	var trainSound:FlxSound;
+	var phillyLightColors:Array<FlxColor> = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
 
 	var foregroundSprites:FlxTypedGroup<BGSprite>;
 
@@ -148,7 +149,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		Main.changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + storyDifficulty + ')');
+		changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + storyDifficulty + ')');
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -256,21 +257,17 @@ class PlayState extends MusicBeatState
 				add(city);
 
 				lightFadeShader = new BuildingShaders();
-				phillyCityLights = new FlxTypedGroup<FlxSprite>();
 
-				add(phillyCityLights);
+				phillyCityLight = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win'));
+				phillyCityLight.scrollFactor.set(0.3, 0.3);
+				phillyCityLight.setGraphicSize(Std.int(phillyCityLight.width * 0.85));
+				phillyCityLight.updateHitbox();
+				phillyCityLight.antialiasing = true;
+				phillyCityLight.shader = lightFadeShader.shader;
+				add(phillyCityLight);
 
-				for (i in 0...5)
-				{
-					var light:FlxSprite = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win' + i));
-					light.scrollFactor.set(0.3, 0.3);
-					light.visible = false;
-					light.setGraphicSize(Std.int(light.width * 0.85));
-					light.updateHitbox();
-					light.antialiasing = true;
-					light.shader = lightFadeShader.shader;
-					phillyCityLights.add(light);
-				}
+				var randomFirstLight:Int = FlxG.random.int(0, phillyLightColors.length - 1);
+				phillyCityLight.color = phillyLightColors[curLight];
 
 				var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('philly/behindTrain'));
 				add(streetBehind);
@@ -2026,7 +2023,7 @@ class PlayState extends MusicBeatState
 
 					FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
 					{
-						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + '-' + storyDifficulty, storyPlaylist[0]);
+						SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
 						LoadingState.loadAndSwitchState(new PlayState());
 					});
 				}
@@ -2034,7 +2031,7 @@ class PlayState extends MusicBeatState
 				{
 					prevCamFollow = camFollow;
 
-					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + '-' + storyDifficulty, storyPlaylist[0]);
+					SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
 					LoadingState.loadAndSwitchState(new PlayState());
 				}
 			}
@@ -2709,14 +2706,11 @@ class PlayState extends MusicBeatState
 				{
 					lightFadeShader.reset();
 
-					phillyCityLights.forEach(function(light:FlxSprite)
-					{
-						light.visible = false;
-					});
+					while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
 
-					curLight = FlxG.random.int(0, phillyCityLights.length - 1);
+					phillyCityLight.color = phillyLightColors[curLight];
 
-					phillyCityLights.members[curLight].visible = true;
+					oldLight = curLight;
 				}
 
 				if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
@@ -2735,4 +2729,5 @@ class PlayState extends MusicBeatState
 	}
 
 	var curLight:Int = 0;
+	var oldLight:Int = 0;
 }

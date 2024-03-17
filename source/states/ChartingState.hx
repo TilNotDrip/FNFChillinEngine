@@ -66,9 +66,12 @@ class ChartingState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Charting Menu - ' + PlayState.SONG.song);
+		changeWindowName('Charting Menu - ' + PlayState.SONG.song);
 
 		curSection = lastSection;
+
+		var actualBG:FlxSprite = new FlxSprite(Paths.image('menuUI/menuDesat'));
+		add(actualBG);
 
 		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
 		add(gridBG);

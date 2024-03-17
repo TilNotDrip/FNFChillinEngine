@@ -76,7 +76,7 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		Main.changeWindowName('Title Screen');
+		changeWindowName('Title Screen');
 
 		startedIntro = false;
 

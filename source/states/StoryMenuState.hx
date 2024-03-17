@@ -31,7 +31,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Story Menu');
+		changeWindowName('Story Menu');
 
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
