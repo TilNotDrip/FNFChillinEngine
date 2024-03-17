@@ -1,4 +1,4 @@
-<!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION WE WORKING ON SO IT DOESN'T GET THAT MESSY (at least for the ones that are checkedf out) UNLESS I CHANGE I MIND -->
+<!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION WE WORKING ON SO IT DOESN'T GET THAT MESSY (at least for the ones that are checkedf out) UNLESS I CHANGE MY MIND -->
 # TechNotDrip Engine - Todo List
 
 ## Big Changes
