@@ -1,5 +1,5 @@
 <!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION SO IT DOESN'T GET THAT MESSY -->
-# TechNotDrip Engine - Todo List
+# Chillin' Engine - Todo List
 
 ## Big Changes
 
@@ -39,10 +39,10 @@
  - [ ] Seperate Menu Character assets
  - [x] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
- - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`)
+ - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`) <!-- It was TechNotDrip at the time of typing that -->
  - [ ] Make Philly window lights white so i can just change colors throughout the code
 
-# TechNotDrip Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
+# Chillin' Engine Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
 ## Controls
 

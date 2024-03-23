@@ -43,7 +43,7 @@ class LegacyDiscord
 			details: "In the Menus",
 			state: null,
 			largeImageKey: 'icon',
-			largeImageText: "Friday Night Funkin'; TechNotDrip Engine"
+			largeImageText: "Friday Night Funkin'; Chillin' Engine"
 		});
 	}
 
@@ -79,7 +79,7 @@ class LegacyDiscord
 			details: details,
 			state: state,
 			largeImageKey: 'icon',
-			largeImageText: "Friday Night Funkin'; TechNotDrip Engine",
+			largeImageText: "Friday Night Funkin'; Chillin' Engine",
 			smallImageKey: smallImageKey,
 			startTimestamp: Std.int(startTimestamp / 1000),
 			endTimestamp: Std.int(endTimestamp / 1000)

@@ -6,7 +6,7 @@ class OutdatedState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Outdated!');
+		changeWindowName('Outdated!');
 
 		super.create();
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);

@@ -163,15 +163,13 @@ class PauseSubState extends MusicBeatSubstate
 							break;
 						}
 					}
-					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song, difficulty), PlayState.SONG.song.formatToPath());
+					PlayState.SONG = Song.loadFromJson(difficulty.formatToPath(), PlayState.SONG.song.formatToPath());
 
 					PlayState.storyDifficulty = difficulty;
 
 					FlxG.resetState();
 				}
 			}
-
-
 		}
 	}
 
@@ -191,7 +189,7 @@ class PauseSubState extends MusicBeatSubstate
 	override function destroy()
 	{
 		pauseMusic.destroy();
-		Main.changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.storyDifficulty + ')');
+		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.storyDifficulty + ')');
 
 		super.destroy();
 	}

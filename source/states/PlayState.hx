@@ -1,6 +1,5 @@
 package states;
 
-import flxanimate.FlxAnimate;
 import addons.Section.SwagSection;
 import addons.Song.SwagSong;
 
@@ -19,13 +18,18 @@ import flixel.ui.FlxBar;
 
 import flixel.util.FlxSort;
 
+import flxanimate.FlxAnimate;
+
+#if cpp
 import hxcodec.flixel.FlxVideo;
+#end
 
 import objects.*;
 import objects.stages.*;
 
 import shaders.BuildingShaders;
 import shaders.ColorSwap;
+import substates.EndSubState;
 
 class PlayState extends MusicBeatState
 {
@@ -38,64 +42,67 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 	public static var practiceMode:Bool = false;
 
-	private var vocals:FlxSound;
-	private var vocalsFinished:Bool = false;
+	//public var inst:FlxSound;
+	public var vocals:FlxSound;
+	public var vocalsFinished:Bool = false;
 
-	private var dad:Character;
-	private var gf:Character;
-	private var boyfriend:Character;
+	public var dad:Character;
+	public var gf:Character;
+	public var boyfriend:Character;
 
-	private var notes:FlxTypedGroup<Note>;
-	private var unspawnNotes:Array<Note> = [];
+	public var notes:FlxTypedGroup<Note>;
+	public var unspawnNotes:Array<Note> = [];
 
-	private var strumLine:FlxSprite;
+	public var strumLine:FlxSprite;
 
-	private var camFollow:FlxObject;
+	public var camFollow:FlxObject;
 
-	private static var prevCamFollow:FlxObject;
+	public static var prevCamFollow:FlxObject;
 
-	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
-	private var playerStrums:FlxTypedGroup<FlxSprite>;
-	private var opponentStrums:FlxTypedGroup<FlxSprite>;
+	public var strumLineNotes:FlxTypedGroup<Strums>;
+	public var playerStrums:Strums;
+	public var opponentStrums:Strums;
 
-	private var curSong:String = "";
+	public var curSong:String = "";
 
-	private var gfSpeed:Int = 1;
+	public var gfSpeed:Int = 1;
 
-	private var health:Float = 1;
-	private var combo:Int = 0;
+	public var health:Float = 1;
+	public var combo:Int = 0;
 
-	var songScore:Int = 0;
-	var songMisses:Int = 0;
+	public var songScore:Int = 0;
+	public var songMisses:Int = 0;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 
-	private var sicks:Int = 0;
-	private var goods:Int = 0;
-	private var bads:Int = 0;
-	private var shits:Int = 0;
+	public var sicks:Int = 0;
+	public var goods:Int = 0;
+	public var bads:Int = 0;
+	public var shits:Int = 0;
 
-	private var healthBarBG:FlxSprite;
-	private var healthBar:FlxBar;
+	public var healthBarBG:FlxSprite;
+	public var healthBar:FlxBar;
 
-	private var generatedMusic:Bool = false;
-	private var startingSong:Bool = false;
+	public var generatedMusic:Bool = false;
+	public var startingSong:Bool = false;
 
-	private var iconP1:HealthIcon;
-	private var iconP2:HealthIcon;
-	private var camHUD:FlxCamera;
-	private var camGame:FlxCamera;
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
+	public var bopTween:Array<FlxTween> = [null, null];
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
+	public var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
 	public static var seenCutscene:Bool = false;
 
 	var halloweenBG:FlxSprite;
 
-	var phillyCityLights:FlxTypedGroup<FlxSprite>;
+	var phillyCityLight:FlxSprite;
 	var phillyTrain:FlxSprite;
 	var trainSound:FlxSound;
+	var phillyLightColors:Array<FlxColor> = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
 
 	var foregroundSprites:FlxTypedGroup<BGSprite>;
 
@@ -117,38 +124,43 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 
-	var ratingCounterTxt:FlxText;
-	var healthOppTxt:FlxText;
-	var healthPlayerTxt:FlxText;
-	var scoreTxt:FlxText;
+	public var ratingCounterTxt:FlxText;
+	public var healthOppTxt:FlxText;
+	public var healthPlayerTxt:FlxText;
+	public var scoreTxt:FlxText;
 
-	var possibleScore:Int = 0;
-	var songAccuracy:Float = 0;
+	public var possibleScore:Int = 0;
+	public var songAccuracy:Float = 0;
 
-	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
+	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
-	var defaultCamZoom:Float = 1.05;
+	public var defaultCamZoom:Float = 1.05;
 
 	public static var daPixelZoom:Float = 6;
 	public static var isPixel:Bool = false;
 
-	var inCutscene:Bool = false;
+	public var inCutscene:Bool = false;
+	public var isEnding:Bool = false;
 
 	#if discord_rpc
-	var iconRPC:String = "";
-	var songLength:Float = 0;
-	var detailsText:String = "";
-	var detailsPausedText:String = "";
+	public var iconRPC:String = "";
+	public var songLength:Float = 0;
+	public var detailsText:String = "";
+	public var detailsPausedText:String = "";
 	#end
 
-	var camPos:FlxPoint;
+	public var camPos:FlxPoint;
 	var lightFadeShader:BuildingShaders;
 
-	var singArray:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
+	public var singArray:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
+
+	public static var game:PlayState;
 
 	override public function create()
 	{
-		Main.changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + storyDifficulty + ')');
+		game = this;
+
+		changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + storyDifficulty + ')');
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -256,21 +268,17 @@ class PlayState extends MusicBeatState
 				add(city);
 
 				lightFadeShader = new BuildingShaders();
-				phillyCityLights = new FlxTypedGroup<FlxSprite>();
 
-				add(phillyCityLights);
+				phillyCityLight = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win'));
+				phillyCityLight.scrollFactor.set(0.3, 0.3);
+				phillyCityLight.setGraphicSize(Std.int(phillyCityLight.width * 0.85));
+				phillyCityLight.updateHitbox();
+				phillyCityLight.antialiasing = true;
+				phillyCityLight.shader = lightFadeShader.shader;
+				add(phillyCityLight);
 
-				for (i in 0...5)
-				{
-					var light:FlxSprite = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win' + i));
-					light.scrollFactor.set(0.3, 0.3);
-					light.visible = false;
-					light.setGraphicSize(Std.int(light.width * 0.85));
-					light.updateHitbox();
-					light.antialiasing = true;
-					light.shader = lightFadeShader.shader;
-					phillyCityLights.add(light);
-				}
+				var randomFirstLight:Int = FlxG.random.int(0, phillyLightColors.length - 1);
+				phillyCityLight.color = phillyLightColors[curLight];
 
 				var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('philly/behindTrain'));
 				add(streetBehind);
@@ -409,7 +417,7 @@ class PlayState extends MusicBeatState
 				add(fgTrees);
 
 				var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800);
-				var treetex = Paths.getPackerAtlas('weeb/weebTrees');
+				var treetex = Paths.getSparrowAtlas('weeb/weebTrees');
 				bgTrees.frames = treetex;
 				bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
 				bgTrees.animation.play('treeLoop');
@@ -673,8 +681,7 @@ class PlayState extends MusicBeatState
 			strumLine.y = FlxG.height - 150;
 
 		strumLine.scrollFactor.set();
-
-		strumLineNotes = new FlxTypedGroup<FlxSprite>();
+		strumLineNotes = new FlxTypedGroup<Strums>();
 		add(strumLineNotes);
 
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
@@ -684,9 +691,6 @@ class PlayState extends MusicBeatState
 		noteSplash.alpha = 0;
 
 		add(grpNoteSplashes);
-
-		playerStrums = new FlxTypedGroup<FlxSprite>();
-		opponentStrums = new FlxTypedGroup<FlxSprite>();
 
 		generateSong();
 
@@ -730,12 +734,12 @@ class PlayState extends MusicBeatState
 		ratingCounterTxt.scrollFactor.set();
 		add(ratingCounterTxt);
 
-		healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -15, healthBarBG.y, FlxG.width, "", 20);
+		healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -135, healthBarBG.y, FlxG.width, "", 20);
 		healthOppTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		healthOppTxt.scrollFactor.set();
 		add(healthOppTxt);
 
-		healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 15, healthBarBG.y, FlxG.width, "", 20);
+		healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 135, healthBarBG.y, FlxG.width, "", 20);
 		healthPlayerTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		healthPlayerTxt.scrollFactor.set();
 		add(healthPlayerTxt);
@@ -1211,6 +1215,11 @@ class PlayState extends MusicBeatState
 
 		talking = false;
 		startedCountdown = true;
+		canPause = true;
+
+		#if debug
+		canEnd = true;
+		#end
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
 
@@ -1282,8 +1291,14 @@ class PlayState extends MusicBeatState
 
 		if (!paused)
 			FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
-		FlxG.sound.music.onComplete = endSong;
+
 		vocals.play();
+
+		FlxG.sound.music.onComplete = function() {
+			var endSubState = new substates.EndSubState(); // :) PLEASE PUT IT TO EndSubstate -Techniktitty
+			endSubState.camera = camHUD;
+			openSubState(endSubState);
+		};
 
 		#if discord_rpc
 		songLength = FlxG.sound.music.length;
@@ -1291,7 +1306,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	private function generateSong():Void
+	public function generateSong():Void
 	{
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
@@ -1307,6 +1322,7 @@ class PlayState extends MusicBeatState
 		{
 			vocalsFinished = true;
 		};
+
 		FlxG.sound.list.add(vocals);
 
 		notes = new FlxTypedGroup<Note>();
@@ -1380,110 +1396,31 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(order, Obj1.strumTime, Obj2.strumTime);
 	}
 
-	private function generateStaticArrows(player:Int):Void
+	public function generateStaticArrows(player:Int):Void
 	{
-		for (i in 0...4)
+		var arrows:Strums = new Strums(0, strumLine.y, 4);
+		for(i in 0...arrows.notes)
 		{
-			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
-			var colorswap:ColorSwap = new ColorSwap();
-			babyArrow.shader = colorswap.shader;
-			colorswap.update(Note.arrowColors[i]);
-
-			if (isPixel)
-			{
-				babyArrow.loadGraphic(Paths.image('pixelui/NOTE_assets'), true, 17, 17);
-				babyArrow.animation.add('green', [6]);
-				babyArrow.animation.add('red', [7]);
-				babyArrow.animation.add('blue', [5]);
-				babyArrow.animation.add('purple', [4]);
-
-				babyArrow.setGraphicSize(Std.int(babyArrow.width * daPixelZoom));
-				babyArrow.updateHitbox();
-				babyArrow.antialiasing = false;
-
-				switch (Math.abs(i))
-				{
-					case 0:
-						babyArrow.x += Note.swagWidth * 0;
-						babyArrow.animation.add('static', [0]);
-						babyArrow.animation.add('pressed', [4, 8], 12, false);
-						babyArrow.animation.add('confirm', [12, 16], 24, false);
-					case 1:
-						babyArrow.x += Note.swagWidth * 1;
-						babyArrow.animation.add('static', [1]);
-						babyArrow.animation.add('pressed', [5, 9], 12, false);
-						babyArrow.animation.add('confirm', [13, 17], 24, false);
-					case 2:
-						babyArrow.x += Note.swagWidth * 2;
-						babyArrow.animation.add('static', [2]);
-						babyArrow.animation.add('pressed', [6, 10], 12, false);
-						babyArrow.animation.add('confirm', [14, 18], 12, false);
-					case 3:
-						babyArrow.x += Note.swagWidth * 3;
-						babyArrow.animation.add('static', [3]);
-						babyArrow.animation.add('pressed', [7, 11], 12, false);
-						babyArrow.animation.add('confirm', [15, 19], 24, false);
-				}
-			}
-			else
-			{
-				babyArrow.frames = Paths.getSparrowAtlas('ui/NOTE_assets');
-				babyArrow.animation.addByPrefix('green', 'green instance 1');
-				babyArrow.animation.addByPrefix('blue', 'blue instance 1');
-				babyArrow.animation.addByPrefix('purple', 'purple instance 1');
-				babyArrow.animation.addByPrefix('red', 'red instance 1');
-
-				babyArrow.antialiasing = true;
-				babyArrow.setGraphicSize(Std.int(babyArrow.width * 0.7));
-
-				switch (Math.abs(i))
-				{
-					case 0:
-						babyArrow.x += Note.swagWidth * 0;
-						babyArrow.animation.addByPrefix('static', 'arrow static instance 1');
-						babyArrow.animation.addByPrefix('pressed', 'left press instance', 24, false);
-						babyArrow.animation.addByPrefix('confirm', 'left confirm instance', 24, false);
-					case 1:
-						babyArrow.x += Note.swagWidth * 1;
-						babyArrow.animation.addByPrefix('static', 'arrow static instance 2');
-						babyArrow.animation.addByPrefix('pressed', 'down press instance', 24, false);
-						babyArrow.animation.addByPrefix('confirm', 'down confirm instance', 24, false);
-					case 2:
-						babyArrow.x += Note.swagWidth * 2;
-						babyArrow.animation.addByPrefix('static', 'arrow static instance 4');
-						babyArrow.animation.addByPrefix('pressed', 'up press instance', 24, false);
-						babyArrow.animation.addByPrefix('confirm', 'up confirm instance', 24, false);
-					case 3:
-						babyArrow.x += Note.swagWidth * 3;
-						babyArrow.animation.addByPrefix('static', 'arrow static instance 3');
-						babyArrow.animation.addByPrefix('pressed', 'right press instance', 24, false);
-						babyArrow.animation.addByPrefix('confirm', 'right confirm instance', 24, false);
-				}
-			}
-
-			babyArrow.updateHitbox();
-			babyArrow.scrollFactor.set();
-
+			var babyArrow:FlxSprite = arrows.getNote(i);
 			if (!isStoryMode)
 			{
 				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
 				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
+		}
+		
+		arrows.updateHitbox();
+		arrows.scrollFactor.set();
 
-			babyArrow.ID = i;
+		arrows.x += ((FlxG.width / 2) * player) + 50;
 
 			if (player == 1)
-				playerStrums.add(babyArrow);
+				playerStrums = arrows;
 			else
-				opponentStrums.add(babyArrow);
+				opponentStrums = arrows;
 
-			babyArrow.animation.play('static');
-			babyArrow.x += 50;
-			babyArrow.x += ((FlxG.width / 2) * player);
-
-			strumLineNotes.add(babyArrow);
-		}
+			strumLineNotes.add(arrows);
 	}
 
 	function tweenCam(goingIn:Bool):Void
@@ -1578,9 +1515,12 @@ class PlayState extends MusicBeatState
 		vocals.play();
 	}
 
-	private var paused:Bool = false;
-	var startedCountdown:Bool = false;
-	var canPause:Bool = true;
+	public var paused:Bool = false;
+	public var startedCountdown:Bool = false;
+	public var canPause:Bool = false;
+	#if debug
+	public var canEnd:Bool = false;
+	#end
 
 	override public function update(elapsed:Float)
 	{
@@ -1652,7 +1592,7 @@ class PlayState extends MusicBeatState
 		+ "  " + 
 		"Accuracy: " + songAccuracy + "%";
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE && canPause && !isEnding)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -1693,14 +1633,6 @@ class PlayState extends MusicBeatState
 			health += 0.01;
 		}
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 7), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
-
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 7), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
-
 		var iconOffset:Int = 26;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
@@ -1721,21 +1653,27 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 
 		#if debug
-		if (FlxG.keys.justPressed.ONE)
-			endSong();
-		/*if (FlxG.keys.justPressed.EIGHT)
+		if (FlxG.keys.justPressed.ONE && !isEnding && canEnd)
+		{
+			FlxG.sound.music.stop();
+			vocals.stop();
+			openSubState(new EndSubState());
+		}
+
+		if (FlxG.keys.justPressed.EIGHT && !isEnding)
 		{
 			if (FlxG.keys.pressed.SHIFT)
 				if (FlxG.keys.pressed.CONTROL)
-					FlxG.switchState(new AnimationDebug(gf.curCharacter));
+					FlxG.switchState(new AnimationDebug(SONG.player3));
 				else 
 					FlxG.switchState(new AnimationDebug(SONG.player1));
 			else
 				FlxG.switchState(new AnimationDebug(SONG.player2));
-		}*/
-		if (FlxG.keys.justPressed.PAGEUP)
+		}
+
+		if (FlxG.keys.justPressed.PAGEUP && !isEnding)
 			changeSection(1);
-		if (FlxG.keys.justPressed.PAGEDOWN)
+		if (FlxG.keys.justPressed.PAGEDOWN && !isEnding)
 			changeSection(-1);
 		#end
 
@@ -1802,8 +1740,8 @@ class PlayState extends MusicBeatState
 				persistentDraw = false;
 				paused = true;
 
-				vocals.stop();
 				FlxG.sound.music.stop();
+				vocals.stop();
 
 				deathCounter += 1;
 
@@ -1843,11 +1781,12 @@ class PlayState extends MusicBeatState
 					daNote.active = true;
 				}
 
-				var strumLineMid = strumLine.y + Note.swagWidth / 2;
+				var whatStrum:Strums = (daNote.mustPress) ? playerStrums : opponentStrums;
+				var strumLineMid = whatStrum.y + Note.swagWidth / 2;
 
 				if (PreferencesMenu.getPref('downscroll'))
 				{
-					daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
+					daNote.y = (whatStrum.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
 
 					if (daNote.isSustainNote)
 					{
@@ -1869,7 +1808,7 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
+					daNote.y = (whatStrum.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
 
 					if (daNote.isSustainNote
 						&& (!daNote.mustPress || (daNote.wasGoodHit || (daNote.prevNote.wasGoodHit && !daNote.canBeHit)))
@@ -1921,19 +1860,8 @@ class PlayState extends MusicBeatState
 		if (!inCutscene)
 			keyShit();
 
-		opponentStrums.forEach(function(spr:FlxSprite)
-		{
-			if(spr.animation.finished && spr.animation.name == 'confirm') spr.animation.play('static');
-
-			if (spr.animation.curAnim.name == 'confirm' && !isPixel)
-			{
-				spr.centerOffsets();
-				spr.offset.x -= 13;
-				spr.offset.y -= 13;
-			} else {
-				spr.centerOffsets();
-			}
-		});
+		for(i in 0...opponentStrums.notes) 
+			if(opponentStrums.getNote(i).animation.finished && opponentStrums.getNote(i).animation.name == 'confirm') opponentStrums.playNoteAnim(i, 'static');
 	}
 
 	function killCombo():Void
@@ -1951,6 +1879,7 @@ class PlayState extends MusicBeatState
 	function changeSection(sec:Int):Void
 	{
 		FlxG.sound.music.pause();
+		vocals.pause();
 
 		var daBPM:Float = SONG.bpm;
 		var daPos:Float = 0;
@@ -1968,22 +1897,22 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
-	function endSong():Void
+	public function endSong()
 	{
-		seenCutscene = false;
-		deathCounter = 0;
-		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore)
-		{
-			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
-			if(songAccuracy == 100) {
-				var ip:String = '';
-				var url:String = 'dominoapi.deliver.ca/$ip';
-			}
-		}
+		seenCutscene = false;
+		deathCounter = 0;
+
+		isEnding = true;
+		#if debug
+		canEnd = false;
+		#end
+		canPause = false;
+
+		if (SONG.validScore)
+			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
 		if (isStoryMode)
 		{
@@ -2026,7 +1955,7 @@ class PlayState extends MusicBeatState
 
 					FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
 					{
-						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + '-' + storyDifficulty, storyPlaylist[0]);
+						SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
 						LoadingState.loadAndSwitchState(new PlayState());
 					});
 				}
@@ -2034,7 +1963,7 @@ class PlayState extends MusicBeatState
 				{
 					prevCamFollow = camFollow;
 
-					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase() + '-' + storyDifficulty, storyPlaylist[0]);
+					SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
 					LoadingState.loadAndSwitchState(new PlayState());
 				}
 			}
@@ -2046,7 +1975,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function popUpScore(strumtime:Float, daNote:Note):Void
+	public function popUpScore(strumtime:Float, daNote:Note):Void
 	{
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		vocals.volume = 1;
@@ -2259,7 +2188,7 @@ class PlayState extends MusicBeatState
 		if (SONG.song.toLowerCase() == 'tutorial') tweenCam(char != boyfriend);
 	}
 
-	private function keyShit():Void
+	public function keyShit():Void
 	{
 		var holdArray:Array<Bool> = [controls.NOTE_LEFT, controls.NOTE_DOWN, controls.NOTE_UP, controls.NOTE_RIGHT];
 		var canIdle:Bool = true;
@@ -2363,24 +2292,15 @@ class PlayState extends MusicBeatState
 
 		canIdle = true;
 
-		playerStrums.forEach(function(spr:FlxSprite)
+		for(i in 0...playerStrums.notes)
 		{
-			if (pressArray[spr.ID] && spr.animation.curAnim.name != 'confirm')
-				spr.animation.play('pressed');
-			if (!holdArray[spr.ID])
-				spr.animation.play('static');
+			if (pressArray[i] && playerStrums.getNote(i).animation.curAnim.name != 'confirm')
+				playerStrums.playNoteAnim(i, 'pressed');
+			if (!holdArray[i])
+				playerStrums.playNoteAnim(i, 'static');
 
-			if (spr.animation.curAnim.name == 'confirm' && !isPixel)
-			{
-				spr.centerOffsets();
-				spr.offset.x -= 13;
-				spr.offset.y -= 13;
-			}
-			else
-				spr.centerOffsets();
-
-			if(spr.animation.curAnim.name != 'static') canIdle = false;
-		});
+			if(playerStrums.getNote(i).animation.curAnim.name != 'static') canIdle = false;
+		}
 	}
 
 	function noteMiss(note:Note):Void
@@ -2417,13 +2337,15 @@ class PlayState extends MusicBeatState
 
 			boyfriend.playAnim(singArray[note.noteData], true);
 
-			playerStrums.forEach(function(spr:FlxSprite)
+			for(i in 0...playerStrums.notes)
 			{
-				if (Math.abs(note.noteData) == spr.ID)
+				var spr:FlxSprite = playerStrums.getNote(i);
+
+				if (Math.abs(note.noteData) == i)
 				{
 					spr.animation.play('confirm', true);
 				}
-			});
+			}
 
 			note.wasGoodHit = true;
 			vocals.volume = 1;
@@ -2462,13 +2384,15 @@ class PlayState extends MusicBeatState
 		notes.remove(daNote, true);
 		daNote.destroy();
 
-		opponentStrums.forEach(function(spr:FlxSprite)
+		for(i in 0...opponentStrums.notes)
 		{
-			if (Math.abs(daNote.noteData) == spr.ID)
+			var spr:FlxSprite = opponentStrums.getNote(i);
+
+			if (Math.abs(daNote.noteData) == i)
 			{
 				spr.animation.play('confirm', true);
 			}
-		});
+		}
 
 		if (!daNote.isSustainNote)
 		{
@@ -2612,6 +2536,9 @@ class PlayState extends MusicBeatState
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
 
+	var curLight:Int = 0;
+	var oldLight:Int = 0;
+
 	override function beatHit()
 	{
 		super.beatHit();
@@ -2645,11 +2572,14 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		iconP1.scale.set(1.3, 1.3);
-		iconP2.scale.set(1.3, 1.3);
+		for(i in 0...2)
+		{
+			var daThings:Array<HealthIcon> = [iconP1, iconP2];
 
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
+			if(bopTween[i] != null) bopTween[i].cancel();
+			daThings[i].scale.set(1.3, 1.3);
+			bopTween[i] = FlxTween.tween(daThings[i].scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.quartInOut});
+		}
 
 		if (curBeat % gfSpeed == 0)
 			gf.dance();
@@ -2709,14 +2639,11 @@ class PlayState extends MusicBeatState
 				{
 					lightFadeShader.reset();
 
-					phillyCityLights.forEach(function(light:FlxSprite)
-					{
-						light.visible = false;
-					});
+					while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
 
-					curLight = FlxG.random.int(0, phillyCityLights.length - 1);
+					phillyCityLight.color = phillyLightColors[curLight];
 
-					phillyCityLights.members[curLight].visible = true;
+					oldLight = curLight;
 				}
 
 				if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
@@ -2734,5 +2661,38 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	var curLight:Int = 0;
+	function onEvent(name:String, params:Null<Array<Dynamic>> = null)
+	{
+		switch(name)
+		{
+			case 'Camera Zoom':
+				var daZoomGame:Float = 0.015;
+				var daZoomHUD:Float = 0.03;
+				if(params != null || !Math.isNaN(Std.parseFloat(params[0])) || !Math.isNaN(Std.parseFloat(params[1]))) {
+					daZoomGame = Std.parseFloat(params[0]);
+					daZoomHUD = Std.parseFloat(params[1]);
+				}
+
+				camGame.zoom += daZoomGame;
+				camHUD.zoom += daZoomHUD;
+
+			case 'Hey!':
+				if(params[0] == true)
+					boyfriend.playAnim('hey', true);
+
+				if(params[1] == true)
+					gf.playAnim('hey', true);
+
+				if(params[2] == true)
+					dad.playAnim('hey', true);
+
+			case 'Change Character':
+				if(params == null) return;
+				trace(params[0]);
+				trace(params[1]);
+
+			
+			
+		}
+	}
 }

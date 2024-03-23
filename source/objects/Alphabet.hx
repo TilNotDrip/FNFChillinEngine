@@ -60,7 +60,7 @@ class Alphabet extends FlxSpriteGroup
 				lastWasSpace = true;
 			}
 
-			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
+			if (AlphaCharacter.alphabet.indexOf(character.formatToPath()) != -1)
 			{
 				if (lastSprite != null)
 				{
@@ -129,7 +129,7 @@ class Alphabet extends FlxSpriteGroup
 			var isSymbol:Bool = AlphaCharacter.symbols.indexOf(splitWords[loopNum]) != -1;
 			#end
 
-			if (AlphaCharacter.alphabet.indexOf(splitWords[loopNum].toLowerCase()) != -1 || isNumber || isSymbol)
+			if (AlphaCharacter.alphabet.indexOf(splitWords[loopNum].formatToPath()) != -1 || isNumber || isSymbol)
 			{
 				if (lastSprite != null && !xPosResetted)
 				{
@@ -225,7 +225,7 @@ class AlphaCharacter extends FlxSprite
 	public function createLetter(letter:String):Void
 	{
 		var letterCase:String = "lowercase";
-		if (letter.toLowerCase() != letter)
+		if (letter.formatToPath() != letter)
 		{
 			letterCase = 'capital';
 		}

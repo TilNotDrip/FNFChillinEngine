@@ -19,7 +19,7 @@ class Week
         daWeekThing[0].color = 0xff9271fd;
 
         // Week 1
-        daWeekThing[1] = new Week('week1', ['Bopeebo', 'Fresh', 'Dadbattle'], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[1] = new Week('week1', ['Bopeebo', 'Fresh', 'Dad Battle'], ['Easy', 'Normal', 'Hard']);
         daWeekThing[1].characters = ['dad', 'bf', 'gf'];
         daWeekThing[1].motto = 'Daddy Dearest';
         daWeekThing[1].color = 0xff9271fd;
@@ -97,7 +97,8 @@ class Week
         this.difficulties = difficulties;
 
         for(song in songs) {
-            var songySong:SwagSong = Song.loadFromJson(Highscore.formatSong(song, difficulties[0]), song.formatToPath());
+            
+            var songySong:SwagSong = Song.loadFromJson(difficulties[0].formatToPath(), song.formatToPath());
             var daIcon:String = songySong.player2;
 
             if (daIcon != 'bf-pixel' && daIcon != 'bf-old' && daIcon != 'bf-old-pixel')

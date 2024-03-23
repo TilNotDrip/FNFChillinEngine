@@ -33,7 +33,7 @@ class LoadingState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Loading...');
+		changeWindowName('Loading...');
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFFcaff4d);
 		add(bg);

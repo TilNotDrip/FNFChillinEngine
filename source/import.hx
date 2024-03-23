@@ -23,16 +23,16 @@ import flixel.util.FlxTimer;
 
 import lime.app.Application;
 
-// Stuff from TechNotDrip Engine/Base Friday Night Funkin' itself
+// Stuff from Chillin' Engine/Base Friday Night Funkin' itself
 import addons.*;
 import addons.Controls;
 
-#if discord_rpc
-import addons.discord.LegacyDiscord as DiscordClient;
+#if DISCORD
+import addons.discord.DiscordBackend as DiscordClient;
 #end
 
-#if DISCORD
-import addons.discord.Discord;
+#if discord_rpc
+import addons.discord.LegacyDiscord as DiscordClient;
 #end
 
 import objects.Alphabet;

@@ -32,7 +32,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Freeplay Menu');
+		changeWindowName('Freeplay Menu');
 
 		#if discord_rpc
 		DiscordClient.changePresence("In the Menus", null);
@@ -131,7 +131,7 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted)
 		{
-			var poop:String = Highscore.formatSong(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
+			var poop:String = songs[curSelected].week.difficulties[curDifficulty].formatToPath();
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].song.formatToPath());
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = songs[curSelected].week.difficulties[curDifficulty];
@@ -171,7 +171,7 @@ class FreeplayState extends MusicBeatState
 
 		if (curSelected < 0)
 			curSelected = songs.length - 1;
-		if (curSelected >= songs.length-1)
+		if (curSelected >= songs.length)
 			curSelected = 0;
 
 		changeDiff();

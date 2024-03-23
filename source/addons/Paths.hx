@@ -1,5 +1,6 @@
 package addons;
 
+import flxanimate.frames.FlxAnimateFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 
@@ -11,7 +12,7 @@ class Paths
 
 	static public function setCurrentLevel(name:String)
 	{
-		currentLevel = name.toLowerCase();
+		currentLevel = name.formatToPath();
 	}
 
 	public static function getPath(file:String, type:AssetType, library:Null<String>)
@@ -85,12 +86,12 @@ class Paths
 
 	inline static public function voices(song:String)
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
+		return 'songs:assets/songs/${song.formatToPath()}/Voices.$SOUND_EXT';
 	}
 
 	inline static public function inst(song:String)
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
+		return 'songs:assets/songs/${song.formatToPath()}/Inst.$SOUND_EXT';
 	}
 
 	inline static public function image(key:String, ?library:String)
@@ -111,11 +112,32 @@ class Paths
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
+		var daXMLThing:String = OpenFlAssets.getText(file('images/$key.xml', library));
+		return FlxAnimateFrames.fromSparrow(Xml.parse(daXMLThing), image(key, library));
 	}
 
+	@:deprecated("`getPackerAtlas` is deprecated, use an XML instead.")
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
-		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
+		var keyShit:Array<String> = key.split('/');
+		var yay:String = 
+		'<?xml version="1.0" encoding="utf-8"?>\n	<TextureAtlas imagePath="${keyShit[keyShit.length-1]}.png">\n		<!-- Created with Til\'s bare hands -->\n		<!-- from .txt -->\n';
+		for(i in CoolUtil.coolTextFile(file('images/$key.txt', library))) {
+			var daThing:Array<String> = i.split(' = ')[1].split(' ');
+			var nameShit:String = '';
+			var stupid:Array<String> = i.split(' = ')[0].split('_');
+
+			nameShit += stupid[0];
+
+			for(j in 1...4-stupid[1].length+1) nameShit += '0';
+			nameShit += stupid[1];
+			
+			yay += '	<SubTexture name="$nameShit" x="${daThing[0]}" y="${daThing[1]}" width="${daThing[2]}" height="${daThing[3]}"/>\n';
+		}
+
+		yay += '</TextureAtlas>';
+		var daXMLThing:Xml = Xml.parse(yay);
+		trace('ohhh nahh we not using $key.txt, we converting like a real man');
+		return FlxAnimateFrames.fromSparrow(daXMLThing, image(key, library));
 	}
 }

@@ -51,7 +51,7 @@ class AnimationDebug extends FlxState
 		}
 		else
 		{
-			bf = new objects.Character(0, 0);
+			bf = new objects.Character(0, 0, daAnim, true);
 			bf.screenCenter();
 			bf.debugMode = true;
 			add(bf);

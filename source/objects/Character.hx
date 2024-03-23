@@ -403,12 +403,12 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 			case 'spirit':
-				frames = Paths.getPackerAtlas('characters/spirit');
-				quickAnimAdd('idle', "idle spirit_");
-				quickAnimAdd('singUP', "up_");
-				quickAnimAdd('singRIGHT', "right_");
-				quickAnimAdd('singLEFT', "left_");
-				quickAnimAdd('singDOWN', "spirit down_");
+				frames = Paths.getSparrowAtlas('characters/spirit');
+				quickAnimAdd('idle', "idle spirit");
+				quickAnimAdd('singUP', "up");
+				quickAnimAdd('singRIGHT', "right");
+				quickAnimAdd('singLEFT', "left");
+				quickAnimAdd('singDOWN', "spirit down");
 
 				loadOffsetFile(curCharacter);
 

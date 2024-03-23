@@ -66,17 +66,17 @@ class ChartingState extends MusicBeatState
 
 	override function create()
 	{
-		Main.changeWindowName('Charting Menu - ' + PlayState.SONG.song);
+		changeWindowName('Charting Menu - ' + PlayState.SONG.song);
 
 		curSection = lastSection;
 
-		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
+		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 9, GRID_SIZE * 16);
 		add(gridBG);
 
 		leftIcon = new objects.HealthIcon('bf');
 		rightIcon = new objects.HealthIcon('dad');
-		leftIcon.scrollFactor.set(1, 1);
-		rightIcon.scrollFactor.set(1, 1);
+		leftIcon.scrollFactor.set();
+		rightIcon.scrollFactor.set();
 
 		leftIcon.setGraphicSize(0, 45);
 		rightIcon.setGraphicSize(0, 45);
@@ -84,10 +84,12 @@ class ChartingState extends MusicBeatState
 		add(leftIcon);
 		add(rightIcon);
 
-		leftIcon.setPosition(0, -100);
-		rightIcon.setPosition(gridBG.width / 2, -100);
+		leftIcon.setPosition(gridBG.x - 500);
+		rightIcon.setPosition(gridBG.x + gridBG.width + 500);
+		leftIcon.screenCenter(Y);
+		rightIcon.screenCenter(Y);
 
-		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + gridBG.width / 2).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
+		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + GRID_SIZE * 4).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
 		add(gridBlackLine);
 
 		curRenderedNotes = new FlxTypedGroup<Note>();
@@ -195,7 +197,7 @@ class ChartingState extends MusicBeatState
 
 		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, saveButton.y + 30, "Reload JSON", function()
 		{
-			loadJson(_song.song.toLowerCase());
+			loadJson(_song.song.formatToPath());
 		});
 
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'load autosave', loadAutosave);
@@ -967,7 +969,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(song:String):Void
 	{
-		PlayState.SONG = Song.loadFromJson(song.toLowerCase() + '-' + PlayState.storyDifficulty.toLowerCase(), song.toLowerCase());
+		PlayState.SONG = Song.loadFromJson(PlayState.storyDifficulty.formatToPath(), song.formatToPath());
 		LoadingState.loadAndSwitchState(new ChartingState());
 	}
 
@@ -999,7 +1001,7 @@ class ChartingState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), _song.song.toLowerCase() + '-' + PlayState.storyDifficulty.toLowerCase() + ".json");
+			_file.save(data.trim(), PlayState.storyDifficulty.formatToPath() + ".json");
 		}
 	}
 

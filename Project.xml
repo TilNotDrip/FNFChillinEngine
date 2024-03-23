@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin'; TechNotDrip Engine" file="TechNotDripEngine" packageName="com.technotdrip.tilnotdrip" package="com.technotdrip.tilnotdrip" main="Main" version="1.0.0-ALPHA" company="TilNotDrip" />
+	<app title="Friday Night Funkin'; Chillin' Engine" file="ChillinEngine" packageName="com.chillinengine.tilnotdrip" package="com.chillinengine.tilnotdrip" main="Main" version="1.0.0-ALPHA" company="TilNotDrip" />
 
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 	<app preloader="flixel.system.FlxPreloader" />
@@ -16,10 +16,11 @@
 	<window if="mobile"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
 	<window if="switch"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
 
-	<!-- ____________________________ TechNotDrip Settings ___________________________ -->
+	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
-	<!--define name="DISCORD"/-->
-	<define name="MOD_SUPPORT" if="release"/>
+	<define name="DISCORD" if="release cpp" />
+
+	<define name="MOD_SUPPORT" if="release cpp"/>
 
 	<section if="MOD_SUPPORT">
 		<haxedef name="POLYMOD_DEBUG" if="debug"/>
@@ -112,10 +113,11 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
 
-	<haxelib name="discord_rpc" if="cpp"/>
+	<haxelib name="discord_rpc" if="cpp" unless="DISCORD" />
+	<!--haxelib name="discordSdk" if="DISCORD" /-->
 	<haxelib name="flxanimate"/>
 
-	<haxelib name="hxCodec"/>
+	<haxelib name="hxCodec" if="cpp"/>
 	<haxelib name="polymod" if="MOD_SUPPORT"/>
 	<haxelib name="hscript-ex" if="MOD_SUPPORT"/>
 
