@@ -2016,17 +2016,8 @@ class PlayState extends MusicBeatState
 		{
 			sicks++;
 
-			var noteX = daNote.x;
-			var noteY = daNote.y;
-
-			if (isPixel)
-			{
-				noteX += 142;
-				noteY += 143;
-			}
-
 			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-			noteSplash.setupNoteSplash(noteX, noteY, daNote.noteData);
+			noteSplash.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
 			grpNoteSplashes.add(noteSplash);
 		}
 
@@ -2396,17 +2387,8 @@ class PlayState extends MusicBeatState
 
 		if (!daNote.isSustainNote)
 		{
-			var noteX = daNote.x;
-			var noteY = daNote.y;
-	
-			if (isPixel)
-			{
-				noteX += 142;
-				noteY += 143;
-			}
-	
 			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-			noteSplash.setupNoteSplash(noteX, noteY, daNote.noteData);
+			noteSplash.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
 			grpNoteSplashes.add(noteSplash);
 		}
 	}
