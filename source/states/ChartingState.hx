@@ -70,7 +70,10 @@ class ChartingState extends MusicBeatState
 
 		curSection = lastSection;
 
-		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 9, GRID_SIZE * 16);
+		var actualBG:FlxSprite = new FlxSprite(Paths.image('menuUI/menuDesat'));
+		add(actualBG);
+
+		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
 		add(gridBG);
 
 		leftIcon = new objects.HealthIcon('bf');
@@ -84,12 +87,10 @@ class ChartingState extends MusicBeatState
 		add(leftIcon);
 		add(rightIcon);
 
-		leftIcon.setPosition(gridBG.x - 500);
-		rightIcon.setPosition(gridBG.x + gridBG.width + 500);
-		leftIcon.screenCenter(Y);
-		rightIcon.screenCenter(Y);
+		leftIcon.setPosition(0, -100);
+		rightIcon.setPosition(gridBG.width / 2, -100);
 
-		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + GRID_SIZE * 4).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
+		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + gridBG.width / 2).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
 		add(gridBlackLine);
 
 		curRenderedNotes = new FlxTypedGroup<Note>();
