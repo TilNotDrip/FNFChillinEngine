@@ -174,7 +174,8 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		changeDiff();
+		if (!songs[curSelected].week.difficulties.contains(songs[curSelected].week.difficulties[curDifficulty]))
+			changeDiff();
 
 		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
 

@@ -9,7 +9,7 @@ import openfl.events.IOErrorEvent;
 
 import openfl.net.FileReference;
 
-class AnimationDebug extends FlxState
+class AnimationDebug extends MusicBeatState
 {
 	var bf:objects.Character;
 	var dad:objects.Character;
@@ -30,6 +30,8 @@ class AnimationDebug extends FlxState
 
 	override function create()
 	{
+		changeWindowName('Animation Debug - ' + daAnim);
+
 		FlxG.sound.music.stop();
 
 		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10);

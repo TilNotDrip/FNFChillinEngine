@@ -101,7 +101,7 @@
 	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
 
 	<template path="example_mods"  rename="mods" />
-	<assets path="CHANGELOG.md"    rename='changelog.txt'/>
+	<assets path="docs/CHANGELOG.md"    rename='changelog.txt'/>
 	<assets path="assets/fonts"    embed='true'/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
