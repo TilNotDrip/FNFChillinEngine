@@ -1,5 +1,8 @@
 package states;
 
+import objects.SwagCamera;
+import flixel.FlxCamera;
+import flixel.addons.display.FlxBackdrop;
 import flixel.FlxObject;
 
 import flixel.addons.display.FlxGridOverlay;
@@ -22,6 +25,9 @@ class AnimationDebug extends MusicBeatState
 	var daAnim:String = 'spooky';
 	var camFollow:FlxObject;
 
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
+
 	public function new(daAnim:String = 'spooky')
 	{
 		super();
@@ -32,9 +38,16 @@ class AnimationDebug extends MusicBeatState
 	{
 		changeWindowName('Animation Debug - ' + daAnim);
 
+		camGame = new SwagCamera();
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camHUD, false);
+
 		FlxG.sound.music.stop();
 
-		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10);
+		var gridBG:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(10, 10, 20, 20, true, 0xffe7e6e6, 0xffd9d5d5));
 		gridBG.scrollFactor.set(0.5, 0.5);
 		add(gridBG);
 
@@ -49,7 +62,7 @@ class AnimationDebug extends MusicBeatState
 			add(dad);
 
 			char = dad;
-			dad.flipX = false;
+
 		}
 		else
 		{
@@ -63,9 +76,11 @@ class AnimationDebug extends MusicBeatState
 		}
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
+		dumbTexts.cameras = [camHUD];
 		add(dumbTexts);
 
 		textAnim = new FlxText(300, 16);
+		textAnim.cameras = [camHUD];
 		textAnim.size = 26;
 		textAnim.scrollFactor.set();
 		add(textAnim);
@@ -112,24 +127,27 @@ class AnimationDebug extends MusicBeatState
 	{
 		textAnim.text = char.animation.curAnim.name;
 
-		if (FlxG.keys.justPressed.E)
-			FlxG.camera.zoom += 0.25;
-		if (FlxG.keys.justPressed.Q)
-			FlxG.camera.zoom -= 0.25;
+		if (FlxG.keys.pressed.E)
+			FlxG.camera.zoom += 0.005;
+		if (FlxG.keys.pressed.Q)
+			FlxG.camera.zoom -= 0.005;
+
+		if (FlxG.keys.justPressed.R)
+			FlxG.camera.zoom = 1;
 
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 		{
 			if (FlxG.keys.pressed.I)
-				camFollow.velocity.y = -90;
+				camFollow.velocity.y = -180;
 			else if (FlxG.keys.pressed.K)
-				camFollow.velocity.y = 90;
+				camFollow.velocity.y = 180;
 			else
 				camFollow.velocity.y = 0;
 
 			if (FlxG.keys.pressed.J)
-				camFollow.velocity.x = -90;
+				camFollow.velocity.x = -180;
 			else if (FlxG.keys.pressed.L)
-				camFollow.velocity.x = 90;
+				camFollow.velocity.x = 180;
 			else
 				camFollow.velocity.x = 0;
 		}
@@ -156,7 +174,7 @@ class AnimationDebug extends MusicBeatState
 
 		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
 		{
-			char.playAnim(animList[curAnim]);
+			char.playAnim(animList[curAnim], true);
 
 			updateTexts();
 			genBoyOffsets(false);
@@ -186,10 +204,10 @@ class AnimationDebug extends MusicBeatState
 
 			updateTexts();
 			genBoyOffsets(false);
-			char.playAnim(animList[curAnim]);
+			char.playAnim(animList[curAnim], true);
 		}
 
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ENTER)
 		{
 			var outputString:String = "";
 
@@ -200,6 +218,11 @@ class AnimationDebug extends MusicBeatState
 
 			outputString.trim();
 			saveOffsets(outputString);
+		}
+
+		if (FlxG.keys.justPressed.ESCAPE)
+		{
+			FlxG.switchState(new PlayState());
 		}
 
 		super.update(elapsed);

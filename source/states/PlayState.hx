@@ -25,10 +25,13 @@ import hxcodec.flixel.FlxVideo;
 #end
 
 import objects.*;
-import objects.stages.*;
 
 import shaders.BuildingShaders;
 import shaders.ColorSwap;
+
+import stages.bgs.*;
+import stages.objects.*;
+
 import substates.EndSubState;
 
 class PlayState extends MusicBeatState
@@ -179,7 +182,7 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 
 		if (SONG == null)
-			SONG = Song.loadFromJson('test-normal');
+			SONG = Song.loadFromJson('normal', 'test');
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);

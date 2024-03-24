@@ -1,4 +1,4 @@
-package objects.stages;
+package stages.objects;
 
 class TankmenBG extends FlxSprite
 {

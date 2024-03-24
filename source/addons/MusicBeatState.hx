@@ -1,13 +1,15 @@
 package addons;
 
-import openfl.Assets;
+import addons.Conductor.BPMChangeEvent;
+
+import flixel.addons.ui.FlxUIState;
+
 #if MOD_SUPPORT
 import hscript.InterpEx;
 import hscript.AbstractScriptClass;
 #end
-import addons.Conductor.BPMChangeEvent;
 
-import flixel.addons.ui.FlxUIState;
+import openfl.Assets;
 
 class MusicBeatState extends FlxUIState
 {

@@ -4,6 +4,8 @@ import flixel.math.FlxPoint;
 
 import flixel.util.FlxSort;
 
+import stages.objects.TankmenBG;
+
 class Character extends FlxSprite
 {
 	public var animOffsets:Map<String, Array<Dynamic>>;
@@ -502,7 +504,7 @@ class Character extends FlxSprite
 			}
 		}
 
-		objects.stages.TankmenBG.animationNotes = animationNotes;
+		TankmenBG.animationNotes = animationNotes;
 
 		animationNotes.sort(sortAnims);
 	}
