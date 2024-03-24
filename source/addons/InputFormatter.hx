@@ -76,7 +76,7 @@ class InputFormatter
     
     static function shortenButtonName(name:String)
     {
-        return switch (name == null ? "" : name.toLowerCase())
+        return switch (name == null ? "" : name.formatToPath())
         {
             case "": "[?]";
             case dir if (dirReg.match(dir)):
@@ -87,12 +87,12 @@ class InputFormatter
     
     inline static function titleCaseTrim(str:String, length = 8)
     {
-        return str.charAt(0).toUpperCase() + str.substr(1, length - 1).toLowerCase();
+        return str.charAt(0).toUpperCase() + str.substr(1, length - 1).formatToPath();
     }
     
     inline static function titleCase(str:String)
     {
-        return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+        return str.charAt(0).toUpperCase() + str.substr(1).formatToPath();
     }
     
     inline static public function parsePadName(name:String):ControllerName
@@ -154,7 +154,7 @@ enum abstract ControllerName(String) from String to String
     inline static public function getName(gamepad:FlxGamepad):ControllerName return parseName(gamepad.name);
     static public function parseName(name:String):ControllerName
     {
-        name = name.toLowerCase().remove("-").remove("_");
+        name = name.formatToPath().remove("-").remove("_");
         return
             if (name.contains("ouya"))
                 OUYA;

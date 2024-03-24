@@ -17,13 +17,13 @@ class GameOverSubstate extends MusicBeatSubstate
 		var daBf:String = '';
 		if (PlayState.isPixel)
 		{
-				stageSuffix = '-pixel';
-				daBf = 'bf-pixel-dead';
+			stageSuffix = '-pixel';
+			daBf = 'bf-pixel-dead';
 		}
 		else
 			daBf = 'bf';
 
-		var daSong = PlayState.SONG.song.toLowerCase();
+		var daSong = PlayState.SONG.song.formatToPath();
 
 		switch (daSong)
 		{
@@ -37,6 +37,9 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		bf = new objects.Character(x, y, daBf, true);
 		add(bf);
+
+		if (daBf == 'bf-pixel-dead')
+			bf.antialiasing = false;
 
 		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
 		add(camFollow);

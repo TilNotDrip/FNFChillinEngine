@@ -1,6 +1,7 @@
 package;
 
 import display.FPS;
+import display.FPSOld;
 
 import flixel.FlxGame;
 
@@ -76,6 +77,7 @@ class Main extends Sprite
 		addChild(fpsCounter);
 		#end
 	}
+
 	/**
 	 * please never fucking use this 
 	 * lol (yea 𝓕𝓻𝓮𝓪𝓴𝔂GPT)
@@ -88,7 +90,7 @@ class Main extends Sprite
 			cocksexbuttasscock('kum'); // go wild 😏😼
 		});
 	}
-	
+
 	/**
 	 * im boutta KUHJJOnjfrjhkldsahjkfhgjkldsahjkngfdjkl;gjkl;fdaslkhjgfdsjkl,'gmf'j klsd;gh'l;jkmfsdlmkj';gfk;l'sdmk'glm;fsd'kml;b'kl;vcs'k;mlhgsd'kl;mgh'klf;mds'kl;m bvfd'kml;ng'bdfklm;h'mkl;tf'km;lh'gdf
 	 * @param what you are about to do

@@ -72,6 +72,7 @@ class Note extends FlxSprite
 			}
 
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+			antialiasing = false;
 			updateHitbox();
 		}
 		else
@@ -95,7 +96,6 @@ class Note extends FlxSprite
 
 			setGraphicSize(Std.int(width * 0.7));
 			updateHitbox();
-			antialiasing = true;
 		}
 
 		colorSwap = new ColorSwap();

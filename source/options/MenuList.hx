@@ -195,8 +195,7 @@ class MenuItem extends FlxSprite
 	public function new (x = 0.0, y = 0.0, name:String, callback)
 	{
 		super(x, y);
-		
-		antialiasing = true;
+
 		setData(name, callback);
 		idle();
 	}
