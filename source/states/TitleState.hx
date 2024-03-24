@@ -78,6 +78,8 @@ class TitleState extends MusicBeatState
 	{
 		changeWindowName('Title Screen');
 
+		FlxSprite.defaultAntialiasing = true;
+
 		startedIntro = false;
 
 		#if MOD_SUPPORT

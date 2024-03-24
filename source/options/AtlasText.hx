@@ -85,7 +85,7 @@ class AtlasText extends FlxTypedSpriteGroup<AtlasChar>
 		{
 			case Both: text;
 			case Upper: text.toUpperCase();
-			case Lower: text.toLowerCase();
+			case Lower: text.formatToPath();
 		}
 	}
 
@@ -159,7 +159,6 @@ class AtlasChar extends FlxSprite
 		super(x, y);
 		frames = atlas;
 		this.char = char;
-		antialiasing = true;
 	}
 
 	function set_char(value:String)
@@ -206,7 +205,7 @@ private class AtlasFontData
 
 	public function new (name:AtlasFont)
 	{
-		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().toLowerCase());
+		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().formatToPath());
 		atlas.parent.destroyOnNoUse = false;
 		atlas.parent.persist = true;
 

@@ -158,7 +158,7 @@ class PauseSubState extends MusicBeatSubstate
 					var difficulty:String = PlayState.storyWeek.difficulties[curSelected];
 
 					for(i in PlayState.storyWeek.difficulties) {
-						if(i.toLowerCase() == daSelected.toLowerCase()) {
+						if(i.formatToPath() == daSelected.formatToPath()) {
 							difficulty = i;
 							break;
 						}

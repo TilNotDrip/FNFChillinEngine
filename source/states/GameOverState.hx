@@ -37,7 +37,6 @@ class GameOverState extends MusicBeatState
 		restart.setGraphicSize(Std.int(restart.width * 0.6));
 		restart.updateHitbox();
 		restart.alpha = 0;
-		restart.antialiasing = true;
 		add(restart);
 
 		FlxTween.tween(restart, {alpha: 1}, 1, {ease: FlxEase.quartInOut});

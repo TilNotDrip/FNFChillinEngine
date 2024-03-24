@@ -26,6 +26,8 @@ import lime.app.Application;
 // Stuff from Chillin' Engine/Base Friday Night Funkin' itself
 import addons.*;
 import addons.Controls;
+import addons.CoolUtil;
+using addons.CoolTools;
 
 #if DISCORD
 import addons.discord.DiscordBackend as DiscordClient;
@@ -45,7 +47,3 @@ import states.LoadingState;
 
 // String Tools!
 using StringTools;
-
-// Cool Thingies
-import addons.CoolUtil;
-using addons.CoolTools;

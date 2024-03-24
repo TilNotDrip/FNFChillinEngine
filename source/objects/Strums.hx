@@ -16,11 +16,11 @@ class Strums extends FlxSpriteGroup
 			if (PlayState.isPixel)
 			{
 				newNote.loadGraphic(Paths.image('pixelui/NOTE_assets'), true, 17, 17);
-		
+
 				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 				newNote.updateHitbox();
 				newNote.antialiasing = false;
-		
+
 				newNote.animation.add('static', [0 + note]);
 				newNote.animation.add('pressed', [4 + note, 8 + note], 12, false);
 				newNote.animation.add('confirm', [12 + note, 16 + note], 24, false);
@@ -28,10 +28,9 @@ class Strums extends FlxSpriteGroup
 			else
 			{
 				newNote.frames = Paths.getSparrowAtlas('ui/NOTE_assets');
-		
-				newNote.antialiasing = true;
+
 				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
-		
+
 				var whoTf:Array<String> = ['1', '2', '4', '3']; //who is stupid enough to do this.
 				newNote.animation.addByPrefix('static', 'arrow static instance ' + whoTf[note]);
 				newNote.animation.addByPrefix('pressed', noteArray[note] + ' press instance', 24, false);
@@ -89,5 +88,4 @@ class Strums extends FlxSpriteGroup
 		});
 		return daSpr;
 	}
-
 }

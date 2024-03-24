@@ -46,7 +46,6 @@ class MainMenuState extends MusicBeatState
 		bg.setGraphicSize(Std.int(bg.width * 1.2));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
@@ -60,7 +59,6 @@ class MainMenuState extends MusicBeatState
 		magenta.x = bg.x;
 		magenta.y = bg.y;
 		magenta.visible = false;
-		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
 		if (PreferencesMenu.preferences.get('flashing-menu'))
 			add(magenta);

@@ -37,13 +37,13 @@ class Week
         daWeekThing[3].color = 0xFF941653;
 
         // Week 4
-        daWeekThing[4] = new Week('week4', ['Satin-Panties', 'High', 'MILF'], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[4] = new Week('week4', ['Satin Panties', 'High', 'MILF'], ['Easy', 'Normal', 'Hard']);
         daWeekThing[4].characters = ['mom', 'bf', 'gf'];
         daWeekThing[4].motto = 'MOMMY MUST MURDER';
         daWeekThing[4].color = 0xFFfc96d7;
 
         // Week 5
-        daWeekThing[5] = new Week('week5', ['Cocoa', 'Eggnog', 'Winter-Horrorland'], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[5] = new Week('week5', ['Cocoa', 'Eggnog', 'Winter Horrorland'], ['Easy', 'Normal', 'Hard']);
         daWeekThing[5].characters = ['parents-christmas', 'bf', 'gf'];
         daWeekThing[5].motto = 'RED SNOW';
         daWeekThing[5].color = 0xFFa0d1ff;
@@ -58,7 +58,7 @@ class Week
         daWeekThing[7] = new Week('week7', ['Ugh', 'Guns', 'Stress'], ['Easy', 'Normal', 'Hard']);
         daWeekThing[7].characters = ['tankman', 'bf', 'gf'];
         daWeekThing[7].motto = 'TANKMAN';
-        daWeekThing[7].color = 0xffff78bf;
+        daWeekThing[7].color = 0xfff6b604;
 
         // Test
         #if debug

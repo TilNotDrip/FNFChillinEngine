@@ -87,13 +87,11 @@ class StoryMenuState extends MusicBeatState
 			grpWeekText.add(weekThing);
 
 			weekThing.screenCenter(X);
-			weekThing.antialiasing = true;
 
 			if (daWeeks[i].locked)
 			{
 				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x).loadGraphic(Paths.image('storyMenu/ui/lock'));
 				lock.ID = i;
-				lock.antialiasing = true;
 				grpLocks.add(lock);
 			}
 		}
@@ -102,7 +100,6 @@ class StoryMenuState extends MusicBeatState
 		{
 			var weekCharacterThing:MenuCharacter = new MenuCharacter((FlxG.width * 0.25) * (1 + char) - 150, curWeekClass.characters[char]);
 			weekCharacterThing.y += 70;
-			weekCharacterThing.antialiasing = true;
 			switch (weekCharacterThing.character)
 			{
 				case 'dad':
@@ -138,7 +135,7 @@ class StoryMenuState extends MusicBeatState
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
-		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].toLowerCase()));
+		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
 		changeDifficulty();
 
 		difficultySelectors.add(sprDifficulty);
@@ -351,32 +348,34 @@ class StoryMenuState extends MusicBeatState
 
 		grpWeekCharacters.members[0].flipX = false;
 		grpWeekCharacters.members[0].offset.set(100, 100);
-		grpWeekCharacters.members[0].scale.set(1, 1);
+		grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1);
 
 		switch (grpWeekCharacters.members[0].animation.curAnim.name)
 		{
 			case 'parents-christmas':
 				grpWeekCharacters.members[0].offset.set(200, 200);
-				grpWeekCharacters.members[0].scale.set(0.99, 0.99);
+				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 
 			case 'senpai':
 				grpWeekCharacters.members[0].offset.set(130, 0);
-				grpWeekCharacters.members[0].scale.set(1.4, 1.4);
+				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1.4);
 
 			case 'mom':
 				grpWeekCharacters.members[0].offset.set(100, 200);
-				grpWeekCharacters.members[0].scale.set(1, 1);
+				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 
 			case 'dad':
 				grpWeekCharacters.members[0].offset.set(120, 200);
-				grpWeekCharacters.members[0].scale.set(1, 1);
+				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+	
 			case 'tankman':
 				grpWeekCharacters.members[0].offset.set(60, -20);
-				grpWeekCharacters.members[0].scale.set(1, 1);
+				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+
 			case 'bf':
 				grpWeekCharacters.members[0].flipX = true;
 				grpWeekCharacters.members[0].offset.set(100, 100);
-				grpWeekCharacters.members[0].scale.set(1, 1);
+				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 		}
 		grpWeekCharacters.members[0].updateHitbox();
 
