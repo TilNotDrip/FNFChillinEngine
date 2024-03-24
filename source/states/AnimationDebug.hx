@@ -76,14 +76,14 @@ class AnimationDebug extends MusicBeatState
 		}
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
-		dumbTexts.cameras = [camHUD];
 		add(dumbTexts);
+		dumbTexts.cameras = [camHUD];
 
 		textAnim = new FlxText(300, 16);
-		textAnim.cameras = [camHUD];
 		textAnim.size = 26;
 		textAnim.scrollFactor.set();
 		add(textAnim);
+		textAnim.cameras = [camHUD];
 
 		genBoyOffsets();
 

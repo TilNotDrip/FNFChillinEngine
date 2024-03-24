@@ -536,7 +536,7 @@ class Character extends FlxSprite
 		if (animation.curAnim.name.startsWith('sing'))
 			holdTimer += elapsed;
 
-		if(playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished)
+		if((playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished) || animation.curAnim == null)
 		{
 			dance();
 			playingEndAnim = false;

@@ -28,6 +28,7 @@
  - [ ] Outdated Warning
  - [ ] Fix Random Lag Spikes around the engine (please help)
  - [ ] Make Stages into their own hx file
+ - [ ] Character Editor becomes usable
 
 ## Small Changes
 
@@ -43,6 +44,7 @@
  - [x] Seperate Story Menu UI assets
  - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`) <!-- It was TechNotDrip at the time of typing that -->
  - [x] Make Philly window lights white so i can just change colors throughout the code
+ - [ ] BF doesn't ascend when he's opponent
 
 # Chillin' Engine Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
