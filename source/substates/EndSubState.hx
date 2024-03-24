@@ -6,6 +6,7 @@ import flixel.addons.display.FlxGridOverlay;
 class EndSubState extends MusicBeatSubstate
 {
     var bfCheeringYouOn:FlxSprite; 
+
     public function new()
     {
         super();
@@ -48,11 +49,5 @@ class EndSubState extends MusicBeatSubstate
 
         if (controls.ACCEPT)
             PlayState.game.endSong();
-
-        if(bfCheeringYouOn.animation.curAnim != null) 
-        {
-            if(bfCheeringYouOn.animation.curAnim.finished && bfCheeringYouOn.animation.curAnim.name == 'yippee')
-                bfCheeringYouOn.animation.play('tbh', true);
-        }
     }
 }

@@ -45,7 +45,10 @@ class NoteSplash extends FlxSprite
 
 	public function setupNoteSplash(x:Float, y:Float, noteData:Int = 0)
 	{
-		setPosition(x, y);
+		if (PlayState.isPixel)
+			setPosition(x + 142, y + 143);
+		else
+			setPosition(x, y);
 
 		alpha = 0.6;
 

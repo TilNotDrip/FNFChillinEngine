@@ -1,18 +1,23 @@
-package addons;
 typedef SwagEvent =
 {
     var name:String;
     var params:Array<String>;
-    var type:String;
+    var type:EventType;
     var time:String;
 }
 
-class Event
+class Event extends MyAsshole
 {
-    public function new(name:String)
+    override public function new(name:String)
     {
-        
+        super();
     }
+}
 
-    
+class MyAsshole // :troll:
+{
+    public function new()
+    {
+        throw "This isnt finished yet!! expect it in the near future tho";
+    }
 }

@@ -26,6 +26,11 @@ class DialogueBox extends FlxSpriteGroup
 	var handSelect:FlxSprite;
 	var bgFade:FlxSprite;
 
+	private var controls(get, never):Controls;
+
+	inline function get_controls():Controls
+		return PlayerSettings.player1.controls;
+
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
 	{
 		super();
@@ -167,7 +172,7 @@ class DialogueBox extends FlxSpriteGroup
 			dialogueStarted = true;
 		}
 
-		if (FlxG.keys.justPressed.ANY && dialogueEnded)
+		if (controls.ACCEPT && dialogueEnded)
 		{
 			FlxG.sound.play(Paths.sound('clickText'), 0.8);
 
@@ -204,7 +209,7 @@ class DialogueBox extends FlxSpriteGroup
 				startDialogue();
 			}
 		}
-		else if (FlxG.keys.justPressed.ANY && dialogueStarted)
+		else if (controls.ACCEPT && dialogueStarted)
 			swagDialogue.skip();
 		
 		super.update(elapsed);
