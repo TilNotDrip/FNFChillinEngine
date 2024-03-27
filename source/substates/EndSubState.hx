@@ -57,5 +57,11 @@ class EndSubState extends MusicBeatSubstate
             }
             else
                 PlayState.game.endSong();
+
+        if(bfCheeringYouOn.animation.curAnim != null) 
+        {
+            if(bfCheeringYouOn.animation.curAnim.finished && bfCheeringYouOn.animation.curAnim.name == 'yippee')
+                bfCheeringYouOn.animation.play('tbh', true);
+        }
     }
 }
