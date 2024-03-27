@@ -59,15 +59,24 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (PlayState.isPixel)
 		{
-			portraitLeft = new FlxSprite(-20, 40);
-			portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiPortrait');
-			portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter instance', 24, false);
+			switch(PlayState.SONG.song.formatToPath()) {
+				case 'roses':
+					portraitLeft = new FlxSprite(-20, 45);
+					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiMadPortrait');
+					portraitLeft.animation.addByPrefix('enter', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
+				default:
+					portraitLeft = new FlxSprite(-20, 40);
+					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiPortrait');
+					portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter instance', 24, false);
+
+			};
+
 			portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
 			portraitLeft.antialiasing = false;
 			portraitLeft.scrollFactor.set();
 			portraitLeft.updateHitbox();
-			add(portraitLeft);
 			portraitLeft.visible = false;
+			add(portraitLeft);
 
 			portraitRight = new FlxSprite(0, 40);
 			portraitRight.frames = Paths.getSparrowAtlas('weeb/bfPortrait');
@@ -94,15 +103,15 @@ class DialogueBox extends FlxSpriteGroup
 				hasDialog = true;
 				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
 
-				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-senpaiMad');
+				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-mad');
 				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
 				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH instance 1', [4], "", 24);
 
 			case 'thorns':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-evil');
-				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn instance', 24, false);
-				box.animation.addByIndices('normal', 'Spirit Textbox spawn instance', [11], "", 24);
+				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn instance 1', 24, false);
+				box.animation.addByIndices('normal', 'Spirit Textbox spawn instance 1', [11], "", 24);
 
 				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.image('weeb/spiritFaceForward'));
 				face.setGraphicSize(Std.int(face.width * 6));
@@ -153,8 +162,6 @@ class DialogueBox extends FlxSpriteGroup
 
 	override function update(elapsed:Float)
 	{
-		if (PlayState.SONG.song.formatToPath() == 'roses')
-			portraitLeft.visible = false;
 		if (PlayState.SONG.song.formatToPath() == 'thorns')
 		{
 			portraitLeft.color = FlxColor.BLACK;
