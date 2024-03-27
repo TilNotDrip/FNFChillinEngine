@@ -2,6 +2,8 @@ package stages;
 
 import flixel.FlxBasic;
 
+import flixel.addons.transition.FlxTransitionableState;
+
 import objects.Character;
 
 class StageBackend extends FlxBasic
@@ -12,6 +14,7 @@ class StageBackend extends FlxBasic
     public var zoom:Float = 1.05;
     public var pixel:Bool = false;
     public var hasCutscene = false;
+    public var hasEndCutscene = false;
 
     public function new()
     {
@@ -27,9 +30,16 @@ class StageBackend extends FlxBasic
 
     // PlayState / MusicBeatState Functions
     public function create() {}
-    public function createPost() {}
+
+    public function createPost()
+        if (hasCutscene && !PlayState.seenCutscene)
+            PlayState.seenCutscene = true;
+
     override public function update(elapsed:Float) {}
-    public function cameraMovement(char:Character) {};
+    public function cameraMovement(char:Character) {}
+
+    public function endSong() {}
+
     public function stepHit() {}
     public function beatHit() {}
 
@@ -46,5 +56,14 @@ class StageBackend extends FlxBasic
     }
     private function addBehindBF(object:FlxBasic) {
         insert(PlayState.game.members.indexOf(PlayState.game.boyfriend), object);
+    }
+
+    // Other Functions
+    public function endingStuff()
+    {
+        if (hasEndCutscene && !PlayState.seenCutscene)
+            return endSong();
+        else
+            return PlayState.game.endSong();
     }
 }

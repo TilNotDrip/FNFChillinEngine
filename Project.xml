@@ -136,5 +136,4 @@
 	<icon path="extras/appicons/icon64.png" size='64'/>
 	<icon path="extras/appicons/iconOG.png" />
 
-	<haxedef name="CAN_CHEAT" if="switch debug"/>
 </project>

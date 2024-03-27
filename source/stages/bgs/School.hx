@@ -9,7 +9,8 @@ class School extends StageBackend
 
     override function create()
     {
-        hasCutscene = true;
+        if (PlayState.SONG.song.formatToPath() == 'senpai' || PlayState.SONG.song.formatToPath() == 'roses')
+            hasCutscene = true;
 
         pixel = true;
 
@@ -80,20 +81,11 @@ class School extends StageBackend
         var doof:DialogueBox = new DialogueBox(false, PlayState.game.dialogue);
         doof.scrollFactor.set();
         doof.finishThing = PlayState.game.startCountdown;
-        doof.cameras = [PlayState.game.camHUD];
+        doof.cameras = [PlayState.game.camDIALOGUE];
 
         if (PlayState.isStoryMode && !PlayState.seenCutscene)
-        {
-            PlayState.seenCutscene = true;
-
-            switch (PlayState.SONG.song.formatToPath())
-            {
-                case 'senpai' | 'roses':
-                    schoolIntro(doof);
-                default:
-                    PlayState.game.startCountdown();
-            }
-        }
+            if (PlayState.SONG.song.formatToPath() == 'senpai' || PlayState.SONG.song.formatToPath() == 'roses')
+                schoolIntro(doof);
     }
 
     function schoolIntro(?dialogueBox:DialogueBox):Void

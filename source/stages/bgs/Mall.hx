@@ -8,6 +8,9 @@ class Mall extends StageBackend
 
     override function create()
     {
+        if (PlayState.SONG.song.formatToPath() == 'eggnog')
+            hasEndCutscene = true;
+
         zoom = 0.80;
 
         var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
@@ -56,5 +59,22 @@ class Mall extends StageBackend
         upperBoppers.animation.play('Upper Crowd Bob', true);
 		bottomBoppers.animation.play('Bottom Level Boppers', true);
 		santa.animation.play('santa idle in fear', true);
+    }
+
+    override function endSong()
+    {
+        if (PlayState.SONG.song.formatToPath() == 'eggnog' && PlayState.isStoryMode)
+        {
+            PlayState.game.inCutscene = true;
+
+            var blackShit:FlxSprite = new FlxSprite(-FlxG.width * PlayState.game.camGAME.zoom, - FlxG.height * PlayState.game.camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+            blackShit.scrollFactor.set();
+            add(blackShit);
+
+            FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
+            {
+                endingStuff();
+            });
+        }
     }
 }

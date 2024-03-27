@@ -21,7 +21,8 @@ class Tank extends StageBackend
 
     override function create()
     {
-		hasCutscene = true;
+		if (PlayState.SONG.song.formatToPath() == 'ugh' || PlayState.SONG.song.formatToPath() == 'guns' || PlayState.SONG.song.formatToPath() == 'stress')
+			hasCutscene = true;
 
         zoom = 0.90;
 
@@ -139,8 +140,6 @@ class Tank extends StageBackend
 
         if (PlayState.isStoryMode && !PlayState.seenCutscene)
         {
-			PlayState.seenCutscene = true;
-
             switch (PlayState.SONG.song.formatToPath())
             {
                 case 'ugh':
@@ -157,7 +156,7 @@ class Tank extends StageBackend
 	{
 		PlayState.game.inCutscene = true;
 
-		FlxG.camera.zoom = zoom * 1.2;
+		PlayState.game.camGAME.zoom = zoom * 1.2;
 
 		PlayState.game.camFollow.x += 100;
 		PlayState.game.camFollow.y += 100;
@@ -173,9 +172,7 @@ class Tank extends StageBackend
 
 		tankCutscene.anim.play('wellWellWell');
 
-		PlayState.game.camHUD.visible = false;
-
-		FlxG.camera.zoom *= 1.2;
+		PlayState.game.camGAME.zoom *= 1.2;
 
 		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('wellWellWell'));
 		eduardoAhh.play(true);
@@ -216,7 +213,6 @@ class Tank extends StageBackend
 					});
 
 					PlayState.game.startCountdown();
-					PlayState.game.camHUD.visible = true;
 				});
 			});
 		});
@@ -225,8 +221,6 @@ class Tank extends StageBackend
 	function gunsIntro()
 	{
 		PlayState.game.inCutscene = true;
-
-		PlayState.game.camHUD.visible = false;
 
 		FlxG.sound.playMusic(Paths.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
@@ -265,8 +259,6 @@ class Tank extends StageBackend
 				PlayState.game.dad.visible = true;
 				gfCutsceneLayer.remove(tankCutscene);
 			});
-
-            PlayState.game.camHUD.visible = true;
 		});
 	}
 
@@ -274,7 +266,6 @@ class Tank extends StageBackend
 	{
 		PlayState.game.inCutscene = true;
 
-		PlayState.game.camHUD.visible = false;
 		PlayState.game.camFollow.setPosition(PlayState.game.camPos.x, PlayState.game.camPos.y);
 		PlayState.game.dad.visible = false;
 		PlayState.game.gf.visible = false;
@@ -292,7 +283,7 @@ class Tank extends StageBackend
 		bfTankCutsceneLayer.add(tankCutscene);
 
 		PlayState.game.camFollow.setPosition(PlayState.game.gf.x + 350, PlayState.game.gf.y + 560);
-		FlxG.camera.focusOn(PlayState.game.camFollow.getPosition());
+		PlayState.game.camGAME.focusOn(PlayState.game.camFollow.getPosition());
 
 		PlayState.game.boyfriend.visible = false;
 
@@ -318,7 +309,7 @@ class Tank extends StageBackend
 
 		cutsceneAudio.play(true);
 
-		FlxG.camera.zoom = zoom * 1.15;
+		PlayState.game.camGAME.zoom = zoom * 1.15;
 
 		PlayState.game.camFollow.x -= 200;
 
@@ -326,16 +317,16 @@ class Tank extends StageBackend
 		{
 			PlayState.game.camFollow.x += 400;
 			PlayState.game.camFollow.y += 150;
-			FlxG.camera.zoom = zoom * 1.4;
-			FlxTween.tween(FlxG.camera, {zoom: FlxG.camera.zoom + 0.1}, 0.5, {ease: FlxEase.elasticOut});
-			FlxG.camera.focusOn(PlayState.game.camFollow.getPosition());
+			PlayState.game.camGAME.zoom = zoom * 1.4;
+			FlxTween.tween(FlxG.camera, {zoom: PlayState.game.camGAME.zoom + 0.1}, 0.5, {ease: FlxEase.elasticOut});
+			PlayState.game.camGAME.focusOn(PlayState.game.camFollow.getPosition());
 			PlayState.game.boyfriend.playAnim('singUPmiss');
 			PlayState.game.boyfriend.animation.finishCallback = function(animFinish:String)
 			{
 				PlayState.game.camFollow.x -= 400;
 				PlayState.game.camFollow.y -= 150;
-				FlxG.camera.zoom /= 1.4;
-				FlxG.camera.focusOn(PlayState.game.camFollow.getPosition());
+				PlayState.game.camGAME.zoom /= 1.4;
+				PlayState.game.camGAME.focusOn(PlayState.game.camFollow.getPosition());
 
 				PlayState.game.boyfriend.animation.finishCallback = null;
 			};
@@ -345,13 +336,13 @@ class Tank extends StageBackend
 		{
 			PlayState.game.camFollow.y -= 170;
 			PlayState.game.camFollow.x += 200;
-			FlxTween.tween(FlxG.camera, {zoom: FlxG.camera.zoom * 1.3}, 2.1, {
+			FlxTween.tween(FlxG.camera, {zoom: PlayState.game.camGAME.zoom * 1.3}, 2.1, {
 				ease: FlxEase.quadInOut
 			});
 
 			new FlxTimer().start(2.2, function(swagTimer:FlxTimer)
 			{
-				FlxG.camera.zoom = 0.8;
+				PlayState.game.camGAME.zoom = 0.8;
 				PlayState.game.boyfriend.visible = false;
 				bfCatchGf.visible = true;
 				bfCatchGf.animation.play('catch');

@@ -8,7 +8,8 @@ class SchoolEvil extends StageBackend
 {
     override function create()
     {
-        hasCutscene = true;
+        if (PlayState.SONG.song.formatToPath() == 'thorns')
+            hasCutscene = true;
 
         pixel = true;
 
@@ -31,12 +32,10 @@ class SchoolEvil extends StageBackend
         var doof:DialogueBox = new DialogueBox(false, PlayState.game.dialogue);
         doof.scrollFactor.set();
         doof.finishThing = PlayState.game.startCountdown;
-        doof.cameras = [PlayState.game.camHUD];
+        doof.cameras = [PlayState.game.camDIALOGUE];
 
         if (PlayState.isStoryMode && !PlayState.seenCutscene)
         {
-            PlayState.seenCutscene = true;
-
             switch (PlayState.SONG.song.formatToPath())
             {
                 case 'thorns':
@@ -66,7 +65,6 @@ class SchoolEvil extends StageBackend
 		PlayState.game.camFollow.setPosition(PlayState.game.camPos.x, PlayState.game.camPos.y);
 
 		add(red);
-		PlayState.game.camHUD.visible = false;
 
 		new FlxTimer().start(0.3, function(tmr:FlxTimer)
 		{
@@ -86,15 +84,14 @@ class SchoolEvil extends StageBackend
                         {
                             remove(senpaiEvil);
                             remove(red);
-                            FlxG.camera.fade(FlxColor.WHITE, 0.01, true, function()
+                            PlayState.game.camGAME.fade(FlxColor.WHITE, 0.01, true, function()
                             {
                                 add(dialogueBox);
-                                PlayState.game.camHUD.visible = true;
                             }, true);
                         });
                         new FlxTimer().start(3.2, function(deadTime:FlxTimer)
                         {
-                            FlxG.camera.fade(FlxColor.WHITE, 1.6, false);
+                            PlayState.game.camGAME.fade(FlxColor.WHITE, 1.6, false);
                         });
                     }
                 });

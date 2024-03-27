@@ -3,6 +3,8 @@ package substates;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 
+import stages.StageBackend;
+
 class EndSubState extends MusicBeatSubstate
 {
     var bfCheeringYouOn:FlxSprite; 
@@ -48,6 +50,12 @@ class EndSubState extends MusicBeatSubstate
         super.update(elapsed);
 
         if (controls.ACCEPT)
-            PlayState.game.endSong();
+            if (StageBackend.stage.hasEndCutscene && !PlayState.seenCutscene)
+            {
+                StageBackend.stage.endingStuff();
+                PlayState.seenCutscene = true;
+            }
+            else
+                PlayState.game.endSong();
     }
 }

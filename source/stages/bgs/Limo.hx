@@ -76,15 +76,15 @@ class Limo extends StageBackend
     {
 		if (PreferencesMenu.getPref('camera-zoom'))
 		{
-			if (PlayState.SONG.song.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && FlxG.camera.zoom < 1.35)
+			if (PlayState.SONG.song.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && PlayState.game.camGAME.zoom < 1.35)
 			{
-				FlxG.camera.zoom += 0.015;
+				PlayState.game.camGAME.zoom += 0.015;
 				PlayState.game.camHUD.zoom += 0.03;
 			}
 
-			if (FlxG.camera.zoom < 1.35 && curBeat % 4 == 0)
+			if (PlayState.game.camGAME.zoom < 1.35 && curBeat % 4 == 0)
 			{
-				FlxG.camera.zoom += 0.015;
+				PlayState.game.camGAME.zoom += 0.015;
 				PlayState.game.camHUD.zoom += 0.03;
 			}
 		}

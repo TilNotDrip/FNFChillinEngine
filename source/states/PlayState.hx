@@ -88,12 +88,12 @@ class PlayState extends MusicBeatState
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var bopTween:Array<FlxTween> = [null, null];
+
+	public var camGAME:FlxCamera;
 	public var camHUD:FlxCamera;
-	public var camGame:FlxCamera;
+	public var camDIALOGUE:FlxCamera;
 
 	public var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
-
-	public static var seenCutscene:Bool = false;
 
 	var talking:Bool = true;
 
@@ -110,7 +110,8 @@ class PlayState extends MusicBeatState
 	public static var daPixelZoom:Float = 6;
 	public static var isPixel:Bool = false;
 
-	public var inCutscene:Bool = false;
+	public var inCutscene(default, set):Bool = false;
+	public static var seenCutscene:Bool = false;
 	public var isEnding:Bool = false;
 
 	#if discord_rpc
@@ -138,12 +139,17 @@ class PlayState extends MusicBeatState
 		FlxG.sound.cache(Paths.inst(PlayState.SONG.song));
 		FlxG.sound.cache(Paths.voices(PlayState.SONG.song));
 
-		camGame = new SwagCamera();
+		camGAME = new SwagCamera();
+
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
-		FlxG.cameras.reset(camGame);
+		camDIALOGUE = new FlxCamera();
+		camDIALOGUE.bgColor.alpha = 0;
+
+		FlxG.cameras.add(camGAME, true);
 		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camDIALOGUE, false);
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -288,9 +294,9 @@ class PlayState extends MusicBeatState
 
 		add(camFollow);
 
-		FlxG.camera.follow(camFollow, LOCKON, 0.04);
-		FlxG.camera.zoom = StageBackend.stage.zoom;
-		FlxG.camera.focusOn(camFollow.getPosition());
+		camGAME.follow(camFollow, LOCKON, 0.04);
+		camGAME.zoom = StageBackend.stage.zoom;
+		camGAME.focusOn(camFollow.getPosition());
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
@@ -384,7 +390,6 @@ class PlayState extends MusicBeatState
 
 	public function playVideo(videoFile:String)
 	{
-		seenCutscene = true;
 		inCutscene = true;
 
 		var video:FlxVideo = new FlxVideo();
@@ -409,18 +414,13 @@ class PlayState extends MusicBeatState
 	public function startCountdown()
 	{
 		inCutscene = false;
-		camHUD.visible = true;
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
 		talking = false;
 		startedCountdown = true;
-		canPause = true;
 
-		#if debug
-		canEnd = true;
-		#end
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
 
@@ -499,9 +499,7 @@ class PlayState extends MusicBeatState
 		vocals.play();
 
 		FlxG.sound.music.onComplete = function() {
-			var endSubState = new substates.EndSubState(); // :) PLEASE PUT IT TO EndSubstate -Techniktitty
-			endSubState.camera = camHUD;
-			openSubState(endSubState);
+			openSubState(new EndSubState());
 		};
 
 		#if discord_rpc
@@ -629,17 +627,17 @@ class PlayState extends MusicBeatState
 	{
 		if(goingIn) {
 			FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onUpdate: function(twn:FlxTween) {
-				StageBackend.stage.zoom = FlxG.camera.zoom;
+				StageBackend.stage.zoom = camGAME.zoom;
 			}});
 		} else {
 			FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onUpdate: function(twn:FlxTween) {
-				StageBackend.stage.zoom = FlxG.camera.zoom;
+				StageBackend.stage.zoom = camGAME.zoom;
 			}});
 		}
 		
 	}
 
-	override function openSubState(SubState:FlxSubState)
+	public override function openSubState(SubState:FlxSubState)
 	{
 		if (paused)
 		{
@@ -653,6 +651,7 @@ class PlayState extends MusicBeatState
 				startTimer.active = false;
 		}
 
+		SubState.camera = camHUD;
 		super.openSubState(SubState);
 	}
 
@@ -787,9 +786,7 @@ class PlayState extends MusicBeatState
 			else
 			{
 				var boyfriendPos = boyfriend.getScreenPosition();
-				var pauseSubState = new substates.PauseSubState(boyfriendPos.x, boyfriendPos.y);
-				openSubState(pauseSubState);
-				pauseSubState.camera = camHUD;
+				openSubState(new substates.PauseSubState(boyfriendPos.x, boyfriendPos.y));
 				boyfriendPos.put();
 			}
 
@@ -870,7 +867,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(!inCutscene) {
-			FlxG.camera.zoom = FlxMath.lerp(StageBackend.stage.zoom, FlxG.camera.zoom, 0.95);
+			camGAME.zoom = FlxMath.lerp(StageBackend.stage.zoom, camGAME.zoom, 0.95);
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
 		}
 
@@ -932,7 +929,7 @@ class PlayState extends MusicBeatState
 				if (FlxG.random.bool(0.1))
 					FlxG.switchState(new GameOverState());
 				else
-					openSubState(new substates.GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+					openSubState(new substates.GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camGAME));
 
 				#if discord_rpc
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
@@ -1091,73 +1088,74 @@ class PlayState extends MusicBeatState
 		deathCounter = 0;
 
 		isEnding = true;
-		#if debug
-		canEnd = false;
-		#end
-		canPause = false;
 
 		if (SONG.validScore)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
-		if (isStoryMode)
+		if (PlayState.isStoryMode)
+			PlayState.game.finishSongStory();
+		else
+			FlxG.switchState(new states.FreeplayState());
+	}
+
+    public function finishSongStory()
+    {
+        campaignScore += songScore;
+
+        storyPlaylist.remove(storyPlaylist[0]);
+
+        if (storyPlaylist.length <= 0)
+        {
+            FlxG.sound.playMusic(Paths.music('freakyMenu'));
+
+            transIn = FlxTransitionableState.defaultTransIn;
+            transOut = FlxTransitionableState.defaultTransOut;
+
+            FlxG.switchState(new states.StoryMenuState());
+
+            storyWeek.locked = false;
+
+            if (SONG.validScore)
+            {
+                Highscore.saveWeekScore(storyWeek.name, campaignScore, storyDifficulty);
+            }
+        }
+        else
+        {
+            FlxTransitionableState.skipNextTransIn = true;
+            FlxTransitionableState.skipNextTransOut = true;
+
+            FlxG.sound.music.stop();
+            vocals.stop();
+
+            prevCamFollow = camFollow;
+			SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
+			LoadingState.loadAndSwitchState(new PlayState());
+        }
+    }
+
+	function set_inCutscene(inCutscene:Bool)
+	{
+		if (inCutscene)
 		{
-			campaignScore += songScore;
+			camHUD.visible = false;
+			canPause = false;
 
-			storyPlaylist.remove(storyPlaylist[0]);
-
-			if (storyPlaylist.length <= 0)
-			{
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
-
-				transIn = FlxTransitionableState.defaultTransIn;
-				transOut = FlxTransitionableState.defaultTransOut;
-
-				FlxG.switchState(new StoryMenuState());
-
-				storyWeek.locked = false;
-
-				if (SONG.validScore)
-				{
-					Highscore.saveWeekScore(storyWeek.name, campaignScore, storyDifficulty);
-				}
-			}
-			else
-			{
-				FlxTransitionableState.skipNextTransIn = true;
-				FlxTransitionableState.skipNextTransOut = true;
-
-				FlxG.sound.music.stop();
-				vocals.stop();
-
-				if (SONG.song.formatToPath() == 'eggnog')
-				{
-					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
-						-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-					blackShit.scrollFactor.set();
-					add(blackShit);
-					camHUD.visible = false;
-					inCutscene = true;
-
-					FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
-					{
-						SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
-						LoadingState.loadAndSwitchState(new PlayState());
-					});
-				}
-				else
-				{
-					prevCamFollow = camFollow;
-
-					SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
-					LoadingState.loadAndSwitchState(new PlayState());
-				}
-			}
+			#if debug
+			canEnd = false;
+			#end
 		}
 		else
 		{
-			trace('WENT BACK TO FREEPLAY??');
-			FlxG.switchState(new FreeplayState());
+			camHUD.visible = true;
+			canPause = true;
+
+			#if debug
+			canEnd = true;
+			#end
 		}
+
+		return this.inCutscene = inCutscene;
 	}
 
 	public function popUpScore(strumtime:Float, daNote:Note):Void
@@ -1258,10 +1256,10 @@ class PlayState extends MusicBeatState
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'ui/combo'));
 		comboSpr.y = gf.y + 200 + 80;
 		comboSpr.x = gf.x + 200;
-		if (comboSpr.x < FlxG.camera.scroll.x + 194)
-			comboSpr.x = FlxG.camera.scroll.x + 194;
-		else if (comboSpr.x > FlxG.camera.scroll.x + FlxG.camera.width - comboSpr.width)
-			comboSpr.x = FlxG.camera.scroll.x + FlxG.camera.width - comboSpr.width;
+		if (comboSpr.x < camGAME.scroll.x + 194)
+			comboSpr.x = camGAME.scroll.x + 194;
+		else if (comboSpr.x > camGAME.scroll.x + camGAME.width - comboSpr.width)
+			comboSpr.x = camGAME.scroll.x + camGAME.width - comboSpr.width;
 
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
@@ -1535,7 +1533,6 @@ class PlayState extends MusicBeatState
 
 	function opponentNoteHit(daNote:Note):Void
 	{
-
 		var altAnim:String = "";
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
@@ -1668,7 +1665,7 @@ class PlayState extends MusicBeatState
 					daZoomHUD = Std.parseFloat(params[1]);
 				}
 
-				camGame.zoom += daZoomGame;
+				camGAME.zoom += daZoomGame;
 				camHUD.zoom += daZoomHUD;
 
 			case 'Hey!':

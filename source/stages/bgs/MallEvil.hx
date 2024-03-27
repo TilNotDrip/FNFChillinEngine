@@ -6,7 +6,8 @@ class MallEvil extends StageBackend
 {
     override function create()
     {
-        hasCutscene = true;
+        if (PlayState.SONG.song.formatToPath() == 'winter-horrorland')
+            hasCutscene = true;
 
         var bg:BGSprite = new BGSprite('christmas/evilBG', -400, -500, 0.2, 0.2);
         bg.setGraphicSize(Std.int(bg.width * 0.8));
@@ -27,8 +28,6 @@ class MallEvil extends StageBackend
 
         if (PlayState.isStoryMode && !PlayState.seenCutscene)
         {
-            PlayState.seenCutscene = true;
-
             switch (PlayState.SONG.song.formatToPath())
             {
                 case 'winter-horrorland':
@@ -37,7 +36,6 @@ class MallEvil extends StageBackend
                     var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
                     add(blackScreen);
                     blackScreen.scrollFactor.set();
-                    PlayState.game.camHUD.visible = false;
 
                     new FlxTimer().start(0.1, function(tmr:FlxTimer)
                     {
@@ -45,14 +43,13 @@ class MallEvil extends StageBackend
                         FlxG.sound.play(Paths.sound('Lights_Turn_On'));
                         PlayState.game.camFollow.y = -2050;
                         PlayState.game.camFollow.x += 200;
-                        FlxG.camera.focusOn(PlayState.game.camFollow.getPosition());
-                        FlxG.camera.zoom = 1.5;
+                        PlayState.game.camGAME.focusOn(PlayState.game.camFollow.getPosition());
+                        PlayState.game.camGAME.zoom = 1.5;
 
                         new FlxTimer().start(0.8, function(tmr:FlxTimer)
                         {
-                            PlayState.game.camHUD.visible = true;
                             remove(blackScreen);
-                            FlxTween.tween(FlxG.camera, {zoom: zoom}, 2.5, {
+                            FlxTween.tween(PlayState.game.camGAME, {zoom: zoom}, 2.5, {
                                 ease: FlxEase.quadInOut,
                                 onComplete: function(twn:FlxTween)
                                 {
