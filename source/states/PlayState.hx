@@ -491,6 +491,10 @@ class PlayState extends MusicBeatState
 	{
 		startingSong = false;
 
+		#if debug
+		canEnd = true;
+		#end
+
 		previousFrameTime = FlxG.game.ticks;
 
 		if (!paused)
@@ -1149,10 +1153,6 @@ class PlayState extends MusicBeatState
 		{
 			camHUD.visible = true;
 			canPause = true;
-
-			#if debug
-			canEnd = true;
-			#end
 		}
 
 		return this.inCutscene = inCutscene;

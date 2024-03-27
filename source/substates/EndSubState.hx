@@ -45,11 +45,16 @@ class EndSubState extends MusicBeatSubstate
         });
     }
 
+    var hitEnd:Bool = false;
+
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT && !hitEnd)
+        {
+            hitEnd = true;
+
             if (StageBackend.stage.hasEndCutscene && !PlayState.seenCutscene)
             {
                 StageBackend.stage.endingStuff();
@@ -57,6 +62,7 @@ class EndSubState extends MusicBeatSubstate
             }
             else
                 PlayState.game.endSong();
+        }
 
         if(bfCheeringYouOn.animation.curAnim != null) 
         {
