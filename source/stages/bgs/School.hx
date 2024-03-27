@@ -93,6 +93,7 @@ class School extends StageBackend
         PlayState.game.inCutscene = true;
 
 		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+        black.antialiasing = false;
 		black.scrollFactor.set();
 		add(black);
 

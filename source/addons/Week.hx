@@ -4,7 +4,6 @@ import addons.Song;
 
 class Week
 {
-    public static var noDashDifficulty:String = 'Normal';
     public static var weeks(get, never):Array<Week>;
 
     @:noCompletion
@@ -70,7 +69,6 @@ class Week
         #end
 
         return daWeekThing;
-
     }
 
     public var name:String = '';

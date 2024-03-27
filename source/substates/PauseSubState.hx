@@ -150,11 +150,15 @@ class PauseSubState extends MusicBeatSubstate
 						FlxG.switchState(new states.FreeplayState());
 			}
 
-			if(difficultyChoices.contains(daSelected)) {
-				if(daSelected == 'BACK') {
+			if(difficultyChoices.contains(daSelected))
+			{
+				if(daSelected == 'BACK')
+				{
 					menuItems = pauseOG;
 					regenMenu();
-				} else {
+				}
+				else
+				{
 					var difficulty:String = PlayState.storyWeek.difficulties[curSelected];
 
 					for(i in PlayState.storyWeek.difficulties) {
@@ -163,10 +167,9 @@ class PauseSubState extends MusicBeatSubstate
 							break;
 						}
 					}
+
 					PlayState.SONG = Song.loadFromJson(difficulty.formatToPath(), PlayState.SONG.song.formatToPath());
-
 					PlayState.storyDifficulty = difficulty;
-
 					FlxG.resetState();
 				}
 			}
