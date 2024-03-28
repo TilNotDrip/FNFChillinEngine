@@ -35,19 +35,19 @@ class Limo extends StageBackend
 
     override function createPost()
     {
-        addBehindDad(limo);
+        addBehindOpponent(limo);
 
         resetFastCar();
 		add(fastCar);
 
-        PlayState.game.boyfriend.y -= 220;
-		PlayState.game.boyfriend.x += 260;
+        player.y -= 220;
+		player.x += 260;
     }
 
     override function cameraMovement(char:objects.Character)
     {
-        if (char == PlayState.game.boyfriend)
-            PlayState.game.camFollow.x = PlayState.game.boyfriend.getMidpoint().x - 300;
+        if (char == player)
+            camFollow.x = player.getMidpoint().x - 300;
     }
 
 	var fastCarCanDrive:Bool = true;
@@ -74,19 +74,10 @@ class Limo extends StageBackend
 
     override function beatHit()
     {
-		if (PreferencesMenu.getPref('camera-zoom'))
+		if (PreferencesMenu.getPref('camera-zoom') && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
 		{
-			if (PlayState.SONG.song.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && PlayState.game.camGAME.zoom < 1.35)
-			{
-				PlayState.game.camGAME.zoom += 0.015;
-				PlayState.game.camHUD.zoom += 0.03;
-			}
-
-			if (PlayState.game.camGAME.zoom < 1.35 && curBeat % 4 == 0)
-			{
-				PlayState.game.camGAME.zoom += 0.015;
-				PlayState.game.camHUD.zoom += 0.03;
-			}
+			camGAME.zoom += 0.015;
+			camHUD.zoom += 0.03;
 		}
 
         grpLimoDancers.forEach(function(dancer:BackgroundDancer)

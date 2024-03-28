@@ -6,7 +6,7 @@ class MallEvil extends StageBackend
 {
     override function create()
     {
-        if (PlayState.SONG.song.formatToPath() == 'winter-horrorland')
+        if (curSong.formatToPath() == 'winter-horrorland')
             hasCutscene = true;
 
         var bg:BGSprite = new BGSprite('christmas/evilBG', -400, -500, 0.2, 0.2);
@@ -23,15 +23,15 @@ class MallEvil extends StageBackend
 
     override function createPost()
     {
-        PlayState.game.boyfriend.x += 320;
-		PlayState.game.dad.y -= 80;
+        player.x += 320;
+		opponent.y -= 80;
 
-        if (PlayState.isStoryMode && !PlayState.seenCutscene)
+        if (isStoryMode && !PlayState.seenCutscene)
         {
-            switch (PlayState.SONG.song.formatToPath())
+            switch (curSong.formatToPath())
             {
                 case 'winter-horrorland':
-                    PlayState.game.inCutscene = true;
+                    inCutscene = true;
 
                     var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
                     add(blackScreen);
@@ -41,33 +41,33 @@ class MallEvil extends StageBackend
                     {
                         remove(blackScreen);
                         FlxG.sound.play(Paths.sound('Lights_Turn_On'));
-                        PlayState.game.camFollow.y = -2050;
-                        PlayState.game.camFollow.x += 200;
-                        PlayState.game.camGAME.focusOn(PlayState.game.camFollow.getPosition());
-                        PlayState.game.camGAME.zoom = 1.5;
+                        camFollow.y = -2050;
+                        camFollow.x += 200;
+                        camGAME.focusOn(camFollow.getPosition());
+                        camGAME.zoom = 1.5;
 
                         new FlxTimer().start(0.8, function(tmr:FlxTimer)
                         {
                             remove(blackScreen);
-                            FlxTween.tween(PlayState.game.camGAME, {zoom: zoom}, 2.5, {
+                            FlxTween.tween(camGAME, {zoom: zoom}, 2.5, {
                                 ease: FlxEase.quadInOut,
                                 onComplete: function(twn:FlxTween)
                                 {
-                                    PlayState.game.startCountdown();
+                                    startCountdown();
                                 }
                             });
                         });
                     });
 
                 default:
-                    PlayState.game.startCountdown();
+                    startCountdown();
             }
         }
     }
 
     override function cameraMovement(char:objects.Character)
     {
-        if (char == PlayState.game.boyfriend)
-            PlayState.game.camFollow.y =  PlayState.game.boyfriend.getMidpoint().y - 200;
+        if (char == player)
+            camFollow.y =  player.getMidpoint().y - 200;
     }
 }

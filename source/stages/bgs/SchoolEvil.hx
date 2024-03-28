@@ -8,7 +8,7 @@ class SchoolEvil extends StageBackend
 {
     override function create()
     {
-        if (PlayState.SONG.song.formatToPath() == 'thorns')
+        if (curSong.formatToPath() == 'thorns')
             hasCutscene = true;
 
         pixel = true;
@@ -21,34 +21,34 @@ class SchoolEvil extends StageBackend
 
     override function createPost()
     {
-        var evilTrail = new FlxTrail(PlayState.game.dad, null, 4, 4, 0.3, 0.069);
-		addBehindDad(evilTrail);
+        var evilTrail = new FlxTrail(opponent, null, 4, 4, 0.3, 0.069);
+		addBehindOpponent(evilTrail);
 
-        PlayState.game.boyfriend.x += 200;
-		PlayState.game.boyfriend.y += 220;
-		PlayState.game.gf.x += 180;
-		PlayState.game.gf.y += 300;
+        player.x += 200;
+		player.y += 220;
+		gf.x += 180;
+		gf.y += 300;
 
-        var doof:DialogueBox = new DialogueBox(false, PlayState.game.dialogue);
+        var doof:DialogueBox = new DialogueBox(false, game.dialogue);
         doof.scrollFactor.set();
-        doof.finishThing = PlayState.game.startCountdown;
-        doof.cameras = [PlayState.game.camDIALOGUE];
+        doof.finishThing = startCountdown;
+        doof.cameras = [camDIALOGUE];
 
-        if (PlayState.isStoryMode && !PlayState.seenCutscene)
+        if (isStoryMode && !PlayState.seenCutscene)
         {
-            switch (PlayState.SONG.song.formatToPath())
+            switch (curSong.formatToPath())
             {
                 case 'thorns':
                     schoolIntro(doof);
                 default:
-                    PlayState.game.startCountdown();
+                    startCountdown();
             }
         }
     }
 
     function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
-        PlayState.game.inCutscene = true;
+        inCutscene = true;
 
 		var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
         red.antialiasing = false;
@@ -64,7 +64,7 @@ class SchoolEvil extends StageBackend
 		senpaiEvil.screenCenter();
 		senpaiEvil.x += senpaiEvil.width / 5;
 
-		PlayState.game.camFollow.setPosition(PlayState.game.camPos.x, PlayState.game.camPos.y);
+		camFollow.setPosition(camPos.x, camPos.y);
 
 		add(red);
 
@@ -86,28 +86,28 @@ class SchoolEvil extends StageBackend
                         {
                             remove(senpaiEvil);
                             remove(red);
-                            PlayState.game.camGAME.fade(FlxColor.WHITE, 0.01, true, function()
+                            camGAME.fade(FlxColor.WHITE, 0.01, true, function()
                             {
                                 add(dialogueBox);
                             }, true);
                         });
                         new FlxTimer().start(3.2, function(deadTime:FlxTimer)
                         {
-                            PlayState.game.camGAME.fade(FlxColor.WHITE, 1.6, false);
+                            camGAME.fade(FlxColor.WHITE, 1.6, false);
                         });
                     }
                 });
 			}
 			else
-				PlayState.game.startCountdown();
+				startCountdown();
 		});
 	}
 
     override function cameraMovement(char:objects.Character)
     {
-        if (char == PlayState.game.boyfriend) {
-			PlayState.game.camFollow.x = PlayState.game.boyfriend.getMidpoint().x - 200;
-            PlayState.game.camFollow.y = PlayState.game.boyfriend.getMidpoint().y - 200;
+        if (char == player) {
+			camFollow.x = player.getMidpoint().x - 200;
+            camFollow.y = player.getMidpoint().y - 200;
         }
     }
 }

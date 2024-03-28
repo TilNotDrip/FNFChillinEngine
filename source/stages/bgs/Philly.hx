@@ -84,7 +84,7 @@ class Philly extends StageBackend
 		if (trainSound.time >= 4700)
 		{
 			startedMoving = true;
-			PlayState.game.gf.playAnim('hairBlow');
+			gf.playAnim('hairBlow');
 		}
 
 		if (startedMoving)
@@ -107,7 +107,7 @@ class Philly extends StageBackend
 
 	function trainReset():Void
 	{
-		PlayState.game.gf.playAnim('hairFall');
+		gf.playAnim('hairFall');
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		trainCars = 8;

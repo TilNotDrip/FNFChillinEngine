@@ -136,8 +136,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		FlxG.sound.cache(Paths.inst(PlayState.SONG.song));
-		FlxG.sound.cache(Paths.voices(PlayState.SONG.song));
+		FlxG.sound.cache(Paths.inst(SONG.song));
+		FlxG.sound.cache(Paths.voices(SONG.song));
 
 		camGAME = new SwagCamera();
 
@@ -364,7 +364,7 @@ class PlayState extends MusicBeatState
 
 		startingSong = true;
 
-		if (PlayState.isStoryMode && !seenCutscene && StageBackend.stage.hasCutscene) {}
+		if (isStoryMode && !seenCutscene && StageBackend.stage.hasCutscene) {}
 		else
 			startCountdown();
 
@@ -1096,8 +1096,8 @@ class PlayState extends MusicBeatState
 		if (SONG.validScore)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
-		if (PlayState.isStoryMode)
-			PlayState.game.finishSongStory();
+		if (isStoryMode)
+			finishSongStory();
 		else
 			FlxG.switchState(new states.FreeplayState());
 	}
@@ -1611,6 +1611,12 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
 				FlxG.log.add('CHANGED BPM!');
 			}
+		}
+
+		if (camGAME.zoom < 1.35 && curBeat % 4 == 0)
+		{
+			camGAME.zoom += 0.015;
+			camHUD.zoom += 0.03;
 		}
 
 		for(i in 0...2)

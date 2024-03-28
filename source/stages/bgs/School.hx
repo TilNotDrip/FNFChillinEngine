@@ -9,7 +9,7 @@ class School extends StageBackend
 
     override function create()
     {
-        if (PlayState.SONG.song.formatToPath() == 'senpai' || PlayState.SONG.song.formatToPath() == 'roses')
+        if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
             hasCutscene = true;
 
         pixel = true;
@@ -61,7 +61,7 @@ class School extends StageBackend
         bgGirls = new BackgroundGirls(-100, 190);
         bgGirls.scrollFactor.set(0.9, 0.9);
 
-        if (PlayState.SONG.song.formatToPath() == 'roses')
+        if (curSong.formatToPath() == 'roses')
         {
             bgGirls.getScared();
         }
@@ -73,33 +73,33 @@ class School extends StageBackend
 
     override function createPost()
     {
-        PlayState.game.boyfriend.x += 200;
-		PlayState.game.boyfriend.y += 220;
-		PlayState.game.gf.x += 180;
-		PlayState.game.gf.y += 300;
+        player.x += 200;
+		player.y += 220;
+		gf.x += 180;
+		gf.y += 300;
 
-        var doof:DialogueBox = new DialogueBox(false, PlayState.game.dialogue);
+        var doof:DialogueBox = new DialogueBox(false, game.dialogue);
         doof.scrollFactor.set();
-        doof.finishThing = PlayState.game.startCountdown;
-        doof.cameras = [PlayState.game.camDIALOGUE];
+        doof.finishThing = startCountdown;
+        doof.cameras = [camDIALOGUE];
 
-        if (PlayState.isStoryMode && !PlayState.seenCutscene)
-            if (PlayState.SONG.song.formatToPath() == 'senpai' || PlayState.SONG.song.formatToPath() == 'roses')
+        if (isStoryMode && !PlayState.seenCutscene)
+            if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
                 schoolIntro(doof);
     }
 
     function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
-        PlayState.game.inCutscene = true;
+        inCutscene = true;
 
 		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
         black.antialiasing = false;
 		black.scrollFactor.set();
 		add(black);
 
-		PlayState.game.camFollow.setPosition(PlayState.game.camPos.x, PlayState.game.camPos.y);
+		camFollow.setPosition(camPos.x, camPos.y);
 
-		if (PlayState.SONG.song.formatToPath() == 'roses' )
+		if (curSong.formatToPath() == 'roses' )
 		{
 			remove(black);
 			FlxG.sound.play(Paths.sound('ANGRY'));
@@ -118,7 +118,7 @@ class School extends StageBackend
                     add(dialogueBox);
 				}
 				else
-					PlayState.game.startCountdown();
+					startCountdown();
 
 				remove(black);
 			}
@@ -127,9 +127,9 @@ class School extends StageBackend
 
     override function cameraMovement(char:objects.Character)
     {
-        if (char == PlayState.game.boyfriend) {
-			PlayState.game.camFollow.x = PlayState.game.boyfriend.getMidpoint().x - 200;
-            PlayState.game.camFollow.y = PlayState.game.boyfriend.getMidpoint().y - 200;
+        if (char == player) {
+			camFollow.x = player.getMidpoint().x - 200;
+            camFollow.y = player.getMidpoint().y - 200;
         }
     }
 

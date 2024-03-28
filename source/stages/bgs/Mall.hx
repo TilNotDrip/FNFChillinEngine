@@ -8,7 +8,7 @@ class Mall extends StageBackend
 
     override function create()
     {
-        if (PlayState.SONG.song.formatToPath() == 'eggnog')
+        if (curSong.formatToPath() == 'eggnog')
             hasEndCutscene = true;
 
         zoom = 0.80;
@@ -45,13 +45,13 @@ class Mall extends StageBackend
 
     override function createPost()
     {
-        PlayState.game.boyfriend.x += 200;
+        player.x += 200;
     }
 
     override function cameraMovement(char:objects.Character)
     {
-        if (char == PlayState.game.boyfriend)
-            PlayState.game.camFollow.y =  PlayState.game.boyfriend.getMidpoint().y - 200;
+        if (char == player)
+            camFollow.y =  player.getMidpoint().y - 200;
     }
 
     override function beatHit()
@@ -63,11 +63,11 @@ class Mall extends StageBackend
 
     override function endSong()
     {
-        if (PlayState.SONG.song.formatToPath() == 'eggnog' && PlayState.isStoryMode)
+        if (curSong.formatToPath() == 'eggnog' && isStoryMode)
         {
-            PlayState.game.inCutscene = true;
+            inCutscene = true;
 
-            var blackShit:FlxSprite = new FlxSprite(-FlxG.width * PlayState.game.camGAME.zoom, - FlxG.height * PlayState.game.camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+            var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGAME.zoom, - FlxG.height * camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
             blackShit.scrollFactor.set();
             add(blackShit);
 
