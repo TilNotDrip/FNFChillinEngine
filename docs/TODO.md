@@ -22,13 +22,15 @@
  - [ ] Stage background images load from a bg folder, then the stage name
  - [ ] Seperate Voices File (`Voices.ogg` => `Voices/dad`, `Voices/bf`, `Voices/gf`)
  - [ ] Botplay
- - [x] Old BF icon but pixel for pixel stages (my god i horribly did this 😭)
+ - [x] Old BF icon but pixel for pixel stages
  - [ ] Put song watermark ingame
  - [x] Make GF Changable via Song Json file
  - [ ] Outdated Warning
  - [ ] Fix Random Lag Spikes around the engine (please help)
- - [ ] Make Stages into their own hx file
+ - [x] Make Stages into their own hx file
  - [ ] Character Editor becomes usable
+ - [ ] Fix things with diff in Story Menu
+ - [ ] Fix Scaling with Chars in Story Menu
 
 ## Small Changes
 

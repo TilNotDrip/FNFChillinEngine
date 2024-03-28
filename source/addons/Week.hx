@@ -13,7 +13,7 @@ class Week
 
         // Tutorial
         daWeekThing[0] = new Week('tutorial', ['Tutorial'], ['Easy', 'Normal', 'Hard']);
-        daWeekThing[0].characters = ['gf', 'bf', 'gf'];
+        daWeekThing[0].characters = [null, 'bf', 'gf'];
         daWeekThing[0].motto = 'LEFT, RIGHT!';
         daWeekThing[0].color = 0xff9271fd;
 

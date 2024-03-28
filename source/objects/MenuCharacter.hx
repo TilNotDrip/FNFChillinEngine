@@ -2,42 +2,58 @@ package objects;
 
 class MenuCharacter extends FlxSprite
 {
-	public var character(default, set):String;
+	public var character:String;
 
 	public function new(x:Float, character:String = 'bf')
 	{
 		super(x);
 
-		this.character = character;
+		charChange(character);
 	}
 
-	function set_character(value:String)
+	public function charChange(char:String)
 	{
-		frames = Paths.getSparrowAtlas('storyMenu/characters/' + value);
+		if(char == null) char = '';
+		if(char == this.character) return;
 
-		switch (value)
-		{
-			case 'bf': quickAnimAdd('bf', 'BF idle dance white', 'BF HEY!!');
-			case 'gf': quickAnimAdd('gf', 'GF Dancing Beat WHITE');
-			case 'dad': quickAnimAdd('dad', 'Dad idle dance BLACK LINE');
-			case 'spooky': quickAnimAdd('spooky', 'spooky dance idle BLACK LINES');
-			case 'pico': quickAnimAdd('pico', 'Pico Idle Dance');
-			case 'mom': quickAnimAdd('mom', 'Mom Idle BLACK LINES');
-			case 'parents-christmas': quickAnimAdd('parents-christmas', 'Parent Christmas Idle Black Lines');
-			case 'senpai': quickAnimAdd('senpai', 'SENPAI idle Black Lines');
-			case 'tankman': quickAnimAdd('tankman', 'Tankman Menu BLACK');
-		}
+		this.character = char;
 
+		var prefixes:Array<String> = [];
+
+		setGraphicSize(width * 1);
+		offset.set(100, 100);
 		updateHitbox();
 
-		return this.character = value;
-	}
+		visible = true;
+		antialiasing = true;
+		flipX = false;
+		flipY = false;
 
-	function quickAnimAdd(name:String, prefix:String = '', ?confirmPrefix:String = '')
-	{
-		animation.addByPrefix(name, prefix, 24, false);
+		if (char == '')
+			visible = false;
+		else
+		{
+			switch (char)
+			{
+				case 'bf': prefixes = ['BF idle dance white', 'BF HEY!!'];
+				case 'gf': prefixes = ['GF Dancing Beat WHITE'];
+				case 'dad': prefixes = ['Dad idle dance BLACK LINE'];
+				case 'spooky': prefixes = ['spooky dance idle BLACK LINES'];
+				case 'pico': prefixes = ['Pico Idle Dance'];
+				case 'mom': prefixes = ['Mom Idle BLACK LINES'];
+				case 'parents-christmas': prefixes = ['Parent Christmas Idle Black Lines'];
+				case 'senpai': prefixes = ['SENPAI idle Black Lines'];
+				case 'tankman': prefixes = ['Tankman Menu BLACK'];
+			}
 
-		if (confirmPrefix != null)
-			animation.addByPrefix(name + 'Confirm', confirmPrefix, 24, false);
+			frames = Paths.getSparrowAtlas('storyMenu/characters/' + char);
+
+			animation.addByPrefix('idle', prefixes[0], 24, false);
+
+			if (prefixes[1] != null)
+				animation.addByPrefix('confirm', prefixes[1], 24, false);
+
+			animation.play('idle');
+		}
 	}
 }
