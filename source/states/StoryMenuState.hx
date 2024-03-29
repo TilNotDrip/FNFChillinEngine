@@ -2,6 +2,8 @@ package states;
 
 import flixel.addons.transition.FlxTransitionableState;
 
+import flixel.tweens.misc.ColorTween;
+
 import objects.MenuCharacter;
 import objects.MenuItem;
 
@@ -17,11 +19,12 @@ class StoryMenuState extends MusicBeatState
 	var daWeeks:Array<Week> = [];
 	var curWeekClass:Week;
 
+	var colorBG:FlxSprite;
+	var colorTween:ColorTween;
 	var txtTracklist:FlxText;
 
 	var grpWeekText:FlxTypedGroup<MenuItem>;
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
-
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 
 	var difficultySelectors:FlxGroup;
@@ -57,7 +60,7 @@ class StoryMenuState extends MusicBeatState
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
-		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
+		colorBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFFFFFFF);
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
 		add(grpWeekText);
@@ -81,7 +84,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...daWeeks.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, daWeeks[i].name);
+			var weekThing:MenuItem = new MenuItem(0, colorBG.y + colorBG.height + 10, daWeeks[i].name);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -147,10 +150,10 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
-		add(yellowBG);
+		add(colorBG);
 		add(grpWeekCharacters);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Tracks", 32);
+		txtTracklist = new FlxText(FlxG.width * 0.05, colorBG.x + colorBG.height + 100, 0, "Tracks", 32);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
@@ -337,6 +340,9 @@ class StoryMenuState extends MusicBeatState
 
 	function updateText()
 	{
+		if(colorTween != null) colorTween.cancel();
+		colorTween = FlxTween.color(colorBG, 0.3, colorBG.color, curWeekClass.color);
+
 		txtTracklist.text = "Tracks:\n";
 
 		for(i in 0...3)

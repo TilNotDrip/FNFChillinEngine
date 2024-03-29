@@ -24,7 +24,7 @@ import sys.io.File;
 import sys.thread.Thread;
 #end
 
-typedef TitleNico = //heheheheehehehehehe
+typedef TitleJSON = // yea json
 {
 	var bpm:Float;
 	var sprites:Array<{
@@ -65,7 +65,7 @@ class TitleState extends MusicBeatState
 	var swagShader:ColorSwap;
 	var alphaShader:BuildingShaders;
 
-	var introText:TitleNico;
+	var introText:TitleJSON;
 	var introTextSprites:Map<String, FlxSprite> = new Map();
 
 	var idleBoppers:Array<FlxSprite> = [];
@@ -85,6 +85,8 @@ class TitleState extends MusicBeatState
 		#if MOD_SUPPORT
 		new ModLoader(); // yay
 		#end
+
+		FlxG.debugger.setLayout(MICRO);
 
 		FlxG.game.focusLostFramerate = 60;
 
