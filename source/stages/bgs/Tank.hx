@@ -2,7 +2,9 @@ package stages.bgs;
 
 import flixel.math.FlxAngle;
 
+#if flxanimate
 import flxanimate.FlxAnimate;
+#end
 
 import objects.Character;
 
@@ -152,10 +154,26 @@ class Tank extends StageBackend
         }
     }
 
+	#if !hxCodec
+	var blackShit:FlxSprite;
+	#end
+
 	function ughIntro()
 	{
 		inCutscene = true;
 
+		#if !hxCodec
+		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		blackShit.scrollFactor.set();
+		add(blackShit);
+
+		game.playVideo('ughCutscene');
+
+		camGAME.zoom = zoom * 1.2;
+
+		camFollow.x += 100;
+		camFollow.y += 100;
+		#else
 		camGAME.zoom = zoom * 1.2;
 
 		camFollow.x += 100;
@@ -216,12 +234,20 @@ class Tank extends StageBackend
 				});
 			});
 		});
+		#end
 	}
 
 	function gunsIntro()
 	{
 		inCutscene = true;
 
+		#if !hxCodec
+		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		blackShit.scrollFactor.set();
+		add(blackShit);
+
+		game.playVideo('gunsCutscene');
+		#else
 		FlxG.sound.playMusic(Paths.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
@@ -260,12 +286,20 @@ class Tank extends StageBackend
 				gfCutsceneLayer.remove(tankCutscene);
 			});
 		});
+		#end
 	}
 
 	function stressIntro()
 	{
 		inCutscene = true;
 
+		#if !hxCodec
+		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		blackShit.scrollFactor.set();
+		add(blackShit);
+
+		game.playVideo('stressCutscene');
+		#else
 		camFollow.setPosition(camPos.x, camPos.y);
 		opponent.visible = false;
 		gf.visible = false;
@@ -385,7 +419,16 @@ class Tank extends StageBackend
 				gfCutsceneLayer.remove(picoCutscene);
 			});
 		});
+		#end
 	}
+
+	#if !hxCodec
+	override function endingVideo()
+	{
+		remove(blackShit);
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
+	}
+	#end
 
     override function update(elapsed:Float)
     {

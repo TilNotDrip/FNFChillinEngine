@@ -43,6 +43,7 @@ class StageBackend extends FlxBasic
 
     public var curStep:Int = 0;
     public var curBeat:Int = 0;
+    public var curSection:Int = 0;
 
     // New Function
     public function new()
@@ -70,6 +71,7 @@ class StageBackend extends FlxBasic
 
     public function stepHit() {}
     public function beatHit() {}
+    public function sectionHit() {}
 
     // Adding / Removing n stuff
     private function add(object:FlxBasic) PlayState.game.add(object);
@@ -94,6 +96,8 @@ class StageBackend extends FlxBasic
         else
             return PlayState.game.endSong();
     }
+
+    public function endingVideo() {}
 
     // Functions for getting/setting PlayState / MusicBeatState vars
     inline private function get_camGAME():FlxCamera return PlayState.game.camGAME;

@@ -115,7 +115,7 @@
 
 	<haxelib name="discord_rpc" if="cpp" unless="DISCORD" />
 	<!--haxelib name="discordSdk" if="DISCORD" /-->
-	<haxelib name="flxanimate"/>
+	<haxelib name="flxanimate" unless="html5"/>
 
 	<haxelib name="hxCodec" if="cpp"/>
 	<haxelib name="polymod" if="MOD_SUPPORT"/>

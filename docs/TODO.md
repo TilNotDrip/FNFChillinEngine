@@ -23,7 +23,7 @@
  - [ ] Seperate Voices File (`Voices.ogg` => `Voices/dad`, `Voices/bf`, `Voices/gf`)
  - [ ] Botplay
  - [x] Old BF icon but pixel for pixel stages
- - [ ] Put song watermark ingame
+ - [x] Put song watermark ingame
  - [x] Make GF Changable via Song Json file
  - [ ] Outdated Warning
  - [ ] Fix Random Lag Spikes around the engine (please help)
@@ -31,6 +31,8 @@
  - [ ] Character Editor becomes usable
  - [ ] Fix things with diff in Story Menu
  - [ ] Fix Scaling with Chars in Story Menu
+ - [ ] RGB Pallete for Notes + Note Splashes
+ - [ ] Pause Stutter problem fix from FlxAnimate
 
 ## Small Changes
 
@@ -47,6 +49,7 @@
  - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`) <!-- It was TechNotDrip at the time of typing that -->
  - [x] Make Philly window lights white so i can just change colors throughout the code
  - [ ] BF doesn't ascend when he's opponent
+ - [ ] That dumbass bug when u remove one note on one side of the chart editor but it removes the other one on the other side anyways
 
 # Chillin' Engine Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
@@ -60,7 +63,7 @@
  - [ ] Sound Effects
  - [ ] Game Music (Music in PlayState)
  - [ ] Menu Music (Menus and Pause Music)
- - [ ] Cutscenes (Week 6 & 7)
+ - [ ] Cutscenes (Week 5, 6 & 7)
 
 ## Display
 

@@ -30,7 +30,7 @@ class ChartingState extends MusicBeatState
 
 	var UI_box:FlxUITabMenu;
 
-	var curSection:Int = 0;
+	var curSec:Int = 0;
 
 	public static var lastSection:Int = 0;
 
@@ -68,7 +68,7 @@ class ChartingState extends MusicBeatState
 	{
 		changeWindowName('Charting Menu - ' + PlayState.SONG.song);
 
-		curSection = lastSection;
+		curSec = lastSection;
 
 		var actualBG:FlxSprite = new FlxSprite(Paths.image('menuUI/menuDesat'));
 		add(actualBG);
@@ -278,7 +278,7 @@ class ChartingState extends MusicBeatState
 		tab_group_section.name = 'Section';
 
 		stepperLength = new FlxUINumericStepper(10, 10, 4, 0, 0, 999, 0);
-		stepperLength.value = _song.notes[curSection].lengthInSteps;
+		stepperLength.value = _song.notes[curSec].lengthInSteps;
 		stepperLength.name = "section_length";
 
 		stepperSectionBPM = new FlxUINumericStepper(10, 80, 1, Conductor.bpm, 1, 999, 3);
@@ -296,11 +296,11 @@ class ChartingState extends MusicBeatState
 
 		var swapSection:FlxButton = new FlxButton(10, 170, "Swap section", function()
 		{
-			for (i in 0..._song.notes[curSection].sectionNotes.length)
+			for (i in 0..._song.notes[curSec].sectionNotes.length)
 			{
-				var note = _song.notes[curSection].sectionNotes[i];
+				var note = _song.notes[curSec].sectionNotes[i];
 				note[1] = (note[1] + 4) % 8;
-				_song.notes[curSection].sectionNotes[i] = note;
+				_song.notes[curSec].sectionNotes[i] = note;
 				updateGrid();
 			}
 		});
@@ -392,15 +392,15 @@ class ChartingState extends MusicBeatState
 			switch (label)
 			{
 				case 'Must hit section':
-					_song.notes[curSection].mustHitSection = check.checked;
+					_song.notes[curSec].mustHitSection = check.checked;
 
 					updateHeads();
 
 				case 'Change BPM':
-					_song.notes[curSection].changeBPM = check.checked;
+					_song.notes[curSec].changeBPM = check.checked;
 					FlxG.log.add('changed bpm shit');
 				case "Alt Animation":
-					_song.notes[curSection].altAnim = check.checked;
+					_song.notes[curSec].altAnim = check.checked;
 			}
 		}
 		else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
@@ -410,7 +410,7 @@ class ChartingState extends MusicBeatState
 			FlxG.log.add(wname);
 			if (wname == 'section_length')
 			{
-				_song.notes[curSection].lengthInSteps = Std.int(nums.value);
+				_song.notes[curSec].lengthInSteps = Std.int(nums.value);
 				updateGrid();
 			}
 			else if (wname == 'song_speed')
@@ -430,7 +430,7 @@ class ChartingState extends MusicBeatState
 			}
 			else if (wname == 'section_bpm')
 			{
-				_song.notes[curSection].bpm = nums.value;
+				_song.notes[curSec].bpm = nums.value;
 				updateGrid();
 			}
 		}
@@ -442,7 +442,7 @@ class ChartingState extends MusicBeatState
 	{
 		var daBPM:Float = _song.bpm;
 		var daPos:Float = 0;
-		for (i in 0...curSection)
+		for (i in 0...curSec)
 		{
 			if (_song.notes[i].changeBPM)
 			{
@@ -460,25 +460,26 @@ class ChartingState extends MusicBeatState
 		Conductor.songPosition = FlxG.sound.music.time;
 		_song.song = typingShit.text;
 
-		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
+		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps));
 
 		if (FlxG.keys.justPressed.X)
 			toggleAltAnimNote();
 
-		if (curBeat % 4 == 0 && curStep >= 16 * (curSection + 1))
+		if (curBeat % 4 == 0 && curStep >= 16 * (curSec + 1))
 		{
 			trace(curStep);
-			trace((_song.notes[curSection].lengthInSteps) * (curSection + 1));
+			trace((_song.notes[curSec].lengthInSteps) * (curSec + 1));
 			trace('DUMBSHIT');
 
-			if (_song.notes[curSection + 1] == null)
+			if (_song.notes[curSec + 1] == null)
 			{
 				addSection();
 			}
 
-			changeSection(curSection + 1, false);
+			changeSection(curSec + 1, false);
 		}
 
+		FlxG.watch.addQuick('daSection', curSection);
 		FlxG.watch.addQuick('daBeat', curBeat);
 		FlxG.watch.addQuick('daStep', curStep);
 
@@ -507,7 +508,7 @@ class ChartingState extends MusicBeatState
 				if (FlxG.mouse.x > gridBG.x
 					&& FlxG.mouse.x < gridBG.x + gridBG.width
 					&& FlxG.mouse.y > gridBG.y
-					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
+					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
 				{
 					FlxG.log.add('added note');
 					addNote();
@@ -518,7 +519,7 @@ class ChartingState extends MusicBeatState
 		if (FlxG.mouse.x > gridBG.x
 			&& FlxG.mouse.x < gridBG.x + gridBG.width
 			&& FlxG.mouse.y > gridBG.y
-			&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
+			&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
 		{
 			dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
 			if (FlxG.keys.pressed.SHIFT)
@@ -530,7 +531,7 @@ class ChartingState extends MusicBeatState
 		if (FlxG.keys.justPressed.ENTER)
 		{
 			FlxG.mouse.visible = false;
-			lastSection = curSection;
+			lastSection = curSec;
 
 			PlayState.SONG = _song;
 			FlxG.sound.music.stop();
@@ -642,15 +643,15 @@ class ChartingState extends MusicBeatState
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing = 4;
 		if (FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D)
-			changeSection(curSection + shiftThing);
+			changeSection(curSec + shiftThing);
 		if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
-			changeSection(curSection - shiftThing);
+			changeSection(curSec - shiftThing);
 
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
 			+ " / "
 			+ Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2))
 			+ "\nSection: "
-			+ curSection;
+			+ curSec;
 		super.update(elapsed);
 	}
 
@@ -715,11 +716,11 @@ class ChartingState extends MusicBeatState
 		if (songBeginning)
 		{
 			FlxG.sound.music.time = 0;
-			curSection = 0;
+			curSec = 0;
 		}
 
 		vocals.time = FlxG.sound.music.time;
-		updateCurStep();
+		updateStep();
 
 		updateGrid();
 		updateSectionUI();
@@ -731,7 +732,7 @@ class ChartingState extends MusicBeatState
 
 		if (_song.notes[sec] != null)
 		{
-			curSection = sec;
+			curSec = sec;
 
 			updateGrid();
 
@@ -742,7 +743,7 @@ class ChartingState extends MusicBeatState
 
 				FlxG.sound.music.time = sectionStartTime();
 				vocals.time = FlxG.sound.music.time;
-				updateCurStep();
+				updateStep();
 			}
 
 			updateGrid();
@@ -752,7 +753,7 @@ class ChartingState extends MusicBeatState
 
 	function copySection(?sectionNum:Int = 1)
 	{
-		var daSec = FlxMath.maxInt(curSection, sectionNum);
+		var daSec = FlxMath.maxInt(curSec, sectionNum);
 
 		for (note in _song.notes[daSec - sectionNum].sectionNotes)
 		{
@@ -767,7 +768,7 @@ class ChartingState extends MusicBeatState
 
 	function updateSectionUI():Void
 	{
-		var sec = _song.notes[curSection];
+		var sec = _song.notes[curSec];
 
 		stepperLength.value = sec.lengthInSteps;
 		check_mustHitSection.checked = sec.mustHitSection;
@@ -810,17 +811,17 @@ class ChartingState extends MusicBeatState
 			curRenderedSustains.remove(curRenderedSustains.members[0], true);
 		}
 
-		var sectionInfo:Array<Dynamic> = _song.notes[curSection].sectionNotes;
+		var sectionInfo:Array<Dynamic> = _song.notes[curSec].sectionNotes;
 
-		if (_song.notes[curSection].changeBPM && _song.notes[curSection].bpm > 0)
+		if (_song.notes[curSec].changeBPM && _song.notes[curSec].bpm > 0)
 		{
-			Conductor.changeBPM(_song.notes[curSection].bpm);
+			Conductor.changeBPM(_song.notes[curSec].bpm);
 			FlxG.log.add('CHANGED BPM!');
 		}
 		else
 		{
 			var daBPM:Float = _song.bpm;
-			for (i in 0...curSection)
+			for (i in 0...curSec)
 				if (_song.notes[i].changeBPM)
 					daBPM = _song.notes[i].bpm;
 			Conductor.changeBPM(daBPM);
@@ -837,7 +838,7 @@ class ChartingState extends MusicBeatState
 			note.setGraphicSize(GRID_SIZE, GRID_SIZE);
 			note.updateHitbox();
 			note.x = Math.floor(daNoteInfo * GRID_SIZE);
-			note.y = Math.floor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
+			note.y = Math.floor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps)));
 
 			curRenderedNotes.add(note);
 
@@ -869,11 +870,11 @@ class ChartingState extends MusicBeatState
 	{
 		var swagNum:Int = 0;
 
-		for (i in _song.notes[curSection].sectionNotes)
+		for (i in _song.notes[curSec].sectionNotes)
 		{
 			if (i.strumTime == note.strumTime && i.noteData % 4 == note.noteData)
 			{
-				curSelectedNote = _song.notes[curSection].sectionNotes[swagNum];
+				curSelectedNote = _song.notes[curSec].sectionNotes[swagNum];
 			}
 
 			swagNum += 1;
@@ -885,12 +886,12 @@ class ChartingState extends MusicBeatState
 
 	function deleteNote(note:Note):Void
 	{
-		for (i in _song.notes[curSection].sectionNotes)
+		for (i in _song.notes[curSec].sectionNotes)
 		{
 			if (i[0] == note.strumTime && i[1] % 4 == note.noteData)
 			{
 				FlxG.log.add('FOUND EVIL NUMBER');
-				_song.notes[curSection].sectionNotes.remove(i);
+				_song.notes[curSec].sectionNotes.remove(i);
 			}
 		}
 
@@ -899,7 +900,7 @@ class ChartingState extends MusicBeatState
 
 	function clearSection():Void
 	{
-		_song.notes[curSection].sectionNotes = [];
+		_song.notes[curSec].sectionNotes = [];
 
 		updateGrid();
 	}
@@ -921,17 +922,17 @@ class ChartingState extends MusicBeatState
 		var noteSus = 0;
 		var noteAlt = false;
 
-		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteAlt]);
+		_song.notes[curSec].sectionNotes.push([noteStrum, noteData, noteSus, noteAlt]);
 
-		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
+		curSelectedNote = _song.notes[curSec].sectionNotes[_song.notes[curSec].sectionNotes.length - 1];
 
 		if (FlxG.keys.pressed.CONTROL)
 		{
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteAlt]);
+			_song.notes[curSec].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteAlt]);
 		}
 
 		trace(noteStrum);
-		trace(curSection);
+		trace(curSec);
 
 		updateGrid();
 		updateNoteUI();

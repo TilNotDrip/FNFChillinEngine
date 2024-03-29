@@ -120,21 +120,21 @@ class Philly extends StageBackend
         if (!trainMoving)
             trainCooldown += 1;
 
-        if (curBeat % 4 == 0)
-        {
-            lightFadeShader.reset();
-
-            while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
-
-            phillyCityLight.color = phillyLightColors[curLight];
-
-            oldLight = curLight;
-        }
-
         if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
         {
             trainCooldown = FlxG.random.int(-4, 0);
             trainStart();
         }
+    }
+
+    override function sectionHit()
+    {
+        lightFadeShader.reset();
+
+        while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
+
+        phillyCityLight.color = phillyLightColors[curLight];
+
+        oldLight = curLight;
     }
 }
