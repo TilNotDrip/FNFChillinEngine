@@ -787,7 +787,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] ' + SONG.song + ' - ' + storyDifficulty;
+		songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 2) + '%] ' + SONG.song + ' - ' + storyDifficulty;
 
 		ratingCounterTxt.text =
 		'Sicks: ' + sicks +
@@ -1657,34 +1657,6 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curBeat = curBeat;
 		StageBackend.stage.beatHit();
-	}
-
-	override function sectionHit()
-	{
-		super.sectionHit();
-
-		if (SONG.notes[curSection] != null)
-		{
-			if (generatedMusic)
-			{
-				if(SONG.notes[curSection].mustHitSection)
-					cameraMovement(boyfriend);
-				else
-					cameraMovement(dad);
-			}
-
-			if (SONG.notes[curSection].changeBPM)
-			{
-				Conductor.changeBPM(SONG.notes[curSection].bpm);
-				FlxG.log.add('CHANGED BPM!');
-			}
-		
-			camGAME.zoom += 0.015;
-			camHUD.zoom += 0.03;
-		}
-
-		StageBackend.stage.curSection = curSection;
-		StageBackend.stage.sectionHit();
 	}
 
 	override function sectionHit()

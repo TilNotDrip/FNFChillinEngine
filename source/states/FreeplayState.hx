@@ -1,11 +1,6 @@
 package states;
 
 import flixel.tweens.misc.ColorTween;
-import flash.text.TextField;
-
-import flixel.addons.display.FlxGridOverlay;
-
-import lime.utils.Assets;
 
 class FreeplayState extends MusicBeatState
 {
