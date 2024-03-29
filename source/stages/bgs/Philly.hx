@@ -130,11 +130,8 @@ class Philly extends StageBackend
     override function sectionHit()
     {
         lightFadeShader.reset();
-
         while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
-
         phillyCityLight.color = phillyLightColors[curLight];
-
         oldLight = curLight;
     }
 }

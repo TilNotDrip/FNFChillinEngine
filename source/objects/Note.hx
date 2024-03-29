@@ -1,7 +1,5 @@
 package objects;
 
-import shaders.ColorSwap;
-
 class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
@@ -21,15 +19,15 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
-	public var colorSwap:ColorSwap;
-
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
 	public static var GREEN_NOTE:Int = 2;
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
-	public static var arrowColors:Array<Float> = [1, 1, 1, 1];
+	public static var arrowColorsRed:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
+	public static var arrowColorsGreen:Array<FlxColor> = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
+	public static var arrowColorsBlue:Array<FlxColor> = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
 
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
@@ -98,10 +96,6 @@ class Note extends FlxSprite
 			updateHitbox();
 		}
 
-		colorSwap = new ColorSwap();
-		shader = colorSwap.shader;
-		updateColors();
-
 		switch (noteData)
 		{
 			case 0:
@@ -164,11 +158,6 @@ class Note extends FlxSprite
 				prevNote.updateHitbox();
 			}
 		}
-	}
-
-	public function updateColors():Void
-	{
-		colorSwap.update(arrowColors[noteData]);
 	}
 
 	override function update(elapsed:Float)

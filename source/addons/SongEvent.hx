@@ -2,11 +2,11 @@ typedef SwagEvent =
 {
     var name:String;
     var params:Array<String>;
-    var type:EventType;
+    var type:SongEventType;
     var time:String;
 }
 
-class Event extends MyAsshole
+class SongEvent extends MyAsshole
 {
     override public function new(name:String)
     {

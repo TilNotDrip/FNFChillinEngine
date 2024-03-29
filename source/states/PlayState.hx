@@ -24,9 +24,6 @@ import hxcodec.flixel.FlxVideo;
 
 import objects.*;
 
-import shaders.BuildingShaders;
-import shaders.ColorSwap;
-
 import stages.StageBackend;
 import stages.bgs.*;
 
@@ -285,7 +282,6 @@ class PlayState extends MusicBeatState
 		generateSong();
 
 		camFollow = new FlxObject(0, 0, 1, 1);
-
 		camFollow.setPosition(camPos.x, camPos.y);
 
 		if (prevCamFollow != null)
@@ -389,7 +385,7 @@ class PlayState extends MusicBeatState
 		if (iconRPC != 'bf-pixel' && iconRPC != 'bf-old' && iconRPC != 'bf-old-pixel')
 			iconRPC = iconRPC.split('-')[0].trim();
 
-		detailsText = isStoryMode ? "Story Mode: Week " + storyWeek : "Freeplay";
+		detailsText = isStoryMode ? "Story Mode: " + storyWeek.name : "Freeplay";
 		detailsPausedText = "Paused - " + detailsText;
 
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
@@ -641,18 +637,18 @@ class PlayState extends MusicBeatState
 				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 		}
-		
+
 		arrows.updateHitbox();
 		arrows.scrollFactor.set();
 
 		arrows.x += ((FlxG.width / 2) * player) + 50;
 
-			if (player == 1)
-				playerStrums = arrows;
-			else
-				opponentStrums = arrows;
+		if (player == 1)
+			playerStrums = arrows;
+		else
+			opponentStrums = arrows;
 
-			strumLineNotes.add(arrows);
+		strumLineNotes.add(arrows);
 	}
 
 	function tweenCam(goingIn:Bool):Void
@@ -1064,7 +1060,7 @@ class PlayState extends MusicBeatState
 			keyShit();
 
 		if (!inCutscene)
-			for(i in 0...opponentStrums.notes) 
+			for(i in 0...opponentStrums.notes)
 				if(opponentStrums.getNote(i).animation.finished && opponentStrums.getNote(i).animation.name == 'confirm') opponentStrums.playNoteAnim(i, 'static');
 	}
 
