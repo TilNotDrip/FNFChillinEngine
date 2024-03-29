@@ -291,7 +291,6 @@ class StoryMenuState extends MusicBeatState
 			case 'easy': sprDifficulty.offset.x = 20;
 			case 'normal': sprDifficulty.offset.x = 70;
 			case 'hard': sprDifficulty.offset.x = 20;
-			// TO-DO: when returned, add your own offset
 		}
 
 		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
