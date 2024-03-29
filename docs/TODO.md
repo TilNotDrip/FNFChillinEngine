@@ -75,6 +75,7 @@
 
 ## Gameplay
 
+ - [ ] Note Colours (Make a seperate menu maybe + Optional)
  - [ ] Ghost Tapping
  - [ ] Downscroll
  - [ ] Middlescroll
@@ -86,7 +87,7 @@
 
 ## deadass dont know what to name this but its for menus n stuff
 
- - [ ] Flashing Lights
+ - [ ] Flashing Lights <!-- is all she ever wanted (yeah) | Beggin' on her knees to be popular | That's her dream, to be popular (hey) | Kill anyone to be popular (hm) | Sell her soul to be popular | Popular, just to be popular (uh-huh) | Everybody scream 'cause she popular (hey) | She mainstream 'cause she popular | Never be free 'cause she popular -->
 
 ## Flixel (or we can put this under **Other** as well)
 
