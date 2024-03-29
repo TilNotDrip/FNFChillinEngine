@@ -14,14 +14,11 @@ import openfl.net.FileReference;
 
 class AnimationDebug extends MusicBeatState
 {
-	var bf:objects.Character;
-	var dad:objects.Character;
 	var char:objects.Character;
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 	var animList:Array<String> = [];
 	var curAnim:Int = 0;
-	var isDad:Bool = true;
 	var daAnim:String = 'spooky';
 	var camFollow:FlxObject;
 
@@ -51,29 +48,10 @@ class AnimationDebug extends MusicBeatState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		add(gridBG);
 
-		if (daAnim == 'bf')
-			isDad = false;
-
-		if (isDad)
-		{
-			dad = new objects.Character(0, 0, daAnim);
-			dad.screenCenter();
-			dad.debugMode = true;
-			add(dad);
-
-			char = dad;
-
-		}
-		else
-		{
-			bf = new objects.Character(0, 0, daAnim, true);
-			bf.screenCenter();
-			bf.debugMode = true;
-			add(bf);
-
-			char = bf;
-			bf.flipX = false;
-		}
+		char = new objects.Character(0, 0, daAnim);
+		char.screenCenter();
+		char.debugMode = true;
+		add(char);
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		add(dumbTexts);
@@ -88,7 +66,7 @@ class AnimationDebug extends MusicBeatState
 		genBoyOffsets();
 
 		camFollow = new FlxObject(0, 0, 2, 2);
-		camFollow.screenCenter();
+		camFollow.setPosition();
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow);
@@ -125,7 +103,7 @@ class AnimationDebug extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		textAnim.text = char.animation.curAnim.name;
+		textAnim.text = animList[curAnim];
 
 		if (FlxG.keys.pressed.E)
 			FlxG.camera.zoom += 0.005;

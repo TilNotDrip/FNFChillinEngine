@@ -1579,7 +1579,7 @@ class PlayState extends MusicBeatState
 	function calculateAccuracy()
 	{
 		songAccuracy = FlxMath.roundDecimal((songScore / possibleScore) * 100, 2);
-		if(songAccuracy == Math.NaN) songAccuracy = 0;
+		if(Math.isNaN(songAccuracy)) songAccuracy = 0;
 	}
 
 	override function stepHit()
@@ -1622,7 +1622,7 @@ class PlayState extends MusicBeatState
 
 			if(bopTween[i] != null) bopTween[i].cancel();
 			daThings[i].scale.set(1.3, 1.3);
-			bopTween[i] = FlxTween.tween(daThings[i].scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.quartInOut});
+			bopTween[i] = FlxTween.tween(daThings[i].scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.cubeInOut});
 		}
 
 		if (curBeat % gfSpeed == 0)
@@ -1656,7 +1656,7 @@ class PlayState extends MusicBeatState
 		StageBackend.stage.beatHit();
 	}
 
-	function onEvent(name:String, params:Null<Array<Dynamic>> = null)
+	function onEvent(name:String, params:Array<Dynamic>)
 	{
 		switch(name)
 		{

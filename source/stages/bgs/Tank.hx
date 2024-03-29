@@ -166,9 +166,10 @@ class Tank extends StageBackend
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		PlayState.game.dad.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.getLibraryPath('images/cutscenceStuff/ughIntro', 'week7'));
-		tankCutscene.anim.addBySymbol('wellWellWell', 'part 1', 24, false);
-		tankCutscene.anim.addBySymbol('killYou', 'part 2', 24, false);
+		var tankCutscene:FlxAnimate = new FlxAnimate(-20, 320, 'assets/images/cutsceneStuff/ughIntro');
+		// fun fact, to get this working i talked to cheemsnfriends cuz i kept getting null errors (parent)
+		tankCutscene.anim.addBySymbol('wellWellWell', 'TANK TALK 1 P1', 24, false);
+		tankCutscene.anim.addBySymbol('killYou', 'TANK TALK 1 P2', 24, false);
 		gfCutsceneLayer.add(tankCutscene);
 
 		tankCutscene.anim.play('wellWellWell');
@@ -237,13 +238,13 @@ class Tank extends StageBackend
 		FlxTween.tween(FlxG.camera, {zoom: zoom * 1.3}, 4, {ease: FlxEase.quadInOut});
 
 		PlayState.game.dad.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.getLibraryPath('images/cutscenceStuff/ughIntro', 'week7'));
-		tankCutscene.anim.addBySymbol('open fire', 'roast her', 24, false);
+		var tankCutscene:FlxAnimate = new FlxAnimate(-20, 320, 'assets/images/cutsceneStuff/gunsIntro');
+		tankCutscene.anim.addBySymbol('open fire', 'TANK TALK 2', 24, false);
 		gfCutsceneLayer.add(tankCutscene);
 
 		tankCutscene.anim.play('open fire');
 
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('wellWellWell'));
+		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('tankSong2'));
 		eduardoAhh.play(true);
 
 		new FlxTimer().start(4.1, function(ugly:FlxTimer)
@@ -285,10 +286,9 @@ class Tank extends StageBackend
 		gfTankmen.animation.play('loop');
 		gfCutsceneLayer.add(gfTankmen);
 
-		var tankCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.getLibraryPath('images/cutscenceStuff/stressTank', 'week7'));
-		tankCutscene.anim.addBySymbol('god damn', 'part 1', 24, false);
-		tankCutscene.anim.addBySymbol('pico reference', 'part 2', 24, false);
-		gfCutsceneLayer.add(tankCutscene);
+		var tankCutscene:FlxAnimate = new FlxAnimate(-20, 320, 'assets/images/cutsceneStuff/stressIntro');
+		tankCutscene.anim.addBySymbol('god damn', 'TANK TALK 3 P1 UNCUT', 24, false);
+		tankCutscene.anim.addBySymbol('pico reference', 'TANK TALK 3 P2 UNCUT', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
 
 		PlayState.game.camFollow.setPosition(PlayState.game.gf.x + 350, PlayState.game.gf.y + 560);
@@ -299,17 +299,11 @@ class Tank extends StageBackend
 		var fakeBF:Character = new Character(PlayState.game.boyfriend.x, PlayState.game.boyfriend.y, 'bf', true);
 		bfTankCutsceneLayer.add(fakeBF);
 
-		var bfCatchGf:FlxSprite = new FlxSprite(PlayState.game.boyfriend.x - 10, PlayState.game.boyfriend.y - 90);
-		bfCatchGf.frames = Paths.getSparrowAtlas('cutsceneStuff/bfCatchesGF');
-		bfCatchGf.animation.addByPrefix('catch', 'BF catches GF', 24, false);
-		add(bfCatchGf);
-		bfCatchGf.visible = false;
-
-		var picoCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.getLibraryPath('images/cutscenceStuff/goPicoYeahYeah', 'week7'));
+		/*var picoCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.getLibraryPath('images/cutscenceStuff/goPicoYeahYeah', 'week7'));
 		picoCutscene.anim.addBySymbol('holy', 'pico go wild', 24, false);
 		picoCutscene.anim.addBySymbol('loop', 'idle', 24, true);
 		gfCutsceneLayer.add(picoCutscene);
-		picoCutscene.visible = false;
+		picoCutscene.visible = false;*/
 
 		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.sound('stressCutscene'));
 
@@ -352,16 +346,14 @@ class Tank extends StageBackend
 			new FlxTimer().start(2.2, function(swagTimer:FlxTimer)
 			{
 				FlxG.camera.zoom = 0.8;
-				PlayState.game.boyfriend.visible = false;
-				bfCatchGf.visible = true;
-				bfCatchGf.animation.play('catch');
+				PlayState.game.boyfriend.playAnim('bfCatch');
 
 				bfTankCutsceneLayer.remove(fakeBF);
 
-				bfCatchGf.animation.finishCallback = function(anim:String)
+				PlayState.game.boyfriend.animation.finishCallback = function(anim:String)
 				{
-					remove(bfCatchGf);
-					PlayState.game.boyfriend.visible = true;
+					PlayState.game.boyfriend.playAnim('idle');
+					PlayState.game.boyfriend.animation.finishCallback = null;
 				};
 
 				new FlxTimer().start(3, function(weedShitBaby:FlxTimer)
@@ -376,22 +368,23 @@ class Tank extends StageBackend
 				});
 			});
 
-			picoCutscene.alpha = 1;
+			/*picoCutscene.alpha = 1;
 			picoCutscene.anim.play('holy');
 			picoCutscene.anim.onComplete = function()
 			{
 				picoCutscene.anim.play('idle');
 				picoCutscene.anim.onComplete = null;
-			};
+			};*/
 
 			new FlxTimer().start(20, function(alsoTmr:FlxTimer)
 			{
 				PlayState.game.dad.visible = true;
 				PlayState.game.gf.visible = true;
 				bfTankCutsceneLayer.remove(tankCutscene);
+				PlayState.game.boyfriend.animation.finishCallback = null;
 				PlayState.game.startCountdown();
 
-				gfCutsceneLayer.remove(picoCutscene);
+				//gfCutsceneLayer.remove(picoCutscene);
 			});
 		});
 	}

@@ -537,8 +537,8 @@ class Character extends FlxSprite
 
 		if((playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished) || animation.curAnim == null)
 		{
-			dance();
 			playingEndAnim = false;
+			dance();
 		}
 
 		if (!isPlayer)

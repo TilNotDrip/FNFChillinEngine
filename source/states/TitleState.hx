@@ -18,13 +18,13 @@ import openfl.Assets;
 import shaders.BuildingShaders;
 import shaders.ColorSwap;
 
-#if desktop
+#if sys
 import sys.FileSystem;
 import sys.io.File;
 import sys.thread.Thread;
 #end
 
-typedef TitleNico = //heheheheehehehehehe
+typedef TitleJSON = //yeah json
 {
 	var bpm:Float;
 	var sprites:Array<{
@@ -62,10 +62,8 @@ class TitleState extends MusicBeatState
 
 	var curWacky:Array<String> = [];
 	var lastBeat:Int = 0;
-	var swagShader:ColorSwap;
-	var alphaShader:BuildingShaders;
 
-	var introText:TitleNico;
+	var introText:TitleJSON;
 	var introTextSprites:Map<String, FlxSprite> = new Map();
 
 	var idleBoppers:Array<FlxSprite> = [];
@@ -86,10 +84,9 @@ class TitleState extends MusicBeatState
 		new ModLoader(); // yay
 		#end
 
-		FlxG.game.focusLostFramerate = 60;
+		FlxG.debugger.setLayout(MICRO);
 
-		swagShader = new ColorSwap();
-		alphaShader = new BuildingShaders();
+		FlxG.game.focusLostFramerate = 60;
 
 		FlxG.sound.muteKeys = [ZERO];
 
@@ -243,12 +240,6 @@ class TitleState extends MusicBeatState
 
 		if (pressedEnter && !skippedIntro && initialized)
 			skipIntro();
-
-		if (controls.UI_LEFT)
-			swagShader.update(-elapsed * 0.1);
-
-		if (controls.UI_RIGHT)
-			swagShader.update(elapsed * 0.1);
 
 		super.update(elapsed);
 	}

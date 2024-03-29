@@ -93,3 +93,13 @@
  - [ ] Discord (Self explanitory)
  - [ ] Safe Mode (Prevents mods from messing with your computer like shutting it down for example or writing files (Just need to figure out how to prevent it first))
  - [ ] Dev Mode (Enables stuff like chart editor and animation debug and the Test song (maybe))
+
+
+# Chillin' Engine Engine - Chart Editor Todo List <!-- Stuff we NEED for the chart editor -->
+ - [ ] Infinite Scrolling through Chart
+ - [ ] Note Type Menu
+ - [ ] Hitsounds
+ - [ ] Play2Chart (play imaginary notes and convert them to a chart)
+ - [ ] Note quantization.
+ - [ ] Note selection
+ - [ ] Playtest

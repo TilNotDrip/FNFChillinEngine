@@ -64,7 +64,7 @@ class Week
         #if debug
         var idk:Week = new Week('test', ['Test'], ['Normal']);
         idk.characters = ['bf', 'bf', 'gf'];
-        idk.color = 0x00ffffff;
+        idk.color = 0xffffffff;
         idk.motto = '[PLACEHOLDER]';
         daWeekThing.push(idk);
         #end

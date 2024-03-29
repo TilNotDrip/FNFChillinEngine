@@ -1,10 +1,10 @@
-What happens when two secret twins (@TechnikTil & @CrusherNotDrip) make an engine?
+## What happens when two secret twins (@TechnikTil & @CrusherNotDrip) make an engine?
 # Introducing... Chillin' Engine
 
 ## Credits
 - [TechnikTil](https://twitter.com/TechnikTil) - Programmer
 - [CrusherNotDrip](https://twitter.com/CrusherNotDrip) - Programmer + Pixel Note Splashes
-- [gameboy1969](https://twitter.com/gameboy1969) - Artist + Musician
+- [.json](https://twitter.com/gameboy1969) - Artist + Musician
 
 # Friday Night Funkin
 
