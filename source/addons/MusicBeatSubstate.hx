@@ -11,6 +11,7 @@ class MusicBeatSubstate extends FlxSubState
 
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
+	private var curSection:Int = 0;
 	private var controls(get, never):Controls;
 
 	inline function get_controls():Controls
@@ -20,7 +21,8 @@ class MusicBeatSubstate extends FlxSubState
 	{
 		var oldStep:Int = curStep;
 
-		updateCurStep();
+		updateStep();
+		curSection = Math.floor(curStep / 16);
 		curBeat = Math.floor(curStep / 4);
 
 		if (oldStep != curStep && curStep >= 0)
@@ -30,7 +32,7 @@ class MusicBeatSubstate extends FlxSubState
 		super.update(elapsed);
 	}
 
-	private function updateCurStep():Void
+	private function updateStep():Void
 	{
 		var lastChange:BPMChangeEvent = {
 			stepTime: 0,
@@ -52,7 +54,13 @@ class MusicBeatSubstate extends FlxSubState
 			beatHit();
 	}
 
-	public function beatHit():Void {}
+	public function beatHit():Void
+	{
+		if (curStep % 16 == 0)
+			sectionHit();
+	}
+
+	public function sectionHit():Void {}
 
 	public function changeWindowName(windowName:String = '') 
 		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;

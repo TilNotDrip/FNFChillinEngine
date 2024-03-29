@@ -48,7 +48,7 @@ class Highscore
 	{
 		var daSong:String = song;
 
-		if(addons.Week.noDashDifficulty.formatToPath() != diff.formatToPath()) daSong += '-' + diff;
+		daSong += '-' + diff;
 
 		return daSong.formatToPath();
 	}

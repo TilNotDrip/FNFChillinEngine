@@ -2,6 +2,8 @@ package states;
 
 import flixel.addons.transition.FlxTransitionableState;
 
+import flixel.tweens.misc.ColorTween;
+
 import objects.MenuCharacter;
 import objects.MenuItem;
 
@@ -17,11 +19,12 @@ class StoryMenuState extends MusicBeatState
 	var daWeeks:Array<Week> = [];
 	var curWeekClass:Week;
 
+	var colorBG:FlxSprite;
+	var colorTween:ColorTween;
 	var txtTracklist:FlxText;
 
 	var grpWeekText:FlxTypedGroup<MenuItem>;
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
-
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 
 	var difficultySelectors:FlxGroup;
@@ -57,7 +60,7 @@ class StoryMenuState extends MusicBeatState
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
-		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
+		colorBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFFFFFFF);
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
 		add(grpWeekText);
@@ -81,7 +84,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...daWeeks.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, daWeeks[i].name);
+			var weekThing:MenuItem = new MenuItem(0, colorBG.y + colorBG.height + 10, daWeeks[i].name);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -147,10 +150,10 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
-		add(yellowBG);
+		add(colorBG);
 		add(grpWeekCharacters);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Tracks", 32);
+		txtTracklist = new FlxText(FlxG.width * 0.05, colorBG.x + colorBG.height + 100, 0, "Tracks", 32);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
@@ -188,11 +191,13 @@ class StoryMenuState extends MusicBeatState
 				if (controls.UI_UP_P)
 				{
 					changeWeek(-1);
+					changeDifficulty();
 				}
 
 				if (controls.UI_DOWN_P)
 				{
 					changeWeek(1);
+					changeDifficulty();
 				}
 
 				if (controls.UI_RIGHT)
@@ -252,7 +257,7 @@ class StoryMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
 				grpWeekText.members[curWeek].startFlashing();
-				grpWeekCharacters.members[1].animation.play(curWeekClass.characters[1] + 'Confirm');
+				grpWeekCharacters.members[1].animation.play(/*curWeekClass.characters[1] + */'confirm');
 				stopspamming = true;
 			}
 
@@ -284,22 +289,19 @@ class StoryMenuState extends MusicBeatState
 
 		sprDifficulty.offset.x = 0;
 
-		switch (curWeekClass.difficulties[curDifficulty].formatToPath()) // I SWEAR TO FUCKING GOD CRUSHER (burps)
+		switch (curWeekClass.difficulties[curDifficulty].formatToPath())
 		{
 			case 'easy': sprDifficulty.offset.x = 20;
 			case 'normal': sprDifficulty.offset.x = 70;
 			case 'hard': sprDifficulty.offset.x = 20;
-			// TO-DO: when returned, add your own offset
 		}
 
 		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
-
 		sprDifficulty.alpha = 0;
+		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 
 		sprDifficulty.y = leftArrow.y - 15;
 		intendedScore = Highscore.getWeekScore(curWeekClass.name, curWeekClass.difficulties[curDifficulty]);
-
-		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 	}
 
 	var lerpScore:Float = 0;
@@ -338,53 +340,51 @@ class StoryMenuState extends MusicBeatState
 
 	function updateText()
 	{
-		for(i in 0...3)
-		{
-			grpWeekCharacters.members[i].character = curWeekClass.characters[i];
-			grpWeekCharacters.members[i].animation.play(curWeekClass.characters[i]);
-		}
+		if(colorTween != null) colorTween.cancel();
+		colorTween = FlxTween.color(colorBG, 0.3, colorBG.color, curWeekClass.color);
 
 		txtTracklist.text = "Tracks:\n";
 
-		grpWeekCharacters.members[0].flipX = false;
-		grpWeekCharacters.members[0].offset.set(100, 100);
-		grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1);
-
-		switch (grpWeekCharacters.members[0].animation.curAnim.name)
+		for(i in 0...3)
 		{
-			case 'parents-christmas':
-				grpWeekCharacters.members[0].offset.set(200, 200);
-				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+			grpWeekCharacters.members[i].charChange(curWeekClass.characters[i]);
 
-			case 'senpai':
-				grpWeekCharacters.members[0].offset.set(130, 0);
-				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1.4);
+			if (grpWeekCharacters.members[0].animation.curAnim.name != null)
+			{
+				switch (grpWeekCharacters.members[0].animation.curAnim.name)
+				{
+					case 'parents-christmas':
+						grpWeekCharacters.members[0].offset.set(200, 200);
+						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.9);
 
-			case 'mom':
-				grpWeekCharacters.members[0].offset.set(100, 200);
-				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+					case 'senpai':
+						grpWeekCharacters.members[0].offset.set(130, 0);
+						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1.4);
+						grpWeekCharacters.members[0].antialiasing = false;
 
-			case 'dad':
-				grpWeekCharacters.members[0].offset.set(120, 200);
-				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
-	
-			case 'tankman':
-				grpWeekCharacters.members[0].offset.set(60, -20);
-				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+					case 'mom':
+						grpWeekCharacters.members[0].offset.set(100, 200);
+						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 
-			case 'bf':
-				grpWeekCharacters.members[0].flipX = true;
-				grpWeekCharacters.members[0].offset.set(100, 100);
-				grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+					case 'dad':
+						grpWeekCharacters.members[0].offset.set(120, 200);
+						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.5);
+
+					case 'tankman':
+						grpWeekCharacters.members[0].offset.set(60, -20);
+						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+
+					case 'bf':
+						grpWeekCharacters.members[0].flipX = true;
+						grpWeekCharacters.members[0].offset.set(100, 100);
+						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+					case 'pico':
+						grpWeekCharacters.members[0].flipX = true;
+
+				}
+				grpWeekCharacters.members[0].updateHitbox();
+			}
 		}
-		grpWeekCharacters.members[0].updateHitbox();
-
-		// Todo: make it so if its '' in Week.hx it doesnt have a heart attack but this is to fix it for now... for tutorial only -Crusher
-		// why am i so stupid -Til
-		if (grpWeekCharacters.members[0].animation.curAnim.name == grpWeekCharacters.members[2].animation.curAnim.name)
-			grpWeekCharacters.members[0].alpha = 0;
-		else
-			grpWeekCharacters.members[0].alpha = 1;
 
 		var stringThing:Array<String> = curWeekClass.songs;
 

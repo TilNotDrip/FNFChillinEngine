@@ -61,7 +61,7 @@
 		<library name="week7"    preload="true" />
 		<library name="videos"	 preload="true" />
 	</section>
-	
+
 	<section if="NO_PRELOAD_ALL">
 		<library name="songs"    preload="false" />
 		<library name="shared"   preload="false" />
@@ -73,7 +73,7 @@
 		<library name="week7"    preload="false" />
 		<library name="videos"	 preload="false" />
 	</section>
-	
+
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
 
@@ -115,7 +115,7 @@
 
 	<haxelib name="discord_rpc" if="cpp" unless="DISCORD" />
 	<!--haxelib name="discordSdk" if="DISCORD" /-->
-	<haxelib name="flxanimate"/>
+	<haxelib name="flxanimate" unless="html5"/>
 
 	<haxelib name="hxCodec" if="cpp"/>
 	<haxelib name="polymod" if="MOD_SUPPORT"/>
@@ -136,5 +136,4 @@
 	<icon path="extras/appicons/icon64.png" size='64'/>
 	<icon path="extras/appicons/iconOG.png" />
 
-	<haxedef name="CAN_CHEAT" if="switch debug"/>
 </project>

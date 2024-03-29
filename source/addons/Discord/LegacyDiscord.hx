@@ -6,9 +6,6 @@ import discord_rpc.DiscordRpc;
 
 import Sys.sleep;
 
-/**
- * if you are reading this, and even THINKING about using this.. FUCK YOU.
- */
 class LegacyDiscord
 {
 	#if discord_rpc

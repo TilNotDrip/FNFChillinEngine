@@ -84,7 +84,7 @@ class Philly extends StageBackend
 		if (trainSound.time >= 4700)
 		{
 			startedMoving = true;
-			PlayState.game.gf.playAnim('hairBlow');
+			gf.playAnim('hairBlow');
 		}
 
 		if (startedMoving)
@@ -107,7 +107,7 @@ class Philly extends StageBackend
 
 	function trainReset():Void
 	{
-		PlayState.game.gf.playAnim('hairFall');
+		gf.playAnim('hairFall');
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		trainCars = 8;
@@ -120,21 +120,18 @@ class Philly extends StageBackend
         if (!trainMoving)
             trainCooldown += 1;
 
-        if (curBeat % 4 == 0)
-        {
-            lightFadeShader.reset();
-
-            while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
-
-            phillyCityLight.color = phillyLightColors[curLight];
-
-            oldLight = curLight;
-        }
-
         if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
         {
             trainCooldown = FlxG.random.int(-4, 0);
             trainStart();
         }
+    }
+
+    override function sectionHit()
+    {
+        lightFadeShader.reset();
+        while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);
+        phillyCityLight.color = phillyLightColors[curLight];
+        oldLight = curLight;
     }
 }

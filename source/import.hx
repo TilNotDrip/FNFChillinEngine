@@ -27,7 +27,6 @@ import lime.app.Application;
 import addons.*;
 import addons.Controls;
 import addons.CoolUtil;
-using addons.CoolTools;
 
 #if DISCORD
 import addons.discord.DiscordBackend as DiscordClient;
@@ -45,5 +44,6 @@ import options.PreferencesMenu;
 import states.PlayState;
 import states.LoadingState;
 
-// String Tools!
+// Using
 using StringTools;
+using addons.CoolTools;

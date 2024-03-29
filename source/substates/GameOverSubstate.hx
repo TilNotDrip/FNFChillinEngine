@@ -1,5 +1,6 @@
 package substates;
 
+import flixel.FlxCamera;
 import flixel.FlxObject;
 
 class GameOverSubstate extends MusicBeatSubstate
@@ -10,9 +11,11 @@ class GameOverSubstate extends MusicBeatSubstate
 	var stageSuffix:String = "";
 	var randomGameover:Int = 1;
 
-	public function new(x:Float, y:Float)
+	public function new(x:Float, y:Float, camera:FlxCamera)
 	{
 		Application.current.window.title += ' [Game Over]';
+
+		this.camera = camera;
 
 		var daBf:String = '';
 		if (PlayState.isPixel)
@@ -47,8 +50,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
 		Conductor.changeBPM(100);
 
-		FlxG.camera.scroll.set();
-		FlxG.camera.target = null;
+		PlayState.game.camGAME.scroll.set();
+		PlayState.game.camGAME.target = null;
 
 		bf.playAnim('firstDeath');
 
@@ -88,7 +91,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
 		{
-			FlxG.camera.follow(camFollow, LOCKON, 0.01);
+			PlayState.game.camGAME.follow(camFollow, LOCKON, 0.01);
 		}
 
 		switch (PlayState.storyWeek.name)
@@ -139,7 +142,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
-				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
+				PlayState.game.camGAME.fade(FlxColor.BLACK, 2, false, function()
 				{
 					LoadingState.loadAndSwitchState(new PlayState());
 				});

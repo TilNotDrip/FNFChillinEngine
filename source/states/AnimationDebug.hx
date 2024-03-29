@@ -23,7 +23,7 @@ class AnimationDebug extends MusicBeatState
 	var camFollow:FlxObject;
 
 	public var camHUD:FlxCamera;
-	public var camGame:FlxCamera;
+	public var camGAME:FlxCamera;
 
 	public function new(daAnim:String = 'spooky')
 	{
@@ -35,11 +35,11 @@ class AnimationDebug extends MusicBeatState
 	{
 		changeWindowName('Animation Debug - ' + daAnim);
 
-		camGame = new SwagCamera();
+		camGAME = new SwagCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
-		FlxG.cameras.reset(camGame);
+		FlxG.cameras.reset(camGAME);
 		FlxG.cameras.add(camHUD, false);
 
 		FlxG.sound.music.stop();

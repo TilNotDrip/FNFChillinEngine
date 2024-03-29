@@ -8,6 +8,9 @@ class Mall extends StageBackend
 
     override function create()
     {
+        if (curSong.formatToPath() == 'eggnog')
+            hasEndCutscene = true;
+
         zoom = 0.80;
 
         var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
@@ -42,13 +45,13 @@ class Mall extends StageBackend
 
     override function createPost()
     {
-        PlayState.game.boyfriend.x += 200;
+        player.x += 200;
     }
 
     override function cameraMovement(char:objects.Character)
     {
-        if (char == PlayState.game.boyfriend)
-            PlayState.game.camFollow.y =  PlayState.game.boyfriend.getMidpoint().y - 200;
+        if (char == player)
+            camFollow.y =  player.getMidpoint().y - 200;
     }
 
     override function beatHit()
@@ -56,5 +59,22 @@ class Mall extends StageBackend
         upperBoppers.animation.play('Upper Crowd Bob', true);
 		bottomBoppers.animation.play('Bottom Level Boppers', true);
 		santa.animation.play('santa idle in fear', true);
+    }
+
+    override function endSong()
+    {
+        if (curSong.formatToPath() == 'eggnog' && isStoryMode)
+        {
+            inCutscene = true;
+
+            var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGAME.zoom, - FlxG.height * camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+            blackShit.scrollFactor.set();
+            add(blackShit);
+
+            FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
+            {
+                endingStuff();
+            });
+        }
     }
 }

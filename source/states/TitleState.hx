@@ -24,7 +24,7 @@ import sys.io.File;
 import sys.thread.Thread;
 #end
 
-typedef TitleJSON = //yeah json
+typedef TitleJSON = //heheheheehehehehehe
 {
 	var bpm:Float;
 	var sprites:Array<{
@@ -304,16 +304,13 @@ class TitleState extends MusicBeatState
 			{
 				for (i in lastBeat...curBeat)
 				{
-					//trace(curCurWacky);
 					for(beatThing in introText.titleText) {
 						if(beatThing.beat == i + 1) {
 							if(beatThing.useIntroText && !beatThing.removeSelected) {
 								if(curCurWacky != 0) {
 									addMoreText(curWacky[curCurWacky]);
-									//trace('addin ' + curWacky[curCurWacky]);
 								} else {
 									createCoolText([curWacky[curCurWacky]]);
-									//trace('creatin ' + curWacky[curCurWacky]);
 								}
 
 								curText = '';

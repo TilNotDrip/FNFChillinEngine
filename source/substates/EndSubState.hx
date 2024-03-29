@@ -3,6 +3,8 @@ package substates;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 
+import stages.StageBackend;
+
 class EndSubState extends MusicBeatSubstate
 {
     var bfCheeringYouOn:FlxSprite; 
@@ -43,11 +45,29 @@ class EndSubState extends MusicBeatSubstate
         });
     }
 
+    var hitEnd:Bool = false;
+
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
-        if (controls.ACCEPT)
-            PlayState.game.endSong();
+        if (controls.ACCEPT && !hitEnd)
+        {
+            hitEnd = true;
+
+            if (StageBackend.stage.hasEndCutscene && !PlayState.seenCutscene)
+            {
+                StageBackend.stage.endingStuff();
+                PlayState.seenCutscene = true;
+            }
+            else
+                PlayState.game.endSong();
+        }
+
+        if(bfCheeringYouOn.animation.curAnim != null) 
+        {
+            if(bfCheeringYouOn.animation.curAnim.finished && bfCheeringYouOn.animation.curAnim.name == 'yippee')
+                bfCheeringYouOn.animation.play('tbh', true);
+        }
     }
 }

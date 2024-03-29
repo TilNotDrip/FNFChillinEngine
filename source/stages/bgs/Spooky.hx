@@ -17,8 +17,8 @@ class Spooky extends StageBackend
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
 
-		PlayState.game.boyfriend.playAnim('scared', true);
-		PlayState.game.gf.playAnim('scared', true);
+		player.playAnim('scared', true);
+		gf.playAnim('scared', true);
     }
 
     var lightningStrikeBeat:Int = 0;
