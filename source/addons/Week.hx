@@ -73,7 +73,7 @@ class Week
 
     public var name:String = '';
     public var characters:Array<String>;
-    public var color:FlxColor;
+    public var color:FlxColor = 0xFFF9CF51;
     public var motto:String;
     public var songs:Array<String> = [];
     public var difficulties:Array<String> = [];
