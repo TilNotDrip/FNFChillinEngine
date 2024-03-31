@@ -174,10 +174,6 @@ class FreeplayState extends MusicBeatState
 
 		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
 
-		/*#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].song), 0);
-		#end*/
-
 		if(colorTween != null) colorTween.cancel();
 		colorTween = FlxTween.color(bg, 0.6, bg.color, songs[curSelected].week.color);
 

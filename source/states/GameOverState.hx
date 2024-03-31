@@ -15,12 +15,7 @@ class GameOverState extends MusicBeatState
 		Conductor.songPosition = 0;
 		Conductor.changeBPM(100);
 
-		var randomCensor:Array<Int> = [];
-
-		if (PreferencesMenu.getPref('censor-naughty'))
-			randomCensor = [1, 3, 8, 13, 17, 21];
-
-		randomGameover = FlxG.random.int(1, 25, randomCensor);
+		randomGameover = FlxG.random.int(1, 25);
 	}
 
 	override function create()
