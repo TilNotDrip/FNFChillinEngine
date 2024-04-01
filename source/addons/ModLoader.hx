@@ -60,6 +60,4 @@ class ModLoader
         lime.app.Application.current.window.alert(message, 'Error!');
     }
 }
-
-
 #end

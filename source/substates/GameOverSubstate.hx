@@ -50,8 +50,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
 		Conductor.changeBPM(100);
 
-		PlayState.game.camGAME.scroll.set();
-		PlayState.game.camGAME.target = null;
+		camera.scroll.set();
+		camera.target = null;
 
 		bf.playAnim('firstDeath');
 
@@ -86,7 +86,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
 		{
-			PlayState.game.camGAME.follow(camFollow, LOCKON, 0.01);
+			camera.follow(camFollow, LOCKON, 0.01);
 		}
 
 		switch (PlayState.storyWeek.name)

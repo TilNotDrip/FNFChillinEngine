@@ -1,10 +1,14 @@
 package states;
 
-import openfl.display.Loader;
-import openfl.net.URLRequest;
-import openfl.events.Event;
 import flixel.graphics.FlxGraphic;
+
 import openfl.display.BitmapData;
+import openfl.display.Loader;
+
+import openfl.events.Event;
+
+import openfl.net.URLRequest;
+
 import openfl.utils.ByteArray;
 
 class CreditsState extends MusicBeatState

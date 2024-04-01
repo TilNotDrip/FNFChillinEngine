@@ -1,6 +1,7 @@
 package stages.bgs;
 
 import objects.DialogueBox;
+
 import stages.objects.BackgroundGirls;
 
 class School extends StageBackend

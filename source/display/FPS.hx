@@ -55,12 +55,11 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 
-		// frames / time = framerate. then every frame, i should divide 1 by the time, which should get me it, right??
 		currentFPS = FlxMath.roundDecimal(1 / FlxG.elapsed, 2);
-		FlxG.watch.addQuick('ACTUAL FPS', 1 / FlxG.elapsed); // for the funnies
-
 		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
-		FlxG.watch.addQuick('ACTUAL MEM', System.totalMemory + " Bytes"); // for the funnies again
+
+		FlxG.watch.addQuick('ACTUAL FPS', 1 / FlxG.elapsed);
+		FlxG.watch.addQuick('ACTUAL MEM', System.totalMemory + " Bytes");
 
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 

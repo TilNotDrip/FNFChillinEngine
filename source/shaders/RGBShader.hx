@@ -1,6 +1,7 @@
 package shaders;
 
 import flixel.system.FlxAssets.FlxShader;
+
 import flixel.util.FlxColor;
 
 class RGBShader
