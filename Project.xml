@@ -19,7 +19,6 @@
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
 	<define name="DISCORD" if="release cpp" />
-
 	<define name="MOD_SUPPORT" if="release cpp"/>
 
 	<section if="MOD_SUPPORT">

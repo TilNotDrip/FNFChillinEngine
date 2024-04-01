@@ -16,12 +16,12 @@ class PlayerSettings
 	{
 		this.id = id;
 		this.controls = new Controls('player$id', None);
-		
+
 		#if CLEAR_INPUT_SAVE
 		FlxG.save.data.controls = null;
 		FlxG.save.flush();
 		#end
-		
+
 		var useDefault = true;
 		var controlData = FlxG.save.data.controls;
 		if (controlData != null)
@@ -39,11 +39,11 @@ class PlayerSettings
 				controls.fromSaveData(keyData, Keys);
 			}
 		}
-		
+
 		if (useDefault)
 			controls.setKeyboardScheme(Solo);
 	}
-	
+
 	function addGamepad(gamepad:FlxGamepad)
 	{
 		var useDefault = true;
@@ -63,16 +63,16 @@ class PlayerSettings
 				controls.addGamepadWithSaveData(gamepad.id, padData);
 			}
 		}
-		
+
 		if (useDefault)
 			controls.addDefaultGamepad(gamepad.id);
 	}
-	
+
 	public function saveControls()
 	{
 		if (FlxG.save.data.controls == null)
 			FlxG.save.data.controls = {};
-		
+
 		var playerData:{ ?keys:Dynamic, ?pad:Dynamic }
 		if (id == 0)
 		{
@@ -86,14 +86,14 @@ class PlayerSettings
 				FlxG.save.data.controls.p2 = {};
 			playerData = FlxG.save.data.controls.p2;
 		}
-		
+
 		var keyData = controls.createSaveData(Keys);
 		if (keyData != null)
 		{
 			playerData.keys = keyData;
 			trace("saving key data: " + haxe.Json.stringify(keyData));
 		}
-		
+
 		if (controls.gamepadsAdded.length > 0)
 		{
 			var padData = controls.createSaveData(Gamepad(controls.gamepadsAdded[0]));
@@ -103,10 +103,10 @@ class PlayerSettings
 				playerData.pad = padData;
 			}
 		}
-		
+
 		FlxG.save.flush();
 	}
-	
+
 	static public function init():Void
 	{
 		if (player1 == null)

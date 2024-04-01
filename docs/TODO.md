@@ -33,7 +33,8 @@
  - [ ] Fix things with diff in Story Menu
  - [ ] Fix Scaling with Chars in Story Menu
  - [ ] RGB Pallete for Notes + Note Splashes
- - [ ] Pause Stutter problem fix from FlxAnimate
+ - [ ] Pause Stutter problem fix from FlxAnimate (Meaning this isnt a problem on web)
+ - [ ] Sustain Note Splashes (https://twitter.com/FNF_Developers/status/1774200908806525366)
 
 ## Small Changes
 

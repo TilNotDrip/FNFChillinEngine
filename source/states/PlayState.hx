@@ -1075,6 +1075,12 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public function camZoom(gameCamZoom:Float = 0.015, camHudZoom:Float = 0.03)
+	{
+		camGAME.zoom += gameCamZoom;
+		camHUD.zoom += camHudZoom;
+	}
+
 	#if debug
 	function changeSection(sec:Int):Void
 	{
@@ -1469,6 +1475,8 @@ class PlayState extends MusicBeatState
 						goodNoteHit(coolNote);
 				}
 			}
+			else
+				ghostHit();
 		}
 
 		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true) && canIdle))
@@ -1492,7 +1500,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function noteMiss(note:Note):Void
+	function missThing(ghostTap:Bool = false)
 	{
 		health -= 0.04;
 		songMisses++;
@@ -1505,6 +1513,32 @@ class PlayState extends MusicBeatState
 
 		vocals.volume = 0;
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+	}
+
+	function ghostHit()
+	{
+		missThing();
+
+		var direction:Int = 0;
+
+		if (controls.NOTE_LEFT_P)
+			direction = 0;
+
+		if (controls.NOTE_DOWN_P)
+			direction = 1;
+
+		if (controls.NOTE_UP_P)
+			direction = 2;
+
+		if (controls.NOTE_RIGHT_P)
+			direction = 3;
+
+		boyfriend.playAnim(singArray[direction] + 'miss', true);
+	}
+
+	function noteMiss(note:Note):Void
+	{
+		missThing();
 
 		boyfriend.playAnim(singArray[note.noteData] + 'miss', true);
 	}
@@ -1678,9 +1712,8 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(SONG.notes[curSection].bpm);
 				FlxG.log.add('CHANGED BPM!');
 			}
-		
-			camGAME.zoom += 0.015;
-			camHUD.zoom += 0.03;
+
+			camZoom();
 		}
 
 		StageBackend.stage.curSection = curSection;
@@ -1699,8 +1732,7 @@ class PlayState extends MusicBeatState
 					daZoomHUD = Std.parseFloat(params[1]);
 				}
 
-				camGAME.zoom += daZoomGame;
-				camHUD.zoom += daZoomHUD;
+				camZoom(daZoomGame, daZoomHUD);
 
 			case 'Hey!':
 				if(params[0] == true)

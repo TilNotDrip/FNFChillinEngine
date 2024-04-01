@@ -76,8 +76,7 @@ class Limo extends StageBackend
     {
 		if (PreferencesMenu.getPref('camera-zoom') && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
 		{
-			camGAME.zoom += 0.015;
-			camHUD.zoom += 0.03;
+			game.camZoom();
 		}
 
         grpLimoDancers.forEach(function(dancer:BackgroundDancer)
