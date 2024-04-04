@@ -10,6 +10,7 @@
  - [ ] Discord Game SDK integration
  - [ ] Modding API using a custom polymod! (HScript included)
  - [x] Title Screen Softcoded
+ - [ ] Controller Support
 
 ## Medium Changes
 
@@ -32,7 +33,8 @@
  - [ ] Fix things with diff in Story Menu
  - [ ] Fix Scaling with Chars in Story Menu
  - [ ] RGB Pallete for Notes + Note Splashes
- - [ ] Pause Stutter problem fix from FlxAnimate
+ - [ ] Pause Stutter problem fix from FlxAnimate (Meaning this isnt a problem on web)
+ - [ ] Sustain Note Splashes (https://twitter.com/FNF_Developers/status/1774200908806525366)
 
 ## Small Changes
 
@@ -72,6 +74,7 @@
  - [ ] FPS
  - [ ] FPS Counter
  - [ ] Antialiasing
+ - [ ] Flashing Lights <!-- is all she ever wanted (yeah) | Beggin' on her knees to be popular | That's her dream, to be popular (hey) | Kill anyone to be popular (hm) | Sell her soul to be popular | Popular, just to be popular (uh-huh) | Everybody scream 'cause she popular (hey) | She mainstream 'cause she popular | Never be free 'cause she popular -->
 
 ## Gameplay
 
@@ -85,9 +88,6 @@
  - [ ] Easter Eggs (Optional but said EE's are BF Old Icon, Gitaroo Pause and Old Game Over)
  - [ ] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
 
-## deadass dont know what to name this but its for menus n stuff
-
- - [ ] Flashing Lights <!-- is all she ever wanted (yeah) | Beggin' on her knees to be popular | That's her dream, to be popular (hey) | Kill anyone to be popular (hm) | Sell her soul to be popular | Popular, just to be popular (uh-huh) | Everybody scream 'cause she popular (hey) | She mainstream 'cause she popular | Never be free 'cause she popular -->
 
 ## Flixel (or we can put this under **Other** as well)
 

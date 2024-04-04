@@ -1,8 +1,8 @@
 package stages.bgs;
 
-import objects.DialogueBox;
-
 import flixel.addons.effects.FlxTrail;
+
+import objects.DialogueBox;
 
 class SchoolEvil extends StageBackend
 {

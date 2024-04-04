@@ -1,9 +1,12 @@
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
-import flixel.graphics.frames.FlxFrame;
-import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.FlxGraphic;
 
+import flixel.graphics.frames.FlxFrame;
+import flixel.graphics.frames.FlxFramesCollection;
+
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+
+//wtf r we using dis for
 class ImageFrameHandler extends FlxFramesCollection
 {
     public function new(images:Map<String, Array<FlxGraphic>>)

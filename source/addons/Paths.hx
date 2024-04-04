@@ -3,6 +3,7 @@ package addons;
 #if flxanimate
 import flxanimate.frames.FlxAnimateFrames;
 #end
+
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 

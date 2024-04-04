@@ -5,7 +5,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.misc.ColorTween;
 
 import objects.MenuCharacter;
-import objects.MenuItem;
+import objects.WeekItem;
 
 class StoryMenuState extends MusicBeatState
 {
@@ -23,7 +23,7 @@ class StoryMenuState extends MusicBeatState
 	var colorTween:ColorTween;
 	var txtTracklist:FlxText;
 
-	var grpWeekText:FlxTypedGroup<MenuItem>;
+	var grpWeekText:FlxTypedGroup<WeekItem>;
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 
@@ -62,7 +62,7 @@ class StoryMenuState extends MusicBeatState
 
 		colorBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFFFFFFF);
 
-		grpWeekText = new FlxTypedGroup<MenuItem>();
+		grpWeekText = new FlxTypedGroup<WeekItem>();
 		add(grpWeekText);
 
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
@@ -84,7 +84,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...daWeeks.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, colorBG.y + colorBG.height + 10, daWeeks[i].name);
+			var weekThing:WeekItem = new WeekItem(0, colorBG.y + colorBG.height + 10, daWeeks[i].name);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -256,8 +256,7 @@ class StoryMenuState extends MusicBeatState
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
-				grpWeekText.members[curWeek].startFlashing();
-				grpWeekCharacters.members[1].animation.play(/*curWeekClass.characters[1] + */'confirm');
+				grpWeekCharacters.members[1].animation.play('confirm');
 				stopspamming = true;
 			}
 

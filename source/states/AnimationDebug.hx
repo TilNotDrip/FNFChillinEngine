@@ -1,11 +1,12 @@
 package states;
 
-import objects.SwagCamera;
 import flixel.FlxCamera;
-import flixel.addons.display.FlxBackdrop;
 import flixel.FlxObject;
 
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
+
+import objects.SwagCamera;
 
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;

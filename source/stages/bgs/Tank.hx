@@ -337,9 +337,6 @@ class Tank extends StageBackend
 
 		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.sound('stressCutscene'));
 
-		if (PreferencesMenu.getPref('censor-naughty'))
-			cutsceneAudio.loadEmbedded(Paths.sound('song3censor'));
-
 		cutsceneAudio.play(true);
 
 		camGAME.zoom = zoom * 1.2;

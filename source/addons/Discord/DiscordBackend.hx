@@ -20,7 +20,6 @@ class DiscordBackend
 		}
 	}
 
-	// backward compatability + im lazy
 	public static function changePresence(daDetails:String, daState:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
 	{
 		var startTimestamp:Float = if (hasStartTimestamp) Date.now().getTime() else 0;

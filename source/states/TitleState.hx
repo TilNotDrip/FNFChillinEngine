@@ -15,9 +15,6 @@ import haxe.Json;
 
 import openfl.Assets;
 
-import shaders.BuildingShaders;
-import shaders.ColorSwap;
-
 #if sys
 import sys.FileSystem;
 import sys.io.File;
@@ -184,16 +181,8 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.keys.justPressed.R) {
-			initialized = false;
-			FlxG.resetGame();
-		}
-
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
-
-		if (FlxG.keys.justPressed.F)
-			FlxG.fullscreen = !FlxG.fullscreen;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
 

@@ -60,8 +60,11 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 
-		currentFPS = FlxMath.roundDecimal(stats.currentFps(), 2);
+		currentFPS = FlxMath.roundDecimal(1 / FlxG.elapsed, 2);
 		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
+
+		FlxG.watch.addQuick('ACTUAL FPS', 1 / FlxG.elapsed);
+		FlxG.watch.addQuick('ACTUAL MEM', System.totalMemory + " Bytes");
 
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 

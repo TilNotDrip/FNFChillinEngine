@@ -1,7 +1,6 @@
 package;
 
 import display.FPS;
-import display.FPSOld;
 
 import flixel.FlxGame;
 
@@ -31,21 +30,15 @@ class Main extends Sprite
 		super();
 
 		if (stage != null)
-		{
 			init();
-		}
 		else
-		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
-		}
 	}
 
 	private function init(?E:Event):Void
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE))
-		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-		}
 
 		setupGame();
 	}
@@ -70,38 +63,9 @@ class Main extends Sprite
 
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
 
-		FlxG.mouse.useSystemCursor = true;
-
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
-	}
-
-	/**
-	 * please never fucking use this 
-	 * lol (yea 𝓕𝓻𝓮𝓪𝓴𝔂GPT)
-	 * @param speed How fast you wanna *go*?
-	 * @return feel good, or not.
-	 */
-	public function jerkingOff(speed:Float) //i made this with crusher for no fucking reason lol 🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑(❁´◡`❁)☆*: .｡. o(≧▽≦)o .｡.:*☆(*/ω＼*)(●'◡'●)╰(*°▽°*)╯(^///^)
-	{ // stop jerking off crusher 
-		new FlxTimer().start(64 / speed, function(tmr:FlxTimer) { // I DONT WANT TO
-			cocksexbuttasscock('kum'); // go wild 😏😼
-		});
-	}
-
-	/**
-	 * im boutta KUHJJOnjfrjhkldsahjkfhgjkldsahjkngfdjkl;gjkl;fdaslkhjgfdsjkl,'gmf'j klsd;gh'l;jkmfsdlmkj';gfk;l'sdmk'glm;fsd'kml;b'kl;vcs'k;mlhgsd'kl;mgh'klf;mds'kl;m bvfd'kml;ng'bdfklm;h'mkl;tf'km;lh'gdf
-	 * @param what you are about to do
-	 * @return Application is not responding.
-	 */
-	function cocksexbuttasscock(what:String)
-	{
-		var holdon:String = '';
-		for(i in 0...FlxMath.MAX_VALUE_INT) {
-			holdon += what.charAt(what.length-1).toUpperCase();
-		}
-		trace('im bouta ' + what.toUpperCase() + holdon);
 	}
 }

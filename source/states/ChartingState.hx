@@ -1,11 +1,10 @@
 package states;
 
-import flixel.addons.display.FlxBackdrop;
-import objects.HealthIcon;
 import addons.Conductor.BPMChangeEvent;
 import addons.Section.SwagSection;
 import addons.Song.SwagSong;
 
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 
 import flixel.addons.ui.FlxInputText;
@@ -20,6 +19,7 @@ import flixel.ui.FlxButton;
 
 import haxe.Json;
 
+import objects.HealthIcon;
 import objects.Note;
 
 import openfl.events.Event;
