@@ -1,13 +1,14 @@
 package stages.bgs;
 
-import flixel.math.FlxPoint;
 import flixel.math.FlxAngle;
+import flixel.math.FlxPoint;
 
 #if flxanimate
 import flxanimate.FlxAnimate;
 #end
 
-import objects.Character;
+import objects.game.BGSprite;
+import objects.game.Character;
 
 import stages.objects.TankmenBG;
 
@@ -24,10 +25,11 @@ class Tank extends StageBackend
 
     override function create()
     {
-		if (curSong.formatToPath() == 'ugh' || curSong.formatToPath() == 'guns' || curSong.formatToPath() == 'stress')
-			hasCutscene = true;
+		zoom = 0.90;
 
-        zoom = 0.90;
+		if (isStoryMode)
+			if (curSong.formatToPath() == 'ugh' || curSong.formatToPath() == 'guns' || curSong.formatToPath() == 'stress')
+				hasCutscene = true;
 
         foregroundSprites = new FlxTypedGroup<BGSprite>();
 
@@ -136,10 +138,15 @@ class Tank extends StageBackend
 			gf.y -= 75;
 		}
 
+        add(foregroundSprites);
+
+        gfCutsceneLayer = new FlxGroup();
+		add(gfCutsceneLayer);
+
 		bfTankCutsceneLayer = new FlxGroup();
 		add(bfTankCutsceneLayer);
 
-        add(foregroundSprites);
+		add(foregroundSprites);
 
         if (isStoryMode && !PlayState.seenCutscene)
         {
@@ -199,8 +206,12 @@ class Tank extends StageBackend
 
 		var camPosMath:FlxPoint = new FlxPoint(camFollow.x, camFollow.y);
 
+		camGAME.zoom *= 1.2;
+
 		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('wellWellWell'));
 		eduardoAhh.play(true);
+
+		cameraMovement(opponent);
 
 		new FlxTimer().start(3, function(tmr:FlxTimer)
 		{
@@ -325,7 +336,7 @@ class Tank extends StageBackend
 		camGAME.focusOn(camFollow.getPosition());
 
 		player.visible = false;
-		
+
 		var fakeBF:Character = new Character(player.x, player.y, 'bf', true);
 		bfTankCutsceneLayer.add(fakeBF);
 
@@ -339,7 +350,7 @@ class Tank extends StageBackend
 
 		cutsceneAudio.play(true);
 
-		camGAME.zoom = zoom * 1.2;
+		camGAME.zoom = zoom * 1.15;
 
 		camFollow.x -= 200;
 

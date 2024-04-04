@@ -1,5 +1,8 @@
 package stages.bgs;
 
+import objects.game.BGSprite;
+import objects.game.Character;
+
 class Mall extends StageBackend
 {
     var upperBoppers:BGSprite;
@@ -8,10 +11,10 @@ class Mall extends StageBackend
 
     override function create()
     {
-        if (curSong.formatToPath() == 'eggnog')
-            hasEndCutscene = true;
-
         zoom = 0.80;
+
+        if (curSong.formatToPath() == 'eggnog' && isStoryMode)
+            hasEndCutscene = true;
 
         var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
         bg.setGraphicSize(Std.int(bg.width * 0.8));
@@ -48,7 +51,7 @@ class Mall extends StageBackend
         player.x += 200;
     }
 
-    override function cameraMovement(char:objects.Character)
+    override function cameraMovement(char:Character)
     {
         if (char == player)
             camFollow.y =  player.getMidpoint().y - 200;

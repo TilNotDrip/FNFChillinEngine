@@ -2,16 +2,18 @@ package stages.bgs;
 
 import flixel.addons.effects.FlxTrail;
 
-import objects.DialogueBox;
+import objects.game.BGSprite;
+import objects.game.Character;
+import objects.game.DialogueBox;
 
 class SchoolEvil extends StageBackend
 {
     override function create()
     {
-        if (curSong.formatToPath() == 'thorns')
-            hasCutscene = true;
-
         pixel = true;
+
+        if (curSong.formatToPath() == 'thorns' && isStoryMode)
+            hasCutscene = true;
 
         var bg:BGSprite = new BGSprite('weeb/animatedEvilSchool', 400, 200, 0.8, 0.9, ['background 2 instance 1'], true);
         bg.antialiasing = false;
@@ -35,15 +37,8 @@ class SchoolEvil extends StageBackend
         doof.cameras = [camDIALOGUE];
 
         if (isStoryMode && !PlayState.seenCutscene)
-        {
-            switch (curSong.formatToPath())
-            {
-                case 'thorns':
-                    schoolIntro(doof);
-                default:
-                    startCountdown();
-            }
-        }
+            if (curSong.formatToPath() == 'thorns')
+                schoolIntro(doof);
     }
 
     function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -103,7 +98,7 @@ class SchoolEvil extends StageBackend
 		});
 	}
 
-    override function cameraMovement(char:objects.Character)
+    override function cameraMovement(char:Character)
     {
         if (char == player) {
 			camFollow.x = player.getMidpoint().x - 200;

@@ -1,5 +1,8 @@
 package stages.bgs;
 
+import objects.game.BGSprite;
+import objects.game.Character;
+
 import stages.objects.BackgroundDancer;
 
 class Limo extends StageBackend
@@ -44,7 +47,7 @@ class Limo extends StageBackend
 		player.x += 260;
     }
 
-    override function cameraMovement(char:objects.Character)
+    override function cameraMovement(char:Character)
     {
         if (char == player)
             camFollow.x = player.getMidpoint().x - 300;
@@ -74,10 +77,8 @@ class Limo extends StageBackend
 
     override function beatHit()
     {
-		if (PreferencesMenu.getPref('camera-zoom') && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
-		{
+		if (ChillSettings.get('camZoom', 'gameplay') && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
 			game.camZoom();
-		}
 
         grpLimoDancers.forEach(function(dancer:BackgroundDancer)
         {

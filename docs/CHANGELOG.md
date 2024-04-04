@@ -29,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `stage` & `player3` are now in all charts
 - charts name now go by just the difficulty not the name (e.g `data/test/normal.json`)
 - Philly Windows are now white but the color still changing ingame
-- Notes textures r now rgb but loook normal in game!
+- Note textures are now rgb but look normal in game!
+- Options Rework
 - Assets folder more organized
 
 ### Removed

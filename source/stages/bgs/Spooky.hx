@@ -1,5 +1,8 @@
 package stages.bgs;
 
+import objects.game.BGSprite;
+import objects.game.Character;
+
 class Spooky extends StageBackend
 {
     var halloweenBG:BGSprite;

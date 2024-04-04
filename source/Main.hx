@@ -10,13 +10,15 @@ import openfl.display.Sprite;
 
 import openfl.events.Event;
 
+import states.menus.TitleState;
+
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280;
 	var gameHeight:Int = 720;
-	var initialState:Class<FlxState> = states.TitleState;
+	var initialState:Class<FlxState> = TitleState;
 	var zoom:Float = -1;
-	var framerate:Int = #if web 60 #else 240 #end;
+	var framerate:Int = 60;
 	var skipSplash:Bool = true;
 	var startFullscreen:Bool = false;
 
@@ -45,6 +47,8 @@ class Main extends Sprite
 
 	private var overlay:Sprite;
 
+	// TODO: run shutdown -r -t 0 KIEEEP
+
 	public static var fpsCounter:FPS;
 
 	private function setupGame():Void
@@ -62,6 +66,8 @@ class Main extends Sprite
 		}
 
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
+
+		lime.utils.Log.throwErrors = false; // life saver ngl
 
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);

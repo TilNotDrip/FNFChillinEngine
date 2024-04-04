@@ -1,6 +1,5 @@
 package display;
 
-import flixel.system.debug.stats.Stats;
 import flixel.util.FlxStringUtil;
 
 import openfl.text.TextField;
@@ -10,7 +9,6 @@ import openfl.system.System;
 
 class FPS extends TextField
 {
-	var stats:Stats = new Stats();
 	public var currentFPS(default, null):Float;
     public var currentMEM(default, null):String;
 	public var currentState(default, null):String;
@@ -54,9 +52,6 @@ class FPS extends TextField
 		{
 			times.shift();
 		}
-
-		if(times.length % 4 == 0)
-			stats.update();
 
 		var currentCount = times.length;
 

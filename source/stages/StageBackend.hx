@@ -8,7 +8,7 @@ import flixel.addons.transition.FlxTransitionableState;
 
 import flixel.math.FlxPoint;
 
-import objects.Character;
+import objects.game.Character;
 
 class StageBackend extends FlxBasic
 {
@@ -18,8 +18,8 @@ class StageBackend extends FlxBasic
     // Main Stage Variables
     public var zoom:Float = 1.05;
     public var pixel:Bool = false;
-    public var hasCutscene = false;
-    public var hasEndCutscene = false;
+    public var hasCutscene(default, set):Bool = false;
+    public var hasEndCutscene(default, set):Bool = false;
 
     // PlayState / MusicBeatState Variables
     private var camGAME(get, never):FlxCamera;
@@ -100,6 +100,25 @@ class StageBackend extends FlxBasic
     public function endingVideo() {}
 
     // Functions for getting/setting PlayState / MusicBeatState vars
+    inline private function set_hasCutscene(value:Bool):Bool
+    {
+        if (ChillSettings.get('cutscenes', 'gameplay'))
+            return this.hasCutscene = value;
+        else
+        {
+            PlayState.seenCutscene = true;
+            return this.hasCutscene = false;
+        }
+    }
+
+    inline private function set_hasEndCutscene(value:Bool):Bool
+    {
+        if (ChillSettings.get('cutscenes', 'gameplay'))
+            return this.hasEndCutscene = value;
+        else
+            return this.hasEndCutscene = false;
+    }
+
     inline private function get_camGAME():FlxCamera return PlayState.game.camGAME;
     inline private function get_camHUD():FlxCamera return PlayState.game.camHUD;
     inline private function get_camDIALOGUE():FlxCamera return PlayState.game.camDIALOGUE;

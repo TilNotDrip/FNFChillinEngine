@@ -1,5 +1,7 @@
 package stages.bgs;
 
+import objects.game.BGSprite;
+
 import shaders.BuildingShaders;
 
 class Philly extends StageBackend

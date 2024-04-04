@@ -1,5 +1,7 @@
 package stages.bgs;
 
+import objects.game.BGSprite;
+
 class FunkinStage extends StageBackend
 {
     override function create()

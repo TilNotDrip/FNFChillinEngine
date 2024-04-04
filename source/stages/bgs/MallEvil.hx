@@ -1,12 +1,13 @@
 package stages.bgs;
 
-import objects.Character;
+import objects.game.BGSprite;
+import objects.game.Character;
 
 class MallEvil extends StageBackend
 {
     override function create()
     {
-        if (curSong.formatToPath() == 'winter-horrorland')
+        if (curSong.formatToPath() == 'winter-horrorland' && isStoryMode)
             hasCutscene = true;
 
         var bg:BGSprite = new BGSprite('christmas/evilBG', -400, -500, 0.2, 0.2);
@@ -65,7 +66,7 @@ class MallEvil extends StageBackend
         }
     }
 
-    override function cameraMovement(char:objects.Character)
+    override function cameraMovement(char:Character)
     {
         if (char == player)
             camFollow.y =  player.getMidpoint().y - 200;

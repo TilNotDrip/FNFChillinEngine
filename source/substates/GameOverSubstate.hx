@@ -3,9 +3,13 @@ package substates;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 
+import objects.game.Character;
+
+import states.tools.AnimationDebug;
+
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:objects.Character;
+	var bf:Character;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
@@ -38,7 +42,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bf = new objects.Character(x, y, daBf, true);
+		bf = new Character(x, y, daBf, true);
 		add(bf);
 
 		if (daBf == 'bf-pixel-dead')
@@ -74,14 +78,14 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 
 			if (PlayState.isStoryMode)
-				FlxG.switchState(new states.StoryMenuState());
+				FlxG.switchState(new StoryMenuState());
 			else
-				FlxG.switchState(new states.FreeplayState());
+				FlxG.switchState(new FreeplayState());
 		}
 
 		#if debug
 		if (FlxG.keys.justPressed.EIGHT)
-			FlxG.switchState(new states.AnimationDebug(bf.curCharacter, true));
+			FlxG.switchState(new AnimationDebug(bf.curCharacter, true));
 		#end
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)

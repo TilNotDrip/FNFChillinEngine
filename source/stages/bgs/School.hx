@@ -1,6 +1,8 @@
 package stages.bgs;
 
-import objects.DialogueBox;
+import objects.game.BGSprite;
+import objects.game.Character;
+import objects.game.DialogueBox;
 
 import stages.objects.BackgroundGirls;
 
@@ -10,10 +12,11 @@ class School extends StageBackend
 
     override function create()
     {
-        if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
-            hasCutscene = true;
-
         pixel = true;
+
+        if (isStoryMode)
+            if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
+                hasCutscene = true;
 
         var bgSky = new BGSprite('weeb/weebSky', 0, 0, 0.1, 0.1);
         bgSky.antialiasing = false;
@@ -79,14 +82,16 @@ class School extends StageBackend
 		gf.x += 180;
 		gf.y += 300;
 
-        var doof:DialogueBox = new DialogueBox(false, game.dialogue);
-        doof.scrollFactor.set();
-        doof.finishThing = startCountdown;
-        doof.cameras = [camDIALOGUE];
-
         if (isStoryMode && !PlayState.seenCutscene)
+        {
+            var doof:DialogueBox = new DialogueBox(false, game.dialogue);
+            doof.scrollFactor.set();
+            doof.finishThing = startCountdown;
+            doof.cameras = [camDIALOGUE];
+
             if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
                 schoolIntro(doof);
+        }
     }
 
     function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -115,9 +120,7 @@ class School extends StageBackend
 			else
 			{
 				if (dialogueBox != null)
-				{
                     add(dialogueBox);
-				}
 				else
 					startCountdown();
 
@@ -126,7 +129,7 @@ class School extends StageBackend
 		});
 	}
 
-    override function cameraMovement(char:objects.Character)
+    override function cameraMovement(char:Character)
     {
         if (char == player) {
 			camFollow.x = player.getMidpoint().x - 200;

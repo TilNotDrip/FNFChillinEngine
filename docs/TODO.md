@@ -72,19 +72,19 @@
  - [ ] Fullscreen
  - [ ] Game Resolution (Optional and might break things but would be cool)
  - [ ] FPS
- - [ ] FPS Counter
- - [ ] Antialiasing
+ - [x] FPS Counter
+ - [x] Antialiasing
  - [ ] Flashing Lights <!-- is all she ever wanted (yeah) | Beggin' on her knees to be popular | That's her dream, to be popular (hey) | Kill anyone to be popular (hm) | Sell her soul to be popular | Popular, just to be popular (uh-huh) | Everybody scream 'cause she popular (hey) | She mainstream 'cause she popular | Never be free 'cause she popular -->
 
 ## Gameplay
 
  - [ ] Note Colours (Make a seperate menu maybe + Optional)
- - [ ] Ghost Tapping
- - [ ] Downscroll
+ - [x] Ghost Tapping
+ - [x] Downscroll
  - [ ] Middlescroll
- - [ ] Camera Zoom
- - [ ] Note Splashes
- - [ ] Cutscenes (Prevents Story Mode cutscenes from happening if disabled also optional)
+ - [x] Camera Zoom
+ - [x] Note Splashes
+ - [x] Cutscenes
  - [ ] Easter Eggs (Optional but said EE's are BF Old Icon, Gitaroo Pause and Old Game Over)
  - [ ] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
 

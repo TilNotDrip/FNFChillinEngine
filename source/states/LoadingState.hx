@@ -24,6 +24,8 @@ class LoadingState extends MusicBeatState
 	var loadBar:FlxSprite;
 	var funkay:FlxSprite;
 
+	static var directory(get, never):String;
+
 	function new(target:FlxState, stopMusic:Bool)
 	{
 		super();
@@ -58,7 +60,7 @@ class LoadingState extends MusicBeatState
 			if (PlayState.SONG.needsVoices)
 				checkLoadSong(getVocalPath());
 			checkLibrary("shared");
-			checkLibrary(PlayState.storyWeek.name);
+			checkLibrary(directory);
 
 			var fadeTime = 0.5;
 			FlxG.camera.fade(FlxG.camera.bgColor, fadeTime, true);
@@ -158,7 +160,7 @@ class LoadingState extends MusicBeatState
 
 	static function getNextState(target:FlxState, stopMusic = false):FlxState
 	{
-		Paths.setCurrentLevel(PlayState.storyWeek.name);
+		Paths.setCurrentLevel(directory);
 		#if NO_PRELOAD_ALL
 		var loaded = isSoundLoaded(getSongPath())
 			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()))
@@ -256,6 +258,25 @@ class LoadingState extends MusicBeatState
 		});
 
 		return promise.future;
+	}
+
+	static function get_directory():String
+	{
+		var dir:String = '';
+
+		switch (PlayState.SONG.stage)
+		{
+			case 'spooky': dir = 'week2';
+			case 'philly': dir = 'week3';
+			case 'limo': dir = 'week4';
+			case 'mall': dir = 'week5';
+			case 'mallEvil': dir = 'week5';
+			case 'school': dir = 'week6';
+			case 'schoolEvil': dir = 'week6';
+			case 'tank': dir = 'week7';
+		}
+
+		return dir;
 	}
 }
 

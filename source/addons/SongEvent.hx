@@ -23,7 +23,4 @@ class SongEvent
 enum abstract EventType(String)
 {
 	var X    = 'list';
-	var Y    = 0x10;
-	var XY   = 0x11;
-	var NONE = 0x00;
 }

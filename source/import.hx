@@ -36,12 +36,17 @@ import addons.discord.DiscordBackend as DiscordClient;
 import addons.discord.LegacyDiscord as DiscordClient;
 #end
 
-import objects.Alphabet;
-import objects.BGSprite;
+import objects.*;
 
-import options.PreferencesMenu;
+import options.ChillSettings;
 
-import states.PlayState;
+import states.game.BaseGame;
+import states.game.PlayState;
+
+import states.menus.StoryMenuState;
+import states.menus.FreeplayState;
+import states.menus.MainMenuState;
+
 import states.LoadingState;
 
 // Using
