@@ -578,7 +578,7 @@ class PlayState extends MusicBeatState
 				else
 					oldNote = null;
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+				var swagNote:Note = new Note(daStrumTime, daNoteData, !(SONG.song == 'Test' && !gottaHitNote) ? isPixel : true, oldNote);
 				swagNote.sustainLength = songNotes[2];
 				swagNote.altNote = songNotes[3];
 				swagNote.scrollFactor.set(0, 0);
@@ -592,7 +592,7 @@ class PlayState extends MusicBeatState
 				{
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true);
+					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, !(SONG.song == 'Test' && !gottaHitNote) ? isPixel : true, oldNote, true);
 					sustainNote.scrollFactor.set();
 					unspawnNotes.push(sustainNote);
 
@@ -626,7 +626,7 @@ class PlayState extends MusicBeatState
 
 	public function generateStaticArrows(player:Int):Void
 	{
-		var arrows:Strums = new Strums(0, strumLine.y, 4);
+		var arrows:Strums = new Strums(0, strumLine.y, 4, !(SONG.song == 'Test' && player == 0) ? isPixel : true);
 		for(i in 0...arrows.notes)
 		{
 			var babyArrow:FlxSprite = arrows.getNote(i);
@@ -641,7 +641,7 @@ class PlayState extends MusicBeatState
 		arrows.updateHitbox();
 		arrows.scrollFactor.set();
 
-		arrows.x += ((FlxG.width / 2) * player) + 50;
+		arrows.x = ((FlxG.width / 2) * player) + ((FlxG.width / 2 - arrows.width) / 2);
 
 		if (player == 1)
 			playerStrums = arrows;
@@ -870,11 +870,11 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.keys.pressed.SHIFT)
 				if (FlxG.keys.pressed.CONTROL)
-					FlxG.switchState(new AnimationDebug(SONG.player3));
+					FlxG.switchState(new AnimationDebug(SONG.player3, false));
 				else 
-					FlxG.switchState(new AnimationDebug(SONG.player1));
+					FlxG.switchState(new AnimationDebug(SONG.player1, true));
 			else
-				FlxG.switchState(new AnimationDebug(SONG.player2));
+				FlxG.switchState(new AnimationDebug(SONG.player2, false));
 		}
 
 		if (FlxG.keys.justPressed.PAGEUP && !isEnding)
@@ -1021,6 +1021,9 @@ class PlayState extends MusicBeatState
 					}
 				}
 
+				daNote.x = whatStrum.x + (Note.swagWidth * daNote.noteData);
+				if(daNote.isSustainNote) daNote.x += ((Note.swagWidth - daNote.width) / 2);
+
 				if (!daNote.mustPress && daNote.wasGoodHit)
 					opponentNoteHit(daNote);
 
@@ -1061,7 +1064,8 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene)
 			for(i in 0...opponentStrums.notes)
-				if(opponentStrums.getNote(i).animation.finished && opponentStrums.getNote(i).animation.name == 'confirm') opponentStrums.playNoteAnim(i, 'static');
+				if(opponentStrums.getNote(i).animation.finished && opponentStrums.getNote(i).animation.name == 'confirm') 
+					opponentStrums.playNoteAnim(i, 'static');
 	}
 
 	function killCombo():Void
@@ -1578,7 +1582,7 @@ class PlayState extends MusicBeatState
 
 			if (Math.abs(daNote.noteData) == i)
 			{
-				spr.animation.play('confirm', true);
+				opponentStrums.playNoteAnim(i, 'confirm', true);
 			}
 		}
 

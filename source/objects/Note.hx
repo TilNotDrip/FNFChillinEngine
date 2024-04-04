@@ -29,7 +29,7 @@ class Note extends FlxSprite
 	public static var arrowColorsGreen:Array<FlxColor> = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
 	public static var arrowColorsBlue:Array<FlxColor> = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, isPixel:Bool, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
 		super();
 
@@ -45,7 +45,7 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
-		if (PlayState.isPixel)
+		if (isPixel)
 		{
 			loadGraphic(Paths.image('pixelui/NOTE_assets'), true, 17, 17);
 
@@ -137,7 +137,7 @@ class Note extends FlxSprite
 
 			x -= width / 2;
 
-			if (PlayState.isPixel)
+			if (isPixel)
 				x += 30;
 
 			if (prevNote.isSustainNote)

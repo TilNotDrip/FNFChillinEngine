@@ -20,14 +20,16 @@ class AnimationDebug extends MusicBeatState
 	var animList:Array<String> = [];
 	var curAnim:Int = 0;
 	var daAnim:String = 'spooky';
+	var isPlayer:Bool = false;
 	var camFollow:FlxObject;
 
 	public var camHUD:FlxCamera;
 	public var camGAME:FlxCamera;
 
-	public function new(daAnim:String = 'spooky')
+	public function new(daAnim:String = 'spooky', isPlayer:Bool)
 	{
 		super();
+		this.isPlayer = isPlayer;
 		this.daAnim = daAnim;
 	}
 
@@ -48,7 +50,7 @@ class AnimationDebug extends MusicBeatState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		add(gridBG);
 
-		char = new objects.Character(0, 0, daAnim);
+		char = new objects.Character(0, 0, daAnim, isPlayer);
 		char.screenCenter();
 		char.debugMode = true;
 		add(char);

@@ -1,5 +1,6 @@
 package display;
 
+import flixel.system.debug.stats.Stats;
 import flixel.util.FlxStringUtil;
 
 import openfl.text.TextField;
@@ -9,6 +10,7 @@ import openfl.system.System;
 
 class FPS extends TextField
 {
+	var stats:Stats = new Stats();
 	public var currentFPS(default, null):Float;
     public var currentMEM(default, null):String;
 	public var currentState(default, null):String;
@@ -53,14 +55,13 @@ class FPS extends TextField
 			times.shift();
 		}
 
+		if(times.length % 4 == 0)
+			stats.update();
+
 		var currentCount = times.length;
 
-		// frames / time = framerate. then every frame, i should divide 1 by the time, which should get me it, right??
-		currentFPS = FlxMath.roundDecimal(1 / FlxG.elapsed, 2);
-		FlxG.watch.addQuick('ACTUAL FPS', 1 / FlxG.elapsed); // for the funnies
-
+		currentFPS = FlxMath.roundDecimal(stats.currentFps(), 2);
 		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
-		FlxG.watch.addQuick('ACTUAL MEM', System.totalMemory + " Bytes"); // for the funnies again
 
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 

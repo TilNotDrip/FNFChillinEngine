@@ -51,7 +51,7 @@
  - [ ] BF doesn't ascend when he's opponent
  - [ ] That dumbass bug when u remove one note on one side of the chart editor but it removes the other one on the other side anyways
 
-# Chillin' Engine Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
+# Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
 ## Controls
 

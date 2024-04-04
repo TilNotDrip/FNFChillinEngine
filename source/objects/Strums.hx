@@ -6,14 +6,16 @@ class Strums extends FlxSpriteGroup
 {
     var noteArray:Array<String> = ['left', 'down', 'up', 'right'];
 	public var notes:Int;
-    public function new(x:Float, y:Float, notes:Int) {
+	var isPixel:Bool = false;
+    public function new(x:Float, y:Float, notes:Int, isPixel:Bool) {
         super(x, y);
 		this.notes = notes;
+		this.isPixel = isPixel;
 
 		for(note in 0...notes)
 		{
 			var newNote:FlxSprite = new FlxSprite(Note.swagWidth * note);
-			if (PlayState.isPixel)
+			if (isPixel)
 			{
 				newNote.loadGraphic(Paths.image('pixelui/NOTE_assets'), true, 17, 17);
 
@@ -59,13 +61,13 @@ class Strums extends FlxSpriteGroup
 
 			spr.centerOffsets();
 
-			if (spr.animation.curAnim.name == 'confirm' && !PlayState.isPixel)
+			if (spr.animation.curAnim.name == 'confirm' && !isPixel)
 			{
 				spr.offset.x -= 13;
 				spr.offset.y -= 13;
 			}
 
-			if(PlayState.isPixel)
+			if(isPixel)
 			{
 				spr.updateHitbox();
 				spr.scrollFactor.set();
