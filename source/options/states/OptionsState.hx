@@ -13,6 +13,8 @@ class OptionsState extends MusicBeatState
     {
 		changeWindowName('Options Menu');
 
+        BaseSubState.parent = this;
+
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuUI/menuBG'));
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();

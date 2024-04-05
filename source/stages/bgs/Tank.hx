@@ -138,15 +138,11 @@ class Tank extends StageBackend
 			gf.y -= 75;
 		}
 
-        add(foregroundSprites);
-
         gfCutsceneLayer = new FlxGroup();
 		add(gfCutsceneLayer);
 
 		bfTankCutsceneLayer = new FlxGroup();
 		add(bfTankCutsceneLayer);
-
-		add(foregroundSprites);
 
         if (isStoryMode && !PlayState.seenCutscene)
         {
@@ -162,9 +158,11 @@ class Tank extends StageBackend
 					startCountdown();
             }
         }
+
+		add(foregroundSprites);
     }
 
-	#if !hxCodec
+	#if html5
 	var blackShit:FlxSprite;
 	#end
 
@@ -172,7 +170,7 @@ class Tank extends StageBackend
 	{
 		inCutscene = true;
 
-		#if !hxCodec
+		#if html5
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		blackShit.scrollFactor.set();
 		add(blackShit);
@@ -257,7 +255,7 @@ class Tank extends StageBackend
 	{
 		inCutscene = true;
 
-		#if !hxCodec
+		#if html5
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		blackShit.scrollFactor.set();
 		add(blackShit);
@@ -308,7 +306,7 @@ class Tank extends StageBackend
 	{
 		inCutscene = true;
 
-		#if !hxCodec
+		#if html5
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		blackShit.scrollFactor.set();
 		add(blackShit);
@@ -430,7 +428,7 @@ class Tank extends StageBackend
 		#end
 	}
 
-	#if !hxCodec
+	#if html5
 	override function endingVideo()
 	{
 		remove(blackShit);

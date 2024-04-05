@@ -9,6 +9,7 @@ class PauseSubState extends MusicBeatSubstate
 		'Restart Song',
 		'Change Difficulty',
 		'Toggle Practice Mode',
+		'Toggle Botplay',
 		'Exit to menu'
 	];
 
@@ -18,6 +19,7 @@ class PauseSubState extends MusicBeatSubstate
 	var pauseMusic:FlxSound;
 
 	var practiceText:FlxText;
+	var botplayText:FlxText;
 
 	public function new(x:Float, y:Float)
 	{
@@ -53,7 +55,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelDifficulty);
 
 		var deathCounter:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
-		deathCounter.text = "Blue balled: " + PlayState.deathCounter;
+		deathCounter.text = "Deaths: " + PlayState.deathCounter;
 		deathCounter.scrollFactor.set();
 		deathCounter.setFormat(Paths.font('vcr.ttf'), 32);
 		deathCounter.updateHitbox();
@@ -66,6 +68,14 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.x = FlxG.width - (practiceText.width + 20);
 		practiceText.visible = PlayState.practiceMode;
 		add(practiceText);
+
+		botplayText = new FlxText(20, 15 + 64 + 64, 0, "BOTPLAY", 32);
+		botplayText.scrollFactor.set();
+		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
+		botplayText.updateHitbox();
+		botplayText.x = FlxG.width - (botplayText.width + 20);
+		botplayText.visible = PlayState.botplay;
+		add(botplayText);
 
 		levelDifficulty.alpha = 0;
 		levelInfo.alpha = 0;
@@ -134,13 +144,21 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
+
 				case 'Toggle Practice Mode':
 					PlayState.practiceMode = !PlayState.practiceMode;
 					practiceText.visible = PlayState.practiceMode;
+
+				case 'Toggle Botplay':
+					PlayState.botplay = !PlayState.botplay;
+					botplayText.visible = PlayState.botplay;
+
 				case 'Change Difficulty':
 					openDifficultyMenu();
+
 				case "Restart Song":
 					FlxG.resetState();
+
 				case "Exit to menu":
 					PlayState.seenCutscene = false;
 					PlayState.deathCounter = 0;

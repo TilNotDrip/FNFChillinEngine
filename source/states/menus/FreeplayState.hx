@@ -138,7 +138,7 @@ class FreeplayState extends MusicBeatState
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
 	}
-	
+
 	function changeDifficulty(change:Int = 0)
 	{
 		curDifficulty += change;

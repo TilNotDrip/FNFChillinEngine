@@ -31,7 +31,7 @@ class EndSubState extends MusicBeatSubstate
         add(checker);
 
         bfCheeringYouOn = new FlxSprite();
-        bfCheeringYouOn.frames = Paths.getSparrowAtlas('endScreen/bf', 'shared');
+        bfCheeringYouOn.frames = Paths.getSparrowAtlas('endScreen/bf');
         bfCheeringYouOn.animation.addByIndices('uhh', 'yayy0', [0,1], '', 24, false);
         bfCheeringYouOn.animation.addByPrefix('yippee', 'yayy0', 24, false);
         bfCheeringYouOn.animation.addByPrefix('tbh', 'yayy loop', 24, true);

@@ -31,7 +31,7 @@ import states.tools.*;
 
 import substates.*;
 
-class PlayState extends MusicBeatState
+class PlayState extends BaseGame
 {
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
@@ -39,8 +39,11 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Week = null;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:String = 'Normal';
+
 	public static var deathCounter:Int = 0;
+
 	public static var practiceMode:Bool = false;
+	public static var botplay:Bool = false;
 
 	//public var inst:FlxSound;
 	public var vocals:FlxSound;
@@ -60,8 +63,12 @@ class PlayState extends MusicBeatState
 	public static var prevCamFollow:FlxObject;
 
 	public var strumLineNotes:FlxTypedGroup<Strums>;
+
 	public var playerStrums:Strums;
+	public var playerSplashes:FlxTypedGroup<NoteSplash>;
+
 	public var opponentStrums:Strums;
+	public var opponentSplashes:FlxTypedGroup<NoteSplash>;
 
 	public var gfSpeed:Int = 1;
 
@@ -103,8 +110,6 @@ class PlayState extends MusicBeatState
 
 	public var possibleScore:Int = 0;
 	public var songAccuracy:Float = 0;
-
-	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
 	public static var daPixelZoom:Float = 6;
 	public static var isPixel:Bool = false;
@@ -273,13 +278,19 @@ class PlayState extends MusicBeatState
 
 		if (ChillSettings.get('noteSplashes', 'gameplay'))
 		{
-			grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+			playerSplashes = new FlxTypedGroup<NoteSplash>();
+			opponentSplashes = new FlxTypedGroup<NoteSplash>();
 
-			var noteSplash:NoteSplash = new NoteSplash(100, 100, 0);
-			grpNoteSplashes.add(noteSplash);
-			noteSplash.alpha = 0;
+			var noteSplashPlayer:NoteSplash = new NoteSplash(100, 100, 0); // I dont mean to add 2 of the same thing BUT it does double the speed for whatever reason
+			playerSplashes.add(noteSplashPlayer);
+			noteSplashPlayer.alpha = 0;
+
+			var noteSplashOpponent:NoteSplash = new NoteSplash(100, 100, 0);
+			opponentSplashes.add(noteSplashOpponent);
+			noteSplashOpponent.alpha = 0;
 	
-			add(grpNoteSplashes);
+			add(playerSplashes);
+			add(opponentSplashes);
 		}
 
 		generateSong();
@@ -357,7 +368,11 @@ class PlayState extends MusicBeatState
 		healthPlayerTxt.color = iconP1.curHealthBarColor;
 
 		if (ChillSettings.get('noteSplashes', 'gameplay'))
-			grpNoteSplashes.cameras = [camHUD];
+		{
+			playerSplashes.cameras = [camHUD];
+			opponentSplashes.cameras = [camHUD];
+		}
+
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -581,7 +596,7 @@ class PlayState extends MusicBeatState
 				else
 					oldNote = null;
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, !(SONG.song == 'Test' && !gottaHitNote) ? isPixel : true, oldNote);
+				var swagNote:Note = new Note(daStrumTime, daNoteData, (gottaHitNote) ? boyfriend.isPixel : dad.isPixel, oldNote);
 				swagNote.sustainLength = songNotes[2];
 				swagNote.altNote = songNotes[3];
 				swagNote.scrollFactor.set(0, 0);
@@ -595,7 +610,7 @@ class PlayState extends MusicBeatState
 				{
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, !(SONG.song == 'Test' && !gottaHitNote) ? isPixel : true, oldNote, true);
+					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, (gottaHitNote) ? boyfriend.isPixel : dad.isPixel, oldNote, true);
 					sustainNote.scrollFactor.set();
 					unspawnNotes.push(sustainNote);
 
@@ -629,7 +644,7 @@ class PlayState extends MusicBeatState
 
 	public function generateStaticArrows(player:Int):Void
 	{
-		var arrows:Strums = new Strums(0, strumLine.y, 4, !(SONG.song == 'Test' && player == 0) ? isPixel : true);
+		var arrows:Strums = new Strums(0, strumLine.y, 4, (player == 1) ? boyfriend.isPixel : dad.isPixel);
 		for(i in 0...arrows.notes)
 		{
 			var babyArrow:FlxSprite = arrows.getNote(i);
@@ -1243,9 +1258,9 @@ class PlayState extends MusicBeatState
 
 			if (ChillSettings.get('noteSplashes', 'gameplay'))
 			{
-				var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-				noteSplash.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
-				grpNoteSplashes.add(noteSplash);
+				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
+				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, isPixel);
+				playerSplashes.add(noteSplashPlayer);
 			}
 		}
 
@@ -1527,7 +1542,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function missThing(ghostTap:Bool = false)
+	function missThing()
 	{
 		health -= 0.04;
 		songMisses++;
@@ -1641,9 +1656,9 @@ class PlayState extends MusicBeatState
 
 		if (!daNote.isSustainNote && ChillSettings.get('noteSplashes', 'gameplay'))
 		{
-			var noteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-			noteSplash.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
-			grpNoteSplashes.add(noteSplash);
+			var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
+			noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, dad.isPixel);
+			opponentSplashes.add(noteSplashOpponent);
 		}
 	}
 
