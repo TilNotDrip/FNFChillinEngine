@@ -1,4 +1,3 @@
-<!-- WIPE OUT TODO LIST WHEN WE FINISHED WITH THE VERSION WE WORKING ON SO IT DOESN'T GET THAT MESSY (at least for the ones that are checkedf out) UNLESS I CHANGE MY MIND -->
 # Chillin' Engine - Todo List
 
 ## Big Changes
@@ -22,12 +21,11 @@
  - [x] Pixel Note Splashes (`impact 2` animations)
  - [ ] Stage background images load from a bg folder, then the stage name
  - [ ] Seperate Voices File (`Voices.ogg` => `Voices/dad`, `Voices/bf`, `Voices/gf`)
- - [ ] Botplay
+ - [x] Botplay
  - [x] Old BF icon but pixel for pixel stages
  - [x] Put song watermark ingame
  - [x] Make GF Changable via Song Json file
  - [ ] Outdated Warning
- - [ ] Fix Random Lag Spikes around the engine (please help)
  - [x] Make Stages into their own hx file
  - [ ] Character Editor becomes usable
  - [ ] Fix things with diff in Story Menu
@@ -51,7 +49,7 @@
  - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`) <!-- It was TechNotDrip at the time of typing that -->
  - [x] Make Philly window lights white so i can just change colors throughout the code
  - [ ] BF doesn't ascend when he's opponent
- - [ ] That dumbass bug when u remove one note on one side of the chart editor but it removes the other one on the other side anyways
+ - [ ] add skip cutscene key
 
 # Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 

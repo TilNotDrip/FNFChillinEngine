@@ -1291,7 +1291,7 @@ class PlayState extends BaseGame
 			if (ChillSettings.get('noteSplashes', 'gameplay'))
 			{
 				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
-				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, isPixel);
+				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, boyfriend.isPixel);
 				playerSplashes.add(noteSplashPlayer);
 			}
 		}
