@@ -160,13 +160,12 @@ class ChillSettings
 
     // might use for softcoded functions if i feel nice
     static function setNullOption(option:String, category:String)
-    {
-        //throw 'your option never existed lol';
+    { //nahahasgnijbfklmfdslpk[f;fgt][fg]
     }
 
     static function getNullOption(option:String, category:String):Dynamic
     {
         FlxG.log.error(option + ' no exist in ' + category);
-        return false;
+        return null;
     }
 }

@@ -41,7 +41,10 @@ class EndSubState extends MusicBeatSubstate
         add(bfCheeringYouOn);
 
         new FlxTimer().start(2.6, function(tmr:FlxTimer) {
-            bfCheeringYouOn.animation.play('yippee', true);
+            if(bfCheeringYouOn.animation != null) 
+                bfCheeringYouOn.animation.play('yippee', true);
+            else
+                tmr.reset(0.01);
         });
     }
 

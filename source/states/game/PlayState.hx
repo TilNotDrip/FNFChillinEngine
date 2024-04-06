@@ -545,7 +545,7 @@ class PlayState extends BaseGame
 		vocals.play();
 
 		FlxG.sound.music.onComplete = function() {
-			openSubState(new EndSubState());
+			endSong();
 		};
 
 		#if discord_rpc
@@ -868,7 +868,7 @@ class PlayState extends BaseGame
 		{
 			FlxG.sound.music.stop();
 			vocals.stop();
-			openSubState(new EndSubState());
+			endSong();
 		}
 
 		if (FlxG.keys.justPressed.EIGHT && !isEnding)
@@ -1032,6 +1032,9 @@ class PlayState extends BaseGame
 				if (!daNote.mustPress && daNote.wasGoodHit)
 					opponentNoteHit(daNote);
 
+				if (daNote.mustPress && daNote.strumTime <= Conductor.songPosition && botplay)
+					goodNoteHit(daNote);
+
 				if (daNote.isSustainNote && daNote.wasGoodHit)
 				{
 					if ((!ChillSettings.get('downScroll', 'gameplay') && daNote.y < -daNote.height)
@@ -1047,7 +1050,7 @@ class PlayState extends BaseGame
 				}
 				else if (daNote.tooLate || daNote.wasGoodHit)
 				{
-					if (daNote.tooLate)
+					if (daNote.tooLate && !botplay) // little behind-the-scenes trick! 
 					{
 						noteMiss(daNote);
 						vocals.volume = 0;
@@ -1064,8 +1067,11 @@ class PlayState extends BaseGame
 			});
 		}
 
-		if (!inCutscene)
+		if (!inCutscene && !botplay)
 			keyShit();
+
+		if(botplay)
+			songAccuracy = 100; // behind the scenes trick!! part 2
 
 		if (!inCutscene)
 		{
@@ -1073,6 +1079,18 @@ class PlayState extends BaseGame
 			{
 				if(opponentStrums.getNote(i).animation.finished && opponentStrums.getNote(i).animation.name == 'confirm') 
 					opponentStrums.playNoteAnim(i, 'static');
+			}
+
+			if(botplay)
+			{
+				for(i in 0...playerStrums.notes)
+				{
+					if(playerStrums.getNote(i).animation.finished && playerStrums.getNote(i).animation.name == 'confirm') 
+						playerStrums.playNoteAnim(i, 'static');
+				}
+
+				if (boyfriend.animation.finished && boyfriend.animation.name != 'idle')
+					boyfriend.playAnim('idle');
 			}
 		}
 	}
@@ -1142,8 +1160,19 @@ class PlayState extends BaseGame
 	}
 	#end
 
+	public var endScreen:Bool = true;
 	public function endSong()
 	{
+		/*if(isStoryMode)
+			endScreen = false;*/
+
+		if(endScreen)
+		{
+			openSubState(new EndSubState());
+			endScreen = false;
+			return;
+		}
+
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
 
@@ -1152,7 +1181,7 @@ class PlayState extends BaseGame
 
 		isEnding = true;
 
-		if (SONG.validScore)
+		if (SONG.validScore && !practiceMode && !botplay)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
 		if (isStoryMode)
@@ -1227,29 +1256,32 @@ class PlayState extends BaseGame
 
 		var isSick:Bool = true;
 
-		if (noteDiff > Conductor.safeZoneOffset * 0.9)
+		if(!botplay) // behind the scenes trick!! part 3
 		{
-			shits++;
+			if (noteDiff > Conductor.safeZoneOffset * 0.9)
+			{
+				shits++;
 
-			daRating = 'shit';
-			score = 50;
-			isSick = false;
-		}
-		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
-		{
-			bads++;
+				daRating = 'shit';
+				score = 50;
+				isSick = false;
+			}
+			else if (noteDiff > Conductor.safeZoneOffset * 0.75)
+			{
+				bads++;
 
-			daRating = 'bad';
-			score = 100;
-			isSick = false;
-		}
-		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
-		{
-			goods++;
+				daRating = 'bad';
+				score = 100;
+				isSick = false;
+			}
+			else if (noteDiff > Conductor.safeZoneOffset * 0.2)
+			{
+				goods++;
 
-			daRating = 'good';
-			score = 200;
-			isSick = false;
+				daRating = 'good';
+				score = 200;
+				isSick = false;
+			}
 		}
 
 		if (isSick)
@@ -1264,10 +1296,8 @@ class PlayState extends BaseGame
 			}
 		}
 
-		if (!practiceMode) {
-			songScore += score;
-			possibleScore += 350;
-		}
+		songScore += score;
+		possibleScore += 350;
 
 		var ratingPath:String = "ui/" + daRating;
 
@@ -1425,14 +1455,22 @@ class PlayState extends BaseGame
 
 	public function keyShit():Void
 	{
-		var holdArray:Array<Bool> = [controls.NOTE_LEFT, controls.NOTE_DOWN, controls.NOTE_UP, controls.NOTE_RIGHT];
 		var canIdle:Bool = true;
+
+		var holdArray:Array<Bool> = [
+			controls.NOTE_LEFT,
+			controls.NOTE_DOWN,
+			controls.NOTE_UP,
+			controls.NOTE_RIGHT
+		];
+
 		var pressArray:Array<Bool> = [
 			controls.NOTE_LEFT_P,
 			controls.NOTE_DOWN_P,
 			controls.NOTE_UP_P,
 			controls.NOTE_RIGHT_P
 		];
+
 		var releaseArray:Array<Bool> = [
 			controls.NOTE_LEFT_R,
 			controls.NOTE_DOWN_R,
