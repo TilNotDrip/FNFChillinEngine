@@ -56,11 +56,6 @@ class Strums extends FlxSpriteGroup
 				staticNotes.rgb = [0xFF87A3AD, 0xFFFFFFFF, 0xFF000000];
 			}
 
-			pressNoteLeft.rgb = [Note.arrowColorsRed[0], Note.arrowColorsGreen[0], Note.arrowColorsBlue[0]];
-			pressNoteDown.rgb = [Note.arrowColorsRed[1], Note.arrowColorsGreen[1], Note.arrowColorsBlue[1]];
-			pressNoteUp.rgb = [Note.arrowColorsRed[2], Note.arrowColorsGreen[2], Note.arrowColorsBlue[2]];
-			pressNoteRight.rgb = [Note.arrowColorsRed[3], Note.arrowColorsGreen[3], Note.arrowColorsBlue[3]];
-
 			shader = staticNotes.shader;
 
 			newNote.animation.play('static');

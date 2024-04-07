@@ -9,18 +9,21 @@ class BaseSubState extends MusicBeatSubstate
     var canDoShit:Bool = false;
 
     private static var curSelected:Int = 0;
-    private var options:FlxTypedGroup<Option>;
+    private var options:Array<Option> = [];
 
-    public function new()
+    override function create()
     {
-        super();
-
-        options = new FlxTypedGroup<Option>();
-        add(options);
+        super.create();
 
         new FlxTimer().start(0.001, function(timer:FlxTimer) {
             canDoShit = true; // stupid fix
         });
+
+        for (i in 0...options.length)
+        {
+            options[i].screenCenter(X);
+            options[i].y = 100 + (90 * i);
+        }
 
         changeItem();
     }
@@ -39,12 +42,16 @@ class BaseSubState extends MusicBeatSubstate
         if(controls.UI_DOWN_P && canDoShit)
             changeItem(1);
 
+        if(controls.UI_LEFT_P && canDoShit)
+            changeOptionValue(-1);
+
+        if(controls.UI_RIGHT_P && canDoShit)
+            changeOptionValue(1);
+
         if (controls.ACCEPT && canDoShit)
         {
-            options.forEach(function(option:Option) {
-                if (option.ID == curSelected && option.type == CHECKBOX)
-                    option.press(!option.value);
-            });
+            if (options[curSelected].type == CHECKBOX)
+                options[curSelected].press();
         }
 
         super.update(elapsed);
@@ -54,16 +61,29 @@ class BaseSubState extends MusicBeatSubstate
 	{
 		curSelected += change;
 
-		if (curSelected >= options.length)
-			curSelected = 0;
-		if (curSelected < 0)
+        if (curSelected < 0)
 			curSelected = options.length - 1;
 
-        options.forEach(function(option:Option) {
-            if (option.ID == curSelected)
-                option.alpha = 1;
-            else
-                option.alpha = 0.6;
-        });
+		if (curSelected >= options.length)
+			curSelected = 0;
+
+        for (i in 0...options.length)
+            options[i].alpha = 0.6;
+
+        options[curSelected].alpha = 1;
 	}
+
+    function changeOptionValue(change:Int = 0)
+    {
+        if (options[curSelected].type == NUMBER && options[curSelected].numType == Int)
+            options[curSelected].changeValue(change);
+        else if (options[curSelected].type == NUMBER && options[curSelected].numType == Float)
+            options[curSelected].changeValue(change * 0.1);
+    }
+
+    private function addOption(option:Option)
+    {
+        options.push(option);
+        add(option);
+    }
 }

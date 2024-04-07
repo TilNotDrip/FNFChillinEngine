@@ -1,14 +1,12 @@
+#if discord_rpc
 package addons.discord;
 
-#if discord_rpc
 import discord_rpc.DiscordRpc;
-#end
 
 import Sys.sleep;
 
 class LegacyDiscord
 {
-	#if discord_rpc
 	public function new()
 	{
 		trace("Discord Client starting...");
@@ -65,6 +63,9 @@ class LegacyDiscord
 
 	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
 	{
+		if (!ChillSettings.get('discordRPC', 'other'))
+			return;
+
 		var startTimestamp:Float = if (hasStartTimestamp) Date.now().getTime() else 0;
 
 		if (endTimestamp > 0)
@@ -82,5 +83,5 @@ class LegacyDiscord
 			endTimestamp: Std.int(endTimestamp / 1000)
 		});
 	}
-	#end
 }
+#end

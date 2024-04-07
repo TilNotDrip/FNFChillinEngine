@@ -57,10 +57,10 @@ class FreeplayState extends MusicBeatState
 				songText.isMenuItem = true;
 				songText.targetY = i;
 				grpSongs.add(songText);
-		
+
 				var icon:HealthIcon = new HealthIcon(week.icons[i]);
 				icon.sprTracker = songText;
-		
+
 				iconArray.push(icon);
 				add(icon);
 			}
@@ -182,9 +182,7 @@ class FreeplayState extends MusicBeatState
 		var bullShit:Int = 0;
 
 		for (i in 0...iconArray.length)
-		{
 			iconArray[i].alpha = 0.6;
-		}
 
 		iconArray[curSelected].alpha = 1;
 

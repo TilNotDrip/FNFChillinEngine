@@ -1,6 +1,7 @@
 package options.states;
 
-import options.substates.*;
+import options.substates.BaseSubState;
+import options.substates.options.*;
 
 class OptionsState extends MusicBeatState
 {
@@ -87,8 +88,14 @@ class OptionsState extends MusicBeatState
 		{
             case 'controls':
                 openSubState(new ControlsSubState(this));
-			case 'display' | 'gameplay' | 'flixel' | 'other':
-				openSubState(new BaseSubState(this));
+			case 'display':
+                openSubState(new Display());
+            case 'gameplay':
+                openSubState(new Gameplay());
+            case 'flixel':
+                openSubState(new Flixel());
+            case 'other':
+                openSubState(new Other());
 		}
 	}
 

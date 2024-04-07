@@ -4,94 +4,93 @@ import flixel.group.FlxSpriteGroup;
 
 class Option extends FlxSpriteGroup
 {
+    public var description:String;
     public var varName:String;
     public var category:String;
     public var type:OptionType;
     public var value:Dynamic;
 
+    public var numType:Dynamic;
+
     public var minimumValue:Dynamic;
-    public var maxValue:Dynamic;
+    public var maximumValue:Dynamic;
 
-    public var onPress:Dynamic->Void;
+    public var onChange:Void->Void = null;
 
-    private var checkbox:FlxSprite = null;
+    private var checkbox:Checkbox;
+    private var number:Alphabet;
 
-    public function new(x:Float, y:Float, name:String, varName:String, category:String, type:OptionType)
+    public function new(name:String, description:String, varName:String, category:String, type:OptionType)
     {
+        this.description = description;
         this.varName = varName;
         this.category = category;
         this.type = type;
+
         value = ChillSettings.get(varName, category);
 
         super(x, y);
 
-        var option:Alphabet = new Alphabet(x, y, name, true, false);
-        add(option);
+        var optionTxt:Alphabet = new Alphabet(0, 0, name, true, false);
+        add(optionTxt);
 
         switch(type)
         {
             case CHECKBOX:
-                checkbox = new FlxSprite(option.x + option.width + 50);
-                checkbox.frames = Paths.getSparrowAtlas('menuUI/checkbox');
-                checkbox.animation.addByIndices('idle', 'Unselect', [13,13], '', 24, true);
-                checkbox.animation.addByIndices('idle selected', 'Press', [13,13], '', 24, true);
-                checkbox.animation.addByPrefix('checked', 'Press', 24, false);
-                checkbox.animation.addByPrefix('unchecked', 'Unselect', 24, false);
-                if(ChillSettings.get(varName, category))  
-                    checkbox.animation.play('idle selected', true);
-                else
-                    checkbox.animation.play('idle', true);
-
+                checkbox = new Checkbox(optionTxt.x + optionTxt.width + 50, 0);
+                checkbox.check(ChillSettings.get(varName, category));
                 add(checkbox);
 
-                checkbox.setGraphicSize(Std.int(checkbox.width * 0.2));
-                checkbox.updateHitbox();
-
             case SLIDER:
                 trace('slider!');
 
             case SELECTION:
                 trace('selection!');
+
+            case NUMBER:
+                number = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, value, false, false);
+                add(number);
         }
-        
     }
 
-    public function press(value:Dynamic)
+    public function press()
     {
+        if(type != CHECKBOX)
+        {
+            FlxG.log.error('Press can be used on checkboxes only.');
+            return;
+        }
+
+        value = !value;
         ChillSettings.set(varName, category, value);
+
+        checkbox.check(value);
+
+        if(onChange != null) //I WISH THIS COULD CHECK FOR ITSELF
+            onChange();
+    }
+
+    public function changeValue(change:Dynamic)
+    {
+        var newValue:Dynamic = change + ChillSettings.get(varName, category);
+
+        if (maximumValue <= newValue || minimumValue <= newValue)
+            ChillSettings.set(varName, category, newValue);
 
         switch(type)
         {
             case CHECKBOX:
-                if(value == true)
-                {
-                    checkbox.animation.play('checked', true);
-                    checkbox.animation.finishCallback = function(anim:String) {
-                        checkbox.animation.play('idle selected', true);
-                        checkbox.animation.finishCallback = null;
-                    }
-                }
-                else if(value == false)
-                {
-                    checkbox.animation.play('unchecked', true);
-
-                    checkbox.animation.finishCallback = function(anim:String) {
-                        checkbox.animation.play('idle', true);
-                        checkbox.animation.finishCallback = null;
-                    }
-                }
-
-            case SLIDER:
-                trace('slider!');
-
+                throw 'changeValue cant be used on press';
             case SELECTION:
-                trace('selection!');
+                throw 'changeValue cant be used on selection';
+            case SLIDER:
+                throw 'changeValue cant be used on sliders';
+            case NUMBER:
+                number.text = newValue;
         }
 
-        this.value = value;
-
-        if(onPress != null) //I WISH THIS COULD CHECK FOR ITSELF
-            onPress(value);
+        if(onChange != null) //I WISH THIS COULD CHECK FOR ITSELF
+            onChange();
     }
 }
 
@@ -100,4 +99,5 @@ enum abstract OptionType(Int)
 	var CHECKBOX = 0;
     var SLIDER = 1;
     var SELECTION = 2;
+    var NUMBER = 3;
 }

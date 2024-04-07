@@ -60,13 +60,14 @@ class Week
         daWeekThing[7].color = 0xfff6b604;
 
         // Test
-        #if debug
-        var idk:Week = new Week('test', ['Test'], ['Normal']);
-        idk.characters = ['bf', 'bf', 'gf'];
-        idk.color = 0xffffffff;
-        idk.motto = '[PLACEHOLDER]';
-        daWeekThing.push(idk);
-        #end
+        if (ChillSettings.get('devMode', 'other'))
+        {
+            var idk:Week = new Week('test', ['Test'], ['Normal']);
+            idk.characters = ['bf', 'bf', 'gf'];
+            idk.color = 0xffffffff;
+            idk.motto = '[PLACEHOLDER]';
+            daWeekThing.push(idk);
+        }
 
         return daWeekThing;
     }

@@ -2,11 +2,7 @@ package addons;
 
 class Highscore
 {
-	#if (haxe >= "4.0.0")
-	public static var songScores:Map<String, Int> = new Map();
-	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
-	#end
 
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:String = ''):Void

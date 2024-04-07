@@ -18,7 +18,7 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 
-#if cpp
+#if hxCodec
 import hxcodec.flixel.FlxVideo;
 #end
 
@@ -278,8 +278,8 @@ class PlayState extends BaseGame
 
 		if (ChillSettings.get('noteSplashes', 'gameplay'))
 		{
-			playerSplashes = new FlxTypedGroup<NoteSplash>();
-			opponentSplashes = new FlxTypedGroup<NoteSplash>();
+			playerSplashes = new FlxTypedGroup<NoteSplash>(51);
+			opponentSplashes = new FlxTypedGroup<NoteSplash>(51);
 
 			var noteSplashPlayer:NoteSplash = new NoteSplash(100, 100, 0); // I dont mean to add 2 of the same thing BUT it does double the speed for whatever reason
 			playerSplashes.add(noteSplashPlayer);
@@ -387,8 +387,7 @@ class PlayState extends BaseGame
 
 		startingSong = true;
 
-		if (!seenCutscene && StageBackend.stage.hasCutscene) {}
-		else
+		if (seenCutscene || !StageBackend.stage.hasCutscene)
 			startCountdown();
 
 		super.create();
@@ -661,10 +660,28 @@ class PlayState extends BaseGame
 
 		arrows.x = ((FlxG.width / 2) * player) + ((FlxG.width / 2 - arrows.width) / 2);
 
+		var dummyNotes:Array<Note> = [];
+		for(i in 0...arrows.notes)
+			dummyNotes.push(new Note(0, i, (player == 1) ? boyfriend.isPixel : dad.isPixel));
+
 		if (player == 1)
+		{
 			playerStrums = arrows;
+
+			playerStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
+			playerStrums.pressNoteDown.rgb = dummyNotes[1].returnColors(1);
+			playerStrums.pressNoteUp.rgb = dummyNotes[2].returnColors(2);
+			playerStrums.pressNoteRight.rgb = dummyNotes[3].returnColors(3);
+		}
 		else
+		{
 			opponentStrums = arrows;
+
+			opponentStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
+			opponentStrums.pressNoteDown.rgb = dummyNotes[1].returnColors(1);
+			opponentStrums.pressNoteUp.rgb = dummyNotes[2].returnColors(2);
+			opponentStrums.pressNoteRight.rgb = dummyNotes[3].returnColors(3);
+		}
 
 		strumLineNotes.add(arrows);
 	}
@@ -825,7 +842,7 @@ class PlayState extends BaseGame
 		if (controls.PAUSE)
 			pauseGame();
 
-		if (FlxG.keys.justPressed.SEVEN)
+		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.SEVEN)
 		{
 			FlxG.switchState(new ChartingState());
 
@@ -864,14 +881,20 @@ class PlayState extends BaseGame
 			iconP2.animation.curAnim.curFrame = 0;
 
 		#if debug
-		if (FlxG.keys.justPressed.ONE && !isEnding && canEnd)
+		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.ONE && !isEnding && canEnd)
 		{
 			FlxG.sound.music.stop();
 			vocals.stop();
 			endSong();
 		}
 
-		if (FlxG.keys.justPressed.EIGHT && !isEnding)
+		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.PAGEUP && !isEnding)
+			changeSection(1);
+		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.PAGEDOWN && !isEnding)
+			changeSection(-1);
+		#end
+
+		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.EIGHT && !isEnding)
 		{
 			if (FlxG.keys.pressed.SHIFT)
 				if (FlxG.keys.pressed.CONTROL)
@@ -881,12 +904,6 @@ class PlayState extends BaseGame
 			else
 				FlxG.switchState(new AnimationDebug(SONG.player2, false));
 		}
-
-		if (FlxG.keys.justPressed.PAGEUP && !isEnding)
-			changeSection(1);
-		if (FlxG.keys.justPressed.PAGEDOWN && !isEnding)
-			changeSection(-1);
-		#end
 
 		if(!inCutscene) {
 			camGAME.zoom = FlxMath.lerp(StageBackend.stage.zoom, camGAME.zoom, 0.95);
@@ -1069,9 +1086,6 @@ class PlayState extends BaseGame
 
 		if (!inCutscene && !botplay)
 			keyShit();
-
-		if(botplay)
-			songAccuracy = 100; // behind the scenes trick!! part 2
 
 		if (!inCutscene)
 		{
@@ -1292,6 +1306,7 @@ class PlayState extends BaseGame
 			{
 				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
 				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, boyfriend.isPixel);
+				noteSplashPlayer.setColors(daNote.returnColors(daNote.noteData));
 				playerSplashes.add(noteSplashPlayer);
 			}
 		}
@@ -1336,6 +1351,7 @@ class PlayState extends BaseGame
 			displayCombo();
 	}
 
+	public var comboGroup:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>(50);
 	function displayCombo():Void
 	{
 		var pixelShitPart1:String = "";
@@ -1355,7 +1371,7 @@ class PlayState extends BaseGame
 		comboSpr.velocity.y -= 150;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 
-		add(comboSpr);
+		comboGroup.add(comboSpr);
 
 		if (isPixel)
 		{
@@ -1371,6 +1387,7 @@ class PlayState extends BaseGame
 		FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween)
 			{
+				comboGroup.remove(comboSpr);
 				comboSpr.destroy();
 			},
 			startDelay: Conductor.crochet * 0.001
@@ -1638,6 +1655,9 @@ class PlayState extends BaseGame
 			else
 				health += 0.004;
 
+			if(botplay)
+				songAccuracy = 100; // behind the scenes trick!! part 2
+
 			boyfriend.playAnim(singArray[note.noteData], true);
 
 			for(i in 0...playerStrums.notes)
@@ -1696,6 +1716,7 @@ class PlayState extends BaseGame
 		{
 			var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
 			noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, dad.isPixel);
+			noteSplashOpponent.setColors(daNote.returnColors(daNote.noteData));
 			opponentSplashes.add(noteSplashOpponent);
 		}
 	}

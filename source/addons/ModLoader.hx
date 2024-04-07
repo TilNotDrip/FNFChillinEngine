@@ -1,6 +1,6 @@
+#if MOD_SUPPORT
 package addons;
 
-#if MOD_SUPPORT
 import flixel.FlxObject;
 import flixel.FlxBasic;
 import polymod.Polymod;

@@ -208,10 +208,6 @@ class Controls extends FlxActionSet
 
 	public function checkByName(name:Action):Bool
 	{
-		#if debug
-		if (!byName.exists(name))
-			throw 'Invalid name: $name';
-		#end
 		return byName[name].check();
 	}
 
@@ -622,7 +618,7 @@ class Controls extends FlxActionSet
 			}
 		}
 	}
-	
+
 	public function createSaveData(device:Device):Dynamic
 	{
 		var isEmpty = true;
@@ -631,7 +627,7 @@ class Controls extends FlxActionSet
 		{
 			var inputs = getInputsFor(control, device);
 			isEmpty = isEmpty && inputs.length == 0;
-			
+
 			Reflect.setField(data, control.getName(), inputs);
 		}
 		

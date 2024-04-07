@@ -83,10 +83,8 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.switchState(new FreeplayState());
 		}
 
-		#if debug
-		if (FlxG.keys.justPressed.EIGHT)
+		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.EIGHT)
 			FlxG.switchState(new AnimationDebug(bf.curCharacter, true));
-		#end
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
 		{

@@ -33,6 +33,7 @@
  - [ ] RGB Pallete for Notes + Note Splashes
  - [ ] Pause Stutter problem fix from FlxAnimate (Meaning this isnt a problem on web)
  - [ ] Sustain Note Splashes (https://twitter.com/FNF_Developers/status/1774200908806525366)
+ - [ ] Opponents have their own note colors
 
 ## Small Changes
 
@@ -67,12 +68,12 @@
 
 ## Display
 
- - [ ] Fullscreen
+ - [x] Fullscreen
  - [ ] Game Resolution (Optional and might break things but would be cool)
- - [ ] FPS
+ - [x] FPS
  - [x] FPS Counter
  - [x] Antialiasing
- - [ ] Flashing Lights <!-- is all she ever wanted (yeah) | Beggin' on her knees to be popular | That's her dream, to be popular (hey) | Kill anyone to be popular (hm) | Sell her soul to be popular | Popular, just to be popular (uh-huh) | Everybody scream 'cause she popular (hey) | She mainstream 'cause she popular | Never be free 'cause she popular -->
+ - [x] Flashing Lights <!-- is all she ever wanted (yeah) | Beggin' on her knees to be popular | That's her dream, to be popular (hey) | Kill anyone to be popular (hm) | Sell her soul to be popular | Popular, just to be popular (uh-huh) | Everybody scream 'cause she popular (hey) | She mainstream 'cause she popular | Never be free 'cause she popular -->
 
 ## Gameplay
 
@@ -89,14 +90,14 @@
 
 ## Flixel (or we can put this under **Other** as well)
 
- - [ ] Auto Pause
- - [ ] System Cursor
+ - [x] Auto Pause
+ - [x] System Cursor
 
 ## Other
 
- - [ ] Discord (Self explanitory)
+ - [x] Discord (Self explanitory)
  - [ ] Safe Mode (Prevents mods from messing with your computer like shutting it down for example or writing files (Just need to figure out how to prevent it first))
- - [ ] Dev Mode (Enables stuff like chart editor and animation debug and the Test song (maybe))
+ - [x] Dev Mode (Enables stuff like chart editor and animation debug and the Test song (maybe))
 
 
 # Chillin' Engine Engine - Chart Editor Todo List <!-- Stuff we NEED for the chart editor -->

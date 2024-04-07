@@ -113,6 +113,10 @@ class TitleState extends MusicBeatState
 
 		FlxG.drawFramerate = ChillSettings.get('fps', 'display');
 		FlxG.updateFramerate = ChillSettings.get('fps', 'display');
+
+		if (Main.fpsCounter != null)
+			Main.fpsCounter.visible = ChillSettings.get('fpsCounter', 'display');
+
 		FlxG.fullscreen = ChillSettings.get('fullscreen', 'display');
 
 		FlxG.debugger.setLayout(MICRO);
