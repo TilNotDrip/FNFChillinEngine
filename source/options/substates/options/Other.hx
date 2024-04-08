@@ -11,7 +11,7 @@ class Other extends BaseSubState
     override function create()
     {
         #if discord_rpc
-        var discordRPC:Option = new Option('Discord Rich Presence', 'Shows this game on your Discord Profile.', 'discordRPC', 'other', CHECKBOX);
+        var discordRPC:Option = new Option('Discord Rich Presence', 'Displays this game on your Discord Profile.', 'discordRPC', 'other', CHECKBOX);
         discordRPC.onChange = discordRPCChange;
         addOption(discordRPC);
         #end

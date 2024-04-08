@@ -130,8 +130,10 @@ class FreeplayState extends MusicBeatState
 		{
 			var poop:String = songs[curSelected].week.difficulties[curDifficulty].formatToPath();
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].song.formatToPath());
+			PlayState.songEvents = SongEvent.loadFromJson(songs[curSelected].song.formatToPath());
+			if(PlayState.songEvents == null) PlayState.songEvents = [];
 			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = songs[curSelected].week.difficulties[curDifficulty];
+			PlayState.difficulty = songs[curSelected].week.difficulties[curDifficulty];
 
 			PlayState.storyWeek = songs[curSelected].week;
 			trace('CUR WEEK: ' + PlayState.storyWeek.name);
@@ -152,7 +154,7 @@ class FreeplayState extends MusicBeatState
 
 		intendedScore = Highscore.getScore(songs[curSelected].song, daDiff);
 
-		PlayState.storyDifficulty = songs[curSelected].week.difficulties[curDifficulty];
+		PlayState.difficulty = songs[curSelected].week.difficulties[curDifficulty];
 
 		diffText.text = "< " + daDiff.toUpperCase() + " >";
 		positionHighscore();

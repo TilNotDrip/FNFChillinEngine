@@ -1,10 +1,12 @@
 package objects.game;
 
+import addons.SongEvent.SwagEvent;
 import flixel.math.FlxPoint;
 
 import flixel.util.FlxSort;
 
 import stages.objects.TankmenBG;
+import haxe.Json;
 
 class Character extends FlxSprite
 {
@@ -97,6 +99,35 @@ class Character extends FlxSprite
 				animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
 
 				playAnim('danceRight');
+
+			case 'pico':
+				frames = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
+
+				quickAnimAdd('idle', "Pico Idle Dance");
+				quickAnimAdd('singUP', 'pico Up note0');
+				quickAnimAdd('singDOWN', 'Pico Down Note0');
+
+				if (isPlayer)
+				{
+					quickAnimAdd('singLEFT', 'Pico NOTE LEFT0');
+					quickAnimAdd('singRIGHT', 'Pico Note Right0');
+					quickAnimAdd('singRIGHTmiss', 'Pico Note Right Miss');
+					quickAnimAdd('singLEFTmiss', 'Pico NOTE LEFT miss');
+				}
+				else
+				{
+					quickAnimAdd('singLEFT', 'Pico Note Right0');
+					quickAnimAdd('singRIGHT', 'Pico NOTE LEFT0');
+					quickAnimAdd('singRIGHTmiss', 'Pico NOTE LEFT miss');
+					quickAnimAdd('singLEFTmiss', 'Pico Note Right Miss');
+				}
+
+				quickAnimAdd('singUPmiss', 'pico Up note miss');
+				quickAnimAdd('singDOWNmiss', 'Pico Down Note MISS');
+
+				playAnim('idle');
+
+				flipX = true;
 
 			case 'monster':
 				frames = Paths.getSparrowAtlas('characters/Monster_Assets');
@@ -229,47 +260,6 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-			case 'pico':
-				frames = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
-
-				quickAnimAdd('idle', "Pico Idle Dance");
-				quickAnimAdd('singUP', 'pico Up note0');
-				quickAnimAdd('singDOWN', 'Pico Down Note0');
-
-				if (isPlayer)
-				{
-					quickAnimAdd('singLEFT', 'Pico NOTE LEFT0');
-					quickAnimAdd('singRIGHT', 'Pico Note Right0');
-					quickAnimAdd('singRIGHTmiss', 'Pico Note Right Miss');
-					quickAnimAdd('singLEFTmiss', 'Pico NOTE LEFT miss');
-				}
-				else
-				{
-					quickAnimAdd('singLEFT', 'Pico Note Right0');
-					quickAnimAdd('singRIGHT', 'Pico NOTE LEFT0');
-					quickAnimAdd('singRIGHTmiss', 'Pico NOTE LEFT miss');
-					quickAnimAdd('singLEFTmiss', 'Pico Note Right Miss');
-				}
-
-				quickAnimAdd('singUPmiss', 'pico Up note miss');
-				quickAnimAdd('singDOWNmiss', 'Pico Down Note MISS');
-
-				playAnim('idle');
-
-				flipX = true;
-
-			case 'pico-speaker':
-				frames = Paths.getSparrowAtlas('characters/picoSpeaker');
-
-				quickAnimAdd('shoot1', "Pico shoot 1");
-				quickAnimAdd('shoot2', "Pico shoot 2");
-				quickAnimAdd('shoot3', "Pico shoot 3");
-				quickAnimAdd('shoot4', "Pico shoot 4");
-
-				playAnim('shoot1');
-
-				loadMappedAnims();
-
 			case 'bf-pixel':
 				frames = Paths.getSparrowAtlas('characters/bfPixel');
 
@@ -345,8 +335,6 @@ class Character extends FlxSprite
 				isPixel = true;
 
 			case 'spirit':
-				
-
 				frames = Paths.getSparrowAtlas('characters/spirit');
 
 				quickAnimAdd('idle', "idle spirit");
@@ -423,6 +411,18 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+
+			case 'pico-speaker':
+				frames = Paths.getSparrowAtlas('characters/picoSpeaker');
+
+				quickAnimAdd('shoot1', "Pico shoot 1");
+				quickAnimAdd('shoot2', "Pico shoot 2");
+				quickAnimAdd('shoot3', "Pico shoot 3");
+				quickAnimAdd('shoot4', "Pico shoot 4");
+
+				playAnim('shoot1');
+
+				//loadMappedAnims();
 		}
 
 		loadOffsetFile(curCharacter);
@@ -450,9 +450,11 @@ class Character extends FlxSprite
 		}
 	}
 
-	public function loadMappedAnims()
+	/*public function loadMappedAnims()
 	{
 		var swagshit = Song.loadFromJson('picospeaker', 'stress');
+
+		var daConversion:Array<SwagEvent> = [];
 
 		var notes = swagshit.notes;
 
@@ -460,16 +462,18 @@ class Character extends FlxSprite
 		{
 			for (idk in section.sectionNotes)
 			{
-				animationNotes.push(idk);
+				daConversion.push({name: 'Pico Animation', params: [(idk[1] == 0) ? 'left' : 'right'], strumTime: idk[0]});
 			}
 		}
 
-		TankmenBG.animationNotes = animationNotes;
+		var fuckYou = {
+			"events": daConversion
+		}
 
-		animationNotes.sort(sortAnims);
-	}
+		trace('\n' + Json.stringify(daConversion));
+	}*/
 
-	function sortAnims(val1:Array<Dynamic>, val2:Array<Dynamic>):Int
+	public static function sortAnims(val1:Array<Dynamic>, val2:Array<Dynamic>):Int
 	{
 		return FlxSort.byValues(FlxSort.ASCENDING, val1[0], val2[0]);
 	}

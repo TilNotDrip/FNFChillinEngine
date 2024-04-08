@@ -47,7 +47,7 @@ class Main extends Sprite
 
 	private var overlay:Sprite;
 
-	// TODO: run shutdown -r -t 0 KIEEEP
+	// TODO: run shutdown -r -t 0 to test out safe mode
 
 	public static var fpsCounter:FPS;
 
@@ -66,8 +66,6 @@ class Main extends Sprite
 		}
 
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
-
-		lime.utils.Log.throwErrors = false; // life saver ngl
 
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);

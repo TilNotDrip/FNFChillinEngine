@@ -8,10 +8,7 @@ class MyAsshole // :troll:
     {
         throw "This isnt finished yet!! expect it in the near future tho";
     }
-}
 
-class RandomFunctions
-{
     /**
 	 * please never fucking use this 
 	 * lol (yea 𝓕𝓻𝓮𝓪𝓴𝔂GPT)

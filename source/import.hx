@@ -28,10 +28,6 @@ import addons.*;
 import addons.Controls;
 import addons.CoolUtil;
 
-#if DISCORD
-import addons.discord.DiscordBackend as DiscordClient;
-#end
-
 #if discord_rpc
 import addons.discord.LegacyDiscord as DiscordClient;
 #end
@@ -40,7 +36,7 @@ import objects.*;
 
 import options.ChillSettings;
 
-import states.game.BaseGame;
+import states.game.GameBackend;
 import states.game.PlayState;
 
 import states.menus.StoryMenuState;

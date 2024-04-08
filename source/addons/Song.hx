@@ -45,7 +45,13 @@ class Song
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
-		var rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/' + jsonInput.formatToPath())).trim();
+		var rawJson = null;
+        try {
+			rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/' + jsonInput.formatToPath())).trim();
+        } catch(e) {
+			FlxG.log.error('Error loading Song!\nDetails: ' + e);
+            return null;
+        }
 
 		while (!rawJson.endsWith("}"))
 			rawJson = rawJson.substr(0, rawJson.length - 1);

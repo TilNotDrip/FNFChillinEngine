@@ -69,6 +69,17 @@ class ChillSettings
         // Display
         {
             displaySettings = FlxG.save.data.displaySettings;
+
+            FlxG.drawFramerate = ChillSettings.get('fps', 'display');
+            FlxG.updateFramerate = ChillSettings.get('fps', 'display');
+
+            if (Main.fpsCounter != null)
+                Main.fpsCounter.visible = ChillSettings.get('fpsCounter', 'display');
+
+            FlxG.fullscreen = ChillSettings.get('fullscreen', 'display');
+    
+            FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing', 'display');
+
             trace('Loaded Display Settings!');
         }
 
@@ -81,6 +92,12 @@ class ChillSettings
         // Flixel
         {
             flixelSettings = FlxG.save.data.flixelSettings;
+
+            FlxG.autoPause = ChillSettings.get('autoPause', 'flixel');
+            #if FLX_MOUSE
+            FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor', 'flixel');
+            #end
+
             trace('Loaded Flixel Settings!');
         }
 
@@ -115,7 +132,7 @@ class ChillSettings
                         ['antialiasing', true],
                         ['flashingLights', true]
                     ];
-    
+
                 case 'gameplay':
                     optionsToCheckFor = [
                         ['camZoom', true],
@@ -125,16 +142,16 @@ class ChillSettings
                         ['noteSplashes', true],
                         ['cutscenes', true]
                     ];
-    
+
                 case 'flixel':
                     optionsToCheckFor = [
                         ['autoPause', false]
                     ];
-    
+
                     #if FLX_MOUSE
                     optionsToCheckFor.push(['systemCursor', true]);
                     #end
-    
+
                 case 'other':
                     #if discord_rpc
                     optionsToCheckFor.push(['discordRPC', true]);
@@ -144,12 +161,12 @@ class ChillSettings
                     #end
                     optionsToCheckFor.push(['devMode', false]);
             }
-    
+
             for(i in 0...optionsToCheckFor.length)
             {
                 var option:String = Std.string(optionsToCheckFor[0]);
                 var toSetTo:Dynamic = optionsToCheckFor[1];
-                
+
                 if(get(option, category.formatToPath()) == null)
                     set(option, category.formatToPath(), toSetTo);
             }
@@ -165,7 +182,7 @@ class ChillSettings
 
     static function getNullOption(option:String, category:String):Dynamic
     {
-        FlxG.log.error(option + ' no exist in ' + category);
+        FlxG.log.error(option + ' option doesn\'t exist in category: ' + category);
         return null;
     }
 }

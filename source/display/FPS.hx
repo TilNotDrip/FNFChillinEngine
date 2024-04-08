@@ -7,8 +7,15 @@ import openfl.text.TextFormat;
 
 import openfl.system.System;
 
+/**
+	The FPS class provides an easy-to-use monitor to display
+	the current frame rate of an OpenFL project
+**/
 class FPS extends TextField
 {
+	/**
+		The current frame rate, expressed using frames-per-second
+	**/
 	public var currentFPS(default, null):Float;
     public var currentMEM(default, null):String;
 	public var currentState(default, null):String;
@@ -54,8 +61,7 @@ class FPS extends TextField
 		}
 
 		var currentCount = times.length;
-
-		currentFPS = FlxMath.roundDecimal(1 / FlxG.elapsed, 2);
+		currentFPS = Math.round((currentCount + cacheCount) / 2);
 		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
 
 		FlxG.watch.addQuick('ACTUAL FPS', 1 / FlxG.elapsed);

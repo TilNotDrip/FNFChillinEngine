@@ -1,26 +1,45 @@
+package addons;
+
+import haxe.Json;
+
+import lime.utils.Assets;
+
 typedef SwagEvent =
 {
     var name:String;
     var params:Array<String>;
-    var strumTime:String;
+    var strumTime:Float;
 }
 
 class SongEvent
 {
-    public function new(name:String, params:Array<String>)
-    {
-        updateEventData(name, params);
-    }
+    function new() {}
+        
+    public static function loadFromJson(folder:String):Array<SwagEvent>
+	{
+        var rawJson = null;
+        try {
+            rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/events')).trim();
+        } catch(e) {
+            return null;
+        }
 
-    public var needsParams:Bool = true;
-    public var eventTypes:Array<EventType>;
-    public function updateEventData(name:String, parameters:Array<String>)
-    {
+		while (!rawJson.endsWith("}"))
+			rawJson = rawJson.substr(0, rawJson.length - 1);
 
-    }
-}
+		return parseJSONshit(rawJson);
+	}
 
-enum abstract EventType(String)
-{
-	var X    = 'list';
+	public static function parseJSONshit(rawJson:String):Array<SwagEvent>
+	{
+		var swagShit:Array<SwagEvent> = cast Json.parse(rawJson).events;
+		return swagShit;
+	}
+
+    public static var events:Array<Array<String>> = [
+        ['Camera Zoom', 'Zoom in the camera.'],
+        ['Hey!', 'Play Hey! Animation on \'Characters\''],
+        ['Pico Animation', 'Play Pico Shooting animations.'],
+        ['Change Character', 'Changes the character.']
+    ];
 }

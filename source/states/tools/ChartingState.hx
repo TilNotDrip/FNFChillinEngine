@@ -1,5 +1,6 @@
 package states.tools;
 
+import addons.SongEvent.SwagEvent;
 import addons.Conductor.BPMChangeEvent;
 import addons.Section.SwagSection;
 import addons.Song.SwagSong;
@@ -51,10 +52,12 @@ class ChartingState extends MusicBeatState
 
 	var curRenderedNotes:FlxTypedGroup<Note>;
 	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
+	var curRenderedEvents:FlxTypedGroup<FlxSprite>;
 
 	var gridBG:FlxSprite;
 
 	var _song:SwagSong;
+	var _events:Array<SwagEvent>;
 
 	var typingShit:FlxInputText;
 	var curSelectedNote:Array<Dynamic>;
@@ -69,7 +72,10 @@ class ChartingState extends MusicBeatState
 	override function create()
 	{
 		if (PlayState.SONG != null)
+		{
 			_song = PlayState.SONG;
+			_events = PlayState.songEvents;
+		}
 		else
 		{
 			_song = {
@@ -104,10 +110,11 @@ class ChartingState extends MusicBeatState
 		actualBG.color = 0xFF414141;
 		add(actualBG);
 
-		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
+		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 9, GRID_SIZE * 16);
+		gridBG.x -= GRID_SIZE;
 		add(gridBG);
 
-		var actualGridBG:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 2, true, 0xffe7e6e6, 0xffd9d5d5), Y);
+		var actualGridBG:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(GRID_SIZE, GRID_SIZE, GRID_SIZE * 9, GRID_SIZE * 2, true, 0xffe7e6e6, 0xffd9d5d5), Y);
 		actualGridBG.setPosition(gridBG.x, gridBG.y);
 		actualGridBG.alpha = 0.7;
 		add(actualGridBG);
@@ -130,8 +137,13 @@ class ChartingState extends MusicBeatState
 		gridBlackLine.x = gridBG.x + GRID_SIZE * 4;
 		add(gridBlackLine);
 
+		var gridBlackLineAgain:FlxBackdrop = new FlxBackdrop(FlxG.bitmap.create(2, Std.int(gridBG.height), FlxColor.BLACK, false, null), Y);
+		gridBlackLineAgain.x = gridBG.x - GRID_SIZE;
+		add(gridBlackLineAgain);
+
 		curRenderedNotes = new FlxTypedGroup<Note>();
 		curRenderedSustains = new FlxTypedGroup<FlxSprite>();
+		curRenderedEvents = new FlxTypedGroup<FlxSprite>();
 
 		addSection();
 
@@ -527,7 +539,6 @@ class ChartingState extends MusicBeatState
 					&& FlxG.mouse.y > gridBG.y
 					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
 				{
-					FlxG.log.add('added note');
 					addNote();
 				}
 			}
@@ -850,6 +861,11 @@ class ChartingState extends MusicBeatState
 			curRenderedSustains.remove(curRenderedSustains.members[0], true);
 		}
 
+		while (curRenderedEvents.members.length > 0)
+		{
+			curRenderedEvents.remove(curRenderedEvents.members[0], true);
+		}
+
 		var sectionInfo:Array<Dynamic> = _song.notes[curSec].sectionNotes;
 
 		if (_song.notes[curSec].changeBPM && _song.notes[curSec].bpm > 0)
@@ -887,6 +903,15 @@ class ChartingState extends MusicBeatState
 					note.y + GRID_SIZE).makeGraphic(8, Math.floor(FlxMath.remapToRange(daSus, 0, Conductor.stepCrochet * 16, 0, gridBG.height)));
 				curRenderedSustains.add(sustainVis);
 			}
+		}
+
+		for(i in _events)
+		{
+			if(i.strumTime < sectionStartTime() && i.strumTime > sectionStartTime() + (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps)) return;
+
+			var event:FlxSprite = new FlxSprite(-GRID_SIZE, Math.floor(getYfromStrum((i.strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps))));
+			event.loadGraphic(Paths.image('charting/event'));
+			curRenderedEvents.add(event);
 		}
 	}
 
@@ -1010,7 +1035,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(song:String):Void
 	{
-		PlayState.SONG = Song.loadFromJson(PlayState.storyDifficulty.formatToPath(), song.formatToPath());
+		PlayState.SONG = Song.loadFromJson(PlayState.difficulty.formatToPath(), song.formatToPath());
 		LoadingState.loadAndSwitchState(new ChartingState());
 	}
 
@@ -1042,7 +1067,7 @@ class ChartingState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), PlayState.storyDifficulty.formatToPath() + ".json");
+			_file.save(data.trim(), PlayState.difficulty.formatToPath() + ".json");
 		}
 	}
 

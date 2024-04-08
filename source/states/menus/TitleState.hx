@@ -89,18 +89,6 @@ class TitleState extends MusicBeatState
 		{
 			startIntro();
 		});
-
-		#if discord_rpc
-		if (ChillSettings.get('discordRpc', 'other'))
-		{
-			DiscordClient.initialize();
-
-			Application.current.onExit.add(function(exitCode)
-			{
-				DiscordClient.shutdown();
-			});
-		}
-		#end
 	}
 
 	private function initData()
@@ -111,19 +99,19 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 		Highscore.load();
 
-		FlxG.drawFramerate = ChillSettings.get('fps', 'display');
-		FlxG.updateFramerate = ChillSettings.get('fps', 'display');
-
-		if (Main.fpsCounter != null)
-			Main.fpsCounter.visible = ChillSettings.get('fpsCounter', 'display');
-
-		FlxG.fullscreen = ChillSettings.get('fullscreen', 'display');
-
 		FlxG.debugger.setLayout(MICRO);
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = [ZERO];
 
-		FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing', 'display');
+		#if discord_rpc
+		if (ChillSettings.get('discordRPC', 'other'))
+			DiscordClient.initialize();
+
+		Application.current.onExit.add(function(exitCode)
+		{
+			DiscordClient.shutdown();
+		});
+		#end
 	}
 
 	var danceLeft:Bool = false;
@@ -320,8 +308,6 @@ class TitleState extends MusicBeatState
 
 								curText = '';
 								curCurWacky++;
-								
-								trace(curCurWacky);
 
 								if(curCurWacky == introText.introText.lines) curCurWacky = 0;
 							} if(beatThing.useIntroText && beatThing.removeSelected) {

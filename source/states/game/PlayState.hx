@@ -31,14 +31,18 @@ import states.tools.*;
 
 import substates.*;
 
-class PlayState extends BaseGame
+import addons.SongEvent.SwagEvent;
+import stages.objects.TankmenBG;
+
+class PlayState extends MusicBeatState
 {
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
+	public static var songEvents:Array<SwagEvent>;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Week = null;
 	public static var storyPlaylist:Array<String> = [];
-	public static var storyDifficulty:String = 'Normal';
+	public static var difficulty:String = 'Normal';
 
 	public static var deathCounter:Int = 0;
 
@@ -61,7 +65,6 @@ class PlayState extends BaseGame
 	public var camFollow:FlxObject;
 
 	public static var prevCamFollow:FlxObject;
-
 	public var strumLineNotes:FlxTypedGroup<Strums>;
 
 	public var playerStrums:Strums;
@@ -135,7 +138,7 @@ class PlayState extends BaseGame
 	{
 		game = this;
 
-		changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + storyDifficulty + ')');
+		changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + difficulty + ')');
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -395,9 +398,9 @@ class PlayState extends BaseGame
 		StageBackend.stage.createPost();
 	}
 
+	#if discord_rpc
 	function initDiscord():Void
 	{
-		#if discord_rpc
 		iconRPC = SONG.player2;
 
 		if (iconRPC != 'bf-pixel' && iconRPC != 'bf-old' && iconRPC != 'bf-old-pixel')
@@ -406,9 +409,9 @@ class PlayState extends BaseGame
 		detailsText = isStoryMode ? "Story Mode: " + storyWeek.name : "Freeplay";
 		detailsPausedText = "Paused - " + detailsText;
 
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
-		#end
+		DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
 	}
+	#end
 
 	public function playVideo(videoFile:String)
 	{
@@ -549,7 +552,7 @@ class PlayState extends BaseGame
 
 		#if discord_rpc
 		songLength = FlxG.sound.music.length;
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC, true, songLength);
+		DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC, true, songLength);
 		#end
 	}
 
@@ -627,6 +630,11 @@ class PlayState extends BaseGame
 		}
 
 		unspawnNotes.sort(sortByShit);
+
+		for(event in songEvents)
+		{
+			preloadEvent(event.name, event.params, event.strumTime);
+		}
 
 		generatedMusic = true;
 	}
@@ -731,9 +739,9 @@ class PlayState extends BaseGame
 
 			#if discord_rpc
 			if (startTimer.finished)
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC, true, songLength - Conductor.songPosition);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC, true, songLength - Conductor.songPosition);
 			else
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
 			#end
 		}
 
@@ -746,9 +754,9 @@ class PlayState extends BaseGame
 		if (health > 0 && !paused && FlxG.autoPause)
 		{
 			if (Conductor.songPosition > 0.0)
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC, true, songLength - Conductor.songPosition);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC, true, songLength - Conductor.songPosition);
 			else
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
 		}
 		#end
 
@@ -759,7 +767,7 @@ class PlayState extends BaseGame
 	{
 		#if discord_rpc
 		if (health > 0 && !paused && FlxG.autoPause)
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + difficulty + ")", iconRPC);
 		#end
 
 		pauseGame();
@@ -789,6 +797,8 @@ class PlayState extends BaseGame
 	#if debug
 	public var canEnd:Bool = false;
 	#end
+
+	public var eventsCalled:Array<SwagEvent> = [];
 
 	override public function update(elapsed:Float)
 	{
@@ -826,7 +836,7 @@ class PlayState extends BaseGame
 
 		super.update(elapsed);
 
-		songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 2) + '%] ' + SONG.song + ' - ' + storyDifficulty;
+		songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 2) + '%] ' + SONG.song + ' - ' + difficulty;
 
 		ratingCounterTxt.text =
 		'Sicks: ' + sicks +
@@ -942,10 +952,7 @@ class PlayState extends BaseGame
 		if (!inCutscene && !_exiting)
 		{
 			if (controls.RESET)
-			{
 				health = 0;
-				trace("RESET = True");
-			}
 
 			#if CAN_CHEAT
 			if (controls.CHEAT)
@@ -972,7 +979,7 @@ class PlayState extends BaseGame
 					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camGAME));
 
 				#if discord_rpc
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
+				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
 				#end
 			}
 		}
@@ -984,6 +991,15 @@ class PlayState extends BaseGame
 
 			var index:Int = unspawnNotes.indexOf(dunceNote);
 			unspawnNotes.shift();
+		}
+
+		for(event in songEvents)
+		{
+			if(Conductor.songPosition >= event.strumTime && !eventsCalled.contains(event))
+			{
+				onEvent(event.name, event.params);
+				eventsCalled.push(event);
+			}
 		}
 
 		if (generatedMusic)
@@ -1138,7 +1154,7 @@ class PlayState extends BaseGame
 			}
 
 			#if discord_rpc
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficulty + ")", iconRPC);
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + difficulty + ")", iconRPC);
 			#end
 		}
 	}
@@ -1196,7 +1212,7 @@ class PlayState extends BaseGame
 		isEnding = true;
 
 		if (SONG.validScore && !practiceMode && !botplay)
-			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
+			Highscore.saveScore(SONG.song, songScore, difficulty);
 
 		if (isStoryMode)
 			finishSongStory();
@@ -1222,7 +1238,7 @@ class PlayState extends BaseGame
             storyWeek.locked = false;
 
             if (SONG.validScore)
-                Highscore.saveWeekScore(storyWeek.name, campaignScore, storyDifficulty);
+                Highscore.saveWeekScore(storyWeek.name, campaignScore, difficulty);
         }
         else
         {
@@ -1233,7 +1249,7 @@ class PlayState extends BaseGame
             vocals.stop();
 
             prevCamFollow = camFollow;
-			SONG = Song.loadFromJson(storyDifficulty.formatToPath(), storyPlaylist[0]);
+			SONG = Song.loadFromJson(difficulty.formatToPath(), storyPlaylist[0]);
 			LoadingState.loadAndSwitchState(new PlayState());
         }
     }
@@ -1817,7 +1833,25 @@ class PlayState extends BaseGame
 		StageBackend.stage.sectionHit();
 	}
 
-	function onEvent(name:String, params:Array<Dynamic>)
+	function preloadEvent(name:String, params:Array<String>, strumTime:Float)
+	{
+		switch(name)
+		{
+			case 'Pico Animation':
+				var daDirection:Null<Int> = 1;
+
+				if(params[0] == 'left') 
+					daDirection = 0;
+				if(params[0] == 'right')
+					daDirection = 3;
+
+				TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
+				gf.animationNotes = TankmenBG.animationNotes;
+				gf.animationNotes.sort(Character.sortAnims);
+		}
+	}
+
+	function onEvent(name:String, params:Array<String>)
 	{
 		switch(name)
 		{
@@ -1832,19 +1866,26 @@ class PlayState extends BaseGame
 				camZoom(daZoomGame, daZoomHUD);
 
 			case 'Hey!':
-				if(params[0] == true)
+				var paramAnim:Array<String> = params[0].split(', ');
+				if(paramAnim.contains('bf'))
 					boyfriend.playAnim('hey', true);
 
-				if(params[1] == true)
+				if(paramAnim.contains('gf'))
 					gf.playAnim('hey', true);
 
-				if(params[2] == true)
+				if(paramAnim.contains('dad'))
 					dad.playAnim('hey', true);
 
-			case 'Change Character':
+			case 'Pico Animation':
+				if(params[0] == 'left')
+					gf.playAnim('shoot' + FlxG.random.int(1, 2));
+				if(params[0] == 'right')
+					gf.playAnim('shoot' + FlxG.random.int(3, 4));
+
+			/*case 'Change Character':
 				if(params == null) return;
 				trace(params[0]);
-				trace(params[1]);
+				trace(params[1]);*/
 		}
 	}
 }

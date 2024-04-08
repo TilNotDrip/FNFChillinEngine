@@ -237,7 +237,6 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue.start(0.04);
 		swagDialogue.completeCallback = function()
 		{
-			trace("dialogue finish");
 			handSelect.visible = true;
 			dialogueEnded = true;
 		};

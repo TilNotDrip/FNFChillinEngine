@@ -84,7 +84,6 @@ class LoadingState extends MusicBeatState
 
 	function checkLibrary(library:String)
 	{
-		trace(Assets.hasLibrary(library));
 		if (Assets.getLibrary(library) == null)
 		{
 			@:privateAccess
@@ -128,11 +127,6 @@ class LoadingState extends MusicBeatState
 			loadBar.scale.x = FlxMath.lerp(loadBar.scale.x, targetShit, 0.50);
 			FlxG.watch.addQuick('percentage?', callbacks.numRemaining / callbacks.length);
 		}
-
-		#if debug
-		if (FlxG.keys.justPressed.SPACE)
-			trace('fired: ' + callbacks.getFired() + " unfired:" + callbacks.getUnfired());
-		#end
 	}
 
 	function onLoad()

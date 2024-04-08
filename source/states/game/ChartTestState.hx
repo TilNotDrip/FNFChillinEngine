@@ -1,6 +1,6 @@
 package states.game;
 
-class ChartTestState extends BaseGame
+class ChartTestState extends PlayState
 {
     
 }
