@@ -78,10 +78,10 @@ class MainMenuState extends MusicBeatState
 		FlxG.cameras.reset(new SwagCamera());
 		FlxG.camera.follow(camFollow, null, 0.06);
 
-		var verTNDEngine:FlxText = new FlxText(-5, FlxG.height - 18, FlxG.width, "Chillin' Engine Engine v" + Application.current.meta.get('version'), 12);
-		verTNDEngine.scrollFactor.set();
-		verTNDEngine.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(verTNDEngine);
+		var verChillEngine:FlxText = new FlxText(-5, FlxG.height - 18, FlxG.width, "Chillin' Engine v" + Application.current.meta.get('version'), 12);
+		verChillEngine.scrollFactor.set();
+		verChillEngine.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(verChillEngine);
 
 		var verFunkin:FlxText = new FlxText(5, FlxG.height - 18, 0, "Friday Night Funkin' v" + funkinVer, 12);
 		verFunkin.scrollFactor.set();
