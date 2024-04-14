@@ -74,8 +74,8 @@ class ChillSettings
         {
             displaySettings = FlxG.save.data.displaySettings;
 
-            FlxG.drawFramerate = ChillSettings.get('fps', 'display');
             FlxG.updateFramerate = ChillSettings.get('fps', 'display');
+            FlxG.drawFramerate = ChillSettings.get('fps', 'display');
 
             if (Main.fpsCounter != null)
                 Main.fpsCounter.visible = ChillSettings.get('fpsCounter', 'display');

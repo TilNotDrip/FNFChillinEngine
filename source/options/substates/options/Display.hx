@@ -33,8 +33,8 @@ class Display extends BaseSubState
 
     function changeFPS()
     {
-        FlxG.drawFramerate = ChillSettings.get('fps', 'display');
 		FlxG.updateFramerate = ChillSettings.get('fps', 'display');
+        FlxG.drawFramerate = ChillSettings.get('fps', 'display');
     }
 
     function displayFPS()
