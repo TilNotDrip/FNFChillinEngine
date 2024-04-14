@@ -22,7 +22,7 @@ class MenuItem extends FlxSprite
 
 	public function press()
 	{
-		if (ChillSettings.get('flashingLights', 'display'))
+		if (ChillSettings.get('flashingLights', DISPLAY))
 			FlxFlicker.flicker(this, 1, 0.06, false, false);
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)

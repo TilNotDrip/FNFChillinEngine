@@ -10,22 +10,22 @@ class Gameplay extends BaseSubState
 {
     override function create()
     {
-        var camZoom:Option = new Option('Camera Zooming', '', 'camZoom', 'gameplay', CHECKBOX);
+        var camZoom:Option = new Option('Camera Zooming', '', 'camZoom', GAMEPLAY, CHECKBOX);
         addOption(camZoom);
 
-        var ghostTapping:Option = new Option('Ghost Tapping', '', 'ghostTapping', 'gameplay', CHECKBOX);
+        var ghostTapping:Option = new Option('Ghost Tapping', '', 'ghostTapping', GAMEPLAY, CHECKBOX);
         addOption(ghostTapping);
 
-        var downScroll:Option = new Option('Downscroll', '', 'downScroll', 'gameplay', CHECKBOX);
+        var downScroll:Option = new Option('Downscroll', '', 'downScroll', GAMEPLAY, CHECKBOX);
         addOption(downScroll);
 
-        var middleScroll:Option = new Option('Middlescroll', '', 'middleScroll', 'gameplay', CHECKBOX);
+        var middleScroll:Option = new Option('Middlescroll', '', 'middleScroll', GAMEPLAY, CHECKBOX);
         addOption(middleScroll);
 
-        var noteSplashes:Option = new Option('Note Splashes', '', 'noteSplashes', 'gameplay', CHECKBOX);
+        var noteSplashes:Option = new Option('Note Splashes', '', 'noteSplashes', GAMEPLAY, CHECKBOX);
         addOption(noteSplashes);
 
-        var cutscenes:Option = new Option('Cutscenes', '', 'cutscenes', 'gameplay', CHECKBOX);
+        var cutscenes:Option = new Option('Cutscenes', '', 'cutscenes', GAMEPLAY, CHECKBOX);
         addOption(cutscenes);
 
         super.create();

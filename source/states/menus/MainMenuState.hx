@@ -60,7 +60,7 @@ class MainMenuState extends MusicBeatState
 		magenta.y = bg.y;
 		magenta.visible = false;
 		magenta.color = 0xFFfd719b;
-		if (ChillSettings.get('flashingLights', 'display'))
+		if (ChillSettings.get('flashingLights', DISPLAY))
 			add(magenta);
 
 		menuItems = new FlxTypedGroup<MenuItem>();
@@ -115,7 +115,7 @@ class MainMenuState extends MusicBeatState
 					item.press();
 			});
 
-			if (ChillSettings.get('flashingLights', 'display'))
+			if (ChillSettings.get('flashingLights', DISPLAY))
 				FlxFlicker.flicker(magenta, 1, 0.1, false, false);
 		}
 

@@ -6,8 +6,8 @@ class Option extends FlxSpriteGroup
 {
     public var description:String;
     public var varName:String;
-    public var category:String;
-    public var type:OptionType;
+    public var category:OptionType;
+    public var type:OptionVarType;
     public var value:Dynamic;
 
     public var numType:Dynamic;
@@ -20,7 +20,7 @@ class Option extends FlxSpriteGroup
     private var checkbox:Checkbox;
     private var number:Alphabet;
 
-    public function new(name:String, description:String, varName:String, category:String, type:OptionType)
+    public function new(name:String, description:String, varName:String, category:OptionType, type:OptionVarType)
     {
         this.description = description;
         this.varName = varName;
@@ -94,7 +94,7 @@ class Option extends FlxSpriteGroup
     }
 }
 
-enum abstract OptionType(Int)
+enum abstract OptionVarType(Int)
 {
 	var CHECKBOX = 0;
     var SLIDER = 1;

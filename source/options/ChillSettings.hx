@@ -1,115 +1,90 @@
 package options;
 
+import flixel.util.FlxSave;
+
 class ChillSettings
 {
-    public static var everyCategory(get, never):Array<String>;
-    static var controls:Map<String, Dynamic> = new Map(); // Honestly have no idea if or when im gonna use this -Crusher Im implementing
-    static var displaySettings:Map<String, Dynamic> = new Map();
-    static var gameplaySettings:Map<String, Dynamic> = new Map();
-    static var flixelSettings:Map<String, Dynamic> = new Map();
-    static var otherSettings:Map<String, Dynamic> = new Map();
+    private static var chillSettings:FlxSave;
 
-    static function get_everyCategory():Array<String> // stupid for right now, but for softcoded options maybe
+    private static var controls:Map<String, Dynamic> = new Map();
+    private static var displaySettings:Map<String, Dynamic> = new Map();
+    private static var gameplaySettings:Map<String, Dynamic> = new Map();
+    private static var flixelSettings:Map<String, Dynamic> = new Map();
+    private static var otherSettings:Map<String, Dynamic> = new Map();
+
+    public static function get(option:String, category:OptionType):Dynamic
     {
-        var yea:Array<String> = [
-            'controls',
-            'display',
-            'gameplay',
-            'flixel',
-            'other'
-        ];
+        var returnThing:Dynamic;
 
-        return yea;
-    }
-
-    public static function get(option:String, category:String):Dynamic
-    {
-        var returnThing:Dynamic = null;
-
-        switch (category.formatToPath())
+        switch (category)
         {
-            case 'controls': returnThing = controls.get(option);
-            case 'display': returnThing = displaySettings.get(option);
-            case 'gameplay': returnThing = gameplaySettings.get(option);
-            case 'flixel': returnThing = flixelSettings.get(option);
-            case 'other': returnThing = otherSettings.get(option);
+            case CONTROLS: returnThing = controls.get(option);
+            case DISPLAY: returnThing = displaySettings.get(option);
+            case GAMEPLAY: returnThing = gameplaySettings.get(option);
+            case FLIXEL: returnThing = flixelSettings.get(option);
+            case OTHER: returnThing = otherSettings.get(option);
         }
-
-        if(returnThing == null)
-            returnThing = getNullOption(option, category.formatToPath());
 
         return returnThing;
     }
 
-    public static function set(option:String, category:String, value:Dynamic)
+    public static function set(option:String, category:OptionType, value:Dynamic)
     {
-        switch (category.formatToPath())
+        switch (category)
         {
-            case 'display':
+            case CONTROLS:
+                controls.set(option, value);
+                chillSettings.data.controls = controls;
+
+            case DISPLAY:
                 displaySettings.set(option, value);
-                FlxG.save.data.displaySettings = displaySettings;
+                chillSettings.data.displaySettings = displaySettings;
 
-            case 'gameplay':
+            case GAMEPLAY:
                 gameplaySettings.set(option, value);
-                FlxG.save.data.gameplaySettings = gameplaySettings;
+                chillSettings.data.gameplaySettings = gameplaySettings;
 
-            case 'flixel':
+            case FLIXEL:
                 flixelSettings.set(option, value);
-                FlxG.save.data.flixelSettings = flixelSettings;
+                chillSettings.data.flixelSettings = flixelSettings;
 
-            case 'other':
+            case OTHER:
                 otherSettings.set(option, value);
-                FlxG.save.data.otherSettings = otherSettings;
+                chillSettings.data.otherSettings = otherSettings;
         }
 
+        chillSettings.flush();
         trace('Set Option ${category}/${option} to ${value}!');
-        FlxG.save.flush();
     }
 
     public static function loadSettings()
     {
+        chillSettings = new FlxSave();
+		chillSettings.bind('chillinengine', Application.current.meta.get('company'));
+
+        controls = chillSettings.data.controls;
+        displaySettings = chillSettings.data.displaySettings;
+        gameplaySettings = chillSettings.data.gameplaySettings;
+        flixelSettings = chillSettings.data.flixelSettings;
+        otherSettings = chillSettings.data.otherSettings;
+
+        checkNulls();
         setDefaultSettings();
 
-        // Display
-        {
-            displaySettings = FlxG.save.data.displaySettings;
+        FlxG.updateFramerate = ChillSettings.get('fps', DISPLAY);
+        FlxG.drawFramerate = ChillSettings.get('fps', DISPLAY);
 
-            FlxG.updateFramerate = ChillSettings.get('fps', 'display');
-            FlxG.drawFramerate = ChillSettings.get('fps', 'display');
+        if (Main.fpsCounter != null)
+            Main.fpsCounter.visible = ChillSettings.get('fpsCounter', DISPLAY);
 
-            if (Main.fpsCounter != null)
-                Main.fpsCounter.visible = ChillSettings.get('fpsCounter', 'display');
+        FlxG.fullscreen = ChillSettings.get('fullscreen', DISPLAY);
 
-            FlxG.fullscreen = ChillSettings.get('fullscreen', 'display');
-    
-            FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing', 'display');
+        FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing', DISPLAY);
 
-            trace('Loaded Display Settings!');
-        }
-
-        // Gameplay
-        {
-            gameplaySettings = FlxG.save.data.gameplaySettings;
-            trace('Loaded Gameplay Settings!');
-        }
-
-        // Flixel
-        {
-            flixelSettings = FlxG.save.data.flixelSettings;
-
-            FlxG.autoPause = ChillSettings.get('autoPause', 'flixel');
-            #if FLX_MOUSE
-            FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor', 'flixel');
-            #end
-
-            trace('Loaded Flixel Settings!');
-        }
-
-        // Other
-        {
-            otherSettings = FlxG.save.data.otherSettings;
-            trace('Loaded Other Settings!');
-        }
+        FlxG.autoPause = ChillSettings.get('autoPause', FLIXEL);
+        #if FLX_MOUSE
+        FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor', FLIXEL);
+        #end
 
         // I know I might be adding audio things but if even if I dont minus well
         if(FlxG.save.data.volume != null)
@@ -119,73 +94,87 @@ class ChillSettings
 			FlxG.sound.muted = FlxG.save.data.mute;
     }
 
-    static function setDefaultSettings()
+    private static function checkNulls()
     {
-        var optionsToCheckFor:Array<Array<Dynamic>> = [];
-        for(category in everyCategory)
-        {
-            switch (category.formatToPath())
-            {
-                case 'display':
-                    optionsToCheckFor = [
-                        ['fps', 60],
-                        ['fpsCounter', true],
-                        ['fullscreen', false],
-                        ['antialiasing', true],
-                        ['flashingLights', true]
-                    ];
+        if (controls == null)
+			controls = new Map<String, Dynamic>();
+		if (displaySettings == null)
+			displaySettings = new Map<String, Dynamic>();
+		if (gameplaySettings == null)
+			gameplaySettings = new Map<String, Dynamic>();
+        if (flixelSettings == null)
+			flixelSettings = new Map<String, Dynamic>();
+        if (otherSettings == null)
+			otherSettings = new Map<String, Dynamic>();
 
-                case 'gameplay':
-                    optionsToCheckFor = [
-                        ['camZoom', true],
-                        ['ghostTapping', true],
-                        ['downScroll', false],
-                        ['middleScroll', false],
-                        ['noteSplashes', true],
-                        ['cutscenes', true]
-                    ];
-
-                case 'flixel':
-                    optionsToCheckFor = [
-                        ['autoPause', false]
-                    ];
-
-                    #if FLX_MOUSE
-                    optionsToCheckFor.push(['systemCursor', true]);
-                    #end
-
-                case 'other':
-                    #if discord_rpc
-                    optionsToCheckFor.push(['discordRPC', true]);
-                    #end
-                    #if MOD_SUPPORT
-                    optionsToCheckFor.push(['safeMode', false]);
-                    #end
-                    optionsToCheckFor.push(['devMode', false]);
-            }
-
-            for(i in 0...optionsToCheckFor.length)
-            {
-                var option:String = Std.string(optionsToCheckFor[i][0]);
-                var toSetTo:Dynamic = optionsToCheckFor[i][1];
-
-                if(get(option, category.formatToPath()) == null)
-                    set(option, category.formatToPath(), toSetTo);
-            }
-        }
-
-        trace('Updated settings!');
+        if (chillSettings.data.controls == null)
+			chillSettings.data.controls = new Map<String, Dynamic>();
+		if (chillSettings.data.displaySettings == null)
+			chillSettings.data.displaySettings = new Map<String, Dynamic>();
+		if (chillSettings.data.gameplaySettings == null)
+			chillSettings.data.gameplaySettings = new Map<String, Dynamic>();
+        if (chillSettings.data.flixelSettings == null)
+			chillSettings.data.flixelSettings = new Map<String, Dynamic>();
+        if (chillSettings.data.otherSettings == null)
+			chillSettings.data.otherSettings = new Map<String, Dynamic>();
     }
 
-    // might use for softcoded functions if i feel nice
-    static function setNullOption(option:String, category:String)
+    private static function setDefaultSettings()
     {
-        return null;
-    }
+        // Display
+        if (chillSettings.data.displaySettings.get('fps') == null)
+			set('fps', DISPLAY, 60);
+        if (chillSettings.data.displaySettings.get('fpsCounter') == null)
+			set('fpsCounter', DISPLAY, true);
+        if (chillSettings.data.displaySettings.get('fullscreen') == null)
+			set('fullscreen', DISPLAY, false);
+        if (chillSettings.data.displaySettings.get('antialiasing') == null)
+			set('antialiasing', DISPLAY, true);
+        if (chillSettings.data.displaySettings.get('flashingLights') == null)
+			set('flashingLights', DISPLAY, true);
 
-    static function getNullOption(option:String, category:String):Dynamic
-    {
-        //FlxG.log.error(option + ' option doesn\'t exist in category: ' + category);
-        return null;
+        // Gameplay
+        if (chillSettings.data.gameplaySettings.get('camZoom') == null)
+			set('camZoom', GAMEPLAY, true);
+        if (chillSettings.data.gameplaySettings.get('ghostTapping') == null)
+			set('ghostTapping', GAMEPLAY, true);
+        if (chillSettings.data.gameplaySettings.get('downScroll') == null)
+			set('downScroll', GAMEPLAY, false);
+        if (chillSettings.data.gameplaySettings.get('middleScroll') == null)
+			set('middleScroll', GAMEPLAY, false);
+        if (chillSettings.data.gameplaySettings.get('noteSplashes') == null)
+			set('noteSplashes', GAMEPLAY, true);
+        if (chillSettings.data.gameplaySettings.get('cutscenes') == null)
+			set('cutscenes', GAMEPLAY, true);
+
+        // Flixel
+        if (chillSettings.data.flixelSettings.get('autoPause') == null)
+			set('autoPause', FLIXEL, false);
+
+        #if FLX_MOUSE
+        if (chillSettings.data.flixelSettings.get('systemCursor') == null)
+			set('systemCursor', FLIXEL, true);
+        #end
+
+        // Other
+        #if discord_rpc
+        if (chillSettings.data.otherSettings.get('discordRPC') == null)
+			set('discordRPC', OTHER, true);
+        #end
+        #if MOD_SUPPORT
+        if (chillSettings.data.otherSettings.get('safeMode') == null)
+			set('safeMode', OTHER, false);
+        #end
+        if (chillSettings.data.otherSettings.get('devMode') == null)
+			set('devMode', OTHER, false);
     }
+}
+
+enum abstract OptionType(String)
+{
+    var CONTROLS = 'control';
+	var DISPLAY = 'display';
+	var GAMEPLAY = 'gameplay';
+    var FLIXEL = 'flixel';
+    var OTHER = 'other';
 }

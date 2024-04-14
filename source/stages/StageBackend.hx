@@ -102,7 +102,7 @@ class StageBackend extends FlxBasic
     // Functions for getting/setting PlayState / MusicBeatState vars
     inline private function set_hasCutscene(value:Bool):Bool
     {
-        if (ChillSettings.get('cutscenes', 'gameplay'))
+        if (ChillSettings.get('cutscenes', GAMEPLAY))
             return this.hasCutscene = value;
         else
         {
@@ -113,7 +113,7 @@ class StageBackend extends FlxBasic
 
     inline private function set_hasEndCutscene(value:Bool):Bool
     {
-        if (ChillSettings.get('cutscenes', 'gameplay'))
+        if (ChillSettings.get('cutscenes', GAMEPLAY))
             return this.hasEndCutscene = value;
         else
             return this.hasEndCutscene = false;

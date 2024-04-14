@@ -77,7 +77,7 @@ class Limo extends StageBackend
 
     override function beatHit()
     {
-		if (ChillSettings.get('camZoom', 'gameplay') && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
+		if (ChillSettings.get('camZoom', GAMEPLAY) && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
 			game.camZoom();
 
         grpLimoDancers.forEach(function(dancer:BackgroundDancer)

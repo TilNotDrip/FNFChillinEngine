@@ -270,14 +270,14 @@ class PlayState extends MusicBeatState
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
 
-		if (ChillSettings.get('downScroll', 'gameplay'))
+		if (ChillSettings.get('downScroll', GAMEPLAY))
 			strumLine.y = FlxG.height - 150;
 
 		strumLine.scrollFactor.set();
 		strumLineNotes = new FlxTypedGroup<Strums>();
 		add(strumLineNotes);
 
-		if (ChillSettings.get('noteSplashes', 'gameplay'))
+		if (ChillSettings.get('noteSplashes', GAMEPLAY))
 		{
 			playerSplashes = new FlxTypedGroup<NoteSplash>(51);
 			opponentSplashes = new FlxTypedGroup<NoteSplash>(51);
@@ -320,7 +320,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
 
-		if (ChillSettings.get('downScroll', 'gameplay'))
+		if (ChillSettings.get('downScroll', GAMEPLAY))
 			healthBarBG.y = FlxG.height * 0.1;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
@@ -368,7 +368,7 @@ class PlayState extends MusicBeatState
 		healthOppTxt.color = iconP2.curHealthBarColor;
 		healthPlayerTxt.color = iconP1.curHealthBarColor;
 
-		if (ChillSettings.get('noteSplashes', 'gameplay'))
+		if (ChillSettings.get('noteSplashes', GAMEPLAY))
 		{
 			playerSplashes.cameras = [camHUD];
 			opponentSplashes.cameras = [camHUD];
@@ -670,7 +670,7 @@ class PlayState extends MusicBeatState
 
 		arrows.x = ((FlxG.width / 2) * player) + ((FlxG.width / 2 - arrows.width) / 2);
 
-		if(ChillSettings.get('downScroll', 'gameplay'))
+		if(ChillSettings.get('middleScroll', GAMEPLAY))
 			arrows.screenCenter(X);
 
 		var dummyNotes:Array<Note> = [];
@@ -690,7 +690,7 @@ class PlayState extends MusicBeatState
 		{
 			opponentStrums = arrows;
 
-			if(ChillSettings.get('downScroll', 'gameplay'))
+			if(ChillSettings.get('middleScroll', GAMEPLAY))
 				arrows.visible = false;
 
 			opponentStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
@@ -860,7 +860,7 @@ class PlayState extends MusicBeatState
 		if (controls.PAUSE)
 			pauseGame();
 
-		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.SEVEN)
+		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.SEVEN)
 		{
 			FlxG.switchState(new ChartingState());
 
@@ -899,20 +899,20 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 
 		#if debug
-		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.ONE && !isEnding && canEnd)
+		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.ONE && !isEnding && canEnd)
 		{
 			FlxG.sound.music.stop();
 			vocals.stop();
 			endSong();
 		}
 
-		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.PAGEUP && !isEnding)
+		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.PAGEUP && !isEnding)
 			changeSection(1);
-		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.PAGEDOWN && !isEnding)
+		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.PAGEDOWN && !isEnding)
 			changeSection(-1);
 		#end
 
-		if (ChillSettings.get('devMode', 'other') && FlxG.keys.justPressed.EIGHT && !isEnding)
+		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.EIGHT && !isEnding)
 		{
 			if (FlxG.keys.pressed.SHIFT)
 				if (FlxG.keys.pressed.CONTROL)
@@ -1018,8 +1018,8 @@ class PlayState extends MusicBeatState
 
 				daNote.visible = whatStrum.visible;
 
-				if ((ChillSettings.get('downScroll', 'gameplay') && daNote.y < -daNote.height)
-					|| (!ChillSettings.get('downScroll', 'gameplay') && daNote.y > FlxG.height))
+				if ((ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
+					|| (!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
 				{
 					daNote.active = false;
 					daNote.visible = false;
@@ -1032,7 +1032,7 @@ class PlayState extends MusicBeatState
 
 				var strumLineMid = whatStrum.y + Note.swagWidth / 2;
 
-				if (ChillSettings.get('downScroll', 'gameplay'))
+				if (ChillSettings.get('downScroll', GAMEPLAY))
 				{
 					daNote.y = (whatStrum.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
 
@@ -1081,8 +1081,8 @@ class PlayState extends MusicBeatState
 
 				if (daNote.isSustainNote && daNote.wasGoodHit)
 				{
-					if ((!ChillSettings.get('downScroll', 'gameplay') && daNote.y < -daNote.height)
-						|| (ChillSettings.get('downScroll', 'gameplay') && daNote.y > FlxG.height))
+					if ((!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
+						|| (ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
 					{
 						daNote.active = false;
 						daNote.visible = false;
@@ -1172,7 +1172,7 @@ class PlayState extends MusicBeatState
 
 	public function camZoom(gameCamZoom:Float = 0.015, camHudZoom:Float = 0.03)
 	{
-		if (ChillSettings.get('camZoom', 'gameplay'))
+		if (ChillSettings.get('camZoom', GAMEPLAY))
 		{
 			camGAME.zoom += gameCamZoom;
 			camHUD.zoom += camHudZoom;
@@ -1329,7 +1329,7 @@ class PlayState extends MusicBeatState
 		{
 			sicks++;
 
-			if (ChillSettings.get('noteSplashes', 'gameplay'))
+			if (ChillSettings.get('noteSplashes', GAMEPLAY))
 			{
 				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
 				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, boyfriend.isPixel);
@@ -1590,7 +1590,7 @@ class PlayState extends MusicBeatState
 						goodNoteHit(coolNote);
 				}
 			}
-			else if (!ChillSettings.get('ghostTapping', 'gameplay'))
+			else if (!ChillSettings.get('ghostTapping', GAMEPLAY))
 				ghostHit();
 		}
 
@@ -1732,7 +1732,7 @@ class PlayState extends MusicBeatState
 				opponentStrums.playNoteAnim(i, 'confirm', true);
 		}
 
-		if (!daNote.isSustainNote && ChillSettings.get('noteSplashes', 'gameplay'))
+		if (!daNote.isSustainNote && ChillSettings.get('noteSplashes', GAMEPLAY))
 		{
 			var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
 			noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, dad.isPixel);

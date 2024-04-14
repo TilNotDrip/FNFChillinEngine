@@ -34,6 +34,7 @@
  - [ ] Pause Stutter problem fix from FlxAnimate (Meaning this isnt a problem on web)
  - [ ] Sustain Note Splashes (https://twitter.com/FNF_Developers/status/1774200908806525366)
  - [ ] Opponents have their own note colors
+ - [ ] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
 
 ## Small Changes
 
@@ -108,3 +109,7 @@
  - [ ] Note quantization.
  - [ ] Note selection
  - [ ] Playtest
+
+# Chillin' Engine - Mod Support Todo List
+ - [ ] idk
+ - [ ] Custom Settings

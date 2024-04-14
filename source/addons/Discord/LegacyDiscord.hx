@@ -63,7 +63,7 @@ class LegacyDiscord
 
 	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
 	{
-		if (!ChillSettings.get('discordRPC', 'other'))
+		if (!ChillSettings.get('discordRPC', OTHER))
 			return;
 
 		var startTimestamp:Float = if (hasStartTimestamp) Date.now().getTime() else 0;

@@ -60,7 +60,7 @@ class Week
         daWeekThing[7].color = 0xfff6b604;
 
         // Test
-        if (ChillSettings.get('devMode', 'other'))
+        if (ChillSettings.get('devMode', OTHER))
         {
             var idk:Week = new Week('test', ['Test'], ['Normal']);
             idk.characters = ['bf', 'bf', 'gf'];

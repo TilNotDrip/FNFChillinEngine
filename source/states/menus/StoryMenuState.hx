@@ -252,7 +252,7 @@ class StoryMenuState extends MusicBeatState
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
-				if (ChillSettings.get('flashingLights', 'display'))
+				if (ChillSettings.get('flashingLights', DISPLAY))
 					grpWeekText.members[curWeek].startFlashing();
 				grpWeekCharacters.members[1].animation.play('confirm');
 				stopspamming = true;

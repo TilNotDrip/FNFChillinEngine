@@ -106,7 +106,7 @@ class TitleState extends MusicBeatState
 		FlxG.sound.muteKeys = [ZERO];
 
 		#if discord_rpc
-		if (ChillSettings.get('discordRPC', 'other'))
+		if (ChillSettings.get('discordRPC', OTHER))
 			DiscordClient.initialize();
 
 		Application.current.onExit.add(function(exitCode)
@@ -222,7 +222,7 @@ class TitleState extends MusicBeatState
 				idleBoppers.remove(i);
 			}
 
-			if (ChillSettings.get('flashingLights', 'display'))
+			if (ChillSettings.get('flashingLights', DISPLAY))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
@@ -398,7 +398,7 @@ class TitleState extends MusicBeatState
 		{
 			remove(titleSprites);
 
-			if (ChillSettings.get('flashingLights', 'display'))
+			if (ChillSettings.get('flashingLights', DISPLAY))
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 			skippedIntro = true;
