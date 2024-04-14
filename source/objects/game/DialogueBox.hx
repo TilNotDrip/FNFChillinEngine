@@ -29,7 +29,7 @@ class DialogueBox extends FlxSpriteGroup
 	private var controls(get, never):Controls;
 
 	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
+		return PlayerSettings.players[0].controls;
 
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
 	{

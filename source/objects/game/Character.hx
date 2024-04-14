@@ -20,8 +20,7 @@ class Character extends FlxSprite
 	public var isPixel(default, set):Bool = false;
 
 	public var holdTimer:Float = 0;
-
-	public var animationNotes:Array<Dynamic> = [];
+	public var bopDance:Float = 1;
 
 	public var cameraOffsets:FlxPoint = new FlxPoint();
 
@@ -62,6 +61,8 @@ class Character extends FlxSprite
 			case 'gf':
 				frames = Paths.getSparrowAtlas('characters/GF_assets');
 
+				bopDance = 1;
+
 				quickAnimAdd('cheer', 'GF Cheer');
 				quickAnimAdd('singLEFT', 'GF left note');
 				quickAnimAdd('singRIGHT', 'GF Right Note');
@@ -90,6 +91,8 @@ class Character extends FlxSprite
 
 			case 'spooky':
 				frames = Paths.getSparrowAtlas('characters/spooky_kids_assets');
+
+				bopDance = 1;
 
 				quickAnimAdd('singUP', 'spooky UP NOTE');
 				quickAnimAdd('singDOWN', 'spooky DOWN note');
@@ -176,6 +179,8 @@ class Character extends FlxSprite
 			case 'gf-car':
 				frames = Paths.getSparrowAtlas('characters/gfCar');
 
+				bopDance = 1;
+
 				animation.addByIndices('singUP', 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -217,6 +222,8 @@ class Character extends FlxSprite
 
 			case 'gf-christmas':
 				frames = Paths.getSparrowAtlas('characters/gfChristmas');
+
+				bopDance = 1;
 
 				quickAnimAdd('cheer', 'GF Cheer');
 				quickAnimAdd('singLEFT', 'GF left note');
@@ -300,6 +307,8 @@ class Character extends FlxSprite
 			case 'gf-pixel':
 				frames = Paths.getSparrowAtlas('characters/gfPixel');
 
+				bopDance = 1;
+
 				animation.addByIndices('singUP', 'GF IDLE', [2], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF IDLE', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight', 'GF IDLE', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -349,6 +358,8 @@ class Character extends FlxSprite
 
 			case 'gf-tankmen':
 				frames = Paths.getSparrowAtlas('characters/gfTankmen');
+
+				bopDance = 1;
 
 				animation.addByIndices('sad', 'GF Crying at Gunpoint', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, true);
 				animation.addByIndices('danceLeft', 'GF Dancing at Gunpoint', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
@@ -544,22 +555,6 @@ class Character extends FlxSprite
 				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
 					playAnim('danceRight');
 			case "pico-speaker":
-				if (animationNotes.length > 0)
-				{
-					if (Conductor.songPosition > animationNotes[0][0])
-					{
-						var shootAnim:Int = 1;
-
-						if (animationNotes[0][1] >= 2)
-							shootAnim = 3;
-
-						shootAnim += FlxG.random.int(0, 1);
-
-						playAnim('shoot' + shootAnim, true);
-						animationNotes.shift();
-					}
-				}
-
 				if (animation.curAnim.finished)
 				{
 					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);

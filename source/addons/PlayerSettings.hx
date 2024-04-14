@@ -5,136 +5,57 @@ import flixel.input.gamepad.FlxGamepad;
 class PlayerSettings
 {
 	static public var numPlayers(default, null) = 0;
-	static public var player1(default, null):PlayerSettings;
-	static public var player2(default, null):PlayerSettings;
+	static public var players(default, null):Array<PlayerSettings> = [];
 
 	public var id(default, null):Int;
 
 	public var controls(default, null):Controls;
 
-	function new(id)
+	public static var controlSettings:Array<Map<String, Array<Array<String>>>> = [];
+
+	function new(id:Int, gamepad:FlxGamepad)
 	{
 		this.id = id;
-		this.controls = new Controls('player$id', None);
-
-		#if CLEAR_INPUT_SAVE
-		FlxG.save.data.controls = null;
-		FlxG.save.flush();
-		#end
-
-		var useDefault = true;
-		var controlData = FlxG.save.data.controls;
-		if (controlData != null)
-		{
-			var keyData:Dynamic = null;
-			if (id == 0 && controlData.p1 != null && controlData.p1.keys != null)
-				keyData = controlData.p1.keys;
-			else if (id == 1 && controlData.p2 != null && controlData.p2.keys != null)
-				keyData = controlData.p2.keys;
-			
-			if (keyData != null)
-			{
-				useDefault = false;
-				trace("loaded key data: " + haxe.Json.stringify(keyData));
-				controls.fromSaveData(keyData, Keys);
-			}
-		}
-
-		if (useDefault)
-			controls.setKeyboardScheme(Solo);
-	}
-
-	function addGamepad(gamepad:FlxGamepad)
-	{
-		var useDefault = true;
-		var controlData = FlxG.save.data.controls;
-		if (controlData != null)
-		{
-			var padData:Dynamic = null;
-			if (id == 0 && controlData.p1 != null && controlData.p1.pad != null)
-				padData = controlData.p1.pad;
-			else if (id == 1 && controlData.p2 != null && controlData.p2.pad != null)
-				padData = controlData.p2.pad;
-			
-			if (padData != null)
-			{
-				useDefault = false;
-				trace("loaded pad data: " + haxe.Json.stringify(padData));
-				controls.addGamepadWithSaveData(gamepad.id, padData);
-			}
-		}
-
-		if (useDefault)
-			controls.addDefaultGamepad(gamepad.id);
-	}
-
-	public function saveControls()
-	{
-		if (FlxG.save.data.controls == null)
-			FlxG.save.data.controls = {};
-
-		var playerData:{ ?keys:Dynamic, ?pad:Dynamic }
-		if (id == 0)
-		{
-			if (FlxG.save.data.controls.p1 == null)
-				FlxG.save.data.controls.p1 = {};
-			playerData = FlxG.save.data.controls.p1;
-		}
-		else
-		{
-			if (FlxG.save.data.controls.p2 == null)
-				FlxG.save.data.controls.p2 = {};
-			playerData = FlxG.save.data.controls.p2;
-		}
-
-		var keyData = controls.createSaveData(Keys);
-		if (keyData != null)
-		{
-			playerData.keys = keyData;
-			trace("saving key data: " + haxe.Json.stringify(keyData));
-		}
-
-		if (controls.gamepadsAdded.length > 0)
-		{
-			var padData = controls.createSaveData(Gamepad(controls.gamepadsAdded[0]));
-			if (padData != null)
-			{
-				trace("saving pad data: " + haxe.Json.stringify(padData));
-				playerData.pad = padData;
-			}
-		}
-
-		FlxG.save.flush();
+		this.controls = new Controls(controlSettings[id], gamepad);
 	}
 
 	static public function init():Void
 	{
-		if (player1 == null)
-		{
-			player1 = new PlayerSettings(0);
-			++numPlayers;
-		}
+		FlxG.save.data.controls = null;
 		
-		FlxG.gamepads.deviceConnected.add(onGamepadAdded);
+		if(FlxG.save.data.controls != null)
+			controlSettings = FlxG.save.data.controls;
+		else
+			controlSettings.push(getDefaultControls());
 
-		var numGamepads = FlxG.gamepads.numActiveGamepads;
-		for (i in 0...numGamepads)
-		{
-			var gamepad = FlxG.gamepads.getByID(i);
-			if (gamepad != null)
-				onGamepadAdded(gamepad);
-		}
+		players.push(new PlayerSettings(numPlayers, FlxG.gamepads.getByID(numPlayers)));
+		++numPlayers;
 	}
 	
-	static function onGamepadAdded(gamepad:FlxGamepad)
+
+	public static function getControls(id:Int):Map<String, Array<Array<String>>>
 	{
-		player1.addGamepad(gamepad);
+		new FlxTimer().start(0.001, function(tmr:FlxTimer) {
+			FlxG.save.data.controls = controlSettings;
+		});
+		return controlSettings[id];
 	}
 
-	static public function reset()
+	static function getDefaultControls()
 	{
-		player1 = null;
-		player2 = null;
-		numPlayers = 0;
+		return [
+			'UI_UP' => [['W', 'UP'], ['DPAD_UP', 'LEFT_STICK_DIGITAL_UP']],
+			'UI_DOWN' => [['S', 'DOWN'], ['DPAD_DOWN', 'LEFT_STICK_DIGITAL_DOWN']],
+			'UI_LEFT' => [['A', 'LEFT'], ['DPAD_LEFT', 'LEFT_STICK_DIGITAL_LEFT']],
+			'UI_RIGHT' => [['D', 'RIGHT'], ['DPAD_RIGHT', 'LEFT_STICK_DIGITAL_RIGHT']],
+			'NOTE_UP' => [['W', 'UP'], ['DPAD_UP', 'Y']],
+			'NOTE_DOWN' => [['S', 'DOWN'], ['DPAD_DOWN', 'A']],
+			'NOTE_LEFT' => [['A', 'LEFT'], ['DPAD_LEFT', 'X']],
+			'NOTE_RIGHT' => [['D', 'RIGHT'], ['DPAD_RIGHT', 'B']],
+			'ACCEPT' => [['SPACE', 'ENTER'], ['A']],
+			'BACK' => [['BACKSPACE', 'ESCAPE'], ['B']],
+			'PAUSE' => [['ENTER', 'ESCAPE'], ['START']],
+			'RESET' => [['R'], []]
+		];
 	}
 }

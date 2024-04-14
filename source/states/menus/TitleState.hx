@@ -21,6 +21,8 @@ import sys.io.File;
 import sys.thread.Thread;
 #end
 
+//import discordSdk.Discord;
+
 typedef TitleJSON = //heheheheehehehehehe
 {
 	var bpm:Float;

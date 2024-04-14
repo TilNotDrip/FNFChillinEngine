@@ -115,12 +115,7 @@ class Paths
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
-		var daXMLThing:String = OpenFlAssets.getText(file('images/$key.xml', library));
-		#if flxanimate
-		return FlxAnimateFrames.fromSparrow(Xml.parse(daXMLThing), image(key, library));
-		#else
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
-		#end
 	}
 
 	@:deprecated("`getPackerAtlas` is deprecated, use an XML instead.")
@@ -145,10 +140,6 @@ class Paths
 		yay += '</TextureAtlas>';
 		var daXMLThing:Xml = Xml.parse(yay);
 		trace('ohhh nahh we not using $key.txt, we converting like a real man');
-		#if flxanimate
-		return FlxAnimateFrames.fromSparrow(daXMLThing, image(key, library));
-		#else
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
-		#end
+		return FlxAtlasFrames.fromSparrow(image(key, library), daXMLThing);
 	}
 }

@@ -191,7 +191,7 @@ class Tank extends StageBackend
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'week7:assets/week7/images/cutsceneStuff/ughIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/ughIntro');
 		// fun fact, to get this working i talked to cheemsnfriends cuz i kept getting null errors (parent)
 		tankCutscene.anim.addBySymbol('wellWellWell', 'TANK TALK 1 P1', 24, false);
 		tankCutscene.anim.addBySymbol('killYou', 'TANK TALK 1 P2', 24, false);
@@ -272,7 +272,7 @@ class Tank extends StageBackend
 		}});
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'week7:assets/week7/images/cutsceneStuff/gunsIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/gunsIntro');
 		tankCutscene.anim.addBySymbol('open fire', 'TANK TALK 2', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
 
@@ -329,7 +329,7 @@ class Tank extends StageBackend
 		gfTankmen.animation.play('loop');
 		gfCutsceneLayer.add(gfTankmen);
 
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'week7:assets/week7/images/cutsceneStuff/stressIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/stressIntro');
 		tankCutscene.anim.addBySymbol('god damn', 'TANK TALK 3 P1 UNCUT', 24, false);
 		tankCutscene.anim.addBySymbol('pico reference', 'TANK TALK 3 P2 UNCUT', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);

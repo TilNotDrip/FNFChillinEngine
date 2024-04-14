@@ -7,7 +7,7 @@ import lime.utils.Assets;
 typedef SwagEvent =
 {
     var name:String;
-    var params:Array<String>;
+    var value:String;
     var strumTime:Float;
 }
 
@@ -37,6 +37,7 @@ class SongEvent
 	}
 
     public static var events:Array<Array<String>> = [
+        [' ', 'Null object reference.'],
         ['Camera Zoom', 'Zoom in the camera.'],
         ['Hey!', 'Play Hey! Animation on \'Characters\''],
         ['Pico Animation', 'Play Pico Shooting animations.'],

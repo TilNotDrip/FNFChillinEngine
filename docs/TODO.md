@@ -100,9 +100,9 @@
  - [x] Dev Mode (Enables stuff like chart editor and animation debug and the Test song (maybe))
 
 
-# Chillin' Engine Engine - Chart Editor Todo List <!-- Stuff we NEED for the chart editor -->
+# Chillin' Engine - Chart Editor Todo List <!-- Stuff we NEED for the chart editor -->
  - [ ] Infinite Scrolling through Chart
- - [ ] Note Type Menu
+ - [ ] Note Menu rework
  - [ ] Hitsounds
  - [ ] Play2Chart (play imaginary notes and convert them to a chart)
  - [ ] Note quantization.

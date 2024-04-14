@@ -73,8 +73,6 @@ class PlayState extends MusicBeatState
 	public var opponentStrums:Strums;
 	public var opponentSplashes:FlxTypedGroup<NoteSplash>;
 
-	public var gfSpeed:Int = 1;
-
 	public var health:Float = 1;
 	public var combo:Int = 0;
 
@@ -472,8 +470,12 @@ class PlayState extends MusicBeatState
 
 		startTimer.start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			if (swagCounter % gfSpeed == 0)
-				gf.dance();
+			for(char in [dad, gf, boyfriend])
+			{
+				if (!char.animation.curAnim.name.startsWith("sing") && swagCounter % char.bopDance == 0)
+					char.dance();
+			}
+
 			if (swagCounter % 2 == 0)
 			{
 				if (!boyfriend.animation.curAnim.name.startsWith("sing"))
@@ -633,7 +635,7 @@ class PlayState extends MusicBeatState
 
 		for(event in songEvents)
 		{
-			preloadEvent(event.name, event.params, event.strumTime);
+			preloadEvent(event.name, event.value, event.strumTime);
 		}
 
 		generatedMusic = true;
@@ -668,6 +670,9 @@ class PlayState extends MusicBeatState
 
 		arrows.x = ((FlxG.width / 2) * player) + ((FlxG.width / 2 - arrows.width) / 2);
 
+		if(ChillSettings.get('downScroll', 'gameplay'))
+			arrows.screenCenter(X);
+
 		var dummyNotes:Array<Note> = [];
 		for(i in 0...arrows.notes)
 			dummyNotes.push(new Note(0, i, (player == 1) ? boyfriend.isPixel : dad.isPixel));
@@ -684,6 +689,9 @@ class PlayState extends MusicBeatState
 		else
 		{
 			opponentStrums = arrows;
+
+			if(ChillSettings.get('downScroll', 'gameplay'))
+				arrows.visible = false;
 
 			opponentStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
 			opponentStrums.pressNoteDown.rgb = dummyNotes[1].returnColors(1);
@@ -929,13 +937,13 @@ class PlayState extends MusicBeatState
 			switch (curBeat)
 			{
 				case 16:
-					gfSpeed = 2;
+					gf.bopDance = 2;
 				case 48:
-					gfSpeed = 1;
+					gf.bopDance = 1;
 				case 80:
-					gfSpeed = 2;
+					gf.bopDance = 2;
 				case 112:
-					gfSpeed = 1;
+					gf.bopDance = 1;
 				case 163:
 			}
 		}
@@ -997,7 +1005,7 @@ class PlayState extends MusicBeatState
 		{
 			if(Conductor.songPosition >= event.strumTime && !eventsCalled.contains(event))
 			{
-				onEvent(event.name, event.params);
+				onEvent(event.name, event.value);
 				eventsCalled.push(event);
 			}
 		}
@@ -1006,6 +1014,10 @@ class PlayState extends MusicBeatState
 		{
 			notes.forEachAlive(function(daNote:Note)
 			{
+				var whatStrum:Strums = (daNote.mustPress) ? playerStrums : opponentStrums;
+
+				daNote.visible = whatStrum.visible;
+
 				if ((ChillSettings.get('downScroll', 'gameplay') && daNote.y < -daNote.height)
 					|| (!ChillSettings.get('downScroll', 'gameplay') && daNote.y > FlxG.height))
 				{
@@ -1018,7 +1030,6 @@ class PlayState extends MusicBeatState
 					daNote.active = true;
 				}
 
-				var whatStrum:Strums = (daNote.mustPress) ? playerStrums : opponentStrums;
 				var strumLineMid = whatStrum.y + Note.swagWidth / 2;
 
 				if (ChillSettings.get('downScroll', 'gameplay'))
@@ -1101,7 +1112,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (!inCutscene && !botplay)
-			keyShit();
+			keyShitPlayer();
 
 		if (!inCutscene)
 		{
@@ -1486,7 +1497,7 @@ class PlayState extends MusicBeatState
 		if (SONG.song.formatToPath() == 'tutorial') tweenCam(char != boyfriend);
 	}
 
-	public function keyShit():Void
+	public function keyShitPlayer():Void
 	{
 		var canIdle:Bool = true;
 
@@ -1502,13 +1513,6 @@ class PlayState extends MusicBeatState
 			controls.NOTE_DOWN_P,
 			controls.NOTE_UP_P,
 			controls.NOTE_RIGHT_P
-		];
-
-		var releaseArray:Array<Bool> = [
-			controls.NOTE_LEFT_R,
-			controls.NOTE_DOWN_R,
-			controls.NOTE_UP_R,
-			controls.NOTE_RIGHT_R
 		];
 
 		if (holdArray.contains(true) && generatedMusic)
@@ -1771,24 +1775,16 @@ class PlayState extends MusicBeatState
 			var daThings:Array<HealthIcon> = [iconP1, iconP2];
 
 			if(bopTween[i] != null) bopTween[i].cancel();
-			daThings[i].scale.set(1.3, 1.3);
-			bopTween[i] = FlxTween.tween(daThings[i].scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.cubeInOut});
+			if(bopTween[i+2] != null) bopTween[i+2].cancel();
+
+			bopTween[i] = FlxTween.tween(daThings[i].scale, {x: 1.3, y: 1.3}, (Conductor.crochet / 1000) * 0.1, {ease: FlxEase.cubeIn});
+			bopTween[i+2] = FlxTween.tween(daThings[i].scale, {x: 1, y: 1}, (Conductor.crochet / 1000) * 0.9, {ease: FlxEase.cubeOut, startDelay: (Conductor.crochet / 1000) * 0.1});
 		}
 
-		if (curBeat % gfSpeed == 0)
-			gf.dance();
-
-		if (curBeat % 2 == 0)
+		for(char in [dad, gf, boyfriend])
 		{
-			if (!boyfriend.animation.curAnim.name.startsWith("sing"))
-				boyfriend.dance();
-			if (!dad.animation.curAnim.name.startsWith("sing"))
-				dad.dance();
-		}
-		else if (dad.curCharacter == 'spooky')
-		{
-			if (!dad.animation.curAnim.name.startsWith("sing"))
-				dad.dance();
+			if (!char.animation.curAnim.name.startsWith("sing") && curBeat % char.bopDance == 0)
+				char.dance();
 		}
 
 		if (curBeat % 8 == 7 && SONG.song.formatToPath() == 'bopeebo')
@@ -1833,32 +1829,31 @@ class PlayState extends MusicBeatState
 		StageBackend.stage.sectionHit();
 	}
 
-	function preloadEvent(name:String, params:Array<String>, strumTime:Float)
+	function preloadEvent(name:String, value:String, strumTime:Float)
 	{
 		switch(name)
 		{
 			case 'Pico Animation':
 				var daDirection:Null<Int> = 1;
 
-				if(params[0] == 'left') 
+				if(value == 'left') 
 					daDirection = 0;
-				if(params[0] == 'right')
+				if(value == 'right')
 					daDirection = 3;
 
 				TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
-				gf.animationNotes = TankmenBG.animationNotes;
-				gf.animationNotes.sort(Character.sortAnims);
 		}
 	}
 
-	function onEvent(name:String, params:Array<String>)
+	function onEvent(name:String, value:String)
 	{
 		switch(name)
 		{
 			case 'Camera Zoom':
 				var daZoomGame:Float = 0.015;
 				var daZoomHUD:Float = 0.03;
-				if(params != null || !Math.isNaN(Std.parseFloat(params[0])) || !Math.isNaN(Std.parseFloat(params[1]))) {
+				var params:Array<String> = value.split(', ');
+				if(params[0] != null || params[1] != null || !Math.isNaN(Std.parseFloat(params[0])) || !Math.isNaN(Std.parseFloat(params[1]))) {
 					daZoomGame = Std.parseFloat(params[0]);
 					daZoomHUD = Std.parseFloat(params[1]);
 				}
@@ -1866,7 +1861,7 @@ class PlayState extends MusicBeatState
 				camZoom(daZoomGame, daZoomHUD);
 
 			case 'Hey!':
-				var paramAnim:Array<String> = params[0].split(', ');
+				var paramAnim:Array<String> = value.split(', ');
 				if(paramAnim.contains('bf'))
 					boyfriend.playAnim('hey', true);
 
@@ -1877,10 +1872,10 @@ class PlayState extends MusicBeatState
 					dad.playAnim('hey', true);
 
 			case 'Pico Animation':
-				if(params[0] == 'left')
-					gf.playAnim('shoot' + FlxG.random.int(1, 2));
-				if(params[0] == 'right')
-					gf.playAnim('shoot' + FlxG.random.int(3, 4));
+				if(value == 'left')
+					gf.playAnim('shoot' + FlxG.random.int(1, 2), true);
+				if(value == 'right')
+					gf.playAnim('shoot' + FlxG.random.int(3, 4), true);
 
 			/*case 'Change Character':
 				if(params == null) return;

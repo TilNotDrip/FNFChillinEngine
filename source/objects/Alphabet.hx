@@ -23,6 +23,7 @@ class Alphabet extends FlxSpriteGroup
 	var xPosResetted:Bool = false;
 	var lastWasSpace:Bool = false;
 
+	var lastSplittedWords:Array<String> = [];
 	var splitWords:Array<String> = [];
 
 	var isBold:Bool = false;
@@ -53,14 +54,10 @@ class Alphabet extends FlxSpriteGroup
 		doSplitWords();
 
 		var xPos:Float = 0;
+		var curRow:Int = 0;
 		for (character in splitWords)
 		{
-			if (character == " " || character == "-")
-			{
-				lastWasSpace = true;
-			}
-
-			if (AlphaCharacter.alphabet.indexOf(character.formatToPath()) != -1)
+			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
 			{
 				if (lastSprite != null)
 				{
@@ -73,24 +70,33 @@ class Alphabet extends FlxSpriteGroup
 					lastWasSpace = false;
 				}
 
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 0);
+				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * curRow);
 
 				if (isBold)
 					letter.createBold(character);
 				else
-				{
 					letter.createLetter(character);
-				}
 
 				add(letter);
 
 				lastSprite = letter;
+			} 
+			else
+			{
+				switch(character.toLowerCase())
+				{
+					case '\n':
+						curRow++;
+					case ' ':
+						lastWasSpace = true;
+				}
 			}
 		}
 	}
 
 	function doSplitWords():Void
 	{
+		lastSplittedWords = splitWords.copy();
 		splitWords = _finalText.split("");
 	}
 
@@ -143,7 +149,6 @@ class Alphabet extends FlxSpriteGroup
 				}
 
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
-				letter.row = curRow;
 				if (isBold)
 				{
 					letter.createBold(splitWords[loopNum]);
@@ -199,8 +204,6 @@ class AlphaCharacter extends FlxSprite
 
 	public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
 
-	public var row:Int = 0;
-
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
@@ -218,7 +221,7 @@ class AlphaCharacter extends FlxSprite
 	public function createLetter(letter:String):Void
 	{
 		var letterCase:String = "lowercase";
-		if (letter.formatToPath() != letter)
+		if (letter.toLowerCase() != letter)
 		{
 			letterCase = 'capital';
 		}
@@ -226,9 +229,6 @@ class AlphaCharacter extends FlxSprite
 		animation.addByPrefix(letter, letter + " " + letterCase, 24);
 		animation.play(letter);
 		updateHitbox();
-
-		y = (110 - height);
-		y += row * 60;
 	}
 
 	public function createNumber(letter:String):Void
