@@ -27,10 +27,6 @@ class Tank extends StageBackend
     {
 		zoom = 0.90;
 
-		if (isStoryMode)
-			if (curSong.formatToPath() == 'ugh' || curSong.formatToPath() == 'guns' || curSong.formatToPath() == 'stress')
-				hasCutscene = true;
-
         foregroundSprites = new FlxTypedGroup<BGSprite>();
 
         var bg:BGSprite = new BGSprite('tankSky', -400, -400, 0, 0);
@@ -144,22 +140,20 @@ class Tank extends StageBackend
 		bfTankCutsceneLayer = new FlxGroup();
 		add(bfTankCutsceneLayer);
 
-        if (isStoryMode && !PlayState.seenCutscene)
-        {
-            switch (curSong.formatToPath())
-            {
-                case 'ugh':
-                    ughIntro();
-                case 'guns':
-                    gunsIntro();
-                case 'stress':
-                    stressIntro();
-				default:
-					startCountdown();
-            }
-        }
-
 		add(foregroundSprites);
+
+		if (isStoryMode)
+		{
+			switch (curSong.formatToPath())
+			{
+				case 'ugh':
+					startCallback = ughIntro;
+				case 'guns':
+					startCallback = gunsIntro;
+				case 'stress':
+					startCallback = stressIntro;
+			}
+		}
     }
 
 	#if html5

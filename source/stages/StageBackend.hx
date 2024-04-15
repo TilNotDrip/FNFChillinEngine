@@ -18,8 +18,8 @@ class StageBackend extends FlxBasic
     // Main Stage Variables
     public var zoom:Float = 1.05;
     public var pixel:Bool = false;
-    public var hasCutscene(default, set):Bool = false;
-    public var hasEndCutscene(default, set):Bool = false;
+    public var startCallback:Void -> Void = null;
+    public var endCallback:Void -> Void = null;
 
     // PlayState / MusicBeatState Variables
     private var camGAME(get, never):FlxCamera;
@@ -57,17 +57,13 @@ class StageBackend extends FlxBasic
     // PlayState / MusicBeatState Functions
     public function create() {}
 
-    public function createPost()
-        if (hasCutscene && !PlayState.seenCutscene)
-            PlayState.seenCutscene = true;
+    public function createPost() {}
 
     private function startCountdown() return PlayState.game.startCountdown();
 
     override public function update(elapsed:Float) {}
 
     public function cameraMovement(char:Character) {}
-
-    public function endSong() {}
 
     public function stepHit() {}
     public function beatHit() {}
@@ -91,8 +87,11 @@ class StageBackend extends FlxBasic
     // Other Functions
     public function endingStuff()
     {
-        if (hasEndCutscene && !PlayState.seenCutscene)
-            return endSong();
+        if (endCallback != null && !PlayState.seenEndCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
+        {
+            endCallback();
+            PlayState.seenEndCutscene = true;
+        }
         else
             return PlayState.game.endSong();
     }
@@ -100,25 +99,6 @@ class StageBackend extends FlxBasic
     public function endingVideo() {}
 
     // Functions for getting/setting PlayState / MusicBeatState vars
-    inline private function set_hasCutscene(value:Bool):Bool
-    {
-        if (ChillSettings.get('cutscenes', GAMEPLAY))
-            return this.hasCutscene = value;
-        else
-        {
-            PlayState.seenCutscene = true;
-            return this.hasCutscene = false;
-        }
-    }
-
-    inline private function set_hasEndCutscene(value:Bool):Bool
-    {
-        if (ChillSettings.get('cutscenes', GAMEPLAY))
-            return this.hasEndCutscene = value;
-        else
-            return this.hasEndCutscene = false;
-    }
-
     inline private function get_camGAME():FlxCamera return PlayState.game.camGAME;
     inline private function get_camHUD():FlxCamera return PlayState.game.camHUD;
     inline private function get_camDIALOGUE():FlxCamera return PlayState.game.camDIALOGUE;

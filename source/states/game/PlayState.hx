@@ -117,6 +117,7 @@ class PlayState extends MusicBeatState
 
 	public var inCutscene(default, set):Bool = false;
 	public static var seenCutscene:Bool = false;
+	public static var seenEndCutscene:Bool = false;
 	public var isEnding:Bool = false;
 
 	#if discord_rpc
@@ -388,12 +389,19 @@ class PlayState extends MusicBeatState
 
 		startingSong = true;
 
-		if (seenCutscene || !StageBackend.stage.hasCutscene)
-			startCountdown();
-
 		super.create();
 
 		StageBackend.stage.createPost();
+
+		if (!seenCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
+		{
+			if (StageBackend.stage.startCallback != null)
+				StageBackend.stage.startCallback();
+			else
+				startCountdown();
+		}
+		else
+			startCountdown();
 	}
 
 	#if discord_rpc
@@ -456,12 +464,12 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown()
 	{
+		seenCutscene = true;
 		inCutscene = false;
+		startedCountdown = true;
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
-
-		startedCountdown = true;
 
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
@@ -1209,11 +1217,9 @@ class PlayState extends MusicBeatState
 	#end
 
 	public var endScreen:Bool = true;
+
 	public function endSong()
 	{
-		/*if(isStoryMode)
-			endScreen = false;*/
-
 		if(endScreen)
 		{
 			openSubState(new EndSubState());
@@ -1224,6 +1230,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
 
+		seenEndCutscene = false;
 		seenCutscene = false;
 		deathCounter = 0;
 

@@ -14,10 +14,6 @@ class School extends StageBackend
     {
         pixel = true;
 
-        if (isStoryMode)
-            if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
-                hasCutscene = true;
-
         var bgSky = new BGSprite('weeb/weebSky', 0, 0, 0.1, 0.1);
         bgSky.antialiasing = false;
         add(bgSky);
@@ -66,9 +62,7 @@ class School extends StageBackend
         bgGirls.scrollFactor.set(0.9, 0.9);
 
         if (curSong.formatToPath() == 'roses')
-        {
             bgGirls.getScared();
-        }
 
         bgGirls.setGraphicSize(Std.int(bgGirls.width * PlayState.daPixelZoom));
         bgGirls.updateHitbox();
@@ -82,16 +76,19 @@ class School extends StageBackend
 		gf.x += 180;
 		gf.y += 300;
 
-        if (isStoryMode && !PlayState.seenCutscene)
-        {
-            var doof:DialogueBox = new DialogueBox(false, game.dialogue);
-            doof.scrollFactor.set();
-            doof.finishThing = startCountdown;
-            doof.cameras = [camDIALOGUE];
+        if (isStoryMode && (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses'))
+            startCallback = senpaiCutscene;
+    }
 
-            if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
-                schoolIntro(doof);
-        }
+    private function senpaiCutscene()
+    {
+        var doof:DialogueBox = new DialogueBox(false, game.dialogue);
+        doof.scrollFactor.set();
+        doof.finishThing = startCountdown;
+        doof.cameras = [camDIALOGUE];
+
+        if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
+            schoolIntro(doof);
     }
 
     private function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -131,7 +128,8 @@ class School extends StageBackend
 
     override public function cameraMovement(char:Character)
     {
-        if (char == player) {
+        if (char == player)
+        {
 			camFollow.x = player.getMidpoint().x - 200;
             camFollow.y = player.getMidpoint().y - 200;
         }

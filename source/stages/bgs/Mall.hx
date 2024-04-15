@@ -13,9 +13,6 @@ class Mall extends StageBackend
     {
         zoom = 0.80;
 
-        if (curSong.formatToPath() == 'eggnog' && isStoryMode)
-            hasEndCutscene = true;
-
         var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
         bg.setGraphicSize(Std.int(bg.width * 0.8));
         bg.updateHitbox();
@@ -44,6 +41,9 @@ class Mall extends StageBackend
 
         santa = new BGSprite('christmas/santa', -840, 150, 1, 1, ['santa idle in fear']);
         add(santa);
+
+        if (isStoryMode && curSong.formatToPath() == 'eggnog')
+            endCallback = lightsOut;
     }
 
     override public function createPost()
@@ -64,20 +64,17 @@ class Mall extends StageBackend
 		santa.animation.play('santa idle in fear', true);
     }
 
-    override public function endSong()
+    private function lightsOut()
     {
-        if (curSong.formatToPath() == 'eggnog' && isStoryMode)
+        inCutscene = true;
+
+        var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGAME.zoom, - FlxG.height * camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+        blackShit.scrollFactor.set();
+        add(blackShit);
+
+        FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
         {
-            inCutscene = true;
-
-            var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGAME.zoom, - FlxG.height * camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-            blackShit.scrollFactor.set();
-            add(blackShit);
-
-            FlxG.sound.play(Paths.sound('Lights_Shut_off'), function()
-            {
-                endingStuff();
-            });
-        }
+            endingStuff();
+        });
     }
 }

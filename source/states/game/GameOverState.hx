@@ -60,6 +60,8 @@ class GameOverState extends MusicBeatState
 		{
 			PlayState.deathCounter = 0;
 			PlayState.seenCutscene = false;
+			PlayState.seenEndCutscene = false;
+
 			FlxG.sound.music.stop();
 
 			if (PlayState.isStoryMode)

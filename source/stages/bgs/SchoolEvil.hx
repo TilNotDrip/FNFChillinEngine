@@ -12,9 +12,6 @@ class SchoolEvil extends StageBackend
     {
         pixel = true;
 
-        if (curSong.formatToPath() == 'thorns' && isStoryMode)
-            hasCutscene = true;
-
         var bg:BGSprite = new BGSprite('weeb/animatedEvilSchool', 400, 200, 0.8, 0.9, ['background 2 instance 1'], true);
         bg.antialiasing = false;
         bg.scale.set(6, 6);
@@ -31,14 +28,18 @@ class SchoolEvil extends StageBackend
 		gf.x += 180;
 		gf.y += 300;
 
+        if (isStoryMode && curSong.formatToPath() == 'thorns')
+            startCallback = spiritCutscene;
+    }
+
+    private function spiritCutscene()
+    {
         var doof:DialogueBox = new DialogueBox(false, game.dialogue);
         doof.scrollFactor.set();
         doof.finishThing = startCountdown;
         doof.cameras = [camDIALOGUE];
 
-        if (isStoryMode && !PlayState.seenCutscene)
-            if (curSong.formatToPath() == 'thorns')
-                schoolIntro(doof);
+        schoolIntro(doof);
     }
 
     private function schoolIntro(?dialogueBox:DialogueBox):Void
