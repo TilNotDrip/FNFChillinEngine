@@ -5,11 +5,11 @@ import objects.game.Character;
 
 class Mall extends StageBackend
 {
-    var upperBoppers:BGSprite;
-	var bottomBoppers:BGSprite;
-	var santa:BGSprite;
+    private var upperBoppers:BGSprite;
+	private var bottomBoppers:BGSprite;
+	private var santa:BGSprite;
 
-    override function create()
+    override public function create()
     {
         zoom = 0.80;
 
@@ -46,25 +46,25 @@ class Mall extends StageBackend
         add(santa);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         player.x += 200;
     }
 
-    override function cameraMovement(char:Character)
+    override public function cameraMovement(char:Character)
     {
         if (char == player)
             camFollow.y =  player.getMidpoint().y - 200;
     }
 
-    override function beatHit()
+    override public function beatHit()
     {
         upperBoppers.animation.play('Upper Crowd Bob', true);
 		bottomBoppers.animation.play('Bottom Level Boppers', true);
 		santa.animation.play('santa idle in fear', true);
     }
 
-    override function endSong()
+    override public function endSong()
     {
         if (curSong.formatToPath() == 'eggnog' && isStoryMode)
         {

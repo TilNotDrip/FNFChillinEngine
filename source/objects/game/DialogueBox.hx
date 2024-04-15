@@ -8,27 +8,27 @@ import flixel.input.FlxKeyManager;
 
 class DialogueBox extends FlxSpriteGroup
 {
-	var box:FlxSprite;
+	private var box:FlxSprite;
 
-	var curCharacter:String = '';
+	private var curCharacter:String = '';
 
-	var dialogueList:Array<String> = [];
+	private var dialogueList:Array<String> = [];
 
-	var swagDialogue:FlxTypeText;
+	private var swagDialogue:FlxTypeText;
 
-	var dropText:FlxText;
+	private var dropText:FlxText;
 
 	public var finishThing:Void->Void;
 
-	var portraitLeft:FlxSprite;
-	var portraitRight:FlxSprite;
+	private var portraitLeft:FlxSprite;
+	private var portraitRight:FlxSprite;
 
-	var handSelect:FlxSprite;
-	var bgFade:FlxSprite;
+	private var handSelect:FlxSprite;
+	private var bgFade:FlxSprite;
 
 	private var controls(get, never):Controls;
 
-	inline function get_controls():Controls
+	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
@@ -59,16 +59,17 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (PlayState.isPixel)
 		{
-			switch(PlayState.SONG.song.formatToPath()) {
+			switch(PlayState.SONG.song.formatToPath())
+			{
 				case 'roses':
 					portraitLeft = new FlxSprite(-20, 45);
 					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiMadPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
+
 				default:
 					portraitLeft = new FlxSprite(-20, 40);
 					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter instance', 24, false);
-
 			};
 
 			portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
@@ -90,8 +91,9 @@ class DialogueBox extends FlxSpriteGroup
 		}
 
 		box = new FlxSprite(-20, 45);
-		
+
 		var hasDialog = false;
+
 		switch (PlayState.SONG.song.formatToPath())
 		{
 			case 'senpai':
@@ -154,11 +156,11 @@ class DialogueBox extends FlxSpriteGroup
 		add(swagDialogue);
 	}
 
-	var dialogueOpened:Bool = false;
-	var dialogueStarted:Bool = false;
-	var dialogueEnded:Bool = false;
+	private var dialogueOpened:Bool = false;
+	private var dialogueStarted:Bool = false;
+	private var dialogueEnded:Bool = false;
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		if (PlayState.SONG.song.formatToPath() == 'thorns')
 		{
@@ -227,9 +229,9 @@ class DialogueBox extends FlxSpriteGroup
 		super.update(elapsed);
 	}
 
-	var isEnding:Bool = false;
+	private var isEnding:Bool = false;
 
-	function startDialogue():Void
+	private function startDialogue():Void
 	{
 		cleanDialog();
 
@@ -262,7 +264,7 @@ class DialogueBox extends FlxSpriteGroup
 		}
 	}
 
-	function cleanDialog():Void
+	private function cleanDialog():Void
 	{
 		var splitName:Array<String> = dialogueList[0].split(":");
 		curCharacter = splitName[1];

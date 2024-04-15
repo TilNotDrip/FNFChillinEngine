@@ -5,7 +5,7 @@ import objects.game.Character;
 
 class MallEvil extends StageBackend
 {
-    override function create()
+    override public function create()
     {
         if (curSong.formatToPath() == 'winter-horrorland' && isStoryMode)
             hasCutscene = true;
@@ -22,7 +22,7 @@ class MallEvil extends StageBackend
         add(evilSnow);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         player.x += 320;
 		opponent.y -= 80;
@@ -66,7 +66,7 @@ class MallEvil extends StageBackend
         }
     }
 
-    override function cameraMovement(char:Character)
+    override public function cameraMovement(char:Character)
     {
         if (char == player)
             camFollow.y =  player.getMidpoint().y - 200;

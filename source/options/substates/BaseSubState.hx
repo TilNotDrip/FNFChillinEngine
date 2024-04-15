@@ -6,18 +6,13 @@ import options.states.OptionsState;
 class BaseSubState extends MusicBeatSubstate
 {
     public static var parent:OptionsState;
-    var canDoShit:Bool = false;
 
     private static var curSelected:Int = 0;
     private var options:Array<Option> = [];
 
-    override function create()
+    override public function create()
     {
         super.create();
-
-        new FlxTimer().start(0.001, function(timer:FlxTimer) {
-            canDoShit = true; // stupid fix
-        });
 
         for (i in 0...options.length)
         {
@@ -28,7 +23,7 @@ class BaseSubState extends MusicBeatSubstate
         changeItem();
     }
 
-    override function update(elapsed:Float)
+    override public function update(elapsed:Float)
     {
         if (controls.BACK)
         {
@@ -36,19 +31,19 @@ class BaseSubState extends MusicBeatSubstate
             close();
         }
 
-        if(controls.UI_UP_P && canDoShit)
+        if(controls.UI_UP_P)
             changeItem(-1);
 
-        if(controls.UI_DOWN_P && canDoShit)
+        if(controls.UI_DOWN_P)
             changeItem(1);
 
-        if(controls.UI_LEFT_P && canDoShit)
+        if(controls.UI_LEFT_P)
             changeOptionValue(-1);
 
-        if(controls.UI_RIGHT_P && canDoShit)
+        if(controls.UI_RIGHT_P)
             changeOptionValue(1);
 
-        if (controls.ACCEPT && canDoShit)
+        if (controls.ACCEPT)
         {
             if (options[curSelected].type == CHECKBOX)
                 options[curSelected].press();
@@ -57,7 +52,7 @@ class BaseSubState extends MusicBeatSubstate
         super.update(elapsed);
     }
 
-    function changeItem(change:Int = 0)
+    private function changeItem(change:Int = 0)
 	{
 		curSelected += change;
 
@@ -73,7 +68,7 @@ class BaseSubState extends MusicBeatSubstate
         options[curSelected].alpha = 1;
 	}
 
-    function changeOptionValue(change:Int = 0)
+    private function changeOptionValue(change:Int = 0)
     {
         if (options[curSelected].type == NUMBER && options[curSelected].numType == Int)
             options[curSelected].changeValue(change);

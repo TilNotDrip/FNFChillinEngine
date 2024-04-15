@@ -1,4 +1,4 @@
-package addons;
+package objects;
 
 import flixel.FlxBasic;
 
@@ -12,8 +12,8 @@ import openfl.net.NetStream;
 // TO BE USED WITH WEB ONLY
 class FlxVideo extends FlxBasic
 {
-	var video:Video;
-	var netStream:NetStream;
+	private var video:Video;
+	private var netStream:NetStream;
 
 	public var finishCallback:Void->Void;
 

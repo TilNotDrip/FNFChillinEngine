@@ -12,21 +12,21 @@ class Alphabet extends FlxSpriteGroup
 
 	public var text:String = "";
 
-	var _finalText:String = "";
-	var _curText:String = "";
+	private var _finalText:String = "";
+	private var _curText:String = "";
 
 	public var widthOfWords:Float = FlxG.width;
 
-	var yMulti:Float = 1;
+	private var yMulti:Float = 1;
 
-	var lastSprite:AlphaCharacter;
-	var xPosResetted:Bool = false;
-	var lastWasSpace:Bool = false;
+	private var lastSprite:AlphaCharacter;
+	private var xPosResetted:Bool = false;
+	private var lastWasSpace:Bool = false;
 
-	var lastSplittedWords:Array<String> = [];
-	var splitWords:Array<String> = [];
+	private var lastSplittedWords:Array<String> = [];
+	private var splitWords:Array<String> = [];
 
-	var isBold:Bool = false;
+	private var isBold:Bool = false;
 
 	public function new(x:Float = 0.0, y:Float = 0.0, text:String = "", ?bold:Bool = false, typed:Bool = false)
 	{
@@ -55,14 +55,13 @@ class Alphabet extends FlxSpriteGroup
 
 		var xPos:Float = 0;
 		var curRow:Int = 0;
+
 		for (character in splitWords)
 		{
 			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
 			{
 				if (lastSprite != null)
-				{
 					xPos = lastSprite.x + lastSprite.width;
-				}
 
 				if (lastWasSpace)
 				{
@@ -94,7 +93,7 @@ class Alphabet extends FlxSpriteGroup
 		}
 	}
 
-	function doSplitWords():Void
+	private function doSplitWords():Void
 	{
 		lastSplittedWords = splitWords.copy();
 		splitWords = _finalText.split("");
@@ -182,7 +181,7 @@ class Alphabet extends FlxSpriteGroup
 		}, splitWords.length);
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		if (isMenuItem)
 		{

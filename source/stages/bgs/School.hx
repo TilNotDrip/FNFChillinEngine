@@ -8,9 +8,9 @@ import stages.objects.BackgroundGirls;
 
 class School extends StageBackend
 {
-    var bgGirls:BackgroundGirls;
+    private var bgGirls:BackgroundGirls;
 
-    override function create()
+    override public function create()
     {
         pixel = true;
 
@@ -75,7 +75,7 @@ class School extends StageBackend
         add(bgGirls);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         player.x += 200;
 		player.y += 220;
@@ -94,7 +94,7 @@ class School extends StageBackend
         }
     }
 
-    function schoolIntro(?dialogueBox:DialogueBox):Void
+    private function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
         inCutscene = true;
 
@@ -129,7 +129,7 @@ class School extends StageBackend
 		});
 	}
 
-    override function cameraMovement(char:Character)
+    override public function cameraMovement(char:Character)
     {
         if (char == player) {
 			camFollow.x = player.getMidpoint().x - 200;
@@ -137,7 +137,7 @@ class School extends StageBackend
         }
     }
 
-    override function beatHit()
+    override public function beatHit()
     {
         bgGirls.dance();
     }

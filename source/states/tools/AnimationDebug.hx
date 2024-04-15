@@ -15,14 +15,14 @@ import openfl.net.FileReference;
 
 class AnimationDebug extends MusicBeatState
 {
-	var char:Character;
-	var textAnim:FlxText;
-	var dumbTexts:FlxTypedGroup<FlxText>;
-	var animList:Array<String> = [];
-	var curAnim:Int = 0;
-	var daAnim:String = 'spooky';
-	var isPlayer:Bool = false;
-	var camFollow:FlxObject;
+	private var char:Character;
+	private var textAnim:FlxText;
+	private var dumbTexts:FlxTypedGroup<FlxText>;
+	private var animList:Array<String> = [];
+	private var curAnim:Int = 0;
+	private var daAnim:String = 'spooky';
+	private var isPlayer:Bool = false;
+	private var camFollow:FlxObject;
 
 	public var camHUD:FlxCamera;
 	public var camGAME:FlxCamera;
@@ -33,7 +33,7 @@ class AnimationDebug extends MusicBeatState
 		this.daAnim = daAnim;
 	}
 
-	override function create()
+	override public function create()
 	{
 		changeWindowName('Animation Debug - ' + daAnim);
 
@@ -76,7 +76,7 @@ class AnimationDebug extends MusicBeatState
 		super.create();
 	}
 
-	function genBoyOffsets(pushList:Bool = true):Void
+	private function genBoyOffsets(pushList:Bool = true):Void
 	{
 		var daLoop:Int = 0;
 
@@ -94,7 +94,7 @@ class AnimationDebug extends MusicBeatState
 		}
 	}
 
-	function updateTexts():Void
+	private function updateTexts():Void
 	{
 		dumbTexts.forEach(function(text:FlxText)
 		{
@@ -103,7 +103,7 @@ class AnimationDebug extends MusicBeatState
 		});
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		textAnim.text = animList[curAnim];
 
@@ -132,19 +132,13 @@ class AnimationDebug extends MusicBeatState
 				camFollow.velocity.x = 0;
 		}
 		else
-		{
 			camFollow.velocity.set();
-		}
 
 		if (FlxG.keys.justPressed.W)
-		{
 			curAnim -= 1;
-		}
 
 		if (FlxG.keys.justPressed.S)
-		{
 			curAnim += 1;
-		}
 
 		if (curAnim < 0)
 			curAnim = animList.length - 1;
@@ -167,6 +161,7 @@ class AnimationDebug extends MusicBeatState
 
 		var holdShift = FlxG.keys.pressed.SHIFT;
 		var multiplier = 1;
+
 		if (holdShift)
 			multiplier = 10;
 
@@ -192,23 +187,19 @@ class AnimationDebug extends MusicBeatState
 			var outputString:String = "";
 
 			for (swagAnim in animList)
-			{
 				outputString += swagAnim + " " + char.animOffsets.get(swagAnim)[0] + " " + char.animOffsets.get(swagAnim)[1] + "\n";
-			}
 
 			outputString.trim();
 			saveOffsets(outputString);
 		}
 
 		if (FlxG.keys.justPressed.ESCAPE)
-		{
 			FlxG.switchState(new PlayState());
-		}
 
 		super.update(elapsed);
 	}
 
-	var _file:FileReference;
+	private var _file:FileReference;
 
 	private function saveOffsets(saveString:String)
 	{
@@ -222,7 +213,7 @@ class AnimationDebug extends MusicBeatState
 		}
 	}
 
-	function onSaveComplete(_):Void
+	private function onSaveComplete(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
@@ -231,7 +222,7 @@ class AnimationDebug extends MusicBeatState
 		FlxG.log.notice("Successfully saved LEVEL DATA.");
 	}
 
-	function onSaveCancel(_):Void
+	private function onSaveCancel(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
@@ -239,7 +230,7 @@ class AnimationDebug extends MusicBeatState
 		_file = null;
 	}
 
-	function onSaveError(_):Void
+	private function onSaveError(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);

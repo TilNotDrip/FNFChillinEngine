@@ -8,7 +8,7 @@ using flixel.util.FlxStringUtil;
 
 class InputFormatter
 {
-    static public function format(id:Int, device:Device):String
+    public static function format(id:Int, device:Device):String
     {
         return switch (device)
         {
@@ -16,8 +16,8 @@ class InputFormatter
             case Gamepad(gamepadID): getButtonName(id, FlxG.gamepads.getByID(gamepadID));
         }
     }
-    
-    static public function getKeyName(id:Int):String
+
+    public static function getKeyName(id:Int):String
     {
         return switch(id)
         {
@@ -64,16 +64,17 @@ class InputFormatter
             default: titleCase(FlxKey.toStringMap[id]);
         }
     }
-    
-    static var dirReg = ~/^(l|r).?-(left|right|down|up)$/;
-    inline static public function getButtonName(id:Int, gamepad:FlxGamepad):String
+
+    private static var dirReg = ~/^(l|r).?-(left|right|down|up)$/;
+
+    inline public static function getButtonName(id:Int, gamepad:FlxGamepad):String
     {
         return switch(gamepad.getInputLabel(id))
         {
             case label: shortenButtonName(label);
         }
     }
-    
+
     static function shortenButtonName(name:String)
     {
         return switch (name == null ? "" : name.formatToPath())
@@ -84,28 +85,28 @@ class InputFormatter
             case label: titleCase(label);
         }
     }
-    
+
     inline static function titleCaseTrim(str:String, length = 8)
     {
         return str.charAt(0).toUpperCase() + str.substr(1, length - 1).formatToPath();
     }
-    
+
     inline static function titleCase(str:String)
     {
         return str.charAt(0).toUpperCase() + str.substr(1).formatToPath();
     }
-    
-    inline static public function parsePadName(name:String):ControllerName
+
+    inline public static function parsePadName(name:String):ControllerName
     {
         return ControllerName.parseName(name);
     }
-    
-    inline static public function getPadName(gamepad:FlxGamepad):ControllerName
+
+    inline public static function getPadName(gamepad:FlxGamepad):ControllerName
     {
         return ControllerName.getName(gamepad);
     }
-    
-    inline static public function getPadNameById(id:Int):ControllerName
+
+    inline public static function getPadNameById(id:Int):ControllerName
     {
         return ControllerName.getNameById(id);
     }
@@ -125,8 +126,8 @@ enum abstract ControllerName(String) from String to String
     var JOYCON_R = "Joycon_R";
     var MFI      = "MFI"     ;
     var PAD      = "Pad"     ;
-    
-    static public function getAssetByDevice(device:Device):String
+
+    public static function getAssetByDevice(device:Device):String
     {
         return switch (device)
         {
@@ -134,8 +135,8 @@ enum abstract ControllerName(String) from String to String
             case Gamepad(id): getAsset(FlxG.gamepads.getByID(id));
         }
     }
-    
-    static public function getAsset(gamepad:FlxGamepad):String
+
+    public static function getAsset(gamepad:FlxGamepad):String
     {
         if (gamepad == null)
             return 'assets/images/ui/devices/Keys.png';
@@ -147,12 +148,11 @@ enum abstract ControllerName(String) from String to String
         
         return 'assets/images/ui/devices/Pad.png';
     }
-    
-    
-    
-    inline static public function getNameById(id:Int):ControllerName return getName(FlxG.gamepads.getByID(id));
-    inline static public function getName(gamepad:FlxGamepad):ControllerName return parseName(gamepad.name);
-    static public function parseName(name:String):ControllerName
+
+    inline public static function getNameById(id:Int):ControllerName return getName(FlxG.gamepads.getByID(id));
+    inline public static function getName(gamepad:FlxGamepad):ControllerName return parseName(gamepad.name);
+
+    public static function parseName(name:String):ControllerName
     {
         name = name.formatToPath().remove("-").remove("_");
         return

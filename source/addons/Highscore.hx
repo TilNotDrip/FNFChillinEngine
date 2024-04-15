@@ -1,9 +1,20 @@
 package addons;
 
+import flixel.util.FlxSave;
+
 class Highscore
 {
+	private static var saveScores:FlxSave;
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 
+	public static function load():Void
+	{
+		saveScores = new FlxSave();
+		saveScores.bind('scores', CoolTools.getSavePath());
+
+		if (saveScores.data.songScores != null)
+			songScores = saveScores.data.songScores;
+	}
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:String = ''):Void
 	{
@@ -31,15 +42,6 @@ class Highscore
 			setScore(formattedSong, score);
 	}
 
-	static function setScore(formattedSong:String, score:Int):Void
-	{
-		#if !switch
-		songScores.set(formattedSong, score);
-		FlxG.save.data.songScores = songScores;
-		FlxG.save.flush();
-		#end
-	}
-
 	public static function formatSong(song:String, diff:String):String
 	{
 		var daSong:String = song;
@@ -65,11 +67,10 @@ class Highscore
 		return songScores.get(formatSong(week, diff));
 	}
 
-	public static function load():Void
+	private static function setScore(formattedSong:String, score:Int):Void
 	{
-		if (FlxG.save.data.songScores != null)
-		{
-			songScores = FlxG.save.data.songScores;
-		}
+		songScores.set(formattedSong, score);
+		saveScores.data.songScores = songScores;
+		saveScores.flush();
 	}
 }

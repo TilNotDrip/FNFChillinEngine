@@ -155,7 +155,7 @@ class Note extends FlxSprite
 		shader = rgbShader.shader;
     }
 
-    function angleThing(note:Int)
+    private function angleThing(note:Int)
     {
         switch (note)
         {
@@ -170,7 +170,7 @@ class Note extends FlxSprite
         }
     }
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 

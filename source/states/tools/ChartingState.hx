@@ -1,5 +1,6 @@
 package states.tools;
 
+import flixel.util.FlxSave;
 import flixel.util.FlxSort;
 import addons.SongEvent.SwagEvent;
 import addons.Conductor.BPMChangeEvent;
@@ -30,49 +31,50 @@ import openfl.net.FileReference;
 
 class ChartingState extends MusicBeatState
 {
-	var _file:FileReference;
+	private var autoSave:FlxSave;
+	private var _file:FileReference;
 
-	var UI_box:FlxUITabMenu;
+	private var UI_box:FlxUITabMenu;
 
-	var curSec:Int = 0;
+	private var curSec:Int = 0;
 
 	public static var lastSection:Int = 0;
 
-	var bpmTxt:FlxText;
+	private var bpmTxt:FlxText;
 
-	var strumLine:FlxSprite;
-	var curSong:String = 'Test';
-	var amountSteps:Int = 0;
-	var bullshitUI:FlxGroup;
+	private var strumLine:FlxSprite;
+	private var curSong:String = 'Test';
+	private var amountSteps:Int = 0;
+	private var bullshitUI:FlxGroup;
 
-	var highlight:FlxSprite;
+	private var highlight:FlxSprite;
 
-	var GRID_SIZE:Int = 40;
+	private var GRID_SIZE:Int = 40;
 
-	var dummyArrow:FlxSprite;
+	private var dummyArrow:FlxSprite;
 
-	var curRenderedNotes:FlxTypedGroup<Note>;
-	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
-	var curRenderedEvents:FlxTypedGroup<FlxSprite>;
+	private var curRenderedNotes:FlxTypedGroup<Note>;
+	private var curRenderedSustains:FlxTypedGroup<FlxSprite>;
+	private var curRenderedEvents:FlxTypedGroup<FlxSprite>;
 
-	var gridBG:FlxSprite;
+	private var gridBG:FlxSprite;
 
-	var _song:SwagSong;
-	var _events:Array<SwagEvent>;
+	private var _song:SwagSong;
+	private var _events:Array<SwagEvent>;
 
-	var typingShits:Array<FlxUIInputText> = [];
-	var curSelectedNote:Array<Dynamic>;
-	var curSelectedEvent:SwagEvent;
+	private var typingShits:Array<FlxUIInputText> = [];
+	private var curSelectedNote:Array<Dynamic>;
+	private var curSelectedEvent:SwagEvent;
 
-	var tempBpm:Float = 0;
+	private var tempBpm:Float = 0;
 
-	var vocals:FlxSound;
-	var hitsound:FlxSound;
+	private var vocals:FlxSound;
+	private var hitsound:FlxSound;
 
-	var leftIcon:HealthIcon;
-	var rightIcon:HealthIcon;
+	private var leftIcon:HealthIcon;
+	private var rightIcon:HealthIcon;
 
-	override function create()
+	override public function create()
 	{
 		if (PlayState.SONG != null)
 		{
@@ -96,8 +98,9 @@ class ChartingState extends MusicBeatState
 		}
 
 		FlxG.mouse.visible = true;
-		//how to get package name thingy? idk
-		FlxG.save.bind('chillinengine', Application.current.meta.get('company'));
+
+		autoSave = new FlxSave();
+		autoSave.bind('autosave', CoolTools.getSavePath());
 
 		tempBpm = _song.bpm;
 
@@ -196,7 +199,7 @@ class ChartingState extends MusicBeatState
 		super.create();
 	}
 
-	function addSongUI():Void
+	private function addSongUI():Void
 	{
 		var UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		typingShits[0] = UI_songTitle;
@@ -327,13 +330,13 @@ class ChartingState extends MusicBeatState
 		FlxG.camera.follow(strumLine);
 	}
 
-	var stepperLength:FlxUINumericStepper;
-	var check_mustHitSection:FlxUICheckBox;
-	var check_changeBPM:FlxUICheckBox;
-	var stepperSectionBPM:FlxUINumericStepper;
-	var check_altAnim:FlxUICheckBox;
+	private var stepperLength:FlxUINumericStepper;
+	private var check_mustHitSection:FlxUICheckBox;
+	private var check_changeBPM:FlxUICheckBox;
+	private var stepperSectionBPM:FlxUINumericStepper;
+	private var check_altAnim:FlxUICheckBox;
 
-	function addSectionUI():Void
+	private function addSectionUI():Void
 	{
 		var tab_group_section = new FlxUI(null, UI_box);
 		tab_group_section.name = 'Section';
@@ -392,9 +395,9 @@ class ChartingState extends MusicBeatState
 		UI_box.addGroup(tab_group_section);
 	}
 
-	var stepperSusLength:FlxUINumericStepper;
+	private var stepperSusLength:FlxUINumericStepper;
 
-	function addNoteUI():Void
+	private function addNoteUI():Void
 	{
 		var tab_group_note = new FlxUI(null, UI_box);
 		tab_group_note.name = 'Note';
@@ -411,9 +414,9 @@ class ChartingState extends MusicBeatState
 		UI_box.addGroup(tab_group_note);
 	}
 
-	var eventDropDown:FlxUIDropDownMenu;
+	private var eventDropDown:FlxUIDropDownMenu;
 
-	function addEventUI():Void
+	private function addEventUI():Void
 	{
 		var tab_group_event = new FlxUI(null, UI_box);
 		tab_group_event.name = 'Event';
@@ -455,25 +458,21 @@ class ChartingState extends MusicBeatState
 		UI_box.addGroup(tab_group_event);
 	}
 
-	function updateEventUI()
+	private function updateEventUI()
 	{
 		if(curSelectedEvent != null)
 		{
 			eventDropDown.selectedLabel = curSelectedEvent.name;
 			typingShits[1].text = curSelectedEvent.value;
 		} 
-		else 
-		{
+		else
 			eventDropDown.selectedLabel = ' ';
-		}
 	}
 
-	function loadSong(daSong:String):Void
+	private function loadSong(daSong:String):Void
 	{
 		if (FlxG.sound.music != null)
-		{
 			FlxG.sound.music.stop();
-		}
 
 		FlxG.sound.playMusic(Paths.inst(daSong), 0.6);
 
@@ -497,18 +496,16 @@ class ChartingState extends MusicBeatState
 		};
 	}
 
-	function generateUI():Void
+	private function generateUI():Void
 	{
 		while (bullshitUI.members.length > 0)
-		{
 			bullshitUI.remove(bullshitUI.members[0], true);
-		}
 
 		var title:FlxText = new FlxText(UI_box.x + 20, UI_box.y + 20, 0);
 		bullshitUI.add(title);
 	}
 
-	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
+	override public function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
 	{
 		if (id == FlxUICheckBox.CLICK_EVENT)
 		{
@@ -532,16 +529,16 @@ class ChartingState extends MusicBeatState
 		{
 			var nums:FlxUINumericStepper = cast sender;
 			var wname = nums.name;
+
 			FlxG.log.add(wname);
+
 			if (wname == 'section_length')
 			{
 				_song.notes[curSec].lengthInSteps = Std.int(nums.value);
 				updateGrid();
 			}
 			else if (wname == 'song_speed')
-			{
 				_song.speed = nums.value;
-			}
 			else if (wname == 'song_bpm')
 			{
 				tempBpm = nums.value;
@@ -563,9 +560,9 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	var updatedSection:Bool = false;
+	private var updatedSection:Bool = false;
 
-	function sectionStartTime():Float
+	private function sectionStartTime():Float
 	{
 		var daBPM:Float = _song.bpm;
 		var daPos:Float = 0;
@@ -580,8 +577,9 @@ class ChartingState extends MusicBeatState
 		return daPos;
 	}
 
-	var alreadyPlayedNotes:Array<Note> = [];
-	override function update(elapsed:Float)
+	private var alreadyPlayedNotes:Array<Note> = [];
+
+	override public function update(elapsed:Float)
 	{
 		curStep = recalculateSteps();
 
@@ -597,12 +595,9 @@ class ChartingState extends MusicBeatState
 		{
 			trace(curStep);
 			trace((_song.notes[curSec].lengthInSteps) * (curSec + 1));
-			trace('DUMBSHIT');
 
 			if (_song.notes[curSec + 1] == null)
-			{
 				addSection();
-			}
 
 			changeSection(curSec + 1, false);
 		}
@@ -635,13 +630,8 @@ class ChartingState extends MusicBeatState
 			}
 			else
 			{
-				if (FlxG.mouse.x > gridBG.x
-					&& FlxG.mouse.x < gridBG.x + gridBG.width
-					&& FlxG.mouse.y > gridBG.y
-					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
-				{
+				if (FlxG.mouse.x > gridBG.x && FlxG.mouse.x < gridBG.x + gridBG.width && FlxG.mouse.y > gridBG.y && FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
 					addNote();
-				}
 			}
 
 			if (FlxG.mouse.overlaps(curRenderedEvents))
@@ -664,13 +654,8 @@ class ChartingState extends MusicBeatState
 			}
 			else
 			{
-				if (FlxG.mouse.x > gridBG.x - GRID_SIZE
-					&& FlxG.mouse.x < gridBG.x
-					&& FlxG.mouse.y > gridBG.y
-					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
-				{
+				if (FlxG.mouse.x > gridBG.x - GRID_SIZE && FlxG.mouse.x < gridBG.x && FlxG.mouse.y > gridBG.y && FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
 					addEvent();
-				}
 			}
 		}
 
@@ -683,12 +668,10 @@ class ChartingState extends MusicBeatState
 			}
 		});
 
-		if (FlxG.mouse.x > gridBG.x - GRID_SIZE
-			&& FlxG.mouse.x < gridBG.x + gridBG.width
-			&& FlxG.mouse.y > gridBG.y
-			&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
+		if (FlxG.mouse.x > gridBG.x - GRID_SIZE && FlxG.mouse.x < gridBG.x + gridBG.width && FlxG.mouse.y > gridBG.y && FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSec].lengthInSteps))
 		{
 			dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
+
 			if (FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = FlxG.mouse.y;
 			else
@@ -707,13 +690,10 @@ class ChartingState extends MusicBeatState
 		}
 
 		if (FlxG.keys.justPressed.E)
-		{
 			changeNoteSustain(Conductor.stepCrochet);
-		}
+
 		if (FlxG.keys.justPressed.Q)
-		{
 			changeNoteSustain(-Conductor.stepCrochet);
-		}
 
 		if (FlxG.keys.justPressed.TAB)
 		{
@@ -732,10 +712,9 @@ class ChartingState extends MusicBeatState
 		}
 
 		var noFocused:Bool = true;
+
 		for(typingShit in typingShits)
-		{
 			if(typingShit.hasFocus) noFocused = false;
-		}
 
 		if (noFocused)
 		{
@@ -842,7 +821,7 @@ class ChartingState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	function changeNoteSustain(value:Float):Void
+	private function changeNoteSustain(value:Float):Void
 	{
 		if (curSelectedNote != null)
 		{
@@ -857,7 +836,7 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
-	function toggleAltAnimNote():Void
+	private function toggleAltAnimNote():Void
 	{
 		if (curSelectedNote != null)
 		{
@@ -872,7 +851,7 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function recalculateSteps():Int
+	private function recalculateSteps():Int
 	{
 		var lastChange:BPMChangeEvent = {
 			stepTime: 0,
@@ -891,7 +870,7 @@ class ChartingState extends MusicBeatState
 		return curStep;
 	}
 
-	function resetSection(songBeginning:Bool = false):Void
+	private function resetSection(songBeginning:Bool = false):Void
 	{
 		updateGrid();
 
@@ -913,11 +892,9 @@ class ChartingState extends MusicBeatState
 		updateSectionUI();
 	}
 
-	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
+	private function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
 	{
 		trace('changing section' + sec);
-
-		
 
 		if (_song.notes[sec] != null)
 		{
@@ -940,7 +917,7 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function copySection(?sectionNum:Int = 1)
+	private function copySection(?sectionNum:Int = 1)
 	{
 		var daSec = FlxMath.maxInt(curSec, sectionNum);
 
@@ -955,7 +932,7 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
-	function updateSectionUI():Void
+	private function updateSectionUI():Void
 	{
 		var sec = _song.notes[curSec];
 
@@ -968,7 +945,7 @@ class ChartingState extends MusicBeatState
 		updateHeads();
 	}
 
-	function updateHeads():Void
+	private function updateHeads():Void
 	{
 		if (check_mustHitSection.checked)
 		{
@@ -982,14 +959,15 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function updateNoteUI():Void
+	private function updateNoteUI():Void
 	{
 		if (curSelectedNote != null)
 			stepperSusLength.value = curSelectedNote[2];
 	}
 
-	var spriteToEvent:Map<FlxSprite, SwagEvent> = new Map();
-	function updateGrid():Void
+	private var spriteToEvent:Map<FlxSprite, SwagEvent> = new Map();
+
+	private function updateGrid():Void
 	{
 		while (curRenderedNotes.members.length > 0)
 		{
@@ -1073,7 +1051,7 @@ class ChartingState extends MusicBeatState
 		_song.notes.push(sec);
 	}
 
-	function selectNote(note:Note):Void
+	private function selectNote(note:Note):Void
 	{
 		for (i in _song.notes[curSec].sectionNotes)
 		{
@@ -1088,7 +1066,7 @@ class ChartingState extends MusicBeatState
 		updateNoteUI();
 	}
 
-	function deleteNote(note:Note):Void
+	private function deleteNote(note:Note):Void
 	{
 		for (i in _song.notes[curSec].sectionNotes)
 		{
@@ -1102,7 +1080,7 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
-	function selectEvent(event:SwagEvent):Void
+	private function selectEvent(event:SwagEvent):Void
 	{
 		curSelectedEvent = event;
 
@@ -1110,26 +1088,26 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
-	function deleteEvent(event:SwagEvent):Void
+	private function deleteEvent(event:SwagEvent):Void
 	{
 		_events.remove(event);
 
 		updateGrid();
 	}
 
-	function sortEvents(Obj1:SwagEvent, Obj2:SwagEvent)
+	private function sortEvents(Obj1:SwagEvent, Obj2:SwagEvent)
 	{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
-	function clearSection():Void
+	private function clearSection():Void
 	{
 		_song.notes[curSec].sectionNotes = [];
 
 		updateGrid();
 	}
 
-	function clearSong():Void
+	private function clearSong():Void
 	{
 		for (daSection in 0..._song.notes.length)
 		{
@@ -1182,24 +1160,24 @@ class ChartingState extends MusicBeatState
 		autosaveSong();
 	}
 
-	function getStrumTime(yPos:Float):Float
+	private function getStrumTime(yPos:Float):Float
 	{
 		return FlxMath.remapToRange(yPos, gridBG.y, gridBG.y + gridBG.height, 0, 16 * Conductor.stepCrochet);
 	}
 
-	function getYfromStrum(strumTime:Float):Float
+	private function getYfromStrum(strumTime:Float):Float
 	{
 		return FlxMath.remapToRange(strumTime, 0, 16 * Conductor.stepCrochet, gridBG.y, gridBG.y + gridBG.height);
 	}
 
 	private var daSpacing:Float = 0.3;
 
-	function loadLevel():Void
+	private function loadLevel():Void
 	{
 		trace(_song.notes);
 	}
 
-	function getNotes():Array<Dynamic>
+	private function getNotes():Array<Dynamic>
 	{
 		var noteData:Array<Dynamic> = [];
 
@@ -1211,24 +1189,24 @@ class ChartingState extends MusicBeatState
 		return noteData;
 	}
 
-	function loadJson(song:String):Void
+	private function loadJson(song:String):Void
 	{
 		PlayState.SONG = Song.loadFromJson(PlayState.difficulty.formatToPath(), song.formatToPath());
 		LoadingState.loadAndSwitchState(new ChartingState());
 	}
 
-	function loadAutosave():Void
+	private function loadAutosave():Void
 	{
-		PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+		PlayState.SONG = Song.parseJSONshit(autoSave.data.autosave);
 		FlxG.resetState();
 	}
 
-	function autosaveSong():Void
+	private function autosaveSong():Void
 	{
-		FlxG.save.data.autosave = Json.stringify({
+		autoSave.data.autosave = Json.stringify({
 			"song": _song
 		});
-		FlxG.save.flush();
+		autoSave.flush();
 	}
 
 	private function saveLevel()
@@ -1267,7 +1245,7 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function onSaveComplete(_):Void
+	private function onSaveComplete(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
@@ -1276,7 +1254,7 @@ class ChartingState extends MusicBeatState
 		FlxG.log.notice("Successfully saved LEVEL DATA.");
 	}
 
-	function onSaveCancel(_):Void
+	private function onSaveCancel(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
@@ -1284,7 +1262,7 @@ class ChartingState extends MusicBeatState
 		_file = null;
 	}
 
-	function onSaveError(_):Void
+	private function onSaveError(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);

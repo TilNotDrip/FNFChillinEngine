@@ -5,15 +5,15 @@ import objects.game.Character;
 
 class Spooky extends StageBackend
 {
-    var halloweenBG:BGSprite;
+    private var halloweenBG:BGSprite;
 
-    override function create()
+    override public function create()
     {
         halloweenBG = new BGSprite('halloween_bg', -200, -100, 1, 1, ['halloweem bg lightning strike']);
         add(halloweenBG);
     }
 
-    function lightningStrikeShit()
+    private function lightningStrikeShit()
     {
 		FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
 
@@ -26,10 +26,10 @@ class Spooky extends StageBackend
 		gf.playAnim('scared', true);
     }
 
-    var lightningStrikeBeat:Int = 0;
-    var lightningOffset:Int = 8;
+    private var lightningStrikeBeat:Int = 0;
+    private var lightningOffset:Int = 8;
 
-    override function beatHit()
+    override public function beatHit()
     {
         if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
             lightningStrikeShit();

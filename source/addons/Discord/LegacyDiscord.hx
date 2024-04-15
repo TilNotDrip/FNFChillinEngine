@@ -21,35 +21,10 @@ class LegacyDiscord
 		while (true)
 		{
 			DiscordRpc.process();
-			sleep(2);
+			sleep(0);
 		}
 
 		DiscordRpc.shutdown();
-	}
-
-	public static function shutdown()
-	{
-		DiscordRpc.shutdown();
-	}
-	
-	static function onReady()
-	{
-		DiscordRpc.presence({
-			details: "In the Menus",
-			state: null,
-			largeImageKey: 'icon',
-			largeImageText: "Friday Night Funkin'; Chillin' Engine"
-		});
-	}
-
-	static function onError(_code:Int, _message:String)
-	{
-		trace('Error! $_code : $_message');
-	}
-
-	static function onDisconnected(_code:Int, _message:String)
-	{
-		trace('Disconnected! $_code : $_message');
 	}
 
 	public static function initialize()
@@ -82,6 +57,31 @@ class LegacyDiscord
 			startTimestamp: Std.int(startTimestamp / 1000),
 			endTimestamp: Std.int(endTimestamp / 1000)
 		});
+	}
+
+	public static function shutdown()
+	{
+		DiscordRpc.shutdown();
+	}
+
+	private static function onReady()
+	{
+		DiscordRpc.presence({
+			details: "In the Menus",
+			state: null,
+			largeImageKey: 'icon',
+			largeImageText: "Friday Night Funkin'; Chillin' Engine"
+		});
+	}
+
+	private static function onError(_code:Int, _message:String)
+	{
+		trace('Error! $_code : $_message');
+	}
+
+	private static function onDisconnected(_code:Int, _message:String)
+	{
+		trace('Disconnected! $_code : $_message');
 	}
 }
 #end

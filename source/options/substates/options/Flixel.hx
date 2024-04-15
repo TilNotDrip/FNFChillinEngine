@@ -8,7 +8,7 @@ import options.objects.Option;
 
 class Flixel extends BaseSubState
 {
-    override function create()
+    override public function create()
     {
         var autoPause:Option = new Option('Auto Pause', 'Whether to freeze the game is unfocused.', 'autoPause', FLIXEL, CHECKBOX);
         autoPause.onChange = autopausing;
@@ -23,11 +23,11 @@ class Flixel extends BaseSubState
         super.create();
     }
 
-    function autopausing()
+    private function autopausing()
         FlxG.autoPause = ChillSettings.get('autoPause', FLIXEL);
 
     #if FLX_MOUSE
-    function changeCursor()
+    private function changeCursor()
         FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor', FLIXEL);
     #end
 }

@@ -2,17 +2,17 @@ package states.game;
 
 class GitarooPause extends MusicBeatState
 {
-	var replayButton:FlxSprite;
-	var cancelButton:FlxSprite;
+	private var replayButton:FlxSprite;
+	private var cancelButton:FlxSprite;
 
-	var replaySelect:Bool = false;
+	private var replaySelect:Bool = false;
 
-	public function new():Void
+	public function new()
 	{
 		super();
 	}
 
-	override function create()
+	override public function create()
 	{
 		Application.current.window.title += ' [Secret Paused]';
 
@@ -48,7 +48,7 @@ class GitarooPause extends MusicBeatState
 		super.create();
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
 			changeThing();
@@ -64,7 +64,7 @@ class GitarooPause extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	function changeThing():Void
+	private function changeThing():Void
 	{
 		replaySelect = !replaySelect;
 

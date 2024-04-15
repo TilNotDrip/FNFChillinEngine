@@ -2,9 +2,9 @@ package substates;
 
 class PauseSubState extends MusicBeatSubstate
 {
-	var grpMenuShit:FlxTypedGroup<Alphabet>;
+	private var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var pauseOG:Array<String> = [
+	private var pauseOG:Array<String> = [
 		'Resume',
 		'Restart Song',
 		'Change Difficulty',
@@ -13,13 +13,13 @@ class PauseSubState extends MusicBeatSubstate
 		'Exit to menu'
 	];
 
-	var menuItems:Array<String> = [];
-	var curSelected:Int = 0;
+	private var menuItems:Array<String> = [];
+	private var curSelected:Int = 0;
 
-	var pauseMusic:FlxSound;
+	private var pauseMusic:FlxSound;
 
-	var practiceText:FlxText;
-	var botplayText:FlxText;
+	private var practiceText:FlxText;
+	private var botplayText:FlxText;
 
 	public function new(x:Float, y:Float)
 	{
@@ -115,28 +115,22 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 	}
 
-	var difficultyChoices:Array<String> = [];
-	override function update(elapsed:Float)
+	private var difficultyChoices:Array<String> = [];
+
+	override public function update(elapsed:Float)
 	{
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 
 		super.update(elapsed);
 
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
-		var accepted = controls.ACCEPT;
-
-		if (upP)
-		{
+		if (controls.UI_UP_P)
 			changeSelection(-1);
-		}
-		if (downP)
-		{
-			changeSelection(1);
-		}
 
-		if (accepted)
+		if (controls.UI_DOWN_P)
+			changeSelection(1);
+
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
 
@@ -162,6 +156,7 @@ class PauseSubState extends MusicBeatSubstate
 				case "Exit to menu":
 					PlayState.seenCutscene = false;
 					PlayState.deathCounter = 0;
+
 					if (PlayState.isStoryMode)
 						FlxG.switchState(new StoryMenuState());
 					else
@@ -194,7 +189,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 
-	function openDifficultyMenu()
+	private function openDifficultyMenu()
 	{
 		difficultyChoices = [];
 
@@ -207,7 +202,7 @@ class PauseSubState extends MusicBeatSubstate
 		regenMenu();
 	}
 
-	override function destroy()
+	override public function destroy()
 	{
 		pauseMusic.destroy();
 		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.difficulty + ')');
@@ -215,7 +210,7 @@ class PauseSubState extends MusicBeatSubstate
 		super.destroy();
 	}
 
-	function changeSelection(change:Int = 0):Void
+	private function changeSelection(change:Int = 0):Void
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 

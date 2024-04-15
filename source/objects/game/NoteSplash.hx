@@ -4,7 +4,7 @@ import shaders.RGBShader;
 
 class NoteSplash extends FlxSprite
 {
-	var rgbShader:RGBShader = new RGBShader();
+	public var rgbShader:RGBShader = new RGBShader();
 
 	public function new(x:Float, y:Float, noteData:Int = 0):Void
 	{
@@ -30,7 +30,7 @@ class NoteSplash extends FlxSprite
 		offset.set(width * 0.3, height * 0.3);
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		if (animation.curAnim != null && animation.curAnim.finished)
 			kill();
@@ -38,7 +38,7 @@ class NoteSplash extends FlxSprite
 		super.update(elapsed);
 	}
 
-	function loadSplash(pixel:Bool = false)
+	private function loadSplash(pixel:Bool = false)
 	{
 		if (pixel)
 		{

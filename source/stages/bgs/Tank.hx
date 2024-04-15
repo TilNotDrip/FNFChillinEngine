@@ -14,16 +14,16 @@ import stages.objects.TankmenBG;
 
 class Tank extends StageBackend
 {
-    var foregroundSprites:FlxTypedGroup<BGSprite>;
+    private var foregroundSprites:FlxTypedGroup<BGSprite>;
 
-    var tankmanRun:FlxTypedGroup<TankmenBG>;
-	var tankWatchtower:BGSprite;
-	var tankGround:BGSprite;
+    private var tankmanRun:FlxTypedGroup<TankmenBG>;
+	private var tankWatchtower:BGSprite;
+	private var tankGround:BGSprite;
 
-    var gfCutsceneLayer:FlxGroup;
-	var bfTankCutsceneLayer:FlxGroup;
+    private var gfCutsceneLayer:FlxGroup;
+	private var bfTankCutsceneLayer:FlxGroup;
 
-    override function create()
+    override public function create()
     {
 		zoom = 0.90;
 
@@ -100,7 +100,7 @@ class Tank extends StageBackend
 		add(gfCutsceneLayer);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         switch (PlayState.SONG.player3)
 		{
@@ -163,10 +163,10 @@ class Tank extends StageBackend
     }
 
 	#if html5
-	var blackShit:FlxSprite;
+	private var blackShit:FlxSprite;
 	#end
 
-	function ughIntro()
+	private function ughIntro()
 	{
 		inCutscene = true;
 
@@ -251,7 +251,7 @@ class Tank extends StageBackend
 		#end
 	}
 
-	function gunsIntro()
+	private function gunsIntro()
 	{
 		inCutscene = true;
 
@@ -308,7 +308,7 @@ class Tank extends StageBackend
 		#end
 	}
 
-	function stressIntro()
+	private function stressIntro()
 	{
 		inCutscene = true;
 
@@ -439,19 +439,19 @@ class Tank extends StageBackend
 	}
 
 	#if html5
-	override function endingVideo()
+	override public function endingVideo()
 	{
 		remove(blackShit);
 		FlxTween.tween(FlxG.camera, {zoom: zoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
 	}
 	#end
 
-    override function update(elapsed:Float)
+    override public function update(elapsed:Float)
     {
         moveTank();
     }
 
-    function moveTank():Void
+    private function moveTank():Void
 	{
 		if (!inCutscene)
 		{
@@ -464,13 +464,13 @@ class Tank extends StageBackend
 		}
 	}
 
-	var tankResetShit:Bool = false;
-	var tankMoving:Bool = false;
-	var tankAngle:Float = FlxG.random.int(-90, 45);
-	var tankSpeed:Float = FlxG.random.float(5, 7);
-	var tankX:Float = 400;
+	private var tankResetShit:Bool = false;
+	private var tankMoving:Bool = false;
+	private var tankAngle:Float = FlxG.random.int(-90, 45);
+	private var tankSpeed:Float = FlxG.random.float(5, 7);
+	private var tankX:Float = 400;
 
-    override function beatHit()
+    override public function beatHit()
     {
         foregroundSprites.forEach(function(spr:BGSprite)
 		{

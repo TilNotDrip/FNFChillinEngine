@@ -9,29 +9,29 @@ import objects.menu.WeekItem;
 
 class StoryMenuState extends MusicBeatState
 {
-	static var curWeek:Int = 0;
-	static var curDifficulty:Int = 1;
+	private static var curWeek:Int = 0;
+	private static var curDifficulty:Int = 1;
 
-	var scoreText:FlxText;
-	var txtWeekTitle:FlxText;
+	private var scoreText:FlxText;
+	private var txtWeekTitle:FlxText;
 
-	var daWeeks:Array<Week> = [];
-	var curWeekClass:Week;
+	private var daWeeks:Array<Week> = [];
+	private var curWeekClass:Week;
 
-	var colorBG:FlxSprite;
-	var colorTween:ColorTween;
-	var txtTracklist:FlxText;
+	private var colorBG:FlxSprite;
+	private var colorTween:ColorTween;
+	private var txtTracklist:FlxText;
 
-	var grpWeekText:FlxTypedGroup<WeekItem>;
-	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
-	var grpLocks:FlxTypedGroup<FlxSprite>;
+	private var grpWeekText:FlxTypedGroup<WeekItem>;
+	private var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
+	private var grpLocks:FlxTypedGroup<FlxSprite>;
 
-	var difficultySelectors:FlxGroup;
-	var sprDifficulty:FlxSprite;
-	var leftArrow:FlxSprite;
-	var rightArrow:FlxSprite;
+	private var difficultySelectors:FlxGroup;
+	private var sprDifficulty:FlxSprite;
+	private var leftArrow:FlxSprite;
+	private var rightArrow:FlxSprite;
 
-	override function create()
+	override public function create()
 	{
 		changeWindowName('Story Menu');
 
@@ -161,7 +161,7 @@ class StoryMenuState extends MusicBeatState
 		super.create();
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		lerpScore = CoolUtil.coolLerp(lerpScore, intendedScore, 0.5);
 
@@ -220,14 +220,13 @@ class StoryMenuState extends MusicBeatState
 
 				if (controls.UI_RIGHT_P)
 					changeDifficulty(1);
+
 				if (controls.UI_LEFT_P)
 					changeDifficulty(-1);
 			}
 
 			if (controls.ACCEPT)
-			{
 				selectWeek();
-			}
 		}
 
 		if (controls.BACK && !movedBack && !selectedWeek)
@@ -240,11 +239,11 @@ class StoryMenuState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	var movedBack:Bool = false;
-	var selectedWeek:Bool = false;
-	var stopspamming:Bool = false;
+	private var movedBack:Bool = false;
+	private var selectedWeek:Bool = false;
+	private var stopspamming:Bool = false;
 
-	function selectWeek()
+	private function selectWeek()
 	{
 		if (!curWeekClass.locked) 
 		{
@@ -277,12 +276,13 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
-	function changeDifficulty(change:Int = 0):Void
+	private function changeDifficulty(change:Int = 0):Void
 	{
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
 			curDifficulty = curWeekClass.difficulties.length - 1;
+
 		if (curDifficulty >= curWeekClass.difficulties.length)
 			curDifficulty = 0;
 
@@ -303,10 +303,10 @@ class StoryMenuState extends MusicBeatState
 		intendedScore = Highscore.getWeekScore(curWeekClass.name, curWeekClass.difficulties[curDifficulty]);
 	}
 
-	var lerpScore:Float = 0;
-	var intendedScore:Int = 0;
+	private var lerpScore:Float = 0;
+	private var intendedScore:Int = 0;
 
-	function changeWeek(change:Int = 0):Void
+	private function changeWeek(change:Int = 0):Void
 	{
 		curWeek += change;
 
@@ -337,7 +337,7 @@ class StoryMenuState extends MusicBeatState
 		updateText();
 	}
 
-	function updateText()
+	private function updateText()
 	{
 		if(colorTween != null) colorTween.cancel();
 		colorTween = FlxTween.color(colorBG, 0.3, colorBG.color, curWeekClass.color);

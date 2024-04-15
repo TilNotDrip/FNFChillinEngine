@@ -6,8 +6,9 @@ import shaders.RGBShader;
 
 class Strums extends FlxSpriteGroup
 {
-    var noteArray:Array<String> = ['left', 'down', 'up', 'right'];
 	public var notes:Int;
+	private var noteArray:Array<String> = ['left', 'down', 'up', 'right'];
+
 	public var staticNotes:RGBShader = new RGBShader();
 
 	// lmao idk how to do this correctly
@@ -16,9 +17,10 @@ class Strums extends FlxSpriteGroup
 	public var pressNoteUp:RGBShader = new RGBShader();
 	public var pressNoteRight:RGBShader = new RGBShader();
 
-	var staticNoteColors:Array<FlxColor>;
+	private var staticNoteColors:Array<FlxColor>;
 
-	var isPixel:Bool = false;
+	private var isPixel:Bool = false;
+
     public function new(x:Float, y:Float, notes:Int, isPixel:Bool)
 	{
         super(x, y);
@@ -28,6 +30,7 @@ class Strums extends FlxSpriteGroup
 		for(note in 0...notes)
 		{
 			var newNote:FlxSprite = new FlxSprite(Note.swagWidth * note);
+
 			if (isPixel)
 			{
 				newNote.loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
@@ -44,14 +47,14 @@ class Strums extends FlxSpriteGroup
 			}
 			else
 			{
-				newNote.frames = Paths.getSparrowAtlas('ui/Notes');
+				var directions:Array<String> = ['left', 'down', 'up', 'right'];
 
+				newNote.frames = Paths.getSparrowAtlas('ui/Notes');
 				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
-				var direction:Array<String> = ['left', 'down', 'up', 'right'];
-				newNote.animation.addByPrefix('static', direction[note] + ' static');
-				newNote.animation.addByPrefix('pressed', direction[note] + ' press', 24, false);
-				newNote.animation.addByPrefix('confirm', direction[note] + ' confirm', 24, false);
+				newNote.animation.addByPrefix('static', directions[note] + ' static');
+				newNote.animation.addByPrefix('pressed', directions[note] + ' press', 24, false);
+				newNote.animation.addByPrefix('confirm', directions[note] + ' confirm', 24, false);
 
 				staticNotes.rgb = [0xFF87A3AD, 0xFFFFFFFF, 0xFF000000];
 			}

@@ -1,11 +1,13 @@
 package addons;
 
 import flixel.input.gamepad.FlxGamepad;
+import flixel.util.FlxSave;
 
 class PlayerSettings
 {
-	static public var numPlayers(default, null) = 0;
-	static public var players(default, null):Array<PlayerSettings> = [];
+	private static var controlsSave:FlxSave;
+	public static var numPlayers(default, null) = 0;
+	public static var players(default, null):Array<PlayerSettings> = [];
 
 	public var id(default, null):Int;
 
@@ -13,35 +15,35 @@ class PlayerSettings
 
 	public static var controlSettings:Array<Map<String, Array<Array<String>>>> = [];
 
-	function new(id:Int, gamepad:FlxGamepad)
+	private function new(id:Int, gamepad:FlxGamepad)
 	{
 		this.id = id;
 		this.controls = new Controls(controlSettings[id], gamepad);
 	}
 
-	static public function init():Void
+	public static function init():Void
 	{
-		FlxG.save.data.controls = null;
-		
-		if(FlxG.save.data.controls != null)
-			controlSettings = FlxG.save.data.controls;
+		controlsSave = new FlxSave();
+		controlsSave.bind('controls', CoolTools.getSavePath());
+
+		if(controlsSave.data.controls != null)
+			controlSettings = controlsSave.data.controls;
 		else
 			controlSettings.push(getDefaultControls());
 
 		players.push(new PlayerSettings(numPlayers, FlxG.gamepads.getByID(numPlayers)));
 		++numPlayers;
 	}
-	
 
 	public static function getControls(id:Int):Map<String, Array<Array<String>>>
 	{
 		new FlxTimer().start(0.001, function(tmr:FlxTimer) {
-			FlxG.save.data.controls = controlSettings;
+			controlsSave.data.controls = controlSettings;
 		});
 		return controlSettings[id];
 	}
 
-	static function getDefaultControls()
+	private static function getDefaultControls()
 	{
 		return [
 			'UI_UP' => [['W', 'UP'], ['DPAD_UP', 'LEFT_STICK_DIGITAL_UP']],

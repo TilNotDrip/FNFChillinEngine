@@ -7,11 +7,11 @@ import stages.objects.BackgroundDancer;
 
 class Limo extends StageBackend
 {
-    var limo:BGSprite;
-	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
-	var fastCar:FlxSprite;
+    private var limo:BGSprite;
+	private var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
+	private var fastCar:FlxSprite;
 
-    override function create()
+    override public function create()
     {
         zoom = 0.90;
 
@@ -36,7 +36,7 @@ class Limo extends StageBackend
 		fastCar = new BGSprite('limo/fastCarLol', -300, 160);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         addBehindOpponent(limo);
 
@@ -47,15 +47,15 @@ class Limo extends StageBackend
 		player.x += 260;
     }
 
-    override function cameraMovement(char:Character)
+    override public function cameraMovement(char:Character)
     {
         if (char == player)
             camFollow.x = player.getMidpoint().x - 300;
     }
 
-	var fastCarCanDrive:Bool = true;
+	private var fastCarCanDrive:Bool = true;
 
-	function resetFastCar():Void
+	private function resetFastCar():Void
 	{
 		fastCar.x = -12600;
 		fastCar.y = FlxG.random.int(140, 250);
@@ -63,7 +63,7 @@ class Limo extends StageBackend
 		fastCarCanDrive = true;
 	}
 
-	function fastCarDrive()
+	private function fastCarDrive()
 	{
 		FlxG.sound.play(Paths.soundRandom('carPass', 0, 1), 0.7);
 
@@ -75,7 +75,7 @@ class Limo extends StageBackend
 		});
 	}
 
-    override function beatHit()
+    override public function beatHit()
     {
 		if (ChillSettings.get('camZoom', GAMEPLAY) && curSong.formatToPath() == 'milf' && curBeat >= 168 && curBeat < 200 && camGAME.zoom < 1.35)
 			game.camZoom();

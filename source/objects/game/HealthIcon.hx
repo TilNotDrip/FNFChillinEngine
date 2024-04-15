@@ -24,7 +24,7 @@ class HealthIcon extends FlxSprite
 	public var sprTracker:FlxSprite;
 
 	public var char:String = '';
-	var isPlayer:Bool = false;
+	public var isPlayer:Bool = false;
 
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
@@ -70,7 +70,7 @@ class HealthIcon extends FlxSprite
 		}
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 

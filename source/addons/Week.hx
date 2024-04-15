@@ -1,13 +1,14 @@
 package addons;
 
 import addons.Song;
+import flixel.util.FlxSave;
 
 class Week
 {
     public static var weeks(get, never):Array<Week>;
 
     @:noCompletion
-    static function get_weeks():Array<Week>
+    private static function get_weeks():Array<Week>
     {
         var daWeekThing:Array<Week> = [];
 
@@ -79,15 +80,22 @@ class Week
     public var songs:Array<String> = [];
     public var difficulties:Array<String> = [];
     public var icons:Array<String> = [];
-    public var locked:Bool = false;
+    public var locked/*(get, set)*/:Bool; // i love being on crack -til
+    /*private var lockedSave:FlxSave = new FlxSave();
 
-    function set_locked(value:Bool)
+    private function get_locked():Bool
     {
-        FlxG.save.data.lockedWeeks.set(name, value);
-        return FlxG.save.data.lockedWeeks.get(name);
+        lockedSave.bind('locks', CoolTools.getSavePath());
+        return lockedSave.data.lockedWeeks.get(name);
     }
 
-    function get_locked(value:Bool) return FlxG.save.data.lockedWeeks.get(name);
+    private function set_locked(value:Bool)
+    {
+        lockedSave.bind('locks', CoolTools.getSavePath());
+        lockedSave.data.lockedWeeks.set(name, value);
+        lockedSave.flush();
+        return lockedSave.data.lockedWeeks.get(name);
+    }*/
 
     public function new(name:String, songs:Array<String>, difficulties:Array<String>)
     {
@@ -95,8 +103,8 @@ class Week
         this.songs = songs;
         this.difficulties = difficulties;
 
-        for(song in songs) {
-            
+        for(song in songs)
+        {
             var songySong:SwagSong = Song.loadFromJson(difficulties[0].formatToPath(), song.formatToPath());
             var daIcon:String = songySong.player2;
 

@@ -17,7 +17,7 @@ class BackgroundGirls extends FlxSprite
 		antialiasing = false;
 	}
 
-	var danceDir:Bool = false;
+	private var danceDir:Bool = false;
 
 	public function getScared():Void
 	{

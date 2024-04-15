@@ -4,7 +4,7 @@ import flixel.util.FlxStringUtil;
 
 class ChartParser
 {
-	static public function parse(songName:String, section:Int):Array<Dynamic>
+	public static function parse(songName:String, section:Int):Array<Dynamic>
 	{
 		var IMG_WIDTH:Int = 8;
 		var regex:EReg = new EReg("[ \t]*((\r\n)|\r|\n)[ \t]*", "g");
@@ -24,8 +24,10 @@ class ChartParser
 		while (row < heightInTiles)
 		{
 			var rowString = rows[row];
+
 			if (rowString.endsWith(","))
 				rowString = rowString.substr(0, rowString.length - 1);
+
 			var columns = rowString.split(",");
 
 			if (columns.length == 0)
@@ -33,10 +35,9 @@ class ChartParser
 				heightInTiles--;
 				continue;
 			}
+
 			if (widthInTiles == 0)
-			{
 				widthInTiles = columns.length;
-			}
 
 			var column = 0;
 			var pushedInColumn:Bool = false;

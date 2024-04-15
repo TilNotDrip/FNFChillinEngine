@@ -13,27 +13,27 @@ import openfl.utils.Assets;
 
 class LoadingState extends MusicBeatState
 {
-	inline static var MIN_TIME = 1.0;
+	inline private static var MIN_TIME = 1.0;
 
-	var target:FlxState;
-	var stopMusic = false;
-	var callbacks:MultiCallback;
+	private var target:FlxState;
+	private var stopMusic = false;
+	private var callbacks:MultiCallback;
 
-	var danceLeft = false;
+	private var danceLeft = false;
 
-	var loadBar:FlxSprite;
-	var funkay:FlxSprite;
+	private var loadBar:FlxSprite;
+	private var funkay:FlxSprite;
 
 	static var directory(get, never):String;
 
-	function new(target:FlxState, stopMusic:Bool)
+	private function new(target:FlxState, stopMusic:Bool)
 	{
 		super();
 		this.target = target;
 		this.stopMusic = stopMusic;
 	}
 
-	override function create()
+	override public function create()
 	{
 		changeWindowName('Loading...');
 
@@ -68,7 +68,7 @@ class LoadingState extends MusicBeatState
 		});
 	}
 
-	function checkLoadSong(path:String)
+	private function checkLoadSong(path:String)
 	{
 		if (!Assets.cache.hasSound(path))
 		{
@@ -82,7 +82,7 @@ class LoadingState extends MusicBeatState
 		}
 	}
 
-	function checkLibrary(library:String)
+	private function checkLibrary(library:String)
 	{
 		if (Assets.getLibrary(library) == null)
 		{
@@ -98,16 +98,16 @@ class LoadingState extends MusicBeatState
 		}
 	}
 
-	override function beatHit()
+	override public function beatHit()
 	{
 		super.beatHit();
 
 		danceLeft = !danceLeft;
 	}
 
-	var targetShit:Float = 0;
+	private var targetShit:Float = 0;
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
@@ -129,7 +129,7 @@ class LoadingState extends MusicBeatState
 		}
 	}
 
-	function onLoad()
+	private function onLoad()
 	{
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -137,22 +137,22 @@ class LoadingState extends MusicBeatState
 		FlxG.switchState(target);
 	}
 
-	static function getSongPath()
+	private static function getSongPath()
 	{
 		return Paths.inst(PlayState.SONG.song);
 	}
 
-	static function getVocalPath()
+	private static function getVocalPath()
 	{
 		return Paths.voices(PlayState.SONG.song);
 	}
 
-	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
+	inline public static function loadAndSwitchState(target:FlxState, stopMusic = false)
 	{
 		FlxG.switchState(getNextState(target, stopMusic));
 	}
 
-	static function getNextState(target:FlxState, stopMusic = false):FlxState
+	private static function getNextState(target:FlxState, stopMusic = false):FlxState
 	{
 		Paths.setCurrentLevel(directory);
 		#if NO_PRELOAD_ALL
@@ -170,25 +170,25 @@ class LoadingState extends MusicBeatState
 	}
 
 	#if NO_PRELOAD_ALL
-	static function isSoundLoaded(path:String):Bool
+	private static function isSoundLoaded(path:String):Bool
 	{
 		return Assets.cache.hasSound(path);
 	}
 
-	static function isLibraryLoaded(library:String):Bool
+	private static function isLibraryLoaded(library:String):Bool
 	{
 		return Assets.getLibrary(library) != null;
 	}
 	#end
 
-	override function destroy()
+	override public function destroy()
 	{
 		super.destroy();
 
 		callbacks = null;
 	}
 
-	static function initSongsManifest()
+	private static function initSongsManifest()
 	{
 		var id = "songs";
 		var promise = new Promise<AssetLibrary>();
@@ -218,9 +218,8 @@ class LoadingState extends MusicBeatState
 				path += "/library.json";
 			}
 			else
-			{
 				rootPath = Path.directory(path);
-			}
+
 			@:privateAccess
 			path = LimeAssets.__cacheBreak(path);
 		}
@@ -236,9 +235,7 @@ class LoadingState extends MusicBeatState
 			var library = AssetLibrary.fromManifest(manifest);
 
 			if (library == null)
-			{
 				promise.error("Cannot open library \"" + id + "\"");
-			}
 			else
 			{
 				@:privateAccess
@@ -254,7 +251,7 @@ class LoadingState extends MusicBeatState
 		return promise.future;
 	}
 
-	static function get_directory():String
+	private static function get_directory():String
 	{
 		var dir:String = '';
 
@@ -281,8 +278,8 @@ class MultiCallback
 	public var length(default, null) = 0;
 	public var numRemaining(default, null) = 0;
 
-	var unfired = new Map<String, Void->Void>();
-	var fired = new Array<String>();
+	private var unfired = new Map<String, Void->Void>();
+	private var fired = new Array<String>();
 
 	public function new(callback:Void->Void, logId:String = null)
 	{
@@ -295,7 +292,9 @@ class MultiCallback
 		id = '$length:$id';
 		length++;
 		numRemaining++;
+
 		var func:Void->Void = null;
+
 		func = function()
 		{
 			if (unfired.exists(id))
@@ -321,7 +320,7 @@ class MultiCallback
 		return func;
 	}
 
-	inline function log(msg):Void
+	inline private function log(msg):Void
 	{
 		if (logId != null)
 			trace('$logId: $msg');

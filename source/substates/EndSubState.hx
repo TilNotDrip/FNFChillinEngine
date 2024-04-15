@@ -50,7 +50,7 @@ class EndSubState extends MusicBeatSubstate
 
     var hitEnd:Bool = false;
 
-    override function update(elapsed:Float)
+    override public function update(elapsed:Float)
     {
         super.update(elapsed);
 

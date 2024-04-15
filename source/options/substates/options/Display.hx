@@ -4,7 +4,7 @@ import options.objects.Option;
 
 class Display extends BaseSubState
 {
-    override function create()
+    override public function create()
     {
         var fps:Option = new Option('FPS', 'How much frames the game runs per second.', 'fps', DISPLAY, NUMBER);
         fps.numType = Int;
@@ -31,21 +31,21 @@ class Display extends BaseSubState
         super.create();
     }
 
-    function changeFPS()
+    private function changeFPS()
     {
 		FlxG.updateFramerate = ChillSettings.get('fps', DISPLAY);
         FlxG.drawFramerate = ChillSettings.get('fps', DISPLAY);
     }
 
-    function displayFPS()
+    private function displayFPS()
     {
         if (Main.fpsCounter != null)
             Main.fpsCounter.visible = ChillSettings.get('fpsCounter', DISPLAY);
     }
 
-    function changeFullscreen()
+    private function changeFullscreen()
         FlxG.fullscreen = ChillSettings.get('fullscreen', DISPLAY);
 
-    function changeAntialiasing()
+    private function changeAntialiasing()
         FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing', DISPLAY);
 }

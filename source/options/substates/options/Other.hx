@@ -8,7 +8,7 @@ import options.objects.Option;
 
 class Other extends BaseSubState
 {
-    override function create()
+    override public function create()
     {
         #if discord_rpc
         var discordRPC:Option = new Option('Discord Rich Presence', 'Displays this game on your Discord Profile.', 'discordRPC', OTHER, CHECKBOX);
@@ -28,7 +28,7 @@ class Other extends BaseSubState
     }
 
     #if discord_rpc
-    function discordRPCChange()
+    private function discordRPCChange()
     {
         if (ChillSettings.get('discordRPC', OTHER))
             DiscordClient.initialize();

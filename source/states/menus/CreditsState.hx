@@ -13,7 +13,7 @@ import openfl.utils.ByteArray;
 
 class CreditsState extends MusicBeatState
 {
-    override function create()
+    override public function create()
     {
         changeWindowName('Credits Menu');
         //cast Json.parse('https://api.github.com/repos/TechnikTil/FNFChillinEngine/contributors'.trim());

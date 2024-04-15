@@ -2,8 +2,8 @@ package states.game;
 
 class GameOverState extends MusicBeatState
 {
-	var stageSuffix:String = "";
-	var randomGameover:Int = 1;
+	private var stageSuffix:String = "";
+	private var randomGameover:Int = 1;
 
 	public function new()
 	{
@@ -18,7 +18,7 @@ class GameOverState extends MusicBeatState
 		randomGameover = FlxG.random.int(1, 25);
 	}
 
-	override function create()
+	override public function create()
 	{
 		Application.current.window.title += ' [Secret Game Over]';
 
@@ -40,9 +40,9 @@ class GameOverState extends MusicBeatState
 		super.create();
 	}
 
-	var playingDeathSound:Bool = false;
+	private var playingDeathSound:Bool = false;
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
@@ -86,8 +86,6 @@ class GameOverState extends MusicBeatState
 			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), 1);
 
 		if (FlxG.sound.music.playing)
-		{
 			Conductor.songPosition = FlxG.sound.music.time;
-		}
 	}
 }

@@ -432,8 +432,6 @@ class Character extends FlxSprite
 				quickAnimAdd('shoot4', "Pico shoot 4");
 
 				playAnim('shoot1');
-
-				//loadMappedAnims();
 		}
 
 		loadOffsetFile(curCharacter);
@@ -489,7 +487,7 @@ class Character extends FlxSprite
 		return FlxSort.byValues(FlxSort.ASCENDING, val1[0], val2[0]);
 	}
 
-	function quickAnimAdd(name:String, prefix:String)
+	private function quickAnimAdd(name:String, prefix:String)
 	{
 		animation.addByPrefix(name, prefix, 24, false);
 	}
@@ -505,8 +503,9 @@ class Character extends FlxSprite
 		}
 	}
 
-	var playingEndAnim:Bool = false;
-	override function update(elapsed:Float)
+	private var playingEndAnim:Bool = false;
+
+	override public function update(elapsed:Float)
 	{
 		if (animation.curAnim.name.startsWith('sing'))
 			holdTimer += elapsed;
@@ -523,24 +522,23 @@ class Character extends FlxSprite
 
 			if (curCharacter == 'dad')
 				dadVar = 6.1;
+
 			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
 			{
 				dance();
 				holdTimer = 0;
 			}
-		} else {
+		}
+		else
+		{
 			if (!animation.curAnim.name.startsWith('sing'))
 				holdTimer = 0;
 
 			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
-			{
 				playAnim('idle', true, false, 10);
-			}
 
 			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished && startedDeath)
-			{
 				playAnim('deathLoop');
-			}
 		}
 
 		if (curCharacter.endsWith('-car'))
@@ -556,9 +554,7 @@ class Character extends FlxSprite
 					playAnim('danceRight');
 			case "pico-speaker":
 				if (animation.curAnim.finished)
-				{
 					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);
-				}
 		}
 
 		super.update(elapsed);
@@ -590,8 +586,6 @@ class Character extends FlxSprite
 							playAnim('danceLeft');
 					}
 
-				case 'pico-speaker':
-
 				case 'tankman':
 					if (!animation.curAnim.name.endsWith('DOWN-alt'))
 						playAnim('idle');
@@ -603,6 +597,7 @@ class Character extends FlxSprite
 						playAnim('danceRight');
 					else
 						playAnim('danceLeft');
+
 				default:
 					playAnim('idle');
 			}
@@ -615,33 +610,23 @@ class Character extends FlxSprite
 
 		var daOffset = animOffsets.get(AnimName);
 		if (animOffsets.exists(AnimName))
-		{
 			offset.set(daOffset[0], daOffset[1]);
-		}
 		else
 			offset.set(0, 0);
 
 		if (AnimName == 'singLEFT')
-		{
 			danced = true;
-		}
 		else if (AnimName == 'singRIGHT')
-		{
 			danced = false;
-		}
 
 		if (AnimName == 'singUP' || AnimName == 'singDOWN')
-		{
 			danced = !danced;
-		}
 	}
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
-	{
 		animOffsets[name] = [x, y];
-	}
 
-	function set_isPixel(value:Bool):Bool
+	private function set_isPixel(value:Bool):Bool
 	{
 		if (value)
 		{

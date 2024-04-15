@@ -8,7 +8,7 @@ import objects.game.DialogueBox;
 
 class SchoolEvil extends StageBackend
 {
-    override function create()
+    override public function create()
     {
         pixel = true;
 
@@ -21,7 +21,7 @@ class SchoolEvil extends StageBackend
         add(bg);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         var evilTrail = new FlxTrail(opponent, null, 4, 4, 0.3, 0.069);
 		addBehindOpponent(evilTrail);
@@ -41,7 +41,7 @@ class SchoolEvil extends StageBackend
                 schoolIntro(doof);
     }
 
-    function schoolIntro(?dialogueBox:DialogueBox):Void
+    private function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
         inCutscene = true;
 
@@ -98,7 +98,7 @@ class SchoolEvil extends StageBackend
 		});
 	}
 
-    override function cameraMovement(char:Character)
+    override public function cameraMovement(char:Character)
     {
         if (char == player) {
 			camFollow.x = player.getMidpoint().x - 200;

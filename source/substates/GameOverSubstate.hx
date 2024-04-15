@@ -9,11 +9,11 @@ import states.tools.AnimationDebug;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:Character;
-	var camFollow:FlxObject;
+	public var bf:Character;
+	public var stageSuffix:String = "";
 
-	var stageSuffix:String = "";
-	var randomGameover:Int = 1;
+	private var camFollow:FlxObject;
+	private var randomGameover:Int = 1;
 
 	public function new(x:Float, y:Float, camera:FlxCamera)
 	{
@@ -22,6 +22,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		this.camera = camera;
 
 		var daBf:String = '';
+
 		if (PlayState.isPixel)
 		{
 			stageSuffix = '-pixel';
@@ -64,7 +65,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var playingDeathSound:Bool = false;
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
@@ -129,7 +130,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var isEnding:Bool = false;
 
-	function endBullshit():Void
+	private function endBullshit():Void
 	{
 		if (!isEnding)
 		{

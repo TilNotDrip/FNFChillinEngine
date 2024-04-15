@@ -27,25 +27,25 @@ class ColorSwap
 		hueShit += elapsed;
 	}
 
-	function set_colorToReplace(color:FlxColor):FlxColor
+	private function set_colorToReplace(color:FlxColor):FlxColor
 	{
 		colorToReplace = color;
 
 		return color;
 	}
 
-	function set_hasOutline(lol:Bool):Bool
+	private function set_hasOutline(lol:Bool):Bool
 	{
 		shader.awesomeOutline.value = [lol];
 		return lol;
 	}
 
-	function set_daTime(daTime:Float):Float
+	private function set_daTime(daTime:Float):Float
 	{
 		return daTime;
 	}
 
-	function set_newColor(color:FlxColor):FlxColor
+	private function set_newColor(color:FlxColor):FlxColor
 	{
 		newColor = color;
 

@@ -5,12 +5,12 @@ import options.substates.options.*;
 
 class OptionsState extends MusicBeatState
 {
-    var optionsList:Array<String> = ['Controls', 'Display', 'Gameplay', 'Flixel', 'Other'];
-    static var curSelected:Int = 0;
+    private var optionsList:Array<String> = ['Controls', 'Display', 'Gameplay', 'Flixel', 'Other'];
+    private static var curSelected:Int = 0;
 
-    var optionItems:FlxTypedGroup<Alphabet>;
+    private var optionItems:FlxTypedGroup<Alphabet>;
 
-    override function create()
+    override public function create()
     {
 		changeWindowName('Options Menu');
 
@@ -39,7 +39,7 @@ class OptionsState extends MusicBeatState
         super.create();
     }
 
-    override function update(elapsed:Float)
+    override public function update(elapsed:Float)
     {
         if (controls.UI_UP_P)
 			changeSelection(-1);
@@ -59,7 +59,7 @@ class OptionsState extends MusicBeatState
         super.update(elapsed);
     }
 
-    function changeSelection(change:Int = 0)
+    private function changeSelection(change:Int = 0)
     {
         if(!optionItems.visible) return;
 
@@ -80,14 +80,14 @@ class OptionsState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
     }
 
-	function openMenu(option:String)
+	private function openMenu(option:String)
 	{
         optionItems.visible = false;
 
 		switch (option.formatToPath())
 		{
-            case 'controls':
-                openSubState(new ControlsSubState(this));
+            //case 'controls':
+                //openSubState(new ControlsSubState(this));
 			case 'display':
                 openSubState(new Display());
             case 'gameplay':

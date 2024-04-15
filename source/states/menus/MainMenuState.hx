@@ -14,17 +14,17 @@ class MainMenuState extends MusicBeatState
 {
 	public static var funkinVer:String = '0.2.8';
 
-	var magenta:FlxSprite;
+	private var magenta:FlxSprite;
 
-	var itemNames:Array<String> = ['story-mode', 'freeplay', 'donate', 'options'];
-	var menuItems:FlxTypedGroup<MenuItem>;
+	private var itemNames:Array<String> = ['story-mode', 'freeplay', 'donate', 'options'];
+	private var menuItems:FlxTypedGroup<MenuItem>;
 
-	static var curSelected:Int = 0;
-	var selected:Bool = false;
+	private static var curSelected:Int = 0;
+	private var selected:Bool = false;
 
-	var camFollow:FlxObject;
+	private var camFollow:FlxObject;
 
-	override function create()
+	override public function create()
 	{
 		changeWindowName('Main Menu');
 
@@ -91,7 +91,7 @@ class MainMenuState extends MusicBeatState
 		super.create();
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		if (FlxG.sound.music.volume < 0.8)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -133,7 +133,7 @@ class MainMenuState extends MusicBeatState
 		});
 	}
 
-	function changeItem(change:Int = 0)
+	private function changeItem(change:Int = 0)
 	{
 		curSelected += change;
 

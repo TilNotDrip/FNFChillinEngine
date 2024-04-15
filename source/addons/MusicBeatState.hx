@@ -18,7 +18,7 @@ class MusicBeatState extends FlxUIState
 	private var curSection:Int = 0;
 	private var controls(get, never):Controls;
 
-	inline function get_controls():Controls
+	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
 	#if MOD_SUPPORT
@@ -37,13 +37,13 @@ class MusicBeatState extends FlxUIState
 	}
 	#end
 
-	override function create()
+	override public function create()
 	{
 		super.create();
 		runFunction('create');
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		var oldStep:Int = curStep;
 
@@ -82,6 +82,7 @@ class MusicBeatState extends FlxUIState
 			songTime: 0,
 			bpm: 0
 		}
+
 		for (i in 0...Conductor.bpmChangeMap.length)
 		{
 			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)

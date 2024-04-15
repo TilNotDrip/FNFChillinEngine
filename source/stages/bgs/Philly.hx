@@ -6,17 +6,17 @@ import shaders.BuildingShaders;
 
 class Philly extends StageBackend
 {
-	var phillyCityLight:BGSprite;
-	var phillyTrain:BGSprite;
-	var trainSound:FlxSound;
-	var phillyLightColors:Array<FlxColor> = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
+	private var phillyCityLight:BGSprite;
+	private var phillyTrain:BGSprite;
+	private var trainSound:FlxSound;
+	private var phillyLightColors:Array<FlxColor> = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
 
-    var lightFadeShader:BuildingShaders;
+    private var lightFadeShader:BuildingShaders;
 
-    var curLight:Int = 0;
-	var oldLight:Int = 0;
+    private var curLight:Int = 0;
+	private var oldLight:Int = 0;
 
-    override function create()
+    override public function create()
     {
         var bg:BGSprite = new BGSprite('philly/sky', -100, 0, 0.1, 0.1);
         add(bg);
@@ -50,7 +50,7 @@ class Philly extends StageBackend
         add(street);
     }
 
-    override function update(elapsed:Float)
+    override public function update(elapsed:Float)
     {
         if (trainMoving)
         {
@@ -66,22 +66,22 @@ class Philly extends StageBackend
         lightFadeShader.update((Conductor.crochet / 1000) * FlxG.elapsed * 1.5);
     }
 
-	var trainMoving:Bool = false;
-	var trainFrameTiming:Float = 0;
+	private var trainMoving:Bool = false;
+	private var trainFrameTiming:Float = 0;
 
-	var trainCars:Int = 8;
-	var trainFinishing:Bool = false;
-	var trainCooldown:Int = 0;
+	private var trainCars:Int = 8;
+	private var trainFinishing:Bool = false;
+	private var trainCooldown:Int = 0;
 
-	function trainStart():Void
+	private function trainStart():Void
 	{
 		trainMoving = true;
 		trainSound.play(true);
 	}
 
-	var startedMoving:Bool = false;
+	private var startedMoving:Bool = false;
 
-	function updateTrainPos():Void
+	private function updateTrainPos():Void
 	{
 		if (trainSound.time >= 4700)
 		{
@@ -107,7 +107,7 @@ class Philly extends StageBackend
 		}
 	}
 
-	function trainReset():Void
+	private function trainReset():Void
 	{
 		gf.playAnim('hairFall');
 		phillyTrain.x = FlxG.width + 200;
@@ -117,7 +117,7 @@ class Philly extends StageBackend
 		startedMoving = false;
 	}
 
-    override function beatHit()
+    override public function beatHit()
     {
         if (!trainMoving)
             trainCooldown += 1;
@@ -129,7 +129,7 @@ class Philly extends StageBackend
         }
     }
 
-    override function sectionHit()
+    override public function sectionHit()
     {
         lightFadeShader.reset();
         while(oldLight == curLight) curLight = FlxG.random.int(0, phillyLightColors.length - 1);

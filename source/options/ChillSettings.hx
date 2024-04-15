@@ -60,7 +60,7 @@ class ChillSettings
     public static function loadSettings()
     {
         chillSettings = new FlxSave();
-		chillSettings.bind('chillinengine', Application.current.meta.get('company'));
+		chillSettings.bind('settings', CoolTools.getSavePath());
 
         controls = chillSettings.data.controls;
         displaySettings = chillSettings.data.displaySettings;

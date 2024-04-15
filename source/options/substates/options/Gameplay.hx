@@ -8,7 +8,7 @@ import options.objects.Option;
 
 class Gameplay extends BaseSubState
 {
-    override function create()
+    override public function create()
     {
         var camZoom:Option = new Option('Camera Zooming', '', 'camZoom', GAMEPLAY, CHECKBOX);
         addOption(camZoom);

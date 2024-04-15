@@ -13,7 +13,7 @@ class BackgroundDancer extends FlxSprite
 		animation.finish();
 	}
 
-	var danceDir:Bool = false;
+	private var danceDir:Bool = false;
 
 	public function dance():Void
 	{

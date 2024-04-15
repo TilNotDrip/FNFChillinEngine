@@ -4,7 +4,7 @@ import objects.game.BGSprite;
 
 class FunkinStage extends StageBackend
 {
-    override function create()
+    override public function create()
     {
         zoom = 0.9;
 
@@ -17,7 +17,7 @@ class FunkinStage extends StageBackend
         add(stageFront);
     }
 
-    override function createPost()
+    override public function createPost()
     {
         var stageCurtains:BGSprite = new BGSprite('stage/stagecurtains', -500, -300, 1.3, 1.3);
         stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));

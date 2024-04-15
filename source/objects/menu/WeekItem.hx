@@ -22,9 +22,9 @@ class WeekItem extends FlxSpriteGroup
 		isFlashing = true;
 	}
 
-	var fakeFramerate:Int = Math.round((1 / FlxG.elapsed) / 10);
+	private var fakeFramerate:Int = Math.round((1 / FlxG.elapsed) / 10);
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		y = CoolUtil.coolLerp(y, (targetY * 120) + 480, 0.17);

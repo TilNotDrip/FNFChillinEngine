@@ -23,7 +23,7 @@ import sys.thread.Thread;
 
 //import discordSdk.Discord;
 
-typedef TitleJSON = //heheheheehehehehehe
+typedef TitleJSON = //YEA JSON
 {
 	var bpm:Float;
 	var sprites:Array<{
@@ -53,29 +53,27 @@ typedef TitleJSON = //heheheheehehehehehe
 class TitleState extends MusicBeatState
 {
 	public static var initialized:Bool = false;
-	var startedIntro:Bool;
+	private var startedIntro:Bool;
 
-	var blackScreen:FlxSprite;
-	var credGroup:FlxGroup;
-	var textGroup:FlxGroup;
+	private var blackScreen:FlxSprite;
+	private var credGroup:FlxGroup;
+	private var textGroup:FlxGroup;
 
-	var curWacky:Array<String> = [];
-	var lastBeat:Int = 0;
+	private var curWacky:Array<String> = [];
+	private var lastBeat:Int = 0;
 
-	var introText:TitleJSON;
-	var introTextSprites:Map<String, FlxSprite> = new Map();
+	private var introText:TitleJSON;
+	private var introTextSprites:Map<String, FlxSprite> = new Map();
 
-	var idleBoppers:Array<FlxSprite> = [];
-	var idleDancers:Array<FlxSprite> = [];
-	var pressDancers:Array<FlxSprite> = [];
-	
-	var titleSprites:FlxTypedGroup<FlxSprite>;
+	private var idleBoppers:Array<FlxSprite> = [];
+	private var idleDancers:Array<FlxSprite> = [];
+	private var pressDancers:Array<FlxSprite> = [];
+
+	private var titleSprites:FlxTypedGroup<FlxSprite>;
 
 	override public function create():Void
 	{
 		changeWindowName('Title Screen');
-
-		initData();
 
 		#if MOD_SUPPORT
 		new ModLoader();
@@ -93,32 +91,9 @@ class TitleState extends MusicBeatState
 		});
 	}
 
-	private function initData()
-	{
-		//how to get package name thingy? idk
-		FlxG.save.bind('chillinengine', Application.current.meta.get('company'));
-		ChillSettings.loadSettings();
-		PlayerSettings.init();
-		Highscore.load();
+	private var danceLeft:Bool = false;
 
-		FlxG.debugger.setLayout(MICRO);
-		FlxG.game.focusLostFramerate = 60;
-		FlxG.sound.muteKeys = [ZERO];
-
-		#if discord_rpc
-		if (ChillSettings.get('discordRPC', OTHER))
-			DiscordClient.initialize();
-
-		Application.current.onExit.add(function(exitCode)
-		{
-			DiscordClient.shutdown();
-		});
-		#end
-	}
-
-	var danceLeft:Bool = false;
-
-	function startIntro()
+	private function startIntro()
 	{
 		if (!initialized)
 		{
@@ -126,10 +101,8 @@ class TitleState extends MusicBeatState
 			diamond.persist = true;
 			diamond.destroyOnNoUse = false;
 
-			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
-				new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
-			FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
-				{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+			FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1), {asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
 		}
 
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing)
@@ -167,7 +140,7 @@ class TitleState extends MusicBeatState
 		startedIntro = true;
 	}
 
-	function getIntroTextShit():Array<String>
+	private function getIntroTextShit():Array<String>
 	{
 		var fullText:String = Assets.getText(Paths.txt(introText.introText.path));
 
@@ -182,9 +155,9 @@ class TitleState extends MusicBeatState
 		return FlxG.random.getObject(swagGoodArray);
 	}
 
-	var transitioning:Bool = false;
+	private var transitioning:Bool = false;
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
@@ -239,7 +212,7 @@ class TitleState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	function createCoolText(textArray:Array<String>)
+	private function createCoolText(textArray:Array<String>)
 	{
 		for (i in 0...textArray.length)
 		{
@@ -251,7 +224,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	function addMoreText(text:String)
+	private function addMoreText(text:String)
 	{
 		var coolText:Alphabet = new Alphabet(0, 0, text, true, false);
 		coolText.screenCenter(X);
@@ -260,7 +233,7 @@ class TitleState extends MusicBeatState
 		textGroup.add(coolText);
 	}
 
-	function deleteCoolText()
+	private function deleteCoolText()
 	{
 		while (textGroup.members.length > 0)
 		{
@@ -269,9 +242,10 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	var curCurWacky:Int = 0;
-	var curText:String = '';
-	override function beatHit()
+	private var curCurWacky:Int = 0;
+	private var curText:String = '';
+
+	override public function beatHit()
 	{
 		super.beatHit();
 
@@ -343,7 +317,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	function generateJsonSprites()
+	private function generateJsonSprites()
 	{
 		introTextSprites = new Map();
 		idleDancers = [];
@@ -361,8 +335,10 @@ class TitleState extends MusicBeatState
 			else
 				daSprite.frames = Paths.getSparrowAtlas(jsonSpr.path);
 
-			if(jsonSpr.animations != null) {
-				for(jsonAnim in jsonSpr.animations) {
+			if(jsonSpr.animations != null)
+			{
+				for(jsonAnim in jsonSpr.animations)
+				{
 					if(jsonAnim.indices != null)
 						daSprite.animation.addByIndices(jsonAnim.name, jsonAnim.anim, jsonAnim.indices, '', jsonAnim.fps, jsonAnim.loop);
 					else
@@ -376,11 +352,12 @@ class TitleState extends MusicBeatState
 					if(jsonAnim.name.contains('press')) // if your anim name is press, you will play an animation when enter is pressed!
 						pressDancers.push(daSprite);
 				}
+
 				daSprite.animation.play(jsonSpr.animations[0].name);
 			}
 
 			daSprite.visible = !jsonSpr.titleSpr;
-	
+
 			introTextSprites.set(jsonSpr.id, daSprite);
 			
 			if(!jsonSpr.titleSpr)
@@ -390,9 +367,9 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	var skippedIntro:Bool = false;
+	private var skippedIntro:Bool = false;
 
-	function skipIntro():Void
+	private function skipIntro():Void
 	{
 		if (!skippedIntro)
 		{

@@ -13,14 +13,18 @@ typedef SwagEvent =
 
 class SongEvent
 {
-    function new() {}
-        
+    private function new() {}
+
     public static function loadFromJson(folder:String):Array<SwagEvent>
 	{
         var rawJson = null;
-        try {
+
+        try
+        {
             rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/events')).trim();
-        } catch(e) {
+        }
+        catch(e)
+        {
             return null;
         }
 

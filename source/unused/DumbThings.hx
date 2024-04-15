@@ -27,7 +27,7 @@ class MyAsshole // :troll:
 	 * @param what you are about to do
 	 * @return Application is not responding.
 	 */
-	function cocksexbuttasscock(what:String)
+	private function cocksexbuttasscock(what:String)
 	{
 		var holdon:String = '';
 		for(i in 0...FlxMath.MAX_VALUE_INT) {

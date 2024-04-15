@@ -8,7 +8,8 @@ import polymod.Polymod;
 class ModLoader
 {
     public static var mods(default, set):Array<String> = [];
-    static var params:PolymodParams;
+    private static var params:PolymodParams;
+
     public function new()
     {
         var modDir:String = '../../../';
@@ -27,7 +28,7 @@ class ModLoader
         mods = []; // run set_mods
     }
 
-    static function set_mods(dirs:Array<String>):Array<String> 
+    private static function set_mods(dirs:Array<String>):Array<String> 
     {
         trace('Loading: ${dirs}');
 
@@ -49,7 +50,7 @@ class ModLoader
     }
 
 
-    static function onError(error:PolymodError)
+    private static function onError(error:PolymodError)
     {
         var message:String = 
         'Whoopsee! You got an error! ('

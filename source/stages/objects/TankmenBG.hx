@@ -38,7 +38,7 @@ class TankmenBG extends FlxSprite
 			flipX = true;
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
