@@ -16,26 +16,15 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 	// for menu shit
 	public var targetY:Float = 0;
 	public var isMenuItem:Bool = false;
-
-	public var text:String = "";
-
-	private var _finalText:String = "";
-	private var _curText:String = "";
-
-	public var widthOfWords:Float = FlxG.width;
-
-	private var yMulti:Float = 1;
-
-	private var lastSprite:AlphaCharacter;
-	private var xPosResetted:Bool = false;
-	private var lastWasSpace:Bool = false;
-
-	private var lastSplittedWords:Array<String> = [];
-	private var splitWords:Array<String> = [];
-
-	private var isBold:Bool = false;
-
-	public function new(x:Float = 0.0, y:Float = 0.0, text:String = "", ?bold:Bool = false, typed:Bool = false)
+	
+	public var atlas(get, never):FlxAtlasFrames;
+	inline function get_atlas() return font.atlas;
+	public var caseAllowed(get, never):Case;
+	inline function get_caseAllowed() return font.caseAllowed;
+	public var maxHeight(get, never):Float;
+	inline function get_maxHeight() return font.maxHeight;
+	
+	public function new (x = 0.0, y = 0.0, text:String, fontName:AtlasFont = Default)
 	{
 		if (!fonts.exists(fontName))
 			fonts[fontName] = new AtlasFontData(fontName);
@@ -83,137 +72,30 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 	 */
 	public function appendText(text:String)
 	{
-		doSplitWords();
-
-		var xPos:Float = 0;
-		var curRow:Int = 0;
-
-		for (character in splitWords)
+		if (text == null)
+			throw "cannot append null";
+		
+		if (text == "")
+			return;
+		
+		this.text = this.text + text;
+	}
+	
+	/**
+	 * Converts all characters to fit the font's `allowedCase`.
+	 * @param text 
+	 */
+	function restrictCase(text:String)
+	{
+		return switch(caseAllowed)
 		{
-			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
-			{
-				if (lastSprite != null)
-					xPos = lastSprite.x + lastSprite.width;
-
-				if (lastWasSpace)
-				{
-					xPos += 40;
-					lastWasSpace = false;
-				}
-
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * curRow);
-
-				if (isBold)
-					letter.createBold(character);
-				else
-					letter.createLetter(character);
-
-				add(letter);
-
-				lastSprite = letter;
-			} 
-			else
-			{
-				switch(character.toLowerCase())
-				{
-					case '\n':
-						curRow++;
-					case ' ':
-						lastWasSpace = true;
-				}
-			}
+			case Both: text;
+			case Upper: text.toUpperCase();
+			case Lower: text.toLowerCase();
 		}
 	}
 
-	private function doSplitWords():Void
-	{
-		lastSplittedWords = splitWords.copy();
-		splitWords = _finalText.split("");
-	}
-
-	public var personTalking:String = 'gf';
-
-	public function startTypedText():Void
-	{
-		_finalText = text;
-		doSplitWords();
-
-		var loopNum:Int = 0;
-
-		var xPos:Float = 0;
-		var curRow:Int = 0;
-
-		new FlxTimer().start(0.05, function(tmr:FlxTimer)
-		{
-			if (_finalText.fastCodeAt(loopNum) == "\n".code)
-			{
-				yMulti += 1;
-				xPosResetted = true;
-				xPos = 0;
-				curRow += 1;
-			}
-
-			if (splitWords[loopNum] == " ")
-			{
-				lastWasSpace = true;
-			}
-
-			var isNumber:Bool = AlphaCharacter.numbers.indexOf(splitWords[loopNum]) != -1;
-			var isSymbol:Bool = AlphaCharacter.symbols.indexOf(splitWords[loopNum]) != -1;
-
-			if (AlphaCharacter.alphabet.indexOf(splitWords[loopNum].formatToPath()) != -1 || isNumber || isSymbol)
-			{
-				if (lastSprite != null && !xPosResetted)
-				{
-					lastSprite.updateHitbox();
-					xPos += lastSprite.width + 3;
-				}
-				else
-				{
-					xPosResetted = false;
-				}
-
-				if (lastWasSpace)
-				{
-					xPos += 20;
-					lastWasSpace = false;
-				}
-
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
-				if (isBold)
-				{
-					letter.createBold(splitWords[loopNum]);
-				}
-				else
-				{
-					if (isNumber)
-					{
-						letter.createNumber(splitWords[loopNum]);
-					}
-					else if (isSymbol)
-					{
-						letter.createSymbol(splitWords[loopNum]);
-					}
-					else
-					{
-						letter.createLetter(splitWords[loopNum]);
-					}
-
-					letter.x += 90;
-				}
-
-				add(letter);
-
-				lastSprite = letter;
-			}
-
-			loopNum += 1;
-
-			tmr.time = FlxG.random.float(0.04, 0.09);
-		}, splitWords.length);
-	}
-
-	override public function update(elapsed:Float)
+	override function update(elapsed:Float)
 	{
 		if (isMenuItem)
 		{
@@ -222,6 +104,8 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 			y = CoolUtil.coolLerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
 			x = CoolUtil.coolLerp(x, (targetY * 20) + 90, 0.16);
 		}
+
+		super.update(elapsed);
 	}
 	
 	/**
@@ -346,7 +230,7 @@ private class AtlasFontData
 	
 	public function new (name:AtlasFont)
 	{
-		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().formatToPath());
+		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().toLowerCase());
 		atlas.parent.destroyOnNoUse = false;
 		atlas.parent.persist = true;
 		
