@@ -8,13 +8,13 @@ class OptionsState extends MusicBeatState
     private var optionsList:Array<String> = ['Controls', 'Display', 'Gameplay', 'Flixel', 'Other'];
     private static var curSelected:Int = 0;
 
-    private var optionItems:FlxTypedGroup<Alphabet>;
+    public static var optionItems:FlxTypedGroup<Alphabet>;
 
     override public function create()
     {
 		changeWindowName('Options Menu');
 
-        BaseSubState.parent = this;
+        FlxG.cameras.reset(new SwagCamera());
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuUI/menuBG'));
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -28,7 +28,7 @@ class OptionsState extends MusicBeatState
 
         for (i in 0...optionsList.length)
         {
-            var optionItem = new Alphabet(0, 100 + (90 * i), optionsList[i], true, false);
+            var optionItem = new Alphabet(0, 100 + (90 * i), optionsList[i], Bold);
 			optionItem.screenCenter(X);
 			optionItem.ID = i;
             optionItems.add(optionItem);
@@ -86,8 +86,8 @@ class OptionsState extends MusicBeatState
 
 		switch (option.formatToPath())
 		{
-            //case 'controls':
-                //openSubState(new ControlsSubState(this));
+            case 'controls':
+                openSubState(new ControlsSubState());
 			case 'display':
                 openSubState(new Display());
             case 'gameplay':
@@ -98,6 +98,4 @@ class OptionsState extends MusicBeatState
                 openSubState(new Other());
 		}
 	}
-
-    public function closeMenu() optionItems.visible = true;
 }

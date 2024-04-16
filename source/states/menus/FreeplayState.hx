@@ -53,7 +53,7 @@ class FreeplayState extends MusicBeatState
 			{
 				songs.push({song: week.songs[i], week: week});
 
-				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, week.songs[i], true, false);
+				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, week.songs[i], Bold);
 				songText.isMenuItem = true;
 				songText.targetY = i;
 				grpSongs.add(songText);

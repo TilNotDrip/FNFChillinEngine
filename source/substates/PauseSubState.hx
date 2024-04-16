@@ -105,7 +105,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		for (i in 0...menuItems.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], Bold);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpMenuShit.add(songText);
@@ -207,6 +207,9 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		pauseMusic.destroy();
 		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.difficulty + ')');
+
+		for(tween in PlayState.game.bopTween)
+			if(tween != null) tween.active = true;
 
 		super.destroy();
 	}

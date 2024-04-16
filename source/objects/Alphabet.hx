@@ -1,12 +1,19 @@
 package objects;
 
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.util.FlxStringUtil;
 
-class Alphabet extends FlxSpriteGroup
+class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 {
-	public var delay:Float = 0.05;
-	public var paused:Bool = false;
+	static var fonts = new Map<AtlasFont, AtlasFontData>();
+	static var casesAllowed = new Map<AtlasFont, Case>();
+	public var text(default, set):String = "";
+	
+	var font:AtlasFontData;
 
+	// for menu shit
 	public var targetY:Float = 0;
 	public var isMenuItem:Bool = false;
 
@@ -30,26 +37,51 @@ class Alphabet extends FlxSpriteGroup
 
 	public function new(x:Float = 0.0, y:Float = 0.0, text:String = "", ?bold:Bool = false, typed:Bool = false)
 	{
+		if (!fonts.exists(fontName))
+			fonts[fontName] = new AtlasFontData(fontName);
+		font = fonts[fontName];
+		
 		super(x, y);
-
-		_finalText = text;
+		
 		this.text = text;
-		isBold = bold;
-
-		if (text != "")
-		{
-			if (typed)
-			{
-				startTypedText();
-			}
-			else
-			{
-				addText();
-			}
-		}
 	}
-
-	public function addText()
+	
+	function set_text(value:String)
+	{
+		if (value == null)
+			value = "";
+		
+		var caseValue = restrictCase(value);
+		var caseText = restrictCase(this.text);
+		
+		this.text = value;
+		if (caseText == caseValue)
+			return value; // cancel redraw
+		
+		if (caseValue.indexOf(caseText) == 0)
+		{
+			// new text is just old text with additions at the end, append the difference
+			appendTextCased(caseValue.substr(caseText.length));
+			return this.text;
+		}
+		
+		value = caseValue;
+		
+		group.kill();
+		
+		if (value == "")
+			return this.text;
+		
+		appendTextCased(caseValue);
+		return this.text;
+	}
+	
+	/**
+	 * Adds new characters, without needing to redraw the previous characters
+	 * @param text The text to add.
+	 * @throws String if `text` is null.
+	 */
+	public function appendText(text:String)
 	{
 		doSplitWords();
 
@@ -190,74 +222,162 @@ class Alphabet extends FlxSpriteGroup
 			y = CoolUtil.coolLerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
 			x = CoolUtil.coolLerp(x, (targetY * 20) + 90, 0.16);
 		}
-
-		super.update(elapsed);
+	}
+	
+	/**
+	 * Adds new text on top of the existing text. Helper for other methods; DOESN'T CHANGE `this.text`.
+	 * @param text The text to add, assumed to match the font's `caseAllowed`.
+	 */
+	function appendTextCased(text:String)
+	{
+		var charCount = group.countLiving();
+		var xPos:Float = 0;
+		var yPos:Float = 0;
+		// `countLiving` returns -1 if group is empty
+		if (charCount == -1)
+			charCount = 0;
+		else if (charCount > 0)
+		{
+			var lastChar = group.members[charCount - 1];
+			xPos = lastChar.x + lastChar.width - x;
+			yPos = lastChar.y + lastChar.height - maxHeight - y;
+		}
+		
+		var splitValues = text.split("");
+		for (i in 0...splitValues.length)
+		{
+			switch(splitValues[i])
+			{
+				case " ":
+				{
+					xPos += 40;
+				}
+				case "\n":
+				{
+					xPos = 0;
+					yPos += maxHeight;
+				}
+				case char:
+				{
+					var charSprite:AtlasChar;
+					if (group.members.length <= charCount)
+						charSprite = new AtlasChar(atlas, char);
+					else
+					{
+						charSprite = group.members[charCount];
+						charSprite.revive();
+						charSprite.char = char;
+						charSprite.alpha = 1;//gets multiplied when added
+					}
+					charSprite.x = xPos;
+					charSprite.y = yPos + maxHeight - charSprite.height;
+					add(charSprite);
+					
+					xPos += charSprite.width;
+					charCount++;
+				}
+			}
+		}
+	}
+	
+	override function toString()
+	{
+		return "InputItem, " + FlxStringUtil.getDebugString(
+			[ LabelValuePair.weak("x", x)
+			, LabelValuePair.weak("y", y)
+			, LabelValuePair.weak("text", text)
+			]
+		);
 	}
 }
 
-class AlphaCharacter extends FlxSprite
+class AtlasChar extends FlxSprite
 {
-	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
-
-	public static var numbers:String = "1234567890";
-
-	public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
-
-	public function new(x:Float, y:Float)
+	public var char(default, set):String;
+	public function new(x = 0.0, y = 0.0, atlas:FlxAtlasFrames, char:String)
 	{
 		super(x, y);
-		var tex = Paths.getSparrowAtlas('menuUI/alphabet');
-		frames = tex;
+		frames = atlas;
+		this.char = char;
+		antialiasing = true;
 	}
-
-	public function createBold(letter:String)
+	
+	function set_char(value:String)
 	{
-		animation.addByPrefix(letter, letter.toUpperCase() + " bold", 24);
-		animation.play(letter);
-		updateHitbox();
-	}
-
-	public function createLetter(letter:String):Void
-	{
-		var letterCase:String = "lowercase";
-		if (letter.toLowerCase() != letter)
+		if (this.char != value)
 		{
-			letterCase = 'capital';
+			var prefix = getAnimPrefix(value);
+			animation.addByPrefix("anim", prefix, 24);
+			animation.play("anim");
+			updateHitbox();
 		}
-
-		animation.addByPrefix(letter, letter + " " + letterCase, 24);
-		animation.play(letter);
-		updateHitbox();
+		
+		return this.char = value;
 	}
-
-	public function createNumber(letter:String):Void
+	
+	function getAnimPrefix(char:String)
 	{
-		animation.addByPrefix(letter, letter, 24);
-		animation.play(letter);
-
-		updateHitbox();
-	}
-
-	public function createSymbol(letter:String)
-	{
-		switch (letter)
+		return switch (char)
 		{
-			case '.':
-				animation.addByPrefix(letter, 'period', 24);
-				animation.play(letter);
-				y += 50;
-			case "'":
-				animation.addByPrefix(letter, 'apostraphie', 24);
-				animation.play(letter);
-				y -= 0;
-			case "?":
-				animation.addByPrefix(letter, 'question mark', 24);
-				animation.play(letter);
-			case "!":
-				animation.addByPrefix(letter, 'exclamation point', 24);
-				animation.play(letter);
+			case '-': '-dash-';
+			case '.': '-period-';
+			case ",": '-comma-';
+			case "'": '-apostraphie-';
+			case "?": '-question mark-';
+			case "!": '-exclamation point-';
+			case "\\": '-back slash-';
+			case "/": '-forward slash-';
+			case "*": '-multiply x-';
+			case "“": '-start quote-';
+			case "”": '-end quote-';
+			default: char;
 		}
-
-		updateHitbox();
 	}
+}
+
+private class AtlasFontData
+{
+	static public var upperChar = ~/^[A-Z]\d+$/;
+	static public var lowerChar = ~/^[a-z]\d+$/;
+	
+	public var atlas:FlxAtlasFrames;
+	public var maxHeight:Float = 0.0;
+	public var caseAllowed:Case = Both;
+	
+	public function new (name:AtlasFont)
+	{
+		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().formatToPath());
+		atlas.parent.destroyOnNoUse = false;
+		atlas.parent.persist = true;
+		
+		var containsUpper = false;
+		var containsLower = false;
+		
+		for (frame in atlas.frames)
+		{
+			maxHeight = Math.max(maxHeight, frame.frame.height);
+			
+			if (!containsUpper)
+				containsUpper = upperChar.match(frame.name);
+			
+			if (!containsLower)
+				containsLower = lowerChar.match(frame.name);
+		}
+		
+		if (containsUpper != containsLower)
+			caseAllowed = containsUpper ? Upper : Lower;
+	}
+}
+
+enum Case
+{
+	Both;
+	Upper;
+	Lower;
+}
+
+enum AtlasFont
+{
+	Default;
+	Bold;
 }

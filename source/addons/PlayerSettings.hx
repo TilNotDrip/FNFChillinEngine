@@ -18,7 +18,7 @@ class PlayerSettings
 	private function new(id:Int, gamepad:FlxGamepad)
 	{
 		this.id = id;
-		this.controls = new Controls(controlSettings[id], gamepad);
+		this.controls = new Controls(id, gamepad);
 	}
 
 	public static function init():Void

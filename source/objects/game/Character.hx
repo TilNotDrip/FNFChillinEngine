@@ -516,7 +516,7 @@ class Character extends FlxSprite
 			dance();
 		}
 
-		if (!isPlayer)
+		if ((!isPlayer && !PlayState.botplayDad) || (isPlayer && !PlayState.botplay))
 		{
 			var dadVar:Float = 4;
 

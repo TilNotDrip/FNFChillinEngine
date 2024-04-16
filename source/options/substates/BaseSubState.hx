@@ -27,7 +27,7 @@ class BaseSubState extends MusicBeatSubstate
     {
         if (controls.BACK)
         {
-            parent.closeMenu();
+            OptionsState.optionItems.visible = true;
             close();
         }
 
