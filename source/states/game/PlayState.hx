@@ -915,6 +915,9 @@ class PlayState extends MusicBeatState
 			changeSection(1);
 		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.PAGEDOWN && !isEnding)
 			changeSection(-1);
+
+		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.L && !isEnding)
+			botplayDad = !botplayDad;
 		#end
 
 		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.EIGHT && !isEnding)
@@ -978,7 +981,7 @@ class PlayState extends MusicBeatState
 
 			if (((health <= 0 && !botplay) || (health >= 2 && !botplayDad)) && !practiceMode)
 			{
-				if(botplay && botplayDad) return;
+				if((botplay && botplayDad) || (!botplay && !botplayDad)) return;
 
 				persistentUpdate = false;
 				persistentDraw = false;
@@ -1119,17 +1122,11 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		if (!inCutscene && !botplay &&
-			(controls.NOTE_LEFT || controls.NOTE_DOWN || controls.NOTE_UP || controls.NOTE_RIGHT
-			|| controls.NOTE_LEFT_R || controls.NOTE_DOWN_R || controls.NOTE_UP_R || controls.NOTE_RIGHT_R)
-		)
+		if (!inCutscene && !botplay)
 			keyShitPlayer();
 
 
-		if (!inCutscene && !botplayDad &&
-			(controls.NOTE_LEFT || controls.NOTE_DOWN || controls.NOTE_UP || controls.NOTE_RIGHT
-			|| controls.NOTE_LEFT_R || controls.NOTE_DOWN_R || controls.NOTE_UP_R || controls.NOTE_RIGHT_R)
-		)
+		if (!inCutscene && !botplayDad)
 			keyShitOpponent();
 
 		if (!inCutscene)
@@ -1679,7 +1676,7 @@ class PlayState extends MusicBeatState
 
 		if (pressArray.contains(true) && generatedMusic)
 		{
-			boyfriend.holdTimer = 0;
+			dad.holdTimer = 0;
 
 			var possibleNotes:Array<Note> = [];
 			var directionList:Array<Int> = [];
@@ -1741,7 +1738,7 @@ class PlayState extends MusicBeatState
 						opponentNoteHit(coolNote);
 				}
 			}
-			else if (!ChillSettings.get('ghostTapping', 'gameplay'))
+			else if (!ChillSettings.get('ghostTapping', GAMEPLAY))
 				ghostHit();
 		}
 
@@ -1749,11 +1746,9 @@ class PlayState extends MusicBeatState
 		{
 			if (dad.animation.curAnim.name.startsWith('sing') && !dad.animation.curAnim.name.endsWith('miss'))
 			{
-				dad.playAnim('idle');
+				dad.dance();
 			}
 		}
-
-		canIdle = true;
 
 		for(i in 0...opponentStrums.notes)
 		{
@@ -1884,7 +1879,7 @@ class PlayState extends MusicBeatState
 
 			opponentStrums.playNoteAnim(daNote.noteData, 'confirm', true);
 
-			if (!daNote.isSustainNote && ChillSettings.get('noteSplashes', 'gameplay'))
+			if (!daNote.isSustainNote && ChillSettings.get('noteSplashes', GAMEPLAY))
 			{
 				var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
 				noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, dad.isPixel);
@@ -2012,7 +2007,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('hey', true);
 
 				if(paramAnim.contains('gf'))
-					gf.playAnim('hey', true);
+					gf.playAnim('cheer', true);
 
 				if(paramAnim.contains('dad'))
 					dad.playAnim('hey', true);
