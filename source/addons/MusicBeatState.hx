@@ -24,7 +24,8 @@ class MusicBeatState extends FlxUIState
 		updateBeat();
 		updateSection();
 
-		if (oldStep != curStep && curStep >= 0) {
+		if (oldStep != curStep && curStep >= 0)
+		{
 			stepHit();
 
 			if (curStep % 4 == 0)
@@ -64,20 +65,11 @@ class MusicBeatState extends FlxUIState
 		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
-	public function stepHit():Void
-	{
+	public function stepHit():Void {}
 
-	}
+	public function beatHit():Void {}
 
-	public function beatHit():Void
-	{
-
-	}
-
-	public function sectionHit():Void
-	{
-
-	}
+	public function sectionHit():Void {}
 
 	public function changeWindowName(windowName:String = '') 
 		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;

@@ -31,7 +31,6 @@ class LegacyDiscord
 	}
 
     #if discord_rpc
-
 	public static function initialize()
 	{
 		var DiscordDaemon = sys.thread.Thread.create(() ->

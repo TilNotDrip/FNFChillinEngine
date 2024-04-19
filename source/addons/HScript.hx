@@ -1,10 +1,11 @@
 package addons;
 
 import openfl.Assets;
+import tea.SScript;
 
-class HScript extends tea.SScript
+class HScript extends SScript
 {
-    static var importList:Array<Dynamic> = [ // copied import just because
+    private static var importList:Array<Dynamic> = [ // copied import just because
         flixel.FlxG,
         flixel.FlxSprite,
         flixel.FlxState,
@@ -52,30 +53,33 @@ class HScript extends tea.SScript
         addons.CoolTools
     ];
 
-    var initializeThing:Bool = false;
-    static var initializedScripts:Array<HScript> = [];
+    private var initializeThing:Bool = false;
+    private static var initializedScripts:Array<HScript> = [];
 
     public function new(scriptPath:String)
     {
-        super('mods/' + scriptPath + '.hx');
+        var path:String = 'mods/' + scriptPath + '.hx';
+
+        if (!Assets.exists(path)) // Dumbass fix for now
+            return;
+
+        super(path);
 
         initializedScripts.push(this);
     }
 
-
     override function preset():Void
 	{
 		super.preset();
-		
+
 		for(classAdd in importList)
         {
             var classAddName:Array<String> = Type.getClassName(classAdd).split('.');
             set(classAddName[classAddName.length-1], classAdd);
         }
-    
+
         set('addLibrary', addLibrary);
 
-        // i stole from StageBackend fuck you crusher
         if(PlayState.game != null)
         {
             set('camGAME', PlayState.game.camGAME);
@@ -90,6 +94,7 @@ class HScript extends tea.SScript
             set('player', PlayState.game.boyfriend);
 
             // if someone is crying their eyes out because it isnt dad and bf this is for you
+            // what if we just warn them that dad and bf dont exist anymore
             set('dad', PlayState.game.dad);
             set('boyfriend', PlayState.game.boyfriend);
 
@@ -107,22 +112,30 @@ class HScript extends tea.SScript
             initializeThing = true;
 
             set('add', FlxG.state.add);
-		    set('insert', FlxG.state.insert);
-		    set('remove', FlxG.state.remove);
+            set('insert', FlxG.state.insert);
+            set('remove', FlxG.state.remove);
         } 
+
 		return call(name, args);
 	}
 
     public static function runFunction(name:String, ?args:Array<Dynamic> = null):Array<tea.SScript.Tea>
     {
-       var returnArray:Array<tea.SScript.Tea> = [];
-        for(script in initializedScripts)
+        var returnArray:Array<tea.SScript.Tea> = [];
+
+        if (initializedScripts == [])
         {
-            var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
-            if(!daCall.succeeded) trace('exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
-            returnArray.push(daCall);
+            for(script in initializedScripts)
+            {
+                var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
+
+                if(!daCall.succeeded)
+                    trace('Exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
+
+                returnArray.push(daCall);
+            }
         }
-        
+
         return returnArray;
     }
 
@@ -134,16 +147,21 @@ class HScript extends tea.SScript
 
     override public function destroy()
     {
-        initializedScripts.remove(this);
+        if (initializedScripts == [])
+            initializedScripts.remove(this);
+
         super.destroy();
     }
 
     public static function destroyAllScripts()
     {
-        for(script in initializedScripts)
+        if (initializedScripts == [])
         {
-            initializedScripts.remove(script);
-            script.destroy();
+            for(script in initializedScripts)
+            {
+                initializedScripts.remove(script);
+                script.destroy();
+            }
         }
     }
 }
