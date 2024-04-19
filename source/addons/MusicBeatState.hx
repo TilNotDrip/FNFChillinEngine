@@ -4,11 +4,6 @@ import addons.Conductor.BPMChangeEvent;
 
 import flixel.addons.ui.FlxUIState;
 
-#if MOD_SUPPORT
-import hscript.InterpEx;
-import hscript.AbstractScriptClass;
-#end
-
 import openfl.Assets;
 
 class MusicBeatState extends FlxUIState
@@ -20,28 +15,6 @@ class MusicBeatState extends FlxUIState
 
 	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
-
-	#if MOD_SUPPORT
-	public var stateScript:AbstractScriptClass;
-	private var _interp:InterpEx = new InterpEx(); // stole all interp code from examples cuz THERE IS NO FUCKING DOCUMENTATION 
-
-	override public function new()
-	{
-		var classArray:Array<String> = Type.getClassName(Type.getClass(FlxG.state)).split('.');
-		var className:String = classArray[classArray.length-1];
-		var contents:String = Assets.getText(Paths.file('states/$className.hx', TEXT, null));
-		_interp.addModule(contents);
-		stateScript = _interp.createScriptClassInstance(className);
-
-		super();
-	}
-	#end
-
-	override public function create()
-	{
-		super.create();
-		runFunction('create');
-	}
 
 	override public function update(elapsed:Float)
 	{
@@ -62,7 +35,6 @@ class MusicBeatState extends FlxUIState
 		}
 
 		super.update(elapsed);
-		runFunction('update', [elapsed]);
 	}
 
 	private function updateSection():Void
@@ -93,21 +65,18 @@ class MusicBeatState extends FlxUIState
 	}
 
 	public function stepHit():Void
-		runFunction('stepHit');
+	{
+
+	}
 
 	public function beatHit():Void
-		runFunction('beatHit');
+	{
+
+	}
 
 	public function sectionHit():Void
-		runFunction('sectionHit');
-
-	public function runFunction(name:String, ?args:Null<Array<Dynamic>> = null):Void
 	{
-		#if MOD_SUPPORT
-		if(stateScript.hasField(name)) stateScript.callFunction(name, args);
-		#else
-		//FlxG.log.add("Ran the major function " + name + ((args == null) ? 'with no args.' : 'with args: ' + Std.string(args))); // this was a fucking dumb idea
-		#end
+
 	}
 
 	public function changeWindowName(windowName:String = '') 

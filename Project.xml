@@ -18,21 +18,7 @@
 
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
-	<define name="MOD_SUPPORT" if="release cpp"/>
-
-	<section if="MOD_SUPPORT">
-		<haxedef name="POLYMOD_DEBUG" if="debug"/>
-		<haxedef name="POLYMOD_ROOT_PATH" value="mods/" />
-		<haxedef name="POLYMOD_USE_NAMESPACE" value="false" />
-		<haxedef name="POLYMOD_USE_HSCRIPTEX" value="false" />
-		<haxedef name="POLYMOD_API_VERSION_MATCH" value="MATCH_MAJOR" />
-
-		<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
-		<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
-		<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
-		<haxedef name="POLYMOD_MOD_PACK_FILE" value="pack.txt" />
-		<haxedef name="POLYMOD_MOD_ICON_FILE" value="icon.png" />
-	</section>
+	<define name="MOD_SUPPORT" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -98,7 +84,7 @@
 	<assets path="assets/week7"    library="week7"    exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
 
-	<template path="example_mods"  rename="mods" />
+	<assets path="example_mods"  rename="mods" />
 	<assets path="docs/CHANGELOG.md"    rename='changelog.txt'/>
 	<assets path="assets/fonts"    embed='true'/>
 
@@ -115,8 +101,7 @@
 	<haxelib name="flxanimate" unless="html5"/>
 
 	<haxelib name="hxCodec" if="cpp"/>
-	<haxelib name="polymod" if="MOD_SUPPORT"/>
-	<haxelib name="hscript-ex" if="MOD_SUPPORT"/>
+	<haxelib name="SScript" if="MOD_SUPPORT"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

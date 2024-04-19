@@ -20,6 +20,12 @@ class Paths
 
 	public static function getPath(file:String, type:AssetType, library:Null<String>)
 	{
+		for(daFile in ModLoader.modFile(file))
+		{
+			if (OpenFlAssets.exists(daFile, type))
+				return daFile;
+		}
+
 		if (library != null)
 			return getLibraryPath(file, library);
 
@@ -89,12 +95,12 @@ class Paths
 
 	inline public static function voices(song:String)
 	{
-		return 'songs:assets/songs/${song.formatToPath()}/Voices.$SOUND_EXT';
+		return getPath('${song.formatToPath()}/Voices.$SOUND_EXT', MUSIC, 'songs');
 	}
 
 	inline public static function inst(song:String)
 	{
-		return 'songs:assets/songs/${song.formatToPath()}/Inst.$SOUND_EXT';
+		return getPath('${song.formatToPath()}/Inst.$SOUND_EXT', MUSIC, 'songs');
 	}
 
 	inline public static function image(key:String, ?library:String)
@@ -106,11 +112,11 @@ class Paths
 
 	inline public static function font(key:String)
 	{
-		return 'assets/fonts/$key';
+		return getPath('fonts/$key', FONT, 'preload');
 	}
 
 	public static function video(videoFile:String):String {
-		return 'assets/videos/$videoFile.mp4';
+		return getPath('video/$videoFile.mp4', BINARY, 'preload');
 	}
 
 	inline public static function getSparrowAtlas(key:String, ?library:String)

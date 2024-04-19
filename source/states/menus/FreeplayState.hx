@@ -79,10 +79,10 @@ class FreeplayState extends MusicBeatState
 
 		add(scoreText);
 
+		super.create();
+
 		changeSelection();
 		changeDifficulty();
-
-		super.create();
 	}
 
 	override public function update(elapsed:Float)
@@ -158,7 +158,7 @@ class FreeplayState extends MusicBeatState
 		diffText.text = "< " + daDiff.toUpperCase() + " >";
 		positionHighscore();
 
-		runFunction('changeDifficulty', [curDifficulty]);
+		HScript.runFunction('changeDifficulty', [curDifficulty]);
 	}
 
 	private function changeSelection(change:Int = 0)
@@ -199,7 +199,7 @@ class FreeplayState extends MusicBeatState
 				item.alpha = 1;
 		}
 
-		runFunction('changeSelection', [curSelected]);
+		HScript.runFunction('changeSelection', [curSelected]);
 	}
 
 	private function positionHighscore()

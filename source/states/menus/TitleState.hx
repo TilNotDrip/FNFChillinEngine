@@ -76,7 +76,7 @@ class TitleState extends MusicBeatState
 		changeWindowName('Title Screen');
 
 		#if MOD_SUPPORT
-		new ModLoader();
+		//new ModLoader();
 		#end
 
 		introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());

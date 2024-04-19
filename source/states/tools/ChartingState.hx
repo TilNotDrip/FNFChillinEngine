@@ -440,10 +440,6 @@ class ChartingState extends MusicBeatState
 
 		eventDescription.fieldWidth = eventDropDown.width;
 
-		var parameterValue:FlxUINumericStepper = new FlxUINumericStepper(10, 120, 1, 0, 0, 9);
-		parameterValue.value = 0;
-		parameterValue.name = 'event_paramNumber';
-
 		var parameterType = new FlxUIInputText(10, 140, 70, '', 8);
 		parameterType.callback = function(value:String, action:String) {
 			if(curSelectedEvent != null) curSelectedEvent.value = value;
@@ -451,7 +447,6 @@ class ChartingState extends MusicBeatState
 		typingShits[1] = parameterType;
 
 		tab_group_event.add(eventDropDown);
-		tab_group_event.add(parameterValue);
 		tab_group_event.add(parameterType);
 		tab_group_event.add(eventDescription);
 

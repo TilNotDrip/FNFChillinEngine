@@ -1,3 +1,5 @@
+// HEY!! Before adding something here, if you use the modding api, add it to the list in HScript.hx!
+
 // Stuff from Haxelibs
 import flixel.FlxG;
 import flixel.FlxSprite;

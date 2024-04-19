@@ -516,7 +516,7 @@ class Character extends FlxSprite
 			dance();
 		}
 
-		if ((!isPlayer && !PlayState.botplayDad) || (isPlayer && !PlayState.botplay))
+		if ((!isPlayer && PlayState.botplayDad) || (isPlayer && PlayState.botplay))
 		{
 			var dadVar:Float = 4;
 
@@ -531,8 +531,8 @@ class Character extends FlxSprite
 		}
 		else
 		{
-			if (!animation.curAnim.name.startsWith('sing'))
-				holdTimer = 0;
+			/*if (!animation.curAnim.name.startsWith('sing'))
+				holdTimer = 0;*/
 
 			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
 				playAnim('idle', true, false, 10);

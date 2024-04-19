@@ -199,6 +199,8 @@ class PlayState extends MusicBeatState
 		initDiscord();
 		#end
 
+		new HScript('scripts/PlayState');
+
 		curStage = SONG.stage;
 
 		switch (curStage)
@@ -213,6 +215,8 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil': new SchoolEvil();
 			case 'tank': new Tank();
 		}
+
+		HScript.runFunction('create');
 
 		isPixel = StageBackend.stage.pixel;
 
@@ -394,6 +398,8 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.createPost();
 
+		HScript.runFunction('createPost');
+
 		if (!seenCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
 		{
 			if (StageBackend.stage.startCallback != null)
@@ -556,6 +562,8 @@ class PlayState extends MusicBeatState
 		songLength = FlxG.sound.music.length;
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC, true, songLength);
 		#end
+
+		HScript.runFunction('startSong');
 	}
 
 	public function generateSong():Void
@@ -847,6 +855,8 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.update(elapsed);
 
+		HScript.runFunction('update', [elapsed]);
+
 		super.update(elapsed);
 
 		songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 2) + '%] ' + SONG.song + ' - ' + difficulty;
@@ -892,6 +902,9 @@ class PlayState extends MusicBeatState
 
 		if (health > 2 && curDate.getDate() != 1 && curDate.getMonth() != 4) //April Fools Prank
 			health = 2;
+
+		if (health < 0 && curDate.getDate() != 1 && curDate.getMonth() != 4) //April Fools Prank
+			health = 0;
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
@@ -1243,6 +1256,8 @@ class PlayState extends MusicBeatState
 		deathCounter = 0;
 
 		isEnding = true;
+
+		HScript.destroyAllScripts();
 
 		if (SONG.validScore && !practiceMode && !botplay)
 			Highscore.saveScore(SONG.song, songScore, difficulty);
@@ -1822,9 +1837,6 @@ class PlayState extends MusicBeatState
 			else
 				health += 0.004;
 
-			if(botplay)
-				songAccuracy = 100; // behind the scenes trick!! part 2 | I don't like this one - Crusher
-
 			boyfriend.playAnim(singArray[note.noteData], true);
 
 			playerStrums.playNoteAnim(note.noteData, 'confirm', true);
@@ -1838,6 +1850,8 @@ class PlayState extends MusicBeatState
 				notes.remove(note, true);
 				note.destroy();
 			}
+
+			HScript.runFunction('goodNoteHit', [note]);
 		}
 	}
 
@@ -1886,6 +1900,8 @@ class PlayState extends MusicBeatState
 				noteSplashOpponent.setColors(daNote.returnColors(daNote.noteData));
 				opponentSplashes.add(noteSplashOpponent);
 			}
+
+			HScript.runFunction('opponentNoteHit', [daNote]);
 		}
 	}
 
@@ -1904,6 +1920,8 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curStep = curStep;
 		StageBackend.stage.stepHit();
+
+		HScript.runFunction('stepHit');
 	}
 
 	override public function beatHit()
@@ -1941,6 +1959,8 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curBeat = curBeat;
 		StageBackend.stage.beatHit();
+
+		HScript.runFunction('beatHit');
 	}
 
 	override public function sectionHit()
@@ -1968,6 +1988,8 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curSection = curSection;
 		StageBackend.stage.sectionHit();
+
+		HScript.runFunction('sectionHit');
 	}
 
 	public function preloadEvent(name:String, value:String, strumTime:Float)
