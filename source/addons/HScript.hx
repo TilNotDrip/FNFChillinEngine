@@ -1,10 +1,11 @@
 package addons;
 
 import openfl.Assets;
+import tea.SScript;
 
-class HScript extends tea.SScript
+class HScript extends SScript
 {
-    static var importList:Array<Dynamic> = [ // copied import just because
+    private static var importList:Array<Dynamic> = [ // copied import just because
         flixel.FlxG,
         flixel.FlxSprite,
         flixel.FlxState,
@@ -52,32 +53,36 @@ class HScript extends tea.SScript
         addons.CoolTools
     ];
 
-    var initializeThing:Bool = false;
-    static var initializedScripts:Array<HScript> = [];
+    private var initializeThing:Bool = false;
+    private static var initializedScripts:Array<HScript> = [];
 
     var specialImports:Map<String, Dynamic> = [];
 
     public function new(scriptPath:String, specialImports:Map<String, Dynamic>)
     {
         this.specialImports = specialImports;
-        super(scriptPath + '.hx');
+        var path:String = 'mods/' + scriptPath + '.hx';
+
+        if (!Assets.exists(path)) // Dumbass fix for now -Crusher
+            return;
+
+        super(path);
 
         initializedScripts.push(this);
     }
 
-
     override function preset():Void
 	{
 		super.preset();
-		
+
 		for(classAdd in importList)
         {
             var classAddName:Array<String> = Type.getClassName(classAdd).split('.');
             set(classAddName[classAddName.length-1], classAdd);
         }
-    
-        set('addLibrary', addLibrary);
 
+        set('addLibrary', addLibrary);
+        
         for(daImport in specialImports.keys())
         {
             set(daImport, specialImports.get(daImport));
@@ -91,22 +96,31 @@ class HScript extends tea.SScript
             initializeThing = true;
 
             set('add', FlxG.state.add);
-		    set('insert', FlxG.state.insert);
-		    set('remove', FlxG.state.remove);
+            set('insert', FlxG.state.insert);
+            set('remove', FlxG.state.remove);
         } 
+
 		return call(name, args);
 	}
 
     public static function runFunction(name:String, ?args:Array<Dynamic> = null):Array<tea.SScript.Tea>
     {
-       var returnArray:Array<tea.SScript.Tea> = [];
+        var returnArray:Array<tea.SScript.Tea> = [];
+
         for(script in initializedScripts)
         {
             var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
-            if(daCall.exceptions != [] && !daCall.exceptions.toString().contains('does not exist')) trace('exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
-            returnArray.push(daCall);
+            for(script in initializedScripts)
+            {
+                var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
+
+                if(!daCall.succeeded && !daCall.exceptions.toString().contains('does not exist'))
+                    trace('Exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
+
+                returnArray.push(daCall);
+            }
         }
-        
+
         return returnArray;
     }
 
@@ -118,12 +132,15 @@ class HScript extends tea.SScript
 
     override public function destroy()
     {
-        initializedScripts.remove(this);
+        if (initializedScripts == [])
+            initializedScripts.remove(this);
+
         super.destroy();
     }
 
     public static function destroyAllScripts()
     {
+<<<<<<< HEAD
         for(script in initializedScripts)
             script.destroy();
     }
@@ -134,6 +151,15 @@ class HScript extends tea.SScript
         for(daFile in FileSystem.readDirectory(path))
         {
             daArray.push(new HScript('mods/scripts/' + daFile));
+=======
+        if (initializedScripts == [])
+        {
+            for(script in initializedScripts)
+            {
+                initializedScripts.remove(script);
+                script.destroy();
+            }
+>>>>>>> 8d831f56fb888f6da28ee9acccc65acede7e4c39
         }
 
         return daArray;

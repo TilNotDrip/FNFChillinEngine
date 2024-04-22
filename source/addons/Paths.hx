@@ -68,11 +68,6 @@ class Paths
 		return getPath('data/$key.txt', TEXT, library);
 	}
 
-	inline public static function xml(key:String, ?library:String)
-	{
-		return getPath('data/$key.xml', TEXT, library);
-	}
-
 	inline public static function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
@@ -144,8 +139,11 @@ class Paths
 		}
 
 		yay += '</TextureAtlas>';
+
 		var daXMLThing:Xml = Xml.parse(yay);
+
 		trace('ohhh nahh we not using $key.txt, we converting like a real man');
+
 		return FlxAtlasFrames.fromSparrow(image(key, library), daXMLThing);
 	}
 }

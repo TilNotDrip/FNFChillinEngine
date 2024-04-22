@@ -24,7 +24,7 @@ class LoadingState extends MusicBeatState
 	private var loadBar:FlxSprite;
 	private var funkay:FlxSprite;
 
-	static var directory(get, never):String;
+	private static var directory(get, never):String;
 
 	private function new(target:FlxState, stopMusic:Bool)
 	{
