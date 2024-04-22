@@ -55,9 +55,12 @@ class HScript extends tea.SScript
     var initializeThing:Bool = false;
     static var initializedScripts:Array<HScript> = [];
 
-    public function new(scriptPath:String)
+    var specialImports:Map<String, Dynamic> = [];
+
+    public function new(scriptPath:String, specialImports:Map<String, Dynamic>)
     {
-        super('mods/' + scriptPath + '.hx');
+        this.specialImports = specialImports;
+        super(scriptPath + '.hx');
 
         initializedScripts.push(this);
     }
@@ -75,28 +78,9 @@ class HScript extends tea.SScript
     
         set('addLibrary', addLibrary);
 
-        // i stole from StageBackend fuck you crusher
-        if(PlayState.game != null)
+        for(daImport in specialImports.keys())
         {
-            set('camGAME', PlayState.game.camGAME);
-            set('camHUD', PlayState.game.camHUD);
-            set('camDIALOGUE', PlayState.game.camDIALOGUE);
-
-            set('inCutscene', PlayState.game.inCutscene);
-            set('dialogue', PlayState.game.dialogue);
-
-            set('gf', PlayState.game.gf);
-            set('opponent', PlayState.game.dad);
-            set('player', PlayState.game.boyfriend);
-
-            // if someone is crying their eyes out because it isnt dad and bf this is for you
-            set('dad', PlayState.game.dad);
-            set('boyfriend', PlayState.game.boyfriend);
-
-            set('camFollow', PlayState.game.camFollow);
-            set('camPos', PlayState.game.camPos);
-
-            set('game', PlayState.game);
+            set(daImport, specialImports.get(daImport));
         }
 	}
 
@@ -119,7 +103,7 @@ class HScript extends tea.SScript
         for(script in initializedScripts)
         {
             var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
-            if(!daCall.succeeded) trace('exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
+            if(daCall.exceptions != [] && !daCall.exceptions.toString().contains('does not exist')) trace('exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
             returnArray.push(daCall);
         }
         
@@ -141,9 +125,17 @@ class HScript extends tea.SScript
     public static function destroyAllScripts()
     {
         for(script in initializedScripts)
-        {
-            initializedScripts.remove(script);
             script.destroy();
+    }
+
+    public static function loadAllScriptsAtPath(path:String):Array<HScript>
+    {
+        var daArray:Array<HScript> = [];
+        for(daFile in FileSystem.readDirectory(path))
+        {
+            daArray.push(new HScript('mods/scripts/' + daFile));
         }
+
+        return daArray;
     }
 }

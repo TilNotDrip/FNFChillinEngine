@@ -199,7 +199,22 @@ class PlayState extends MusicBeatState
 		initDiscord();
 		#end
 
-		new HScript('scripts/PlayState');
+		new HScript('scripts/PlayState', [
+            'camGAME' => camGAME,
+            'camHUD' => camHUD,
+            'camDIALOGUE' => camDIALOGUE,
+            'isPixel' => isPixel,
+            'inCutscene' => inCutscene,
+            'dialogue' => dialogue,
+            'gf' => gf,
+            'opponent' => dad,
+            'player' => boyfriend,
+            'dad' => dad,
+            'boyfriend' => boyfriend,
+            'camFollow' => camFollow,
+            'camPos' => camPos,
+            'game' => game
+        ]);
 
 		curStage = SONG.stage;
 
