@@ -83,7 +83,7 @@ class Controls
 
 			for(key in PlayerSettings.getControls(id).get(key)[1])
 				buttonArray.push(FlxGamepadInputID.fromString(key));
-			
+
 			switch(type)
 			{
 				case 'just':
