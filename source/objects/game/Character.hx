@@ -103,6 +103,8 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
+				y += 200;
+
 			case 'pico':
 				frames = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
 
@@ -132,6 +134,8 @@ class Character extends FlxSprite
 
 				flipX = true;
 
+				y += 300;
+
 			case 'monster':
 				frames = Paths.getSparrowAtlas('characters/Monster_Assets');
 
@@ -142,6 +146,8 @@ class Character extends FlxSprite
 				quickAnimAdd('singRIGHT', 'Monster Right note');
 
 				playAnim('idle');
+
+				y += 100;
 
 			case 'mom':
 				frames = Paths.getSparrowAtlas('characters/Mom_Assets');
@@ -256,6 +262,8 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
+				x -= 500;
+
 			case 'monster-christmas':
 				frames = Paths.getSparrowAtlas('characters/monsterChristmas');
 
@@ -266,6 +274,8 @@ class Character extends FlxSprite
 				quickAnimAdd('singRIGHT', 'Monster Right note');
 
 				playAnim('idle');
+
+				y += 130;
 
 			case 'bf-pixel':
 				frames = Paths.getSparrowAtlas('characters/bfPixel');
@@ -330,6 +340,9 @@ class Character extends FlxSprite
 
 				isPixel = true;
 
+				x += 150;
+				y += 360;
+
 			case 'senpai-angry':
 				frames = Paths.getSparrowAtlas('characters/senpai');
 
@@ -343,6 +356,9 @@ class Character extends FlxSprite
 
 				isPixel = true;
 
+				x += 150;
+				y += 360;
+
 			case 'spirit':
 				frames = Paths.getSparrowAtlas('characters/spirit');
 
@@ -355,6 +371,9 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				isPixel = true;
+
+				x -= 150;
+				y += 100;
 
 			case 'gf-tankmen':
 				frames = Paths.getSparrowAtlas('characters/gfTankmen');
@@ -422,6 +441,8 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+
+				y += 180;
 
 			case 'pico-speaker':
 				frames = Paths.getSparrowAtlas('characters/picoSpeaker');
@@ -531,8 +552,8 @@ class Character extends FlxSprite
 		}
 		else
 		{
-			/*if (!animation.curAnim.name.startsWith('sing'))
-				holdTimer = 0;*/
+			if (!animation.curAnim.name.startsWith('sing') && animation.curAnim.finished)
+				holdTimer = 0;
 
 			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
 				playAnim('idle', true, false, 10);

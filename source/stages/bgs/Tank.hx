@@ -196,8 +196,6 @@ class Tank extends StageBackend
 		FlxG.camera.zoom *= 1.2;
 		camFollow.y += 100;
 
-		var camPosMath:FlxPoint = new FlxPoint(camFollow.x, camFollow.y);
-
 		camGAME.zoom *= 1.2;
 
 		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('wellWellWell'));
@@ -313,7 +311,6 @@ class Tank extends StageBackend
 
 		game.playVideo('stressCutscene');
 		#else
-		camFollow.setPosition(camPos.x, camPos.y);
 		opponent.visible = false;
 		gf.visible = false;
 

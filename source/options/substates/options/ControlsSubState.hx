@@ -18,14 +18,9 @@ class ControlsSubState extends MusicBeatSubstate
     {
         super.create();
 
-        FlxG.cameras.reset(new SwagCamera());
-
-        FlxG.camera.scroll.x = 300;
-        FlxG.camera.scroll.y = 100;
-
         optionHeader = new Alphabet(0, 0, '', Bold);
         optionControls = new Alphabet(0, 0, '', Default);
-        rebindNotice = new Alphabet(0, FlxG.height - 100, '', Default);
+        rebindNotice = new Alphabet(0, FlxG.height - 150, '', Default);
 
         for (controlName in PlayerSettings.getControls(0).keys())
             controlOptions.push(controlName);
@@ -80,8 +75,7 @@ class ControlsSubState extends MusicBeatSubstate
                 FlxFlicker.stopFlickering(optionControls);
                 rebindNotice.visible = false;
 
-
-                trace(PlayerSettings.getControls(0).get(controlOptions[curSelected])[0]);
+                changeItem();
 
                 escapeTimer = 3;
             }
@@ -127,8 +121,8 @@ class ControlsSubState extends MusicBeatSubstate
     var okAcceptIsOver:Bool = false;
     function rebindKey()
     {
-        FlxFlicker.flicker(optionHeader, 0, 0.1, false, false);
-        FlxFlicker.flicker(optionControls, 0, 0.1, false, false);
+        FlxFlicker.flicker(optionHeader, 0, 0.3, false, false);
+        FlxFlicker.flicker(optionControls, 0, 0.3, false, false);
 
         rebindingStage++;
 

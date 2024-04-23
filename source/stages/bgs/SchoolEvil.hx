@@ -60,8 +60,6 @@ class SchoolEvil extends StageBackend
 		senpaiEvil.screenCenter();
 		senpaiEvil.x += senpaiEvil.width / 5;
 
-		camFollow.setPosition(camPos.x, camPos.y);
-
 		add(red);
 
 		new FlxTimer().start(0.3, function(tmr:FlxTimer)

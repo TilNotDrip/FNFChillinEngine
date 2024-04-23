@@ -100,8 +100,6 @@ class School extends StageBackend
 		black.scrollFactor.set();
 		add(black);
 
-		camFollow.setPosition(camPos.x, camPos.y);
-
 		if (curSong.formatToPath() == 'roses' )
 		{
 			remove(black);

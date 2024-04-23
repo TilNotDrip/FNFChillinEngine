@@ -74,21 +74,36 @@ class Controls
 				checked = FlxG.keys.anyPressed(keyArray);
 		}
 
+		if(checked)
+			return checked;
+
 		if(controller != null)
 		{
 			var buttonArray:Array<FlxGamepadInputID> = [];
 
 			for(key in PlayerSettings.getControls(id).get(key)[1])
 				buttonArray.push(FlxGamepadInputID.fromString(key));
-
+			
 			switch(type)
 			{
 				case 'just':
-					if(!checked) checked = controller.anyJustPressed(buttonArray);
+					try {
+						checked = controller.anyJustPressed(buttonArray);
+					} catch(e) {
+						FlxG.log.error('Controller Checking failed! Did it disconnect?');
+					}
 				case 'released':
-					if(!checked) checked = controller.anyJustPressed(buttonArray);
+					try {
+						checked = controller.anyJustReleased(buttonArray);
+					} catch(e) {
+						FlxG.log.error('Controller Checking failed! Did it disconnect?');
+					}
 				default:
-					if(!checked) checked = controller.anyPressed(buttonArray);
+					try {
+						checked = controller.anyPressed(buttonArray);
+					} catch(e) {
+						FlxG.log.error('Controller Checking failed! Did it disconnect?');
+					}
 			}
 		}
 

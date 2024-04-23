@@ -2,11 +2,17 @@ var aubrey:FlxSprite = null;
 function create()
 {
     addLibrary('flixel.tweens.FlxEase');
+    addLibrary('flixel.tweens.FlxTween');
     aubrey = new FlxSprite().loadGraphic(Paths.image('normal'));
     aubrey.alpha = 1;
     aubrey.cameras = [camHUD];
     aubrey.screenCenter();
     add(aubrey);
+}
+
+function createPost()
+{
+    game.vocals = new FlxSound();
 }
 
 function sectionHit()
@@ -61,9 +67,4 @@ function fireHandler(dad:Bool):Int
     else
         return bfTimer;
         
-}
-
-function update(elapsed:Float)
-{
-    game.vocals.pause();
 }

@@ -39,7 +39,6 @@ class StageBackend extends FlxBasic
     private var player(get, never):Character;
 
     private var camFollow(get, never):FlxObject;
-    private var camPos(get, never):FlxPoint;
 
     public var curStep:Int = 0;
     public var curBeat:Int = 0;
@@ -117,5 +116,4 @@ class StageBackend extends FlxBasic
     inline private function get_player():Character return PlayState.game.boyfriend;
 
     inline private function get_camFollow():FlxObject return PlayState.game.camFollow;
-    inline private function get_camPos():FlxPoint return PlayState.game.camPos;
 }

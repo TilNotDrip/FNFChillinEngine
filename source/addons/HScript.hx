@@ -1,10 +1,14 @@
 package addons;
 
+import sys.FileSystem;
 import openfl.Assets;
 import tea.SScript;
 
 class HScript extends SScript
 {
+    public static var StopFunction:HScriptFunctions = STOP;
+    public static var ContinueFunction:HScriptFunctions = CONTINUE;
+    
     private static var importList:Array<Dynamic> = [ // copied import just because
         flixel.FlxG,
         flixel.FlxSprite,
@@ -58,15 +62,20 @@ class HScript extends SScript
 
     var specialImports:Map<String, Dynamic> = [];
 
+    /**
+     * only use this if you want to load one script!
+     */
     public function new(scriptPath:String, specialImports:Map<String, Dynamic>)
     {
         this.specialImports = specialImports;
-        var path:String = 'mods/' + scriptPath + '.hx';
 
-        if (!Assets.exists(path)) // Dumbass fix for now -Crusher
+        if (!Assets.exists(scriptPath)) // Dumbass fix for now -Crusher
+        {
+            FlxG.log.error(scriptPath + ' doesnt exist!');
             return;
+        }
 
-        super(path);
+        super(scriptPath);
 
         initializedScripts.push(this);
     }
@@ -110,15 +119,11 @@ class HScript extends SScript
         for(script in initializedScripts)
         {
             var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
-            for(script in initializedScripts)
-            {
-                var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
 
-                if(!daCall.succeeded && !daCall.exceptions.toString().contains('does not exist'))
-                    trace('Exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
+            if(!daCall.succeeded && !daCall.exceptions.toString().contains('does not exist'))
+                trace('Exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);
 
-                returnArray.push(daCall);
-            }
+            returnArray.push(daCall);
         }
 
         return returnArray;
@@ -132,36 +137,33 @@ class HScript extends SScript
 
     override public function destroy()
     {
-        if (initializedScripts == [])
-            initializedScripts.remove(this);
-
+        initializedScripts.remove(this);
         super.destroy();
     }
 
     public static function destroyAllScripts()
     {
-<<<<<<< HEAD
         for(script in initializedScripts)
             script.destroy();
     }
 
-    public static function loadAllScriptsAtPath(path:String):Array<HScript>
+    public static function loadAllScriptsAtPath(beforePath:String, specialImports:Map<String, Dynamic>):Array<HScript>
     {
         var daArray:Array<HScript> = [];
-        for(daFile in FileSystem.readDirectory(path))
+        for(path in ModLoader.modFile(beforePath))
         {
-            daArray.push(new HScript('mods/scripts/' + daFile));
-=======
-        if (initializedScripts == [])
-        {
-            for(script in initializedScripts)
+            for(daFile in FileSystem.readDirectory(path))
             {
-                initializedScripts.remove(script);
-                script.destroy();
+                if(daFile.endsWith('.hx')) daArray.push(new HScript(path + '/' + daFile, specialImports));
             }
->>>>>>> 8d831f56fb888f6da28ee9acccc65acede7e4c39
         }
 
         return daArray;
     }
+}
+
+enum abstract HScriptFunctions(Int)
+{
+    var STOP = 0;
+    var CONTINUE = 1;
 }

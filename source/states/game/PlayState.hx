@@ -128,8 +128,6 @@ class PlayState extends MusicBeatState
 	public var detailsPausedText:String = "";
 	#end
 
-	public var camPos:FlxPoint;
-
 	public var singArray:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
 
 	public static var game:PlayState;
@@ -199,7 +197,7 @@ class PlayState extends MusicBeatState
 		initDiscord();
 		#end
 
-		new HScript('scripts/PlayState', [
+		HScript.loadAllScriptsAtPath('scripts/PlayState', [
             'camGAME' => camGAME,
             'camHUD' => camHUD,
             'camDIALOGUE' => camDIALOGUE,
@@ -212,7 +210,6 @@ class PlayState extends MusicBeatState
             'dad' => dad,
             'boyfriend' => boyfriend,
             'camFollow' => camFollow,
-            'camPos' => camPos,
             'game' => game
         ]);
 
@@ -240,42 +237,12 @@ class PlayState extends MusicBeatState
 
 		dad = new Character(100, 100, SONG.player2);
 
-		camPos = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
-
-		switch (SONG.player2)
-		{
-			case "spooky":
-				dad.y += 200;
-			case "monster":
-				dad.y += 100;
-			case 'monster-christmas':
-				dad.y += 130;
-			case 'dad':
-				camPos.x += 400;
-			case 'pico':
-				camPos.x += 600;
-				dad.y += 300;
-			case 'parents-christmas':
-				dad.x -= 500;
-			case 'senpai' | 'senpai-angry':
-				dad.x += 150;
-				dad.y += 360;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
-			case 'spirit':
-				dad.x -= 150;
-				dad.y += 100;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
-			case 'tankman':
-				dad.y += 180;
-		}
-
 		if (SONG.player2 == SONG.player3)
 		{
 			dad.setPosition(gf.x, gf.y);
 			gf.visible = false;
 			if (isStoryMode)
 			{
-				camPos.x += 600;
 				tweenCam(true);
 			}
 		}
@@ -317,8 +284,7 @@ class PlayState extends MusicBeatState
 
 		generateSong();
 
-		camFollow = new FlxObject(0, 0, 1, 1);
-		camFollow.setPosition(camPos.x, camPos.y);
+		camFollow = new FlxObject(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y - 100, 1, 1);
 
 		if (prevCamFollow != null)
 		{
@@ -453,6 +419,7 @@ class PlayState extends MusicBeatState
 			video.dispose();
 
 			StageBackend.stage.endingVideo();
+			HScript.runFunction('endingVideo');
 
 			startCountdown();
 			if (generatedMusic && SONG.notes[curSection] != null)
@@ -468,6 +435,7 @@ class PlayState extends MusicBeatState
 		video.finishCallback = function()
 		{
 			StageBackend.stage.endingVideo();
+			HScript.runFunction('endingVideo');
 
 			startCountdown();
 			if (generatedMusic && SONG.notes[curSection] != null)
@@ -488,13 +456,18 @@ class PlayState extends MusicBeatState
 	{
 		seenCutscene = true;
 		inCutscene = false;
+
+		var daFunction:Array<Dynamic> = HScript.runFunction('startCountdown');
+
+		if(daFunction.contains(HScript.StopFunction))
+			return;
+
 		startedCountdown = true;
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
-		Conductor.songPosition = 0;
-		Conductor.songPosition -= Conductor.crochet * 5;
+		Conductor.songPosition = -(Conductor.crochet * 5);
 
 		var swagCounter:Int = 0;
 
@@ -869,7 +842,6 @@ class PlayState extends MusicBeatState
 		}
 
 		StageBackend.stage.update(elapsed);
-
 		HScript.runFunction('update', [elapsed]);
 
 		super.update(elapsed);
@@ -1256,6 +1228,11 @@ class PlayState extends MusicBeatState
 
 	public function endSong()
 	{
+		var daFunction:Array<Dynamic> = HScript.runFunction('endSong');
+
+		if(daFunction.contains(HScript.StopFunction))
+			return;
+
 		if(endScreen)
 		{
 			openSubState(new EndSubState());
@@ -1406,8 +1383,6 @@ class PlayState extends MusicBeatState
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
 
-		comboGroup.add(rating);
-
 		if (isPixel)
 		{
 			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
@@ -1430,8 +1405,6 @@ class PlayState extends MusicBeatState
 			displayCombo();
 	}
 
-	public var comboGroup:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>(50);
-
 	private function displayCombo():Void
 	{
 		var pixelShitPart1:String = "";
@@ -1452,7 +1425,7 @@ class PlayState extends MusicBeatState
 		comboSpr.velocity.y -= 150;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 
-		comboGroup.add(comboSpr);
+		add(comboSpr);
 
 		add(comboSpr);
 
@@ -1469,7 +1442,6 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween)
 			{
-				comboGroup.remove(comboSpr);
 				comboSpr.destroy();
 			},
 			startDelay: Conductor.crochet * 0.001
@@ -1509,8 +1481,6 @@ class PlayState extends MusicBeatState
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 
-			comboGroup.add(numScore);
-
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
 				{
@@ -1542,12 +1512,14 @@ class PlayState extends MusicBeatState
 				}
 
 				StageBackend.stage.cameraMovement(dad);
+				HScript.runFunction('cameraMovement', [dad]);
 			}
 		}
 		else if (char == boyfriend)
 		{
 			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 			StageBackend.stage.cameraMovement(boyfriend);
+			HScript.runFunction('cameraMovement', [boyfriend]);
 		}
 
 		if (SONG.song.formatToPath() == 'tutorial')

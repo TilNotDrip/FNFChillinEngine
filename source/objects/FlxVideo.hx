@@ -19,6 +19,10 @@ class FlxVideo extends FlxBasic
 
 	public function new(vidSrc:String)
 	{
+		#if !web
+		throw "FlxVideo is only supported on web!";
+		#end
+		
 		super();
 
 		video = new Video();
