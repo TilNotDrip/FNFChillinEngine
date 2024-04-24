@@ -1,14 +1,22 @@
 package addons;
 
-import sys.FileSystem;
 import openfl.Assets;
+
+import sys.FileSystem;
+
 import tea.SScript;
+
+#if (SScript <= "10.0.618")
+import tea.SScript.Tea;
+#else
+import tea.SScript.TeaCall as Tea;
+#end
 
 class HScript extends SScript
 {
     public static var StopFunction:HScriptFunctions = STOP;
     public static var ContinueFunction:HScriptFunctions = CONTINUE;
-    
+
     private static var importList:Array<Dynamic> = [ // copied import just because
         flixel.FlxG,
         flixel.FlxSprite,
@@ -60,7 +68,7 @@ class HScript extends SScript
     private var initializeThing:Bool = false;
     private static var initializedScripts:Array<HScript> = [];
 
-    var specialImports:Map<String, Dynamic> = [];
+    private var specialImports:Map<String, Dynamic> = [];
 
     /**
      * only use this if you want to load one script!
@@ -98,7 +106,7 @@ class HScript extends SScript
         }
 	}
 
-    public function runLocalFunction(name:String, ?args:Null<Array<Dynamic>> = null):tea.SScript.Tea
+    public function runLocalFunction(name:String, ?args:Null<Array<Dynamic>> = null):Tea
 	{
         if(!initializeThing) // stupid fix
         {
@@ -112,13 +120,13 @@ class HScript extends SScript
 		return call(name, args);
 	}
 
-    public static function runFunction(name:String, ?args:Array<Dynamic> = null):Array<tea.SScript.Tea>
+    public static function runFunction(name:String, ?args:Array<Dynamic> = null):Array<Tea>
     {
-        var returnArray:Array<tea.SScript.Tea> = [];
+        var returnArray:Array<Tea> = [];
 
         for(script in initializedScripts)
         {
-            var daCall:tea.SScript.Tea = script.runLocalFunction(name, args);
+            var daCall:Tea = script.runLocalFunction(name, args);
 
             if(!daCall.succeeded && !daCall.exceptions.toString().contains('does not exist'))
                 trace('Exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);

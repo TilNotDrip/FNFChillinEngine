@@ -10,6 +10,7 @@
  - [ ] Modding API using a custom polymod! (HScript included)
  - [x] Title Screen Softcoded
  - [ ] Controller Support
+ - [ ] Lyrics
 
 ## Medium Changes
 
