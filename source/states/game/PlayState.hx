@@ -18,8 +18,10 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 
-#if hxCodec
-import hxcodec.flixel.FlxVideo;
+#if hxvlc
+import hxvlc.flixel.FlxVideo;
+import hxvlc.flixel.FlxVideoSprite;
+import hxvlc.flixel.FlxVideoBackdrop;
 #end
 
 import objects.game.*;
@@ -124,7 +126,7 @@ class PlayState extends MusicBeatState
 	public static var seenEndCutscene:Bool = false;
 	public var isEnding:Bool = false;
 
-	#if discord_rpc
+	#if DISCORD
 	public var iconRPC:String = "";
 	public var songLength:Float = 0;
 	public var detailsText:String = "";
@@ -196,7 +198,7 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile(Paths.txt('thorns/thornsDialogue'));
 		}
 
-		#if discord_rpc
+		#if DISCORD
 		initDiscord();
 		#end
 
@@ -399,7 +401,7 @@ class PlayState extends MusicBeatState
 			startCountdown();
 	}
 
-	#if discord_rpc
+	#if DISCORD
 	private function initDiscord():Void
 	{
 		iconRPC = SONG.player2;
@@ -416,44 +418,38 @@ class PlayState extends MusicBeatState
 
 	public function playVideo(videoFile:String)
 	{
+		#if VIDEOS
 		inCutscene = true;
 
-		#if hxCodec
+		#if hxvlc
 		var video:FlxVideo = new FlxVideo();
-		video.play(Paths.video(videoFile));
 		video.onEndReached.add(function()
 		{
 			video.dispose();
-
-			StageBackend.stage.endingVideo();
-			HScript.runFunction('endingVideo');
-
-			startCountdown();
-			if (generatedMusic && SONG.notes[curSection] != null)
-			{
-				if(SONG.notes[curSection].mustHitSection)
-					cameraMovement(boyfriend);
-				else
-					cameraMovement(dad);
-			}
+			videoCallback();
 		});
+		video.load(Paths.video(videoFile));
+		video.play();
 		#else
 		var video:FlxVideo = new FlxVideo(Paths.video(videoFile));
-		video.finishCallback = function()
-		{
-			StageBackend.stage.endingVideo();
-			HScript.runFunction('endingVideo');
-
-			startCountdown();
-			if (generatedMusic && SONG.notes[curSection] != null)
-			{
-				if(SONG.notes[curSection].mustHitSection)
-					cameraMovement(boyfriend);
-				else
-					cameraMovement(dad);
-			}
-		};
+		video.finishCallback = videoCallback;
 		#end
+		#end
+	}
+
+	private function videoCallback()
+	{
+		StageBackend.stage.endingVideo();
+		HScript.runFunction('endingVideo');
+
+		startCountdown();
+		if (generatedMusic && SONG.notes[curSection] != null)
+		{
+			if(SONG.notes[curSection].mustHitSection)
+				cameraMovement(boyfriend);
+			else
+				cameraMovement(dad);
+		}
 	}
 
 	private var startTimer:FlxTimer = new FlxTimer();
@@ -553,7 +549,7 @@ class PlayState extends MusicBeatState
 			endSong();
 		};
 
-		#if discord_rpc
+		#if DISCORD
 		songLength = FlxG.sound.music.length;
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC, true, songLength);
 		#end
@@ -750,7 +746,7 @@ class PlayState extends MusicBeatState
 				startTimer.active = true;
 			paused = false;
 
-			#if discord_rpc
+			#if DISCORD
 			if (startTimer.finished)
 				DiscordClient.changePresence(detailsText, SONG.song + " (" + difficulty + ")", iconRPC, true, songLength - Conductor.songPosition);
 			else
@@ -763,7 +759,7 @@ class PlayState extends MusicBeatState
 
 	
 	override public function onFocus():Void
-	{	#if discord_rpc
+	{	#if DISCORD
 		if (health > 0 && !paused && FlxG.autoPause)
 		{
 			if (Conductor.songPosition > 0.0)
@@ -778,7 +774,7 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-		#if discord_rpc
+		#if DISCORD
 		if (health > 0 && !paused && FlxG.autoPause)
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + difficulty + ")", iconRPC);
 		#end
@@ -866,7 +862,7 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.switchState(new ChartingState());
 
-			#if discord_rpc
+			#if DISCORD
 			DiscordClient.changePresence("Chart Editor", null, null, true);
 			#end
 		}
@@ -997,7 +993,7 @@ class PlayState extends MusicBeatState
 				else
 					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camGAME));
 
-				#if discord_rpc
+				#if DISCORD
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
 				#end
 			}
@@ -1185,7 +1181,7 @@ class PlayState extends MusicBeatState
 				boyfriendPos.put();
 			}
 
-			#if discord_rpc
+			#if DISCORD
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + difficulty + ")", iconRPC);
 			#end
 		}

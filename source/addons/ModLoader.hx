@@ -1,6 +1,8 @@
 package addons;
 
+#if sys
 import sys.FileSystem;
+#end
 
 class ModLoader
 {
@@ -22,10 +24,10 @@ class ModLoader
     public static function modFile(path:String):Array<String>
     {
         var theMods:Array<String> = [];
+        #if sys
         for(daMod in FileSystem.readDirectory('mods/'))
-        {
             if(!ignorePath.contains(daMod) && disabledList.contains(daMod)) theMods.push('mods/$daMod/$path');
-        }
+        #end
         theMods.push('mods/$path');
         return ['mods/$path'];
     }

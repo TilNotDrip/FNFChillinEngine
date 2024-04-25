@@ -157,7 +157,7 @@ class ChillSettings
         #end
 
         // Other
-        #if discord_rpc
+        #if DISCORD
         if (chillSettings.data.otherSettings.get('discordRPC') == null)
 			set('discordRPC', OTHER, true);
         #end

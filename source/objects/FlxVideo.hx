@@ -22,7 +22,7 @@ class FlxVideo extends FlxBasic
 		#if !web
 		throw "FlxVideo is only supported on web!";
 		#end
-		
+
 		super();
 
 		video = new Video();

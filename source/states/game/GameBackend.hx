@@ -18,8 +18,8 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 
-#if hxCodec
-import hxcodec.flixel.FlxVideo;
+#if hxvlc
+import hxvlc.flixel.FlxVideo;
 #end
 
 import objects.game.*;
@@ -63,7 +63,7 @@ class GameBackend extends MusicBeatState
 	public var opponentStrums:Strums;
 	public var opponentSplashes:FlxTypedGroup<NoteSplash>;
 
-    #if discord_rpc
+    #if DISCORD
 	public var iconRPC:String = "";
 	public var songLength:Float = 0;
 	public var detailsText:String = "";

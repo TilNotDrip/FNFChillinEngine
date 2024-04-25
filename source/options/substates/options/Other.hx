@@ -10,7 +10,7 @@ class Other extends BaseSubState
 {
     override public function create()
     {
-        #if discord_rpc
+        #if DISCORD
         var discordRPC:Option = new Option('Discord Rich Presence', 'Displays this game on your Discord Profile.', 'discordRPC', OTHER, CHECKBOX);
         discordRPC.onChange = discordRPCChange;
         addOption(discordRPC);
@@ -27,7 +27,7 @@ class Other extends BaseSubState
         super.create();
     }
 
-    #if discord_rpc
+    #if DISCORD
     private function discordRPCChange()
     {
         if (ChillSettings.get('discordRPC', OTHER))

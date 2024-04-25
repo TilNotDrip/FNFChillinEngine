@@ -1,6 +1,6 @@
 package addons.discord;
 
-#if discord_rpc
+#if DISCORD
 import discord_rpc.DiscordRpc;
 
 import Sys.sleep;
@@ -10,7 +10,7 @@ class LegacyDiscord
 {
 	public function new()
 	{
-        #if discord_rpc
+        #if DISCORD
 		trace("Discord Client starting...");
 		DiscordRpc.start({
 			clientID: "1209233449928360036",
@@ -30,7 +30,7 @@ class LegacyDiscord
         #end
 	}
 
-    #if discord_rpc
+    #if DISCORD
 	public static function initialize()
 	{
 		var DiscordDaemon = sys.thread.Thread.create(() ->

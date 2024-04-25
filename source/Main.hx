@@ -76,7 +76,7 @@ class Main extends Sprite
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = [ZERO];
 
-		#if discord_rpc
+		#if DISCORD
 		if (ChillSettings.get('discordRPC', OTHER))
 			DiscordClient.initialize();
 

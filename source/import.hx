@@ -30,7 +30,7 @@ import addons.*;
 import addons.Controls;
 import addons.CoolUtil;
 
-#if discord_rpc
+#if DISCORD
 import addons.discord.LegacyDiscord as DiscordClient;
 #end
 

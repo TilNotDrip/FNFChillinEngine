@@ -72,7 +72,7 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		#if discord_rpc
+		#if DISCORD
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 

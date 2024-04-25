@@ -156,17 +156,14 @@ class Tank extends StageBackend
 		}
     }
 
-	#if html5
+	#if (VIDEOS && !hxvlc)
 	private var blackShit:FlxSprite;
 	#end
 
 	private function ughIntro()
 	{
-		inCutscene = true;
-
-		#if html5
+		#if (VIDEOS && !hxvlc)
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
-		blackShit.scrollFactor.set();
 		add(blackShit);
 
 		game.playVideo('ughCutscene');
@@ -176,6 +173,8 @@ class Tank extends StageBackend
 		camFollow.x += 100;
 		camFollow.y += 100;
 		#else
+		inCutscene = true;
+
 		camGAME.zoom = zoom * 1.2;
 
 		camFollow.x += 100;
@@ -244,15 +243,14 @@ class Tank extends StageBackend
 
 	private function gunsIntro()
 	{
-		inCutscene = true;
-
-		#if html5
+		#if (VIDEOS && !hxvlc)
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
-		blackShit.scrollFactor.set();
 		add(blackShit);
 
 		game.playVideo('gunsCutscene');
 		#else
+		inCutscene = true;
+
 		FlxG.sound.playMusic(Paths.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
@@ -301,15 +299,14 @@ class Tank extends StageBackend
 
 	private function stressIntro()
 	{
-		inCutscene = true;
-
-		#if html5
+		#if (VIDEOS && !hxvlc)
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
-		blackShit.scrollFactor.set();
 		add(blackShit);
 
 		game.playVideo('stressCutscene');
 		#else
+		inCutscene = true;
+
 		opponent.visible = false;
 		gf.visible = false;
 
@@ -428,7 +425,7 @@ class Tank extends StageBackend
 		#end
 	}
 
-	#if html5
+	#if (VIDEOS && !hxvlc)
 	override public function endingVideo()
 	{
 		remove(blackShit);

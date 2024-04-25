@@ -20,8 +20,10 @@
 
 	<define name="MOD_SUPPORT" />
 
+	<define name="VIDEOS" />
+
 	<section if="cpp">
-		<define name="VIDEOS" if="desktop || mobile"/>
+		<define name="DISCORD" if="desktop"/>
 	</section>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
@@ -101,11 +103,14 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
 
-	<haxelib name="discord_rpc" if="cpp"/>
+	<haxelib name="discord_rpc" if="DISCORD"/>
 	<haxelib name="flxanimate" unless="html5"/>
 
-	<haxelib name="hxCodec" if="cpp"/>
 	<haxelib name="SScript" if="MOD_SUPPORT"/>
+
+	<section if="cpp">
+		<haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" />
+	</section>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

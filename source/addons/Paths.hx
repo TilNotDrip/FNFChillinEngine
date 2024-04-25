@@ -111,7 +111,7 @@ class Paths
 	}
 
 	public static function video(videoFile:String):String {
-		return getPath('video/$videoFile.mp4', BINARY, 'preload');
+		return getPath('videos/$videoFile.mp4', BINARY, 'preload');
 	}
 
 	inline public static function getSparrowAtlas(key:String, ?library:String)

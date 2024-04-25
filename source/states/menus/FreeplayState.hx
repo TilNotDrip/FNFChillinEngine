@@ -33,7 +33,7 @@ class FreeplayState extends MusicBeatState
 	{
 		changeWindowName('Freeplay Menu');
 
-		#if discord_rpc
+		#if DISCORD
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 

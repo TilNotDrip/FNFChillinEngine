@@ -28,7 +28,7 @@ class MainMenuState extends MusicBeatState
 	{
 		changeWindowName('Main Menu');
 
-		#if discord_rpc
+		#if DISCORD
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 

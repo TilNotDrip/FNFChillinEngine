@@ -2,7 +2,9 @@ package addons;
 
 import openfl.Assets;
 
+#if sys
 import sys.FileSystem;
+#end
 
 import tea.SScript;
 
@@ -47,7 +49,7 @@ class HScript extends SScript
 
         addons.Paths,
 
-        #if discord_rpc
+        #if DISCORD
         addons.discord.LegacyDiscord,
         #end
 
@@ -160,10 +162,10 @@ class HScript extends SScript
         var daArray:Array<HScript> = [];
         for(path in ModLoader.modFile(beforePath))
         {
+            #if sys
             for(daFile in FileSystem.readDirectory(path))
-            {
                 if(daFile.endsWith('.hx')) daArray.push(new HScript(path + '/' + daFile, specialImports));
-            }
+            #end
         }
 
         return daArray;
