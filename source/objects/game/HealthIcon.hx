@@ -1,6 +1,6 @@
 package objects.game;
 
-class HealthIcon extends FlxSprite
+class HealthIcon extends TrackedSprite
 {
 	public static var healthBarColors:Map<String, FlxColor> = [
 		'bf' => 0xFF31B0D1,
@@ -21,7 +21,6 @@ class HealthIcon extends FlxSprite
 	];
 
 	public var curHealthBarColor:FlxColor;
-	public var sprTracker:FlxSprite;
 
 	public var char:String = '';
 	public var isPlayer:Bool = false;
@@ -31,6 +30,9 @@ class HealthIcon extends FlxSprite
 		super();
 
 		this.isPlayer = isPlayer;
+
+		sprOffsetX = 10;
+		sprOffsetY = -30;
 
 		changeIcon(char);
 		scrollFactor.set();
@@ -70,11 +72,9 @@ class HealthIcon extends FlxSprite
 		}
 	}
 
-	override public function update(elapsed:Float)
+	public dynamic function bop()
 	{
-		super.update(elapsed);
-
-		if (sprTracker != null)
-			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
+		FlxTween.tween(scale, {x: 1.3, y: 1.3}, (Conductor.crochet / 1000) * 0.1, {ease: FlxEase.cubeIn});
+		FlxTween.tween(scale, {x: 1, y: 1}, (Conductor.crochet / 1000) * 0.9, {ease: FlxEase.cubeOut, startDelay: (Conductor.crochet / 1000) * 0.1});
 	}
 }

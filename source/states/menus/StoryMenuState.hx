@@ -9,8 +9,8 @@ import objects.menu.WeekItem;
 
 class StoryMenuState extends MusicBeatState
 {
-	private static var curWeek:Int = 0;
-	private static var curDifficulty:Int = 1;
+	private var curWeek:Int = 0;
+	private var curDifficulty:Int = 1;
 
 	private var scoreText:FlxText;
 	private var txtWeekTitle:FlxText;
@@ -257,7 +257,11 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = curWeekClass.songs;
+			PlayState.storyPlaylist = [];
+
+			for (i in curWeekClass.songs)
+				PlayState.storyPlaylist.push(i[0]);
+
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
@@ -385,11 +389,12 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		var stringThing:Array<String> = curWeekClass.songs;
-
-		for (i in stringThing)
+		for (i in curWeekClass.songs)
 		{
-			txtTracklist.text += "\n" + i;
+			var stringThing:Array<String> = [i[0]];
+
+			for (i in stringThing)
+				txtTracklist.text += "\n" + i;
 		}
 
 		txtTracklist.text = txtTracklist.text.toUpperCase();

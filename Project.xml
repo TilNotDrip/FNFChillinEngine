@@ -20,6 +20,10 @@
 
 	<define name="MOD_SUPPORT" />
 
+	<section if="cpp">
+		<define name="VIDEOS" if="desktop || mobile"/>
+	</section>
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
@@ -85,7 +89,7 @@
 	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
 
 	<assets path="example_mods"  rename="mods" />
-	<assets path="docs/CHANGELOG.md"    rename='changelog.txt'/>
+	<assets path="docs/CHANGELOG.md" rename='changelog.txt'/>
 	<assets path="assets/fonts"    embed='true'/>
 
 	<!-- _______________________________ Libraries ______________________________ -->

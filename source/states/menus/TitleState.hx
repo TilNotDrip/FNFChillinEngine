@@ -21,9 +21,7 @@ import sys.io.File;
 import sys.thread.Thread;
 #end
 
-//import discordSdk.Discord;
-
-typedef TitleJSON = //YEA JSON
+typedef TitleJSON =
 {
 	var bpm:Float;
 	var sprites:Array<{
@@ -74,10 +72,6 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		changeWindowName('Title Screen');
-
-		#if MOD_SUPPORT
-		//new ModLoader();
-		#end
 
 		introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
 

@@ -14,13 +14,16 @@ import states.menus.TitleState;
 
 class Main extends Sprite
 {
-	private var gameWidth:Int = 1280;
-	private var gameHeight:Int = 720;
-	private var initialState:Class<FlxState> = TitleState;
-	private var zoom:Float = -1;
-	private var framerate:Int = 60;
-	private var skipSplash:Bool = true;
-	private var startFullscreen:Bool = false;
+	private var game = {
+		width: 1280,
+		height: 720,
+		state: TitleState,
+		framerate: 60,
+		splash: true,
+		fullscreen: false
+	};
+
+	public static var aprilFools(get, never):Bool;
 
 	public static function main():Void
 	{
@@ -53,19 +56,7 @@ class Main extends Sprite
 
 	private function setupGame():Void
 	{
-		var stageWidth:Int = Lib.current.stage.stageWidth;
-		var stageHeight:Int = Lib.current.stage.stageHeight;
-
-		if (zoom == -1)
-		{
-			var ratioX:Float = stageWidth / gameWidth;
-			var ratioY:Float = stageHeight / gameHeight;
-			zoom = Math.min(ratioX, ratioY);
-			gameWidth = Math.ceil(stageWidth / zoom);
-			gameHeight = Math.ceil(stageHeight / zoom);
-		}
-
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen));
 
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
@@ -94,5 +85,19 @@ class Main extends Sprite
 			DiscordClient.shutdown();
 		});
 		#end
+	}
+
+	private static var curDate = Date.now();
+
+	private static function get_aprilFools():Bool
+	{
+		var isToday:Bool;
+
+		if (curDate.getDate() == 1 && curDate.getMonth() == 4)
+			isToday = true;
+		else
+			isToday = false;
+
+		return isToday;
 	}
 }

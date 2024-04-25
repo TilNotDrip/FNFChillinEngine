@@ -66,7 +66,7 @@ class Option extends FlxSpriteGroup
 
         checkbox.check(value);
 
-        if(onChange != null) //I WISH THIS COULD CHECK FOR ITSELF
+        if(onChange != null)
             onChange();
     }
 
@@ -89,7 +89,7 @@ class Option extends FlxSpriteGroup
                 number.text = newValue;
         }
 
-        if(onChange != null) //I WISH THIS COULD CHECK FOR ITSELF
+        if(onChange != null)
             onChange();
     }
 }

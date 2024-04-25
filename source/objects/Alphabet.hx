@@ -11,7 +11,6 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 
 	private var font:AtlasFontData;
 
-	// for menu shit
 	public var targetY:Float = 0;
 	public var isMenuItem:Bool = false;
 

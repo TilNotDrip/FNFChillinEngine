@@ -92,8 +92,7 @@ class ChartingState extends MusicBeatState
 				player2: 'dad',
 				player3: 'gf',
 				stage: '',
-				speed: 1,
-				validScore: false
+				speed: 1
 			};
 		}
 

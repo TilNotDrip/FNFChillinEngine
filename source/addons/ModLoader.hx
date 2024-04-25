@@ -4,7 +4,7 @@ import sys.FileSystem;
 
 class ModLoader
 {
-    function new() {} // fuck you flixel
+    function new() {}
 
     public static var disabledList:Array<String> = [
         'SundayNightChillin' // hahahahahaha json

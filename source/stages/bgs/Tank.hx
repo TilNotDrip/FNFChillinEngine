@@ -186,7 +186,6 @@ class Tank extends StageBackend
 
 		opponent.visible = false;
 		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/ughIntro');
-		// fun fact, to get this working i talked to cheemsnfriends cuz i kept getting null errors (parent)
 		tankCutscene.anim.addBySymbol('wellWellWell', 'TANK TALK 1 P1', 24, false);
 		tankCutscene.anim.addBySymbol('killYou', 'TANK TALK 1 P2', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);

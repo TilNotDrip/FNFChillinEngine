@@ -17,7 +17,7 @@ class HScript extends SScript
     public static var StopFunction:HScriptFunctions = STOP;
     public static var ContinueFunction:HScriptFunctions = CONTINUE;
 
-    private static var importList:Array<Dynamic> = [ // copied import just because
+    private static var importList:Array<Dynamic> = [
         flixel.FlxG,
         flixel.FlxSprite,
         flixel.FlxState,

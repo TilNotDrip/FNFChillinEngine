@@ -23,6 +23,8 @@ class FreeplayState extends MusicBeatState
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
+	private var explicitSpr:FlxTypedGroup<TrackedSprite>;
+
 	private var bg:FlxSprite;
 	private var colorTween:ColorTween;
 	private var scoreBG:FlxSprite;
@@ -47,13 +49,15 @@ class FreeplayState extends MusicBeatState
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
+		explicitSpr = new FlxTypedGroup<TrackedSprite>();
+
 		for(week in Week.weeks)
 		{
 			for (i in 0...week.songs.length)
 			{
-				songs.push({song: week.songs[i], week: week});
+				songs.push({song: week.songs[i][0], week: week});
 
-				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, week.songs[i], Bold);
+				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, week.songs[i][0], Bold);
 				songText.isMenuItem = true;
 				songText.targetY = i;
 				grpSongs.add(songText);
@@ -63,8 +67,22 @@ class FreeplayState extends MusicBeatState
 
 				iconArray.push(icon);
 				add(icon);
+
+				if (week.songs[i][1] == true)
+				{
+					var explicit:TrackedSprite = new TrackedSprite();
+					explicit.frames = Paths.getSparrowAtlas('freeplayMenu/explicit');
+					explicit.animation.addByPrefix('idle', 'Idle', 24, true);
+					explicit.animation.play('idle');
+					explicit.sprOffsetY + 70;
+					explicit.sprTracker = icon;
+					explicit.ID = iconArray.indexOf(icon);
+					explicitSpr.add(explicit);
+				}
 			}
 		}
+
+		add(explicitSpr);
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
@@ -187,6 +205,15 @@ class FreeplayState extends MusicBeatState
 			iconArray[i].alpha = 0.6;
 
 		iconArray[curSelected].alpha = 1;
+
+		explicitSpr.forEach(function (explicit:TrackedSprite) {
+			explicit.alpha = 0.6;
+
+			if (explicit.ID != curSelected)
+				explicit.alpha = 0.6;
+			else
+				explicit.alpha = 1;
+		});
 
 		for (item in grpSongs.members)
 		{

@@ -1,5 +1,7 @@
 package objects.menu;
 
+import flixel.addons.transition.FlxTransitionableState;
+
 import flixel.effects.FlxFlicker;
 
 class MenuItem extends FlxSprite
@@ -22,6 +24,9 @@ class MenuItem extends FlxSprite
 
 	public function press()
 	{
+		FlxTransitionableState.skipNextTransIn = false;
+		FlxTransitionableState.skipNextTransOut = false;
+
 		if (ChillSettings.get('flashingLights', DISPLAY))
 			FlxFlicker.flicker(this, 1, 0.06, false, false);
 
@@ -35,7 +40,6 @@ class MenuItem extends FlxSprite
 					FlxG.switchState(new FreeplayState());
 				case 'donate':
 					openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game/');
-					FlxG.resetState();
 				case 'options':
 					FlxG.switchState(new options.states.OptionsState());
 			}
@@ -44,6 +48,9 @@ class MenuItem extends FlxSprite
 
 	private function openURL(link:String)
 	{
+		FlxTransitionableState.skipNextTransIn = true;
+		FlxTransitionableState.skipNextTransOut = true;
+
 		#if linux
 		Sys.command('/usr/bin/xdg-open', [
 			link,
@@ -52,5 +59,7 @@ class MenuItem extends FlxSprite
 		#else
 		FlxG.openURL(link);
 		#end
+
+		FlxG.resetState();
 	}
 }

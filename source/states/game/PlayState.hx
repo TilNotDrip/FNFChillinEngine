@@ -75,6 +75,9 @@ class PlayState extends MusicBeatState
 	public var opponentSplashes:FlxTypedGroup<NoteSplash>;
 
 	public var health:Float = 1;
+	public var minHealth:Float = 0;
+	public var maxHealth:Float = 2;
+
 	public var combo:Int = 0;
 
 	public var songScore:Int = 0;
@@ -337,11 +340,15 @@ class PlayState extends MusicBeatState
 		healthPlayerTxt.scrollFactor.set();
 		add(healthPlayerTxt);
 
+		changeHealthText();
+
 		scoreTxt = new FlxText(0, healthBarBG.y + 30, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.screenCenter(X);
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
+
+		changeScoreText();
 
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -798,8 +805,6 @@ class PlayState extends MusicBeatState
 		vocals.play();
 	}
 
-	private var curDate = Date.now();
-
 	public var paused:Bool = false;
 	public var startedCountdown:Bool = false;
 	public var canPause:Bool = false;
@@ -854,11 +859,6 @@ class PlayState extends MusicBeatState
 		'\nBads: ' + bads +
 		'\nShits: ' + shits;
 
-		healthOppTxt.text = "[Health: " + FlxMath.roundDecimal(100 - (health * 50), 2) + "%]";
-		healthPlayerTxt.text = "[Health: " + FlxMath.roundDecimal(health * 50, 2) + "%]";
-
-		scoreTxt.text = "[Score: " + songScore + "] - " + "[Misses: " + songMisses + "] - " + "[Accuracy: " + songAccuracy + "%]";
-
 		if (controls.PAUSE)
 			pauseGame();
 
@@ -887,11 +887,11 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2 && curDate.getDate() != 1 && curDate.getMonth() != 4) //April Fools Prank
-			health = 2;
+		if (health > maxHealth && !Main.aprilFools)
+			health = maxHealth;
 
-		if (health < 0 && curDate.getDate() != 1 && curDate.getMonth() != 4) //April Fools Prank
-			health = 0;
+		if (health < minHealth && !Main.aprilFools)
+			health = minHealth;
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
@@ -1251,7 +1251,7 @@ class PlayState extends MusicBeatState
 
 		HScript.destroyAllScripts();
 
-		if (SONG.validScore && !practiceMode && !botplay)
+		if (!practiceMode && !botplay)
 			Highscore.saveScore(SONG.song, songScore, difficulty);
 
 		if (isStoryMode)
@@ -1277,8 +1277,7 @@ class PlayState extends MusicBeatState
 
             storyWeek.locked = false;
 
-            if (SONG.validScore)
-                Highscore.saveWeekScore(storyWeek.name, campaignScore, difficulty);
+            Highscore.saveWeekScore(storyWeek.name, campaignScore, difficulty);
         }
         else
         {
@@ -1312,6 +1311,32 @@ class PlayState extends MusicBeatState
 		}
 
 		return this.inCutscene = inCutscene;
+	}
+
+	public function changeScoreText(miss:Bool = false)
+	{
+		var score:String = '[Score: $songScore]';
+		var misses:String = '[Misses: $songMisses]';
+		var accuracy:String = '[Accuracy: $songAccuracy%]';
+
+		scoreTxt.text = '$score $misses $accuracy';
+
+		if (miss)
+		{
+			scoreTxt.color = FlxColor.RED;
+			new FlxTimer().start(0, function(tmr:FlxTimer) {
+				scoreTxt.color = FlxColor.WHITE;
+			});
+		}
+	}
+
+	public function changeHealthText()
+	{
+		var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
+		var healthOpp:Dynamic = FlxMath.roundDecimal(100 - (health * 50), 2);
+
+		healthPlayerTxt.text = '[Health: $healthPlayer]';
+		healthOppTxt.text = '[Health: $healthOpp]';
 	}
 
 	public function popUpScore(strumtime:Float, daNote:Note):Void
@@ -1806,11 +1831,15 @@ class PlayState extends MusicBeatState
 	{
 		missThing();
 
+		changeScoreText(true);
 		boyfriend.playAnim(singArray[note.noteData] + 'miss', true);
 	}
 
 	public function goodNoteHit(note:Note):Void
 	{
+		changeHealthText();
+		changeScoreText();
+
 		if (!note.wasGoodHit)
 		{
 			if (!note.isSustainNote)
@@ -1844,6 +1873,8 @@ class PlayState extends MusicBeatState
 
 	public function opponentNoteHit(daNote:Note):Void
 	{
+		changeHealthText();
+
 		if (!daNote.wasGoodHit)
 		{
 			var altAnim:String = "";
@@ -1918,16 +1949,8 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(sortNotes, FlxSort.DESCENDING);
 
-		for(i in 0...2)
-		{
-			var daThings:Array<HealthIcon> = [iconP1, iconP2];
-
-			if(bopTween[i] != null) bopTween[i].cancel();
-			if(bopTween[i+2] != null) bopTween[i+2].cancel();
-
-			bopTween[i] = FlxTween.tween(daThings[i].scale, {x: 1.3, y: 1.3}, (Conductor.crochet / 1000) * 0.1, {ease: FlxEase.cubeIn});
-			bopTween[i+2] = FlxTween.tween(daThings[i].scale, {x: 1, y: 1}, (Conductor.crochet / 1000) * 0.9, {ease: FlxEase.cubeOut, startDelay: (Conductor.crochet / 1000) * 0.1});
-		}
+		iconP1.bop();
+		iconP2.bop();
 
 		for(char in [dad, gf, boyfriend])
 		{
