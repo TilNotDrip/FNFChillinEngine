@@ -1954,15 +1954,6 @@ class PlayState extends MusicBeatState
 				char.dance();
 		}
 
-		if (curBeat % 8 == 7 && SONG.song.formatToPath() == 'bopeebo')
-			boyfriend.playAnim('hey', true);
-
-		if (curBeat % 16 == 15 && SONG.song == 'Tutorial' && dad.curCharacter == 'gf' && curBeat > 16 && curBeat < 48)
-		{
-			boyfriend.playAnim('hey', true);
-			dad.playAnim('cheer', true);
-		}
-
 		StageBackend.stage.curBeat = curBeat;
 		StageBackend.stage.beatHit();
 
@@ -2030,14 +2021,13 @@ class PlayState extends MusicBeatState
 				camZoom(daZoomGame, daZoomHUD);
 
 			case 'Hey!':
-				var paramAnim:Array<String> = value.split(', ');
-				if(paramAnim.contains('bf'))
+				if(value.contains('bf'))
 					boyfriend.playAnim('hey', true);
 
-				if(paramAnim.contains('gf'))
+				if(value.contains('gf'))
 					gf.playAnim('cheer', true);
 
-				if(paramAnim.contains('dad'))
+				if(value.contains('dad'))
 					dad.playAnim('hey', true);
 
 			case 'Pico Animation':

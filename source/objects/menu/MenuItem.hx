@@ -39,27 +39,11 @@ class MenuItem extends FlxSprite
 				case 'freeplay':
 					FlxG.switchState(new FreeplayState());
 				case 'donate':
-					openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game/');
+					CoolUtil.openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game/');
+					FlxG.resetState();
 				case 'options':
 					FlxG.switchState(new options.states.OptionsState());
 			}
 		});
-	}
-
-	private function openURL(link:String)
-	{
-		FlxTransitionableState.skipNextTransIn = true;
-		FlxTransitionableState.skipNextTransOut = true;
-
-		#if linux
-		Sys.command('/usr/bin/xdg-open', [
-			link,
-			"&"
-		]);
-		#else
-		FlxG.openURL(link);
-		#end
-
-		FlxG.resetState();
 	}
 }

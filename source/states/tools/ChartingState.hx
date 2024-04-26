@@ -572,6 +572,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	private var alreadyPlayedNotes:Array<Note> = [];
+	private var arrowQuant:Int = 1;
 
 	override public function update(elapsed:Float)
 	{
@@ -669,7 +670,7 @@ class ChartingState extends MusicBeatState
 			if (FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = FlxG.mouse.y;
 			else
-				dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+				dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / arrowQuant)) * (GRID_SIZE / arrowQuant);
 		}
 
 		if (FlxG.keys.justPressed.ENTER)
@@ -703,6 +704,22 @@ class ChartingState extends MusicBeatState
 				if (UI_box.selected_tab >= 3)
 					UI_box.selected_tab = 0;
 			}
+		}
+
+		if (FlxG.keys.justPressed.M)
+		{
+			arrowQuant += 1;
+
+			if(arrowQuant == 41)
+				arrowQuant = 40;
+		}
+
+		if (FlxG.keys.justPressed.N)
+		{
+			arrowQuant -= 1;
+
+			if(arrowQuant == 0)
+				arrowQuant = 1;
 		}
 
 		var noFocused:Bool = true;
@@ -804,11 +821,13 @@ class ChartingState extends MusicBeatState
 		if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
 			changeSection(curSec - shiftThing);
 
-		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
+		bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
 			+ " / "
 			+ Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2))
 			+ "\nSection: "
-			+ curSec;
+			+ curSec
+			+ "\nQuantization: "
+			+ arrowQuant;
 
 		_events.sort(sortEvents);
 
@@ -1001,6 +1020,7 @@ class ChartingState extends MusicBeatState
 			var daSus = i[2];
 
 			var note:Note = new Note(daStrumTime, daNoteInfo % 4, PlayState.isPixel);
+			note.inEditor = true;
 			note.sustainLength = daSus;
 			note.setGraphicSize(GRID_SIZE, GRID_SIZE);
 			note.updateHitbox();

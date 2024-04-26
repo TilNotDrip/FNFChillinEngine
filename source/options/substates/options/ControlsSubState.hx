@@ -7,7 +7,6 @@ import options.states.OptionsState;
 
 class ControlsSubState extends MusicBeatSubstate
 {
-    public static var parent:OptionsState;
     private static var curSelected:Int = 0;
     private var controlOptions:Array<String> = [];
     private var optionHeader:Alphabet;
@@ -19,8 +18,14 @@ class ControlsSubState extends MusicBeatSubstate
         super.create();
 
         optionHeader = new Alphabet(0, 0, '', Bold);
+        optionHeader.scrollFactor.set();
+
         optionControls = new Alphabet(0, 0, '', Default);
+        optionControls.scrollFactor.set();
+        
         rebindNotice = new Alphabet(0, FlxG.height - 150, '', Default);
+        rebindNotice.scrollFactor.set();
+        
 
         for (controlName in PlayerSettings.getControls(0).keys())
             controlOptions.push(controlName);

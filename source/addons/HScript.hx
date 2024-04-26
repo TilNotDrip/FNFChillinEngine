@@ -8,7 +8,7 @@ import sys.FileSystem;
 
 import tea.SScript;
 
-#if (SScript <= "10.0.618")
+#if (SScript == "18.6.618")
 import tea.SScript.Tea;
 #else
 import tea.SScript.TeaCall as Tea;

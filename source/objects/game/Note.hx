@@ -24,6 +24,8 @@ class Note extends FlxSprite
 
 	public var rgbShader:RGBShader = new RGBShader();
 
+	public var inEditor:Bool = false;
+
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
 	public static var GREEN_NOTE:Int = 2;
@@ -200,7 +202,7 @@ class Note extends FlxSprite
 			canBeHit = false;
 		}
 
-		if (tooLate)
+		if (tooLate && !inEditor)
 		{
 			if (alpha > 0.3)
 				alpha = 0.3;

@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin'; Chillin' Engine" file="ChillinEngine" packageName="com.chillinengine.tilnotdrip" package="com.chillinengine.tilnotdrip" main="Main" version="1.0.0-ALPHA" company="TilNotDrip" />
+	<app title="Friday Night Funkin'; Chillin' Engine" file="ChillinEngine" packageName="com.chillinengine.tilnotdrip" package="com.chillinengine.tilnotdrip" main="Main" version="0.0.1-ALPHA" company="TilNotDrip" />
 
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 	<app preloader="flixel.system.FlxPreloader" />

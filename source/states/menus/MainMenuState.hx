@@ -125,6 +125,11 @@ class MainMenuState extends MusicBeatState
 			FlxG.switchState(new TitleState());
 		}
 
+		if(FlxG.keys.justPressed.C) // test
+		{
+			FlxG.switchState(new CreditsState());
+		}
+
 		super.update(elapsed);
 
 		menuItems.forEach(function(item:MenuItem)

@@ -132,6 +132,8 @@ class TitleState extends MusicBeatState
 			initialized = true;
 
 		startedIntro = true;
+
+		trace(Sys.programPath());
 	}
 
 	private function getIntroTextShit():Array<String>
