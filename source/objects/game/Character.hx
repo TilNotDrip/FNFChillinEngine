@@ -90,10 +90,10 @@ class Character extends FlxSprite
 				frames = Paths.getSparrowAtlas('characters/DADDY_DEAREST');
 
 				quickAnimAdd('idle', 'Dad idle dance');
-				quickAnimAdd('singUP', 'Dad Sing Note UP');
-				quickAnimAdd('singRIGHT', 'Dad Sing Note RIGHT');
+				quickAnimAdd('singUP', 'Dad Sing note UP');
+				quickAnimAdd('singRIGHT', 'Dad Sing Note LEFT');
 				quickAnimAdd('singDOWN', 'Dad Sing Note DOWN');
-				quickAnimAdd('singLEFT', 'Dad Sing Note LEFT');
+				quickAnimAdd('singLEFT', 'dad sing note right');
 
 				playAnim('idle');
 
