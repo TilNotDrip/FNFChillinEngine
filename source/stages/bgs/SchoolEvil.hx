@@ -23,10 +23,10 @@ class SchoolEvil extends StageBackend
         var evilTrail = new FlxTrail(opponent, null, 4, 4, 0.3, 0.069);
 		addBehindOpponent(evilTrail);
 
-        player.x += 200;
-		player.y += 220;
-		gf.x += 180;
-		gf.y += 300;
+        playerGroup.x += 200;
+		playerGroup.y += 220;
+		gfGroup.x += 180;
+		gfGroup.y += 300;
 
         if (isStoryMode && curSong.formatToPath() == 'thorns')
             startCallback = spiritCutscene;

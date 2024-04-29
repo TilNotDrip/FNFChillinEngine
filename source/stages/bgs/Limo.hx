@@ -43,8 +43,8 @@ class Limo extends StageBackend
         resetFastCar();
 		add(fastCar);
 
-        player.y -= 220;
-		player.x += 260;
+        playerGroup.y -= 220;
+		playerGroup.x += 260;
     }
 
     override public function cameraMovement(char:Character)

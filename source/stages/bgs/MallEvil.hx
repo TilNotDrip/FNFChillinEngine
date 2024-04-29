@@ -21,8 +21,8 @@ class MallEvil extends StageBackend
 
     override public function createPost()
     {
-        player.x += 320;
-		opponent.y -= 80;
+        playerGroup.x += 320;
+		opponentGroup.y -= 80;
 
         if (isStoryMode && curSong.formatToPath() == 'winter-horrorland')
             startCallback = whCutscene;

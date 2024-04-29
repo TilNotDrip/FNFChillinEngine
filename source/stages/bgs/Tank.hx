@@ -98,8 +98,8 @@ class Tank extends StageBackend
         switch (PlayState.SONG.player3)
 		{
 			case 'pico-speaker':
-				gf.x -= 50;
-				gf.y -= 200;
+				gfGroup.x -= 50;
+				gfGroup.y -= 200;
 
 				var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
 				tempTankman.strumTime = 10;
@@ -118,17 +118,17 @@ class Tank extends StageBackend
 				}
 		}
 
-        gf.y += 10;
-		gf.x -= 30;
-		player.x += 40;
-		player.y += 0;
-		opponent.y += 60;
-		opponent.x -= 80;
+        gfGroup.y += 10;
+		gfGroup.x -= 30;
+		playerGroup.x += 40;
+		playerGroup.y += 0;
+		opponentGroup.y += 60;
+		opponentGroup.x -= 80;
 
 		if (PlayState.SONG.player3 != 'pico-speaker')
 		{
-			gf.x -= 170;
-			gf.y -= 75;
+			gfGroup.x -= 170;
+			gfGroup.y -= 75;
 		}
 
 		if (isStoryMode)
@@ -184,7 +184,7 @@ class Tank extends StageBackend
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/ughIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/ughIntro');
 		tankCutscene.anim.addBySymbol('wellWellWell', 'TANK TALK 1 P1', 24, false);
 		tankCutscene.anim.addBySymbol('killYou', 'TANK TALK 1 P2', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
@@ -261,7 +261,7 @@ class Tank extends StageBackend
 		}});
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/gunsIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/gunsIntro');
 		tankCutscene.anim.addBySymbol('open fire', 'TANK TALK 2', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
 
@@ -316,14 +316,14 @@ class Tank extends StageBackend
 		gfTankmen.animation.play('loop');
 		gfCutsceneLayer.add(gfTankmen);
 
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponent.x + 400, opponent.y + 200, 'assets/week7/images/cutsceneStuff/stressIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/stressIntro');
 		tankCutscene.anim.addBySymbol('god damn', 'TANK TALK 3 P1 UNCUT', 24, false);
 		tankCutscene.anim.addBySymbol('pico reference', 'TANK TALK 3 P2 UNCUT', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
 
 		tankCutscene.anim.play('god damn');
 
-		camFollow.setPosition(gf.x + 350, gf.y + 560);
+		camFollow.setPosition(gfGroup.x + 350, gfGroup.y + 560);
 		camGAME.focusOn(camFollow.getPosition());
 
 		player.visible = false;

@@ -48,7 +48,7 @@ class Mall extends StageBackend
 
     override public function createPost()
     {
-        player.x += 200;
+        playerGroup.x += 200;
     }
 
     override public function cameraMovement(char:Character)

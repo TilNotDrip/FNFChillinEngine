@@ -263,7 +263,7 @@ class PlayState extends MusicBeatState
 
 		if (dad.curCharacter == gf.curCharacter)
 		{
-			dadGroup.setPosition(gf.x, gf.y);
+			dadGroup.setPosition(gfGroup.x, gfGroup.y);
 			gfGroup.visible = false;
 			if (isStoryMode)
 			{
@@ -1443,9 +1443,9 @@ class PlayState extends MusicBeatState
 			ratingPath = "pixel" + ratingPath;
 
 		rating.loadGraphic(Paths.image(ratingPath));
-		rating.x = gf.x + 200 - 40;
+		rating.x = gfGroup.x + 200 - 40;
 
-		rating.y = gf.y + 200 - 60;
+		rating.y = gfGroup.y + 200 - 60;
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
@@ -1482,8 +1482,8 @@ class PlayState extends MusicBeatState
 			pixelShitPart1 = 'pixel';
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'ui/combo'));
-		comboSpr.y = gf.y + 200 + 80;
-		comboSpr.x = gf.x + 200;
+		comboSpr.y = gfGroup.y + 200 + 80;
+		comboSpr.x = gfGroup.x + 200;
 
 		if (comboSpr.x < camGAME.scroll.x + 194)
 			comboSpr.x = camGAME.scroll.x + 194;
@@ -2042,16 +2042,34 @@ class PlayState extends MusicBeatState
 		switch(type)
 		{
 			case 'dad':
-				var yay:Character = new Character(100, 100, name, false);
-				yay.alpha = 0.001;
+				dadGroup.forEach(function(chr:Character) 
+				{
+					if(chr.curCharacter == name)
+						return;
+				});
+
+				var yay:Character = new Character(0, 0, name, false);
+				yay.alpha = 0.00001;
 				dadGroup.add(yay);
 			case 'gf':
-				var yay:Character = new Character(400, 130, name, false);
-				yay.alpha = 0.001;
+				gfGroup.forEach(function(chr:Character) 
+				{
+					if(chr.curCharacter == name)
+						return;
+				});
+
+				var yay:Character = new Character(0, 0, name, false);
+				yay.alpha = 0.00001;
 				gfGroup.add(yay);
 			default:
-				var yay:Character = new Character(770, 450, name, true);
-				yay.alpha = 0.001;
+				boyfriendGroup.forEach(function(chr:Character) 
+				{
+					if(chr.curCharacter == name)
+						return;
+				});
+				
+				var yay:Character = new Character(0, 0, name, true);
+				yay.alpha = 0.00001;
 				boyfriendGroup.add(yay);
 		}
 	}
@@ -2069,6 +2087,10 @@ class PlayState extends MusicBeatState
 					daDirection = 3;
 
 				stages.objects.TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
+
+			case 'Change Character':
+				var params:Array<String> = value.split(', ');
+				addCharacterToList(params[1], params[0]);
 		}
 	}
 
@@ -2112,7 +2134,7 @@ class PlayState extends MusicBeatState
 
 					if(value.startsWith(lyricText.text))
 					{
-						lyricText.prefix = value.substring(0, lyricText.text.length);
+						lyricText.prefix = lyricText.text;
 						lyricText.resetText(value.substring(lyricText.text.length));
 					}
 					else
@@ -2140,7 +2162,7 @@ class PlayState extends MusicBeatState
 						dadGroup.forEach(function(char:Character) {
 							if(dad == char)
 							{
-								char.alpha == 0.1;
+								char.alpha = 0.00001;
 							}
 
 							if(char.curCharacter == params[1])
@@ -2154,7 +2176,7 @@ class PlayState extends MusicBeatState
 						gfGroup.forEach(function(char:Character) {
 							if(gf == char)
 							{
-								char.alpha == 0.1;
+								char.alpha = 0.00001;
 							}
 
 							if(char.curCharacter == params[1])
@@ -2168,7 +2190,7 @@ class PlayState extends MusicBeatState
 						boyfriendGroup.forEach(function(char:Character) {
 							if(boyfriend == char)
 							{
-								char.alpha == 0.1;
+								char.alpha = 0.00001;
 							}
 
 							if(char.curCharacter == params[1])

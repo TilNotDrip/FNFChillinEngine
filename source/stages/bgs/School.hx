@@ -71,10 +71,10 @@ class School extends StageBackend
 
     override public function createPost()
     {
-        player.x += 200;
-		player.y += 220;
-		gf.x += 180;
-		gf.y += 300;
+        playerGroup.x += 200;
+		playerGroup.y += 220;
+		gfGroup.x += 180;
+		gfGroup.y += 300;
 
         if (isStoryMode && (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses'))
             startCallback = senpaiCutscene;
