@@ -24,6 +24,8 @@ class Character extends FlxSprite
 
 	public var cameraOffsets:FlxPoint = new FlxPoint();
 
+	public var heyTimer:Float = 0;
+
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
 		super(x, y);
@@ -541,6 +543,9 @@ class Character extends FlxSprite
 		if (animation.curAnim.name.startsWith('sing'))
 			holdTimer += elapsed;
 
+		if(heyTimer > 0)
+			heyTimer -= elapsed;
+
 		if((playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished) || animation.curAnim == null)
 		{
 			playingEndAnim = false;
@@ -596,7 +601,7 @@ class Character extends FlxSprite
 
 	public function dance()
 	{
-		if (!debugMode)
+		if (!debugMode && heyTimer <= 0)
 		{
 			if (animation.exists(animation.curAnim.name + '-end') && !playingEndAnim && !animation.curAnim.name.endsWith('-end'))
 			{
@@ -655,6 +660,9 @@ class Character extends FlxSprite
 
 		if (AnimName == 'singUP' || AnimName == 'singDOWN')
 			danced = !danced;
+
+		if (AnimName == 'hey' || AnimName == 'cheer')
+			heyTimer = 0.55;
 	}
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)

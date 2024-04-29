@@ -1,5 +1,7 @@
 package states.game;
 
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.addons.text.FlxTypeText;
 import addons.Section.SwagSection;
 import addons.SongEvent.SwagEvent;
 import addons.Song.SwagSong;
@@ -58,6 +60,10 @@ class PlayState extends MusicBeatState
 	public var dad:Character;
 	public var gf:Character;
 	public var boyfriend:Character;
+
+	public var dadGroup:FlxTypedSpriteGroup<Character>;
+	public var gfGroup:FlxTypedSpriteGroup<Character>;
+	public var boyfriendGroup:FlxTypedSpriteGroup<Character>;
 
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
@@ -135,6 +141,8 @@ class PlayState extends MusicBeatState
 	public var singArray:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
 
 	public static var game:PlayState;
+
+	public var lyricText:FlxTypeText;
 
 	override public function create()
 	{
@@ -236,27 +244,38 @@ class PlayState extends MusicBeatState
 
 		isPixel = StageBackend.stage.pixel;
 
-		gf = new Character(400, 130, SONG.player3);
-		gf.scrollFactor.set(0.95, 0.95);
+		gfGroup = new FlxTypedSpriteGroup<Character>(400, 130);
+		dadGroup = new FlxTypedSpriteGroup<Character>(100, 100);
+		boyfriendGroup = new FlxTypedSpriteGroup<Character>(770, 450);
 
-		dad = new Character(100, 100, SONG.player2);
+		addCharacterToList(SONG.player3, 'gf');
+		addCharacterToList(SONG.player2, 'dad');
+		addCharacterToList(SONG.player1, 'bf');
 
-		if (SONG.player2 == SONG.player3)
+		add(gfGroup);
+		add(dadGroup);
+		add(boyfriendGroup);
+
+		gf = new Character(0, 0, SONG.player3);
+		gfGroup.scrollFactor.set(0.95, 0.95);
+
+		dad = new Character(0, 0, SONG.player2);
+
+		if (dad.curCharacter == gf.curCharacter)
 		{
-			dad.setPosition(gf.x, gf.y);
-			gf.visible = false;
+			dadGroup.setPosition(gf.x, gf.y);
+			gfGroup.visible = false;
 			if (isStoryMode)
 			{
 				tweenCam(true);
 			}
 		}
 
-		boyfriend = new Character(770, 450, SONG.player1, true);
+		boyfriend = new Character(0, 0, SONG.player1, true);
 
-		add(gf);
-
-		add(dad);
-		add(boyfriend);
+		gfGroup.add(gf);
+		dadGroup.add(dad);
+		boyfriendGroup.add(boyfriend);
 
 		Conductor.songPosition = -5000;
 
@@ -315,7 +334,7 @@ class PlayState extends MusicBeatState
 			healthBarBG.y = FlxG.height * 0.1;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+			'health', minHealth, maxHealth);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		add(healthBar);
@@ -392,6 +411,7 @@ class PlayState extends MusicBeatState
 		}
 
 		scoreTxt.cameras = [camHUD];
+		lyricText.cameras = [camHUD];
 
 		startingSong = true;
 
@@ -857,6 +877,10 @@ class PlayState extends MusicBeatState
 		HScript.runFunction('update', [elapsed]);
 
 		super.update(elapsed);
+
+		lyricText.updateHitbox();
+		lyricText.screenCenter(X);
+		lyricText.y = healthBarBG.y - ((100 - lyricText.height) * ((ChillSettings.get('downScroll', GAMEPLAY)) ? -1 : 1));
 
 		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
 			songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 0) + '%] ' + SONG.song + ' - ' + difficulty;
@@ -1332,7 +1356,7 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		changeJudgementText();
+		changeHealthText();
 	}
 
 	public function changeHealthText()
@@ -1340,22 +1364,10 @@ class PlayState extends MusicBeatState
 		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
 		{
 			var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
-			var healthOpp:Dynamic = FlxMath.roundDecimal(100 - (health * 50), 2);
+			var healthOpp:Dynamic = FlxMath.roundDecimal((maxHealth * 50) - (health * 50), 2);
 
-			healthPlayerTxt.text = '[Health: $healthPlayer%]';
-			healthOppTxt.text = '[Health: $healthOpp%]';
-		}
-	}
-
-	public function changeJudgementText()
-	{
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
-		{
-			var sickTxt = '[Sicks: $sicks]';
-			var goodTxt = '[Goods: $goods]';
-			var badTxt = '[Bads: $bads]';
-			var shitTxt = '[Shits: $shits]';
-			ratingCounterTxt.text = '$sickTxt\n$goodTxt\n$badTxt\n$shitTxt';
+			healthPlayerTxt.text = '[Health: $healthPlayer]';
+			healthOppTxt.text = '[Health: $healthOpp]';
 		}
 	}
 
@@ -1438,6 +1450,8 @@ class PlayState extends MusicBeatState
 
 		rating.updateHitbox();
 
+		add(rating);
+
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween)
 			{
@@ -1469,8 +1483,6 @@ class PlayState extends MusicBeatState
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
-
-		add(comboSpr);
 
 		add(comboSpr);
 
@@ -1525,6 +1537,8 @@ class PlayState extends MusicBeatState
 			numScore.acceleration.y = FlxG.random.int(200, 300);
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
+
+			add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
@@ -2013,6 +2027,25 @@ class PlayState extends MusicBeatState
 		HScript.runFunction('sectionHit');
 	}
 
+	public function addCharacterToList(name:String, type:String)
+	{
+		switch(type)
+		{
+			case 'dad':
+				var yay:Character = new Character(100, 100, name, false);
+				yay.alpha = 0.001;
+				dadGroup.add(yay);
+			case 'gf':
+				var yay:Character = new Character(400, 130, name, false);
+				yay.alpha = 0.001;
+				gfGroup.add(yay);
+			default:
+				var yay:Character = new Character(770, 450, name, true);
+				yay.alpha = 0.001;
+				boyfriendGroup.add(yay);
+		}
+	}
+
 	public function preloadEvent(name:String, value:String, strumTime:Float)
 	{
 		switch(name)
@@ -2025,8 +2058,7 @@ class PlayState extends MusicBeatState
 				if(value == 'right')
 					daDirection = 3;
 
-				if (curStage == 'tank')
-					stages.objects.TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
+				stages.objects.TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
 		}
 	}
 
@@ -2037,8 +2069,10 @@ class PlayState extends MusicBeatState
 			case 'Camera Zoom':
 				var daZoomGame:Float = 0.015;
 				var daZoomHUD:Float = 0.03;
+
 				var params:Array<String> = value.split(', ');
-				if(params[0] != null || params[1] != null || !Math.isNaN(Std.parseFloat(params[0])) || !Math.isNaN(Std.parseFloat(params[1]))) {
+				if(params[0] != null && params[1] != null && !Math.isNaN(Std.parseFloat(params[0])) && !Math.isNaN(Std.parseFloat(params[1]))) 
+				{
 					daZoomGame = Std.parseFloat(params[0]);
 					daZoomHUD = Std.parseFloat(params[1]);
 				}
@@ -2061,9 +2095,80 @@ class PlayState extends MusicBeatState
 				if(value == 'right')
 					gf.playAnim('shoot' + FlxG.random.int(3, 4), true);
 
-			/*case 'Change Character':
-				if(params == null) return;
-			*/
+			case 'Lyrics':
+				if(value != '')
+				{
+					lyricText.skip();
+
+					if(value.startsWith(lyricText.text))
+					{
+						lyricText.prefix = value.substring(0, lyricText.text.length);
+						lyricText.resetText(value.substring(lyricText.text.length));
+					}
+					else
+					{
+						lyricText.prefix = '';
+						lyricText.resetText(value);
+					}
+
+					lyricText.start(0.005, true);
+				}
+				else
+				{
+					lyricText.resetText(lyricText.text);
+					lyricText.prefix = '';
+					lyricText.skip();
+					lyricText.erase(0.005, true);
+				}
+
+			case 'Change Character':
+				var params:Array<String> = value.split(', ');
+
+				switch(params[0])
+				{
+					case 'dad':
+						dadGroup.forEach(function(char:Character) {
+							if(dad == char && char.curCharacter != params[1])
+							{
+								char.alpha == 0.1;
+							}
+
+							if(char.curCharacter == params[1])
+							{
+								char.alpha = 1;
+								dad = char;
+							}
+						});
+
+					case 'gf':
+						gfGroup.forEach(function(char:Character) {
+							if(gf == char)
+							{
+								char.alpha == 0.1;
+							}
+
+							if(char.curCharacter == params[1])
+							{
+								char.alpha = 1;
+								gf = char;
+							}
+						});
+
+					default:
+						boyfriendGroup.forEach(function(char:Character) {
+							if(boyfriend == char)
+							{
+								char.alpha == 0.1;
+							}
+
+							if(char.curCharacter == params[1])
+							{
+								char.alpha = 1;
+								boyfriend = char;
+							}
+						});
+					
+				}
 		}
 	}
 }
