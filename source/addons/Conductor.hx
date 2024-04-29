@@ -50,7 +50,7 @@ class Conductor
 			totalSteps += deltaSteps;
 			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
 		}
-		trace('BPM Map Changed! ($bpmChangeMap)');
+		trace('BPM Map Changed!\n$bpmChangeMap');
 	}
 
 	public static function changeBPM(newBpm:Float)

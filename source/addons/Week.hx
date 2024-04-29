@@ -1,6 +1,7 @@
 package addons;
 
 import addons.Song;
+
 import flixel.util.FlxSave;
 
 class Week
@@ -31,7 +32,7 @@ class Week
         daWeekThing[2].color = 0xff223344;
 
         // Week 3
-        daWeekThing[3] = new Week('week3', [['Pico', false], ['Philly', false], ['Blammed', false]], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[3] = new Week('week3', [['Pico', false], ['Philly Nice', false], ['Blammed', false]], ['Easy', 'Normal', 'Hard']);
         daWeekThing[3].characters = ['pico', 'bf', 'gf'];
         daWeekThing[3].motto = 'PICO';
         daWeekThing[3].color = 0xFF941653;
@@ -77,30 +78,37 @@ class Week
      * @param name Name of the week.
      */
     public var name:String = '';
+
     /**
      * @param characters Characters to show up on Story Menu (Leave `null` for it not to show up.)
      */
     public var characters:Array<String>;
+
     /**
      * @param color The background color for the menus. `A = Alpha | R = Red | G = Green | B = Blue` Goes by 0xAARRGGBB
      */
     public var color:FlxColor = 0xFFF9CF51;
+
     /**
      * @param motto The text that shows up on the top right in Story Menu.
      */
     public var motto:String;
+
     /**
      * @param songs Songs inside the week and if its Explicit or not (e.g. [['The Cuss Song', true], ['No Swearing', false]]
      */
     public var songs:Array<Array<Dynamic>> = [[]];
+
     /**
      * @param difficuilties Difficulties avaliable for the week.
      */
     public var difficulties:Array<String> = [];
+
     /**
-     * @param icons Icons to be used in Freeplay.
+     * @param icons Icons to be used in Freeplay. You do not need to set these as the new function does it anyways.
      */
     public var icons:Array<String> = [];
+
     /**
      * Determines whether you have to beat the week before to be able to play this one. (HAS NO EFFECT YET!)
      */
@@ -131,6 +139,7 @@ class Week
      * myWeek.motto = 'My Motto Here';
      * daWeekThing.push(myWeek);
      * ```
+     * 
      * @param name Name of the week.
      * @param songs Songs inside the week and if its Explicit or not (e.g. [['The Cuss Song', true], ['No Swearing', false]]
      * @param difficulties Difficulties avaliable for the week.

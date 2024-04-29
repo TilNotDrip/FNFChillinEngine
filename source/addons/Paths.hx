@@ -122,6 +122,9 @@ class Paths
 	@:deprecated("`getPackerAtlas` is deprecated, use an XML instead.")
 	inline public static function getPackerAtlas(key:String, ?library:String)
 	{
+		trace('getPackerAtlas is deprecated!');
+		trace('Converting $key.txt to $key.xml...');
+
 		var keyShit:Array<String> = key.split('/');
 		var yay:String = 
 		'<?xml version="1.0" encoding="utf-8"?>\n	<TextureAtlas imagePath="${keyShit[keyShit.length-1]}.png">\n		<!-- Created with Til\'s bare hands -->\n		<!-- from .txt -->\n';
@@ -142,7 +145,7 @@ class Paths
 
 		var daXMLThing:Xml = Xml.parse(yay);
 
-		trace('ohhh nahh we not using $key.txt, we converting like a real man');
+		trace('Converted $key.txt to $key.xml!');
 
 		return FlxAtlasFrames.fromSparrow(image(key, library), daXMLThing);
 	}

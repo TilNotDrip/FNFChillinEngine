@@ -1,6 +1,7 @@
 package objects;
 
 import flixel.group.FlxSpriteGroup;
+
 import flixel.util.FlxStringUtil;
 
 class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
@@ -43,11 +44,10 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 
 		this.text = value;
 		if (caseText == caseValue)
-			return value; // cancel redraw
+			return value;
 
 		if (caseValue.indexOf(caseText) == 0)
 		{
-			// new text is just old text with additions at the end, append the difference
 			appendTextCased(caseValue.substr(caseText.length));
 			return this.text;
 		}
@@ -115,7 +115,7 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 		var charCount = group.countLiving();
 		var xPos:Float = 0;
 		var yPos:Float = 0;
-		// `countLiving` returns -1 if group is empty
+
 		if (charCount == -1)
 			charCount = 0;
 		else if (charCount > 0)
@@ -148,7 +148,7 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 						charSprite = group.members[charCount];
 						charSprite.revive();
 						charSprite.char = char;
-						charSprite.alpha = 1;//gets multiplied when added
+						charSprite.alpha = 1;
 					}
 
 					charSprite.x = xPos;
@@ -192,7 +192,7 @@ class AtlasChar extends FlxSprite
 			animation.play("anim");
 			updateHitbox();
 		}
-		
+
 		return this.char = value;
 	}
 
@@ -200,17 +200,14 @@ class AtlasChar extends FlxSprite
 	{
 		return switch (char)
 		{
-			case '-': '-dash-';
-			case '.': '-period-';
-			case ",": '-comma-';
-			case "'": '-apostraphie-';
-			case "?": '-question mark-';
-			case "!": '-exclamation point-';
-			case "\\": '-back slash-';
-			case "/": '-forward slash-';
-			case "*": '-multiply x-';
-			case "“": '-start quote-';
-			case "”": '-end quote-';
+			/*case "×": '-times-';
+			case "<3": '-heart-';
+			case ">:(": '-angry-';
+			case "<-": '-left-';
+			case "->": '-right-';*/
+
+			case "\\": '-slash-backward-';
+			case "/": '-slash-forward-';
 			default: char;
 		}
 	}
@@ -227,7 +224,7 @@ private class AtlasFontData
 
 	public function new (name:AtlasFont)
 	{
-		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().toLowerCase());
+		atlas = Paths.getSparrowAtlas("fonts/" + name.getName().formatToPath());
 		atlas.parent.destroyOnNoUse = false;
 		atlas.parent.persist = true;
 
@@ -237,10 +234,10 @@ private class AtlasFontData
 		for (frame in atlas.frames)
 		{
 			maxHeight = Math.max(maxHeight, frame.frame.height);
-			
+
 			if (!containsUpper)
 				containsUpper = upperChar.match(frame.name);
-			
+
 			if (!containsLower)
 				containsLower = lowerChar.match(frame.name);
 		}

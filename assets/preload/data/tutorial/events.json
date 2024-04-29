@@ -1,1 +1,14 @@
-{"events":[{"strumTime":18675,"value":"bf gf","name":"Hey!"},{"strumTime":28275,"value":"bf gf","name":"Hey!"}]}
+{
+	"events": [
+		{
+			"strumTime": 18675,
+			"name": "Hey!",
+			"value": "bf gf"
+		},
+		{
+			"strumTime": 28275,
+			"name": "Hey!",
+			"value": "bf gf"
+		}
+	]
+}

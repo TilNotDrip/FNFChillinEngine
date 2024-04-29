@@ -1,21 +1,21 @@
 package objects.game;
 
 import addons.SongEvent.SwagEvent;
+
 import flixel.math.FlxPoint;
 
 import flixel.util.FlxSort;
 
-import stages.objects.TankmenBG;
-import haxe.Json;
-
 class Character extends FlxSprite
 {
+	public var curCharacter:String = 'bf';
+	public var deathCharacter:String = 'bf-dead';
+
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
 	public var startedDeath:Bool = false;
-	public var curCharacter:String = 'bf';
 
 	public var isPixel(default, set):Bool = false;
 
@@ -49,12 +49,20 @@ class Character extends FlxSprite
 				quickAnimAdd('singDOWNmiss', 'BF NOTE DOWN MISS');
 
 				quickAnimAdd('hey', 'BF HEY!!');
-				quickAnimAdd('firstDeath', "BF dies");
-				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
-				quickAnimAdd('deathConfirm', "BF Dead confirm");
 				animation.addByPrefix('scared', 'BF idle shaking', 24, true);
 
 				playAnim('idle');
+
+				flipX = true;
+
+			case 'bf-dead':
+				frames = Paths.getSparrowAtlas('characters/BF_Dead');
+
+				quickAnimAdd('firstDeath', "BF dies");
+				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
+				quickAnimAdd('deathConfirm', "BF Dead confirm");
+
+				playAnim('firstDeath');
 
 				flipX = true;
 
@@ -278,6 +286,8 @@ class Character extends FlxSprite
 				y += 130;
 
 			case 'bf-pixel':
+				deathCharacter = 'bf-pixel-dead';
+
 				frames = Paths.getSparrowAtlas('characters/bfPixel');
 
 				quickAnimAdd('idle', 'BF IDLE instance 1');
@@ -387,6 +397,8 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 
 			case 'bf-holding-gf':
+				deathCharacter = 'bf-holding-gf-dead';
+
 				frames = Paths.getSparrowAtlas('characters/bfAndGF');
 
 				quickAnimAdd('idle', 'BF idle dance w gf');
@@ -499,8 +511,6 @@ class Character extends FlxSprite
 		var fuckYou = {
 			"events": daConversion
 		}
-
-		trace('\n' + Json.stringify(daConversion));
 	}*/
 
 	public static function sortAnims(val1:Array<Dynamic>, val2:Array<Dynamic>):Int
@@ -573,6 +583,7 @@ class Character extends FlxSprite
 			case 'gf':
 				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
 					playAnim('danceRight');
+
 			case "pico-speaker":
 				if (animation.curAnim.finished)
 					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);
@@ -587,7 +598,7 @@ class Character extends FlxSprite
 	{
 		if (!debugMode)
 		{
-			if(!playingEndAnim && !animation.curAnim.name.endsWith('-end'))
+			if (animation.exists(animation.curAnim.name + '-end') && !playingEndAnim && !animation.curAnim.name.endsWith('-end'))
 			{
 				playAnim(animation.curAnim.name + '-end', true);
 				playingEndAnim = true;
@@ -607,10 +618,6 @@ class Character extends FlxSprite
 							playAnim('danceLeft');
 					}
 
-				case 'tankman':
-					if (!animation.curAnim.name.endsWith('DOWN-alt'))
-						playAnim('idle');
-
 				case 'spooky':
 					danced = !danced;
 
@@ -618,6 +625,12 @@ class Character extends FlxSprite
 						playAnim('danceRight');
 					else
 						playAnim('danceLeft');
+
+				case 'tankman':
+					if (!animation.curAnim.name.endsWith('DOWN-alt'))
+						playAnim('idle');
+
+				case 'pico-speaker':
 
 				default:
 					playAnim('idle');

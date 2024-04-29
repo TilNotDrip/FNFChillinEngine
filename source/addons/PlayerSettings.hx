@@ -1,6 +1,7 @@
 package addons;
 
 import flixel.input.gamepad.FlxGamepad;
+
 import flixel.util.FlxSave;
 
 class PlayerSettings

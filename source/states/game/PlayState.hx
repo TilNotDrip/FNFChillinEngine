@@ -1,6 +1,7 @@
 package states.game;
 
 import addons.Section.SwagSection;
+import addons.SongEvent.SwagEvent;
 import addons.Song.SwagSong;
 
 import flixel.FlxCamera;
@@ -33,8 +34,6 @@ import states.tools.*;
 
 import substates.*;
 
-import addons.SongEvent.SwagEvent;
-import stages.objects.TankmenBG;
 
 class PlayState extends MusicBeatState
 {
@@ -184,7 +183,7 @@ class PlayState extends MusicBeatState
 				];
 			case 'fresh':
 				dialogue = [":dad:Not too shabby boy.", ":bf:idfk lol"];
-			case 'dadbattle':
+			case 'dad-battle':
 				dialogue = [
 					":dad:gah you think you're hot stuff?",
 					":dad:If you can beat me here...",
@@ -321,28 +320,31 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		add(healthBar);
 
-		songTxt = new FlxText(-5, 5, FlxG.width, "", 20);
-		songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		songTxt.scrollFactor.set();
-		add(songTxt);
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		{
+			songTxt = new FlxText(-5, 5, FlxG.width, "", 20);
+			songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			songTxt.scrollFactor.set();
+			add(songTxt);
 
-		ratingCounterTxt = new FlxText(5, 0, FlxG.width, "", 20);
-		ratingCounterTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		ratingCounterTxt.screenCenter(Y);
-		ratingCounterTxt.scrollFactor.set();
-		add(ratingCounterTxt);
+			ratingCounterTxt = new FlxText(5, 0, FlxG.width, "", 20);
+			ratingCounterTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			ratingCounterTxt.screenCenter(Y);
+			ratingCounterTxt.scrollFactor.set();
+			add(ratingCounterTxt);
 
-		healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -135, healthBarBG.y, FlxG.width, "", 20);
-		healthOppTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		healthOppTxt.scrollFactor.set();
-		add(healthOppTxt);
+			healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -135, healthBarBG.y, FlxG.width, "", 20);
+			healthOppTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			healthOppTxt.scrollFactor.set();
+			add(healthOppTxt);
 
-		healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 135, healthBarBG.y, FlxG.width, "", 20);
-		healthPlayerTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		healthPlayerTxt.scrollFactor.set();
-		add(healthPlayerTxt);
+			healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 135, healthBarBG.y, FlxG.width, "", 20);
+			healthPlayerTxt.setFormat(Paths.font("vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			healthPlayerTxt.scrollFactor.set();
+			add(healthPlayerTxt);
 
-		changeHealthText();
+			changeHealthText();
+		}
 
 		scoreTxt = new FlxText(0, healthBarBG.y + 30, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -361,8 +363,12 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
-		healthOppTxt.color = iconP2.curHealthBarColor;
-		healthPlayerTxt.color = iconP1.curHealthBarColor;
+
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		{
+			healthOppTxt.color = iconP2.curHealthBarColor;
+			healthPlayerTxt.color = iconP1.curHealthBarColor;
+		}
 
 		if (ChillSettings.get('noteSplashes', GAMEPLAY))
 		{
@@ -376,10 +382,15 @@ class PlayState extends MusicBeatState
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
-		songTxt.cameras = [camHUD];
-		ratingCounterTxt.cameras = [camHUD];
-		healthOppTxt.cameras = [camHUD];
-		healthPlayerTxt.cameras = [camHUD];
+
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		{
+			songTxt.cameras = [camHUD];
+			ratingCounterTxt.cameras = [camHUD];
+			healthOppTxt.cameras = [camHUD];
+			healthPlayerTxt.cameras = [camHUD];
+		}
+
 		scoreTxt.cameras = [camHUD];
 
 		startingSong = true;
@@ -847,25 +858,11 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 2) + '%] ' + SONG.song + ' - ' + difficulty;
-
-		ratingCounterTxt.text =
-		'Sicks: ' + sicks +
-		'\nGoods: ' + goods +
-		'\nBads: ' + bads +
-		'\nShits: ' + shits;
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+			songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 0) + '%] ' + SONG.song + ' - ' + difficulty;
 
 		if (controls.PAUSE)
 			pauseGame();
-
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.SEVEN)
-		{
-			FlxG.switchState(new ChartingState());
-
-			#if DISCORD
-			DiscordClient.changePresence("Chart Editor", null, null, true);
-			#end
-		}
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -899,32 +896,42 @@ class PlayState extends MusicBeatState
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
-		#if debug
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.ONE && !isEnding && canEnd)
+		if (ChillSettings.get('devMode', OTHER))
 		{
-			FlxG.sound.music.stop();
-			vocals.stop();
-			endSong();
-		}
+			if (FlxG.keys.justPressed.SEVEN && !isEnding)
+			{
+				FlxG.switchState(new ChartingState());
 
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.PAGEUP && !isEnding)
-			changeSection(1);
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.PAGEDOWN && !isEnding)
-			changeSection(-1);
+				#if DISCORD
+				DiscordClient.changePresence("Chart Editor", null, null, true);
+				#end
+			}
 
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.L && !isEnding)
-			botplayDad = !botplayDad;
-		#end
+			if (FlxG.keys.justPressed.EIGHT && !isEnding)
+			{
+				if (FlxG.keys.pressed.SHIFT)
+					if (FlxG.keys.pressed.CONTROL)
+						FlxG.switchState(new AnimationDebug(SONG.player3, false));
+					else 
+						FlxG.switchState(new AnimationDebug(SONG.player1, true));
+				else
+					FlxG.switchState(new AnimationDebug(SONG.player2, false));
+			}
 
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.EIGHT && !isEnding)
-		{
-			if (FlxG.keys.pressed.SHIFT)
-				if (FlxG.keys.pressed.CONTROL)
-					FlxG.switchState(new AnimationDebug(SONG.player3, false));
-				else 
-					FlxG.switchState(new AnimationDebug(SONG.player1, true));
-			else
-				FlxG.switchState(new AnimationDebug(SONG.player2, false));
+			if (FlxG.keys.justPressed.ONE && !isEnding && canEnd)
+			{
+				FlxG.sound.music.stop();
+				vocals.stop();
+				endSong();
+			}
+
+			if (FlxG.keys.justPressed.PAGEUP && !isEnding)
+				changeSection(1);
+			if (FlxG.keys.justPressed.PAGEDOWN && !isEnding)
+				changeSection(1);
+
+			if (FlxG.keys.justPressed.L && !isEnding)
+				botplayDad = !botplayDad;
 		}
 
 		if(!inCutscene)
@@ -991,7 +998,7 @@ class PlayState extends MusicBeatState
 				if (FlxG.random.bool(0.1))
 					FlxG.switchState(new GameOverState());
 				else
-					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camGAME));
+					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, boyfriend.deathCharacter, camGAME));
 
 				#if DISCORD
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
@@ -1320,19 +1327,36 @@ class PlayState extends MusicBeatState
 		if (miss)
 		{
 			scoreTxt.color = FlxColor.RED;
-			new FlxTimer().start(0, function(tmr:FlxTimer) {
+			new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer) {
 				scoreTxt.color = FlxColor.WHITE;
 			});
 		}
+
+		changeJudgementText();
 	}
 
 	public function changeHealthText()
 	{
-		var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
-		var healthOpp:Dynamic = FlxMath.roundDecimal(100 - (health * 50), 2);
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		{
+			var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
+			var healthOpp:Dynamic = FlxMath.roundDecimal(100 - (health * 50), 2);
 
-		healthPlayerTxt.text = '[Health: $healthPlayer]';
-		healthOppTxt.text = '[Health: $healthOpp]';
+			healthPlayerTxt.text = '[Health: $healthPlayer%]';
+			healthOppTxt.text = '[Health: $healthOpp%]';
+		}
+	}
+
+	public function changeJudgementText()
+	{
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		{
+			var sickTxt = '[Sicks: $sicks]';
+			var goodTxt = '[Goods: $goods]';
+			var badTxt = '[Bads: $bads]';
+			var shitTxt = '[Shits: $shits]';
+			ratingCounterTxt.text = '$sickTxt\n$goodTxt\n$badTxt\n$shitTxt';
+		}
 	}
 
 	public function popUpScore(strumtime:Float, daNote:Note):Void
@@ -2001,7 +2025,8 @@ class PlayState extends MusicBeatState
 				if(value == 'right')
 					daDirection = 3;
 
-				TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
+				if (curStage == 'tank')
+					stages.objects.TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
 		}
 	}
 
@@ -2038,8 +2063,7 @@ class PlayState extends MusicBeatState
 
 			/*case 'Change Character':
 				if(params == null) return;
-				trace(params[0]);
-				trace(params[1]);*/
+			*/
 		}
 	}
 }

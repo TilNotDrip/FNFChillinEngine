@@ -1,7 +1,8 @@
 package addons;
 
-import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.gamepad.FlxGamepad;
+import flixel.input.gamepad.FlxGamepadInputID;
+
 import flixel.input.keyboard.FlxKey;
 
 class Controls

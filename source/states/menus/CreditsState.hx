@@ -1,7 +1,8 @@
 package states.menus;
 
-import haxe.Json;
 import flixel.graphics.FlxGraphic;
+
+import haxe.Json;
 
 import openfl.display.BitmapData;
 

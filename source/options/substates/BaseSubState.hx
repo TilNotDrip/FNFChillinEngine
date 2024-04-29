@@ -1,6 +1,7 @@
 package options.substates;
 
 import options.objects.Option;
+
 import options.states.OptionsState;
 
 class BaseSubState extends MusicBeatSubstate
@@ -70,10 +71,17 @@ class BaseSubState extends MusicBeatSubstate
 
     private function changeOptionValue(change:Int = 0)
     {
-        if (options[curSelected].type == NUMBER && options[curSelected].numType == Int)
+        if (options[curSelected].type == NUMBER)
+        {
+            var multiplier:Float = 1;
+
+            if (options[curSelected].numType == Float)
+                multiplier = 0.1;
+
+            options[curSelected].changeValue(change * multiplier);
+        }
+        else if (options[curSelected].type == SELECTION)
             options[curSelected].changeValue(change);
-        else if (options[curSelected].type == NUMBER && options[curSelected].numType == Float)
-            options[curSelected].changeValue(change * 0.1);
     }
 
     private function addOption(option:Option)

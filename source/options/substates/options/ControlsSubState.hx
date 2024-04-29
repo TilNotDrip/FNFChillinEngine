@@ -1,8 +1,12 @@
 package options.substates.options;
 
-import flixel.input.keyboard.FlxKey;
+
 import flixel.effects.FlxFlicker;
+
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+
+import flixel.input.keyboard.FlxKey;
+
 import options.states.OptionsState;
 
 class ControlsSubState extends MusicBeatSubstate
@@ -25,11 +29,10 @@ class ControlsSubState extends MusicBeatSubstate
         
         rebindNotice = new Alphabet(0, FlxG.height - 150, '', Default);
         rebindNotice.scrollFactor.set();
-        
 
         for (controlName in PlayerSettings.getControls(0).keys())
             controlOptions.push(controlName);
-        
+
         add(optionHeader);
         add(optionControls);
         add(rebindNotice);

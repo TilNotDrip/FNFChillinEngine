@@ -4,8 +4,6 @@ import addons.Conductor.BPMChangeEvent;
 
 import flixel.addons.ui.FlxUIState;
 
-import openfl.Assets;
-
 class MusicBeatState extends FlxUIState
 {
 	private var curStep:Int = 0;

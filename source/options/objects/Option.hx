@@ -10,6 +10,8 @@ class Option extends FlxSpriteGroup
     public var type:OptionVarType;
     public var value:Dynamic;
 
+    public var selections:Array<String>;
+
     public var numType:Dynamic;
 
     public var minimumValue:Dynamic;
@@ -18,6 +20,7 @@ class Option extends FlxSpriteGroup
     public var onChange:Void->Void = null;
 
     private var checkbox:Checkbox;
+    private var selection:Alphabet;
     private var number:Alphabet;
 
     public function new(name:String, description:String, varName:String, category:OptionType, type:OptionVarType)
@@ -42,25 +45,19 @@ class Option extends FlxSpriteGroup
                 add(checkbox);
 
             case SLIDER:
-                trace('slider!');
 
             case SELECTION:
-                trace('selection!');
+                selection = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', Default);
+                add(selection);
 
             case NUMBER:
-                number = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, value, Default);
+                number = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', Default);
                 add(number);
         }
     }
 
     public function press()
     {
-        if(type != CHECKBOX)
-        {
-            FlxG.log.error('Press can be used on checkboxes only.');
-            return;
-        }
-
         value = !value;
         ChillSettings.set(varName, category, value);
 
@@ -72,21 +69,29 @@ class Option extends FlxSpriteGroup
 
     public function changeValue(change:Dynamic)
     {
-        var newValue:Dynamic = change + ChillSettings.get(varName, category);
-
-        if (maximumValue <= newValue || minimumValue <= newValue)
-            ChillSettings.set(varName, category, newValue);
-
-        switch(type)
+        if (type == NUMBER)
         {
-            case CHECKBOX:
-                throw 'changeValue cant be used on press';
-            case SELECTION:
-                throw 'changeValue cant be used on selection';
-            case SLIDER:
-                throw 'changeValue cant be used on sliders';
-            case NUMBER:
-                number.text = newValue;
+            var newValue:Dynamic = change + ChillSettings.get(varName, category);
+
+            if (maximumValue <= newValue || minimumValue <= newValue)
+                ChillSettings.set(varName, category, newValue);
+
+            number.text = '< ' + ChillSettings.get(varName, category) + ' >';
+        }
+        else if (type == SELECTION)
+        {
+            var curSelectedNum:Int = selections.indexOf(ChillSettings.get(varName, category));
+
+            curSelectedNum += change;
+
+            if (curSelectedNum < 0)
+                curSelectedNum = selections.length - 1;
+
+            if (curSelectedNum >= selections.length)
+                curSelectedNum = 0;
+
+            ChillSettings.set(varName, category, selections[curSelectedNum]);
+            selection.text = '< ' + ChillSettings.get(varName, category) + ' >';
         }
 
         if(onChange != null)
@@ -100,4 +105,48 @@ enum abstract OptionVarType(Int)
     var SLIDER = 1;
     var SELECTION = 2;
     var NUMBER = 3;
+}
+
+class Checkbox extends FlxSprite
+{
+    public function new(x:Float, y:Float)
+    {
+        super(x, y);
+
+        frames = Paths.getSparrowAtlas('menuUI/checkbox');
+        animation.addByIndices('idle', 'Unselect', [13,13], '', 24, true);
+        animation.addByIndices('idle selected', 'Press', [13,13], '', 24, true);
+        animation.addByPrefix('checked', 'Press', 24, false);
+        animation.addByPrefix('unchecked', 'Unselect', 24, false);
+
+        setGraphicSize(Std.int(width * 0.2));
+        updateHitbox();
+    }
+
+    public function check(value:Bool)
+    {
+        if(value)
+        {
+            animation.play('checked', true);
+            animation.finishCallback = function(anim:String) {
+                animation.play('idle selected', true);
+                animation.finishCallback = null;
+            }
+        }
+        else
+        {
+            animation.play('unchecked', true);
+
+            animation.finishCallback = function(anim:String) {
+                animation.play('idle', true);
+                animation.finishCallback = null;
+            }
+        }
+    }
+}
+
+// I dont wanna add this to todo but I wanna add this
+class Category extends FlxSprite
+{
+    
 }

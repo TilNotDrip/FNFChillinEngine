@@ -67,6 +67,7 @@ class OptionsState extends MusicBeatState
 
 		if (curSelected < 0)
 			curSelected = optionsList.length - 1;
+
 		if (curSelected >= optionsList.length)
 			curSelected = 0;
 

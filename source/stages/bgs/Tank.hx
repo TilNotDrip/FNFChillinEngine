@@ -91,9 +91,6 @@ class Tank extends StageBackend
 
         var fgTank3:BGSprite = new BGSprite('tank3', 1300, 1200, 3.5, 2.5, ['fg tankhead 4 instance 1']);
         foregroundSprites.add(fgTank3);
-
-		gfCutsceneLayer = new FlxGroup();
-		add(gfCutsceneLayer);
     }
 
     override public function createPost()
@@ -134,11 +131,14 @@ class Tank extends StageBackend
 			gf.y -= 75;
 		}
 
-        gfCutsceneLayer = new FlxGroup();
-		add(gfCutsceneLayer);
+		if (isStoryMode)
+		{
+			gfCutsceneLayer = new FlxGroup();
+			insert(PlayState.game.members.indexOf(gf) + 1, gfCutsceneLayer);
 
-		bfTankCutsceneLayer = new FlxGroup();
-		add(bfTankCutsceneLayer);
+			bfTankCutsceneLayer = new FlxGroup();
+			insert(PlayState.game.members.indexOf(player) + 1, bfTankCutsceneLayer);
+		}
 
 		add(foregroundSprites);
 

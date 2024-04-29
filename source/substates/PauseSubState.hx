@@ -222,6 +222,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
+
 		if (curSelected >= menuItems.length)
 			curSelected = 0;
 

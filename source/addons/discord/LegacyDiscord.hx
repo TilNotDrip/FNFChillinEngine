@@ -11,14 +11,14 @@ class LegacyDiscord
 	public function new()
 	{
         #if DISCORD
-		trace("Discord Client starting...");
+		trace("Discord RPC starting...");
 		DiscordRpc.start({
 			clientID: "1209233449928360036",
 			onReady: onReady,
 			onError: onError,
 			onDisconnected: onDisconnected
 		});
-		trace("Discord Client started.");
+		trace("Discord RPC started.");
 
 		while (true)
 		{
@@ -37,7 +37,7 @@ class LegacyDiscord
 		{
 			new DiscordClient();
 		});
-		trace("Discord Client initialized");
+		trace("Discord RPC initialized");
 	}
 
 	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
@@ -80,12 +80,12 @@ class LegacyDiscord
 
 	private static function onError(_code:Int, _message:String)
 	{
-		trace('Error! $_code : $_message');
+		trace('Discord RPC Error! $_code : $_message');
 	}
 
 	private static function onDisconnected(_code:Int, _message:String)
 	{
-		trace('Disconnected! $_code : $_message');
+		trace('Discord RPC Disconnected! $_code : $_message');
 	}
     #end
 }

@@ -142,10 +142,11 @@ class MainMenuState extends MusicBeatState
 	{
 		curSelected += change;
 
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
+
+		if (curSelected >= menuItems.length)
+			curSelected = 0;
 
 		menuItems.forEach(function(item:MenuItem)
 		{

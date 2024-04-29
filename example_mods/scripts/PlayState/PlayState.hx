@@ -20,7 +20,6 @@ function sectionHit()
     aubrey.alpha = 1;
     aubrey.scale.set(FlxG.random.float(0.1, 9), FlxG.random.float(0.1, 9));
     FlxTween.tween(aubrey, {alpha: 0}, (Conductor.crochet * 2) / 1000, {ease: FlxEase.cubeOut});
-    trace('r');
 }
 
 var bfFire:FlxSound = new FlxSound();

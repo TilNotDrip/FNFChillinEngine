@@ -13,6 +13,10 @@ class Gameplay extends BaseSubState
         var camZoom:Option = new Option('Camera Zooming', '', 'camZoom', GAMEPLAY, CHECKBOX);
         addOption(camZoom);
 
+        var hudType:Option = new Option('Hud Type', '', 'hudType', GAMEPLAY, SELECTION);
+        hudType.selections = ['Test1', 'Test2'];
+        addOption(hudType);
+
         var ghostTapping:Option = new Option('Ghost Tapping', '', 'ghostTapping', GAMEPLAY, CHECKBOX);
         addOption(ghostTapping);
 

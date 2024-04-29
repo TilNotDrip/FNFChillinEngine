@@ -7,7 +7,7 @@
  - [ ] Credits Menu
  - [ ] Ending Screen
  - [ ] Discord Game SDK integration
- - [ ] Modding API using a custom polymod! (HScript included)
+ - [ ] Modding API (using SScript)
  - [x] Title Screen Softcoded
  - [ ] Controller Support
  - [ ] Lyrics
@@ -17,7 +17,6 @@
  - [x] Misses and Accuracy
  - [x] Make events
  - [ ] Make Accuracy more milisecond based than using ratings
- - [ ] Accuracy going down when ghost tapping
  - [x] Pixel Note Splashes (`impact 1` animations)
  - [x] Pixel Note Splashes (`impact 2` animations)
  - [ ] Stage background images load from a bg folder, then the stage name
@@ -34,12 +33,13 @@
  - [ ] RGB Pallete for Notes + Note Splashes
  - [ ] Sustain Note Splashes (https://twitter.com/FNF_Developers/status/1774200908806525366)
  - [ ] Opponents have their own note colors
- - [ ] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
+ - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
+ - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.)
 
 ## Small Changes
 
  - [x] Tutorial Voices are in its own `Voices.ogg` file
- - [ ] When events done, make pickle in stress event based <!-- pickle? oh hell naw - crusher. oh yesssss pico but pickle -Til-->
+ - [x] When events done, make pickle in stress event based <!-- pickle? oh hell naw - crusher. oh yesssss pico but pickle -Til-->
  - [x] Ghost Tapping
  - [x] Strums Glow Dad
  - [x] Healthbar Colors (Done for now ig)
@@ -48,10 +48,12 @@
  - [x] Seperate Menu Character assets
  - [x] Seperate Main Menu assets
  - [x] Seperate Story Menu UI assets
- - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; TechNotDrip Engine - Story Menu`) <!-- It was TechNotDrip at the time of typing that -->
+ - [x] Change Window Title (e.g on Story Menu: `Friday Night Funkin'; Chillin' Engine - Story Menu`) <!-- It was TechNotDrip at the time of typing that -->
  - [x] Make Philly window lights white so i can just change colors throughout the code
  - [ ] BF doesn't ascend when he's opponent
  - [ ] add skip cutscene key
+ - [ ] Daddy Dearest extended Left Pose
+ - [ ] Seperate Death Sprites from Boyfriend's Spritesheet
 
 # Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
@@ -79,6 +81,7 @@
 ## Gameplay
 
  - [ ] Note Colours (Make a seperate menu maybe + Optional)
+ - [ ] Opponent Custom Colours
  - [x] Ghost Tapping
  - [x] Downscroll
  - [ ] Middlescroll

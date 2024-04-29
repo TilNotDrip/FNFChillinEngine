@@ -1,7 +1,5 @@
 package states.tools;
 
-import flixel.util.FlxSave;
-import flixel.util.FlxSort;
 import addons.SongEvent.SwagEvent;
 import addons.Conductor.BPMChangeEvent;
 import addons.Section.SwagSection;
@@ -20,6 +18,9 @@ import flixel.addons.ui.FlxUITabMenu;
 
 import flixel.ui.FlxButton;
 
+import flixel.util.FlxSave;
+import flixel.util.FlxSort;
+
 import haxe.Json;
 
 import objects.game.HealthIcon;
@@ -27,6 +28,7 @@ import objects.game.Note;
 
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
+
 import openfl.net.FileReference;
 
 class ChartingState extends MusicBeatState
@@ -99,7 +101,7 @@ class ChartingState extends MusicBeatState
 		FlxG.mouse.visible = true;
 
 		autoSave = new FlxSave();
-		autoSave.bind('autosave', CoolTools.getSavePath());
+		autoSave.bind('autosaves', CoolTools.getSavePath());
 
 		tempBpm = _song.bpm;
 
@@ -208,7 +210,13 @@ class ChartingState extends MusicBeatState
 		check_voices.callback = function()
 		{
 			_song.needsVoices = check_voices.checked;
-			trace('CHECKED!');
+
+			var voicesTxt:String = 'On';
+
+			if (_song.needsVoices)
+				voicesTxt = 'Off';
+
+			trace('Song Voices are $voicesTxt!');
 		};
 
 		var check_mute_inst = new FlxUICheckBox(10, 300, null, null, "Mute Instrumental (in editor)", 100);
@@ -261,7 +269,7 @@ class ChartingState extends MusicBeatState
 			loadJson(_song.song.formatToPath());
 		});
 
-		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'load autosave', loadAutosave);
+		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', loadAutosave);
 
 		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 80, 0.1, 1, 0.1, 10, 2);
 		stepperSpeed.value = _song.speed;
@@ -514,7 +522,8 @@ class ChartingState extends MusicBeatState
 
 				case 'Change BPM':
 					_song.notes[curSec].changeBPM = check.checked;
-					FlxG.log.add('changed bpm shit');
+					FlxG.log.add('Changed BPM to ' + _song.notes[curSec].bpm);
+
 				case "Alt Animation":
 					_song.notes[curSec].altAnim = check.checked;
 			}
@@ -617,7 +626,7 @@ class ChartingState extends MusicBeatState
 						}
 						else
 						{
-							trace('tryin to delete note...');
+							trace('Trying to remove note...');
 							deleteNote(note);
 						}
 					}
@@ -855,9 +864,8 @@ class ChartingState extends MusicBeatState
 		{
 			if (curSelectedNote[3] != null)
 			{
-				trace('ALT NOTE SHIT');
+				trace('Alternative Note!');
 				curSelectedNote[3] = !curSelectedNote[3];
-				trace(curSelectedNote[3]);
 			}
 			else
 				curSelectedNote[3] = true;
@@ -907,7 +915,7 @@ class ChartingState extends MusicBeatState
 
 	private function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
 	{
-		trace('changing section' + sec);
+		trace('Changing Section to section ' + sec);
 
 		if (_song.notes[sec] != null)
 		{
@@ -1072,7 +1080,7 @@ class ChartingState extends MusicBeatState
 			if (i.strumTime == note.strumTime && i.noteData == note.noteData)
 			{
 				curSelectedNote = i;
-				trace('found note');
+				trace('Found Note!');
 			}
 		}
 
@@ -1147,9 +1155,6 @@ class ChartingState extends MusicBeatState
 			_song.notes[curSec].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteAlt]);
 		}
 
-		trace(noteStrum);
-		trace(curSec);
-
 		updateGrid();
 		updateNoteUI();
 
@@ -1211,15 +1216,15 @@ class ChartingState extends MusicBeatState
 
 	private function loadAutosave():Void
 	{
-		PlayState.SONG = Song.parseJSONshit(autoSave.data.autosave);
+		PlayState.SONG = Song.parseJSONshit(autoSave.data.chartSave);
 		FlxG.resetState();
 	}
 
 	private function autosaveSong():Void
 	{
-		autoSave.data.autosave = Json.stringify({
+		autoSave.data.chartSave = Json.stringify({
 			"song": _song
-		});
+		}, '\t');
 		autoSave.flush();
 	}
 
@@ -1229,7 +1234,7 @@ class ChartingState extends MusicBeatState
 			"song": _song
 		};
 
-		var data:String = Json.stringify(json);
+		var data:String = Json.stringify(json, '\t');
 
 		if ((data != null) && (data.length > 0))
 		{
@@ -1247,7 +1252,7 @@ class ChartingState extends MusicBeatState
 			"events": _events
 		};
 
-		var data:String = Json.stringify(json);
+		var data:String = Json.stringify(json, '\t');
 
 		if ((data != null) && (data.length > 0))
 		{

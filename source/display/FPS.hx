@@ -71,8 +71,8 @@ class FPS extends TextField
 		{
 			text = "FPS: " + currentFPS
             + "\nMEM: " + currentMEM
-            + "\nState: " + currentState
-            + "\nVersion: " + Application.current.meta.get('version');
+            + "\nSTATE: " + currentState
+            + "\nVERSION: " + Application.current.meta.get('version');
 		}
 
 		cacheCount = currentCount;

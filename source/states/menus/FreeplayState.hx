@@ -152,7 +152,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.difficulty = songs[curSelected].week.difficulties[curDifficulty];
 
 			PlayState.storyWeek = songs[curSelected].week;
-			trace('CUR WEEK: ' + PlayState.storyWeek.name);
+			trace('Week: ' + PlayState.storyWeek.name);
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
 	}
