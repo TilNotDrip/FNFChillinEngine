@@ -57,7 +57,7 @@ class Note extends FlxSprite
 			loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
 
 			for (i in 0...colors.length)
-				animation.add(i + 'scroll', [1]);
+				animation.add(i + 'Scroll', [1]);
 
 			if (isSustainNote)
 			{
