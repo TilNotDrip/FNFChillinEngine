@@ -383,6 +383,10 @@ class PlayState extends MusicBeatState
 
 		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
 
+		lyricText = new FlxTypeText(0, 0, FlxG.width, "", 36);
+		lyricText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(lyricText);
+
 		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
 		{
 			healthOppTxt.color = iconP2.curHealthBarColor;
@@ -507,6 +511,7 @@ class PlayState extends MusicBeatState
 
 		startTimer.start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
+			cameraMovement((SONG.notes[curSection].mustHitSection) ? boyfriend : dad);
 			for(char in [dad, gf, boyfriend])
 			{
 				if (!char.animation.curAnim.name.startsWith("sing") && swagCounter % char.bopDance == 0)
@@ -2128,7 +2133,7 @@ class PlayState extends MusicBeatState
 				{
 					case 'dad':
 						dadGroup.forEach(function(char:Character) {
-							if(dad == char && char.curCharacter != params[1])
+							if(dad == char)
 							{
 								char.alpha == 0.1;
 							}
