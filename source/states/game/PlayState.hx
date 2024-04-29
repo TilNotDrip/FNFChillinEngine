@@ -339,7 +339,7 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		add(healthBar);
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
 		{
 			songTxt = new FlxText(-5, 5, FlxG.width, "", 20);
 			songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -387,7 +387,7 @@ class PlayState extends MusicBeatState
 		lyricText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(lyricText);
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
 		{
 			healthOppTxt.color = iconP2.curHealthBarColor;
 			healthPlayerTxt.color = iconP1.curHealthBarColor;
@@ -406,7 +406,7 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
 		{
 			songTxt.cameras = [camHUD];
 			ratingCounterTxt.cameras = [camHUD];
@@ -511,7 +511,8 @@ class PlayState extends MusicBeatState
 
 		startTimer.start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			cameraMovement((SONG.notes[curSection].mustHitSection) ? boyfriend : dad);
+			cameraMovement((SONG.notes[0].mustHitSection) ? boyfriend : dad);
+
 			for(char in [dad, gf, boyfriend])
 			{
 				if (!char.animation.curAnim.name.startsWith("sing") && swagCounter % char.bopDance == 0)
@@ -780,6 +781,7 @@ class PlayState extends MusicBeatState
 
 			if (!startTimer.finished)
 				startTimer.active = true;
+
 			paused = false;
 
 			#if DISCORD
@@ -887,7 +889,7 @@ class PlayState extends MusicBeatState
 		lyricText.screenCenter(X);
 		lyricText.y = healthBarBG.y - ((100 - lyricText.height) * ((ChillSettings.get('downScroll', GAMEPLAY)) ? -1 : 1));
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
 			songTxt.text = '[' + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false) + '] [' + FlxMath.roundDecimal((FlxG.sound.music.time / FlxG.sound.music.length) * 100, 0) + '%] ' + SONG.song + ' - ' + difficulty;
 
 		if (controls.PAUSE)
@@ -1001,7 +1003,7 @@ class PlayState extends MusicBeatState
 		if (!inCutscene && !_exiting)
 		{
 			if (controls.RESET)
-				health = 0;
+				health = minHealth;
 
 			#if CAN_CHEAT
 			if (controls.CHEAT)
@@ -1011,23 +1013,26 @@ class PlayState extends MusicBeatState
 			}
 			#end
 
-			if (((health <= 0 && !botplay) || (health >= 2 && !botplayDad)) && !practiceMode)
+			if (((health <= minHealth && !botplay) || (health >= maxHealth && !botplayDad)) && !practiceMode)
 			{
 				if((botplay && botplayDad) || (!botplay && !botplayDad)) return;
 
-				persistentUpdate = false;
-				persistentDraw = false;
-				paused = true;
+				deathCounter += 1;
 
 				FlxG.sound.music.stop();
 				vocals.stop();
 
-				deathCounter += 1;
-
 				if (FlxG.random.bool(0.1))
-					FlxG.switchState(new GameOverState());
+					FlxG.switchState(new GameOverState(boyfriend.deathCharacter));
 				else
+				{
+					persistentUpdate = false;
+					persistentDraw = false;
+
+					paused = true;
+
 					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, boyfriend.deathCharacter, camGAME));
+				}
 
 				#if DISCORD
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + difficulty + ")", iconRPC);
@@ -1204,7 +1209,7 @@ class PlayState extends MusicBeatState
 			persistentUpdate = false;
 			persistentDraw = true;
 			paused = true;	
-			
+
 			for(tween in bopTween)
 				if(tween != null) tween.active = false;
 
@@ -1366,7 +1371,7 @@ class PlayState extends MusicBeatState
 
 	public function changeHealthText()
 	{
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Test2')
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
 		{
 			var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
 			var healthOpp:Dynamic = FlxMath.roundDecimal((maxHealth * 50) - (health * 50), 2);

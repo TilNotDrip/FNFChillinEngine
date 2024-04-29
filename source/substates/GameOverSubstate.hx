@@ -11,12 +11,13 @@ class GameOverSubstate extends MusicBeatSubstate
 {
 	public var bf:String = '';
 	public var deathChar:DeathCharacter;
-	public var stageSuffix:String = "";
+
+	public var stageSuffix:String = '';
+	private var startVol:Float = 1;
 
 	private var camFollow:FlxObject;
-	private var randomGameover:Int = 1;
 
-	private var startVol:Float = 1;
+	private var randomGameover:Int = 1;
 
 	public function new(x:Float, y:Float, bf:String = '', camera:FlxCamera)
 	{

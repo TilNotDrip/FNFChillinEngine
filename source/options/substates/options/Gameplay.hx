@@ -14,7 +14,7 @@ class Gameplay extends BaseSubState
         addOption(camZoom);
 
         var hudType:Option = new Option('Hud Type', '', 'hudType', GAMEPLAY, SELECTION);
-        hudType.selections = ['Test1', 'Test2'];
+        hudType.selections = ['Score Txt Only', 'Score / Rating Counter / Health'];
         addOption(hudType);
 
         var ghostTapping:Option = new Option('Ghost Tapping', '', 'ghostTapping', GAMEPLAY, CHECKBOX);

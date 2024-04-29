@@ -1,1 +1,84 @@
-{"events":[{"strumTime":50,"name":"Lyrics","value":"hey "},{"strumTime":450,"name":"Lyrics","value":"hey crush"},{"strumTime":850,"name":"Lyrics","value":"hey crusher"},{"strumTime":1150,"name":"Lyrics","value":"hey crusher fort"},{"strumTime":1450,"name":"Lyrics","value":"hey crusher fortnite"},{"strumTime":1600,"value":"","name":"Lyrics"},{"strumTime":1650,"name":"Camera Zoom","value":""},{"strumTime":2050,"name":"Camera Zoom","value":""},{"strumTime":2450,"name":"Camera Zoom","value":""},{"strumTime":2750,"name":"Camera Zoom","value":""},{"strumTime":3050,"name":"Camera Zoom","value":""},{"strumTime":3250,"name":"Hey!","value":"bf gf"},{"strumTime":3650,"name":"Hey!","value":"bf gf"},{"strumTime":4050,"name":"Hey!","value":"bf gf"},{"strumTime":4350,"name":"Hey!","value":"bf gf"},{"strumTime":4650,"name":"Hey!","value":"bf gf"}]}
+{
+	"events": [
+		{
+			"strumTime": 50,
+			"value": "hey ",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 450,
+			"value": "hey crush",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 850,
+			"value": "hey crusher",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 1150,
+			"value": "hey crusher fort",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 1450,
+			"value": "hey crusher fortnite",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 1600,
+			"name": "Lyrics",
+			"value": ""
+		},
+		{
+			"strumTime": 1650,
+			"value": "",
+			"name": "Camera Zoom"
+		},
+		{
+			"strumTime": 2050,
+			"value": "",
+			"name": "Camera Zoom"
+		},
+		{
+			"strumTime": 2450,
+			"value": "",
+			"name": "Camera Zoom"
+		},
+		{
+			"strumTime": 2750,
+			"value": "",
+			"name": "Camera Zoom"
+		},
+		{
+			"strumTime": 3050,
+			"value": "",
+			"name": "Camera Zoom"
+		},
+		{
+			"strumTime": 3250,
+			"value": "bf gf",
+			"name": "Hey!"
+		},
+		{
+			"strumTime": 3650,
+			"value": "bf gf",
+			"name": "Hey!"
+		},
+		{
+			"strumTime": 4050,
+			"value": "bf gf",
+			"name": "Hey!"
+		},
+		{
+			"strumTime": 4350,
+			"value": "bf gf",
+			"name": "Hey!"
+		},
+		{
+			"strumTime": 4650,
+			"value": "bf gf",
+			"name": "Hey!"
+		}
+	]
+}

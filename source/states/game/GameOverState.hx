@@ -8,17 +8,22 @@ class GameOverState extends MusicBeatState
 	public var curCharacter = 'bf-dead';
 
 	private var startVol:Float = 1;
-	private var stageSuffix:String = "";
+	private var stageSuffix:String = '';
+
 	private var randomGameover:Int = 1;
 
 	public function new(character:String = 'bf-dead')
 	{
 		curCharacter = character;
+
+		super();
 	}
 
 	override public function create()
 	{
 		Application.current.window.title += ' [Secret Game Over]';
+
+		Conductor.songPosition = 0;
 
 		deadCharacter = new DeathCharacter(0, 0, curCharacter);
 
@@ -26,12 +31,12 @@ class GameOverState extends MusicBeatState
 			stageSuffix = '-pixel';
 
 		var loser:FlxSprite = new FlxSprite(100, 100);
-		loser.frames = Paths.getSparrowAtlas('lose');
-		loser.animation.addByPrefix('lose', 'lose', 24, false);
+		loser.frames = Paths.getSparrowAtlas('gameOver/lose');
+		loser.animation.addByPrefix('lose', 'lose...', 24, false);
 		loser.animation.play('lose');
 		add(loser);
 
-		var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.image('restart'));
+		var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.image('gameOver/restart'));
 		restart.setGraphicSize(Std.int(restart.width * 0.6));
 		restart.updateHitbox();
 		restart.alpha = 0;
@@ -46,8 +51,10 @@ class GameOverState extends MusicBeatState
 			startVol = 0.2;
 		}
 
-		Conductor.songPosition = 0;
 		Conductor.changeBPM(100);
+
+		if (FlxG.sound.music != null)
+			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), startVol);
 
 		super.create();
 	}
@@ -76,8 +83,6 @@ class GameOverState extends MusicBeatState
 				});					
 			}
 		}
-
-		FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), startVol);
 
 		if (FlxG.sound.music.playing)
 			Conductor.songPosition = FlxG.sound.music.time;

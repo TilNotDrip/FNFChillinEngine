@@ -37,11 +37,8 @@ class FreeplayState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		if (FlxG.sound.music != null)
-		{
-			if (!FlxG.sound.music.playing)
+		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
-		}
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menuUI/menuDesat'));
 		add(bg);

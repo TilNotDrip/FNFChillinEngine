@@ -6,6 +6,8 @@ import flixel.FlxObject;
 
 import flixel.addons.transition.FlxTransitionableState;
 
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+
 import flixel.math.FlxPoint;
 
 import objects.game.Character;
@@ -37,6 +39,10 @@ class StageBackend extends FlxBasic
     private var gf(get, never):Character;
     private var opponent(get, never):Character;
     private var player(get, never):Character;
+
+    public var gfGroup(get, never):FlxTypedSpriteGroup<Character>;
+    public var opponentGroup(get, never):FlxTypedSpriteGroup<Character>;
+	public var playerGroup(get, never):FlxTypedSpriteGroup<Character>;
 
     private var camFollow(get, never):FlxObject;
 
@@ -74,13 +80,13 @@ class StageBackend extends FlxBasic
     private function insert(position:Int, object:FlxBasic) PlayState.game.insert(position, object);
 
     private function addBehindGF(object:FlxBasic) {
-        insert(PlayState.game.members.indexOf(gf), object);
+        insert(PlayState.game.members.indexOf(gfGroup), object);
     }
     private function addBehindOpponent(object:FlxBasic) {
-        insert(PlayState.game.members.indexOf(opponent), object);
+        insert(PlayState.game.members.indexOf(opponentGroup), object);
     }
     private function addBehindPlayer(object:FlxBasic) {
-        insert(PlayState.game.members.indexOf(player), object);
+        insert(PlayState.game.members.indexOf(playerGroup), object);
     }
 
     // Other Functions
@@ -114,6 +120,10 @@ class StageBackend extends FlxBasic
     inline private function get_gf():Character return PlayState.game.gf;
     inline private function get_opponent():Character return PlayState.game.dad;
     inline private function get_player():Character return PlayState.game.boyfriend;
+
+    inline private function get_gfGroup():FlxTypedSpriteGroup<Character> return PlayState.game.gfGroup;
+    inline private function get_opponentGroup():FlxTypedSpriteGroup<Character> return PlayState.game.dadGroup;
+    inline private function get_playerGroup():FlxTypedSpriteGroup<Character> return PlayState.game.boyfriendGroup;
 
     inline private function get_camFollow():FlxObject return PlayState.game.camFollow;
 }

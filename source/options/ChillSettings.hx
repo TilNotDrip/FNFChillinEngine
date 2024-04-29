@@ -119,7 +119,7 @@ class ChillSettings
         if (chillSettings.data.gameplaySettings.get('ghostTapping') == null)
 			set('ghostTapping', GAMEPLAY, true);
         if (chillSettings.data.gameplaySettings.get('hudType') == null)
-			set('hudType', GAMEPLAY, 'Test2');
+			set('hudType', GAMEPLAY, 'Score / Rating Counter / Health');
         if (chillSettings.data.gameplaySettings.get('downScroll') == null)
 			set('downScroll', GAMEPLAY, false);
         if (chillSettings.data.gameplaySettings.get('middleScroll') == null)
