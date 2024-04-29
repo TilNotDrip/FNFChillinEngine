@@ -57,17 +57,6 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-			case 'bf-dead':
-				frames = Paths.getSparrowAtlas('characters/BF_Dead');
-
-				quickAnimAdd('firstDeath', "BF dies");
-				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
-				quickAnimAdd('deathConfirm', "BF Dead confirm");
-
-				playAnim('firstDeath');
-
-				flipX = true;
-
 			case 'gf':
 				frames = Paths.getSparrowAtlas('characters/GF_assets');
 
@@ -197,7 +186,6 @@ class Character extends FlxSprite
 
 				bopDance = 1;
 
-				animation.addByIndices('singUP', 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 				animation.addByIndices('idleHair', 'GF Dancing Beat Hair blowing CAR', [10, 11, 12, 25, 26, 27], "", 24, true);
@@ -311,21 +299,6 @@ class Character extends FlxSprite
 				width -= 100;
 				height -= 100;
 
-			case 'bf-pixel-dead':
-				frames = Paths.getSparrowAtlas('characters/bfPixelsDEAD');
-
-				quickAnimAdd('singUP', "BF Dies pixel");
-				quickAnimAdd('firstDeath', "BF Dies pixel");
-				animation.addByPrefix('deathLoop', "Retry Loop", 24, true);
-				quickAnimAdd('deathConfirm', "RETRY CONFIRM");
-				animation.play('firstDeath');
-
-				playAnim('firstDeath');
-
-				flipX = true;
-
-				isPixel = true;
-
 			case 'gf-pixel':
 				frames = Paths.getSparrowAtlas('characters/gfPixel');
 
@@ -419,17 +392,6 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-			case 'bf-holding-gf-dead':
-				frames = Paths.getSparrowAtlas('characters/bfHoldingGF-DEAD');
-				quickAnimAdd('singUP', 'BF Dead with GF Loop');
-				quickAnimAdd('firstDeath', 'BF Dies with GF');
-				animation.addByPrefix('deathLoop', 'BF Dead with GF Loop', 24, true);
-				quickAnimAdd('deathConfirm', 'RETRY confirm holding gf');
-
-				playAnim('firstDeath');
-
-				flipX = true;
-
 			case 'tankman':
 				frames = Paths.getSparrowAtlas('characters/tankmanCaptain');
 
@@ -515,11 +477,6 @@ class Character extends FlxSprite
 		}
 	}*/
 
-	public static function sortAnims(val1:Array<Dynamic>, val2:Array<Dynamic>):Int
-	{
-		return FlxSort.byValues(FlxSort.ASCENDING, val1[0], val2[0]);
-	}
-
 	private function quickAnimAdd(name:String, prefix:String)
 	{
 		animation.addByPrefix(name, prefix, 24, false);
@@ -572,9 +529,6 @@ class Character extends FlxSprite
 
 			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
 				playAnim('idle', true, false, 10);
-
-			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished && startedDeath)
-				playAnim('deathLoop');
 		}
 
 		if (curCharacter.endsWith('-car'))

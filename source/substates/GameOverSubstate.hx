@@ -3,18 +3,20 @@ package substates;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 
-import objects.game.Character;
+import objects.game.DeathCharacter;
 
 import states.tools.AnimationDebug;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
 	public var bf:String = '';
-	public var deathChar:Character;
+	public var deathChar:DeathCharacter;
 	public var stageSuffix:String = "";
 
 	private var camFollow:FlxObject;
 	private var randomGameover:Int = 1;
+
+	private var startVol:Float = 1;
 
 	public function new(x:Float, y:Float, bf:String = '', camera:FlxCamera)
 	{
@@ -23,69 +25,62 @@ class GameOverSubstate extends MusicBeatSubstate
 		this.bf = bf;
 		this.camera = camera;
 
-		if (PlayState.isPixel)
-			stageSuffix = '-pixel';
-
 		super();
 
 		Conductor.songPosition = 0;
 
-		deathChar = new Character(x, y, bf, true);
+		deathChar = new DeathCharacter(x, y, bf);
+		deathChar.playAnim('firstDeath');
 		add(deathChar);
 
 		if (deathChar.isPixel)
+		{
+			stageSuffix = '-pixel';
 			deathChar.antialiasing = false;
+		}
 
 		camFollow = new FlxObject(deathChar.getGraphicMidpoint().x, deathChar.getGraphicMidpoint().y, 1, 1);
 		add(camFollow);
 
-		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
-		Conductor.changeBPM(100);
-
 		camera.scroll.set();
 		camera.target = null;
 
-		deathChar.playAnim('firstDeath');
+		if (PlayState.game.dad.curCharacter == 'tankman')
+		{
+			randomGameover = FlxG.random.int(1, 25);
+			startVol = 0.2;
+		}
 
-		randomGameover = FlxG.random.int(1, 25);
+		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
+		Conductor.changeBPM(100);
 	}
 
-	var playingDeathSound:Bool = false;
+	private var playingDeathSound:Bool = false;
+	private var isEnding:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		if (controls.ACCEPT)
-			endBullshit();
+			respawn();
 
 		if (controls.BACK)
-		{
-			PlayState.deathCounter = 0;
-			PlayState.seenCutscene = false;
-			FlxG.sound.music.stop();
-
-			if (PlayState.isStoryMode)
-				FlxG.switchState(new StoryMenuState());
-			else
-				FlxG.switchState(new FreeplayState());
-		}
+			despawn();
 
 		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.EIGHT)
 			FlxG.switchState(new AnimationDebug(deathChar.curCharacter, true));
 
-		if (deathChar.animation.curAnim.name == 'firstDeath' && deathChar.animation.curAnim.curFrame == 12)
-			camera.follow(camFollow, LOCKON, 0.01);
-
-		switch (PlayState.game.dad.curCharacter)
+		if (deathChar.animation.curAnim.name == 'firstDeath')
 		{
-			case 'tankman':
-				if (deathChar.animation.curAnim.name == 'firstDeath' && deathChar.animation.curAnim.finished && !playingDeathSound)
+			if (deathChar.animation.curAnim.curFrame == 12)
+				camera.follow(camFollow, LOCKON, 0.01);
+
+			if (deathChar.animation.curAnim.finished)
+			{
+				if (PlayState.game.dad.curCharacter == 'tankman' && !playingDeathSound)
 				{
 					playingDeathSound = true;
-
-					deathChar.startedDeath = true;
-					coolStartDeath(0.2);
 
 					FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
 					{
@@ -93,27 +88,19 @@ class GameOverSubstate extends MusicBeatSubstate
 							FlxG.sound.music.fadeIn(4, 0.2, 1);
 					});
 				}
-			default:
-				if (deathChar.animation.curAnim.name == 'firstDeath' && deathChar.animation.curAnim.finished)
-				{
-					deathChar.startedDeath = true;
-					coolStartDeath();
-				}
+
+				deathChar.startedDeath = true;
+
+				if (!isEnding)
+					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), startVol);
+			}
 		}
 
 		if (FlxG.sound.music.playing)
 			Conductor.songPosition = FlxG.sound.music.time;
 	}
 
-	private function coolStartDeath(?vol:Float = 1):Void
-	{
-		if (!isEnding)
-			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), vol);
-	}
-
-	private var isEnding:Bool = false;
-
-	private function endBullshit():Void
+	private function respawn()
 	{
 		if (!isEnding)
 		{
@@ -131,5 +118,19 @@ class GameOverSubstate extends MusicBeatSubstate
 				});
 			});
 		}
+	}
+
+	private function despawn()
+	{
+		PlayState.deathCounter = 0;
+		PlayState.seenCutscene = false;
+		PlayState.seenEndCutscene = false;
+
+		FlxG.sound.music.stop();
+
+		if (PlayState.isStoryMode)
+			FlxG.switchState(new StoryMenuState());
+		else
+			FlxG.switchState(new FreeplayState());
 	}
 }
