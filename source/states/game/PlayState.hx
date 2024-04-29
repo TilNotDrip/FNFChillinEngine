@@ -1376,8 +1376,8 @@ class PlayState extends MusicBeatState
 			var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
 			var healthOpp:Dynamic = FlxMath.roundDecimal((maxHealth * 50) - (health * 50), 2);
 
-			healthPlayerTxt.text = '[Health: $healthPlayer]';
-			healthOppTxt.text = '[Health: $healthOpp]';
+			healthPlayerTxt.text = '[Health: $healthPlayer%]';
+			healthOppTxt.text = '[Health: $healthOpp%]';
 		}
 	}
 

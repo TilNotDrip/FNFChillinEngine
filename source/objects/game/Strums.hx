@@ -39,9 +39,9 @@ class Strums extends FlxSpriteGroup
 				newNote.updateHitbox();
 				newNote.antialiasing = false;
 
-				newNote.animation.add('static', [0]);
-				newNote.animation.add('pressed', [1, 2], 12, false);
-				newNote.animation.add('confirm', [3, 4], 24, false);
+				newNote.animation.add('static', [0 + note]);
+				newNote.animation.add('pressed', [4 + note, 8 + note], 12, false);
+				newNote.animation.add('confirm', [12 + note, 16 + note], 24, false);
 
 				staticNotes.rgb = [0xFFA2BAC8, 0xFFFFF5FC, 0xFF404047];
 			}
@@ -63,21 +63,6 @@ class Strums extends FlxSpriteGroup
 
 			newNote.animation.play('static');
 			newNote.ID = note;
-
-			if (isPixel)
-			{
-				switch (newNote.ID)
-				{
-					case 0:
-						newNote.angle = -90;
-					case 1:
-						newNote.angle = 180;
-					case 2:
-						newNote.angle = 0;
-					case 3:
-						newNote.angle = 90;
-				}
-			}
 
 			add(newNote);
 		}

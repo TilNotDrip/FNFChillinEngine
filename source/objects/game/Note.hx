@@ -56,8 +56,10 @@ class Note extends FlxSprite
 		{
 			loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
 
-			for (i in 0...colors.length)
-				animation.add(i + 'Scroll', [1]);
+			animation.add('purpleScroll', [4]);
+			animation.add('blueScroll', [5]);
+			animation.add('greenScroll', [6]);
+			animation.add('redScroll', [7]);
 
 			if (isSustainNote)
 			{
@@ -84,8 +86,8 @@ class Note extends FlxSprite
 			animation.addByPrefix('greenScroll', 'up static');
 			animation.addByPrefix('redScroll', 'right static');
 
-			animation.addByPrefix('holdend', 'hold end');
 			animation.addByPrefix('hold', 'hold piece');
+			animation.addByPrefix('holdend', 'hold end');
 
 			setGraphicSize(Std.int(width * 0.7));
 			updateHitbox();
@@ -115,9 +117,6 @@ class Note extends FlxSprite
 				rgbShader.rgb = [arrowColorsRed[3], arrowColorsGreen[3], arrowColorsBlue[3]];
 		}
 
-		if(!isSustainNote && isPixel)
-			angleThing(noteData);
-
 		if (isSustainNote && prevNote != null)
 		{
 			alpha = 0.6;
@@ -146,21 +145,6 @@ class Note extends FlxSprite
 		}
 
 		shader = rgbShader.shader;
-    }
-
-    private function angleThing(note:Int)
-    {
-        switch (note)
-        {
-            case 0:
-                angle = -90;
-            case 1:
-                angle = 180;
-            case 2:
-                angle = 0;
-            case 3:
-                angle = 90;
-        }
     }
 
 	override public function update(elapsed:Float)

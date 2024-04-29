@@ -41,10 +41,6 @@ class StageBackend extends FlxBasic
     private var opponent(get, never):Character;
     private var player(get, never):Character;
 
-    private var gfGroup(get, never):FlxTypedSpriteGroup<Character>;
-    private var opponentGroup(get, never):FlxTypedSpriteGroup<Character>;
-    private var playerGroup(get, never):FlxTypedSpriteGroup<Character>;
-
     public var gfGroup(get, never):FlxTypedSpriteGroup<Character>;
     public var opponentGroup(get, never):FlxTypedSpriteGroup<Character>;
 	public var playerGroup(get, never):FlxTypedSpriteGroup<Character>;
