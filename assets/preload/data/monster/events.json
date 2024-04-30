@@ -1,0 +1,989 @@
+{
+	"events": [
+		{
+			"strumTime": 13263.1578947368,
+			"value": "Guess",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 13578.9473684211,
+			"value": "Guess it's",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 13894.7368421053,
+			"value": "Guess it's time,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 14526.3157894737,
+			"value": "you ",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 14842.1052631579,
+			"value": "you bet",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 15000,
+			"value": "you better",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 15157.8947368421,
+			"value": "you better plug",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 15473.6842105263,
+			"value": "you better plug in",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 15789.4736842105,
+			"value": "you better plug in all ",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 16105.2631578947,
+			"value": "you better plug in all your ",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 16421.0526315789,
+			"value": "you better plug in all your night",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 17052.6315789474,
+			"value": "you better plug in all your nightlights.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 17684.2105263158,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 23368.4210526316,
+			"value": "What's",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 23684.2105263158,
+			"value": "What's out",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 24000,
+			"value": "What's out there,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 24631.5789473684,
+			"value": "What's out there, past ",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 24947.3684210526,
+			"value": "What's out there, past your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 25263.1578947368,
+			"value": "What's out there, past your dark",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 25894.7368421053,
+			"value": "What's out there, past your darkened",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 26526.3157894737,
+			"value": "What's out there, past your darkened door?",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 27789.4736842105,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 32842.1052631579,
+			"value": "Just",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 33789.4736842105,
+			"value": "Just the",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 34105.2631578947,
+			"value": "Just the eyes",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 34421.0526315789,
+			"value": "Just the eyes float",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 34736.8421052631,
+			"value": "Just the eyes floating",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 35052.6315789474,
+			"value": "Just the eyes floating up",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 35683.3816825528,
+			"value": "Just the eyes floating up out of",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 36018.0273518442,
+			"value": "Just the eyes floating up out of the",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 36313.3029423954,
+			"value": "Just the eyes floating up out of the shore.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 37258.1848321591,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 44359.9786868747,
+			"value": "Hey",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 44502.8358297318,
+			"value": "Hey man,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 44931.4072583032,
+			"value": "Hey man, I'm",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 45217.1215440175,
+			"value": "Hey man, I'm go",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 45502.8358297318,
+			"value": "Hey man, I'm gonna",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 45788.5501154461,
+			"value": "Hey man, I'm gonna eat",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 46074.2644011604,
+			"value": "Hey man, I'm gonna eat your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 46359.9786868747,
+			"value": "Hey man, I'm gonna eat your girl",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 46931.4072583032,
+			"value": "Hey man, I'm gonna eat your girlfriend!",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 48645.6929725889,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 53502.8358297318,
+			"value": "Or",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 53788.5501154461,
+			"value": "Or may",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 54074.2644011604,
+			"value": "Or maybe",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 54359.9786868747,
+			"value": "Or maybe turn",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 54645.6929725889,
+			"value": "Or maybe turn her",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 54931.4072583032,
+			"value": "Or maybe turn her in",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 55217.1215440175,
+			"value": "Or maybe turn her into",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 55502.8358297318,
+			"value": "Or maybe turn her into broth,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 56645.6929725889,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 62359.9786868746,
+			"value": "Kill",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 62502.8358297318,
+			"value": "Kill a",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 62645.6929725889,
+			"value": "Kill a kid,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 62931.4072583032,
+			"value": "Kill a kid, cut",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 63074.2644011604,
+			"value": "Kill a kid, cut em",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 63217.1215440175,
+			"value": "Kill a kid, cut em up,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 63502.8358297318,
+			"value": "stuff",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 63645.6929725889,
+			"value": "stuff em",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 63788.5501154461,
+			"value": "stuff em up",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 63931.4072583032,
+			"value": "stuff em up in",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 64074.2644011604,
+			"value": "stuff em up inside",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 64217.1215440175,
+			"value": "stuff em up inside of",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 64359.9786868746,
+			"value": "stuff em up inside of my,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 64931.4072583032,
+			"value": "stuff em up inside of my, se",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 65502.8358297318,
+			"value": "stuff em up inside of my, secret",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 66074.2644011604,
+			"value": "stuff em up inside of my, secret meat",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 66359.9786868746,
+			"value": "stuff em up inside of my, secret meat box.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 66931.4072583032,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 71502.8358297318,
+			"value": "Find",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 72645.6929725889,
+			"value": "Find my",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 73074.2644011604,
+			"value": "Find my...",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 73788.5501154461,
+			"value": "hands",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 73931.4072583032,
+			"value": "hands ac",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74074.2644011604,
+			"value": "hands across",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74217.1215440175,
+			"value": "hands across your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74359.9786868746,
+			"value": "hands across your bo",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74502.8358297318,
+			"value": "hands across your body",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74645.6929725889,
+			"value": "hands across your body slow",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74788.5501154461,
+			"value": "hands across your body slowly,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 74931.4072583032,
+			"value": "peel",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 75217.1215440175,
+			"value": "peel your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 75502.8358297318,
+			"value": "peel your skin",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 75788.5501154461,
+			"value": "peel your skin off.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 76074.2644011604,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 82072.5935573843,
+			"value": "You'll",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 82704.1725047527,
+			"value": "You'll meet",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 83335.7514521211,
+			"value": "You'll meet your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 83651.5409258053,
+			"value": "You'll meet your friends,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 84283.1198731737,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 86493.6461889632,
+			"value": "in",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 86809.4356626474,
+			"value": "inside",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 87125.2251363316,
+			"value": "inside the",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 87441.0146100158,
+			"value": "inside the am",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 87756.8040837,
+			"value": "inside the ambu",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 88072.5935573843,
+			"value": "inside the ambulance.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 88704.1725047527,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 90598.9093468579,
+			"value": "Call",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 90914.6988205422,
+			"value": "Call in",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 91072.5935573843,
+			"value": "Call into",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 91230.4882942264,
+			"value": "Call into the",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 91546.2777679106,
+			"value": "Call into the night,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 92177.856715279,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 94072.5935573843,
+			"value": "to",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 94546.2777679106,
+			"value": "to the",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 94704.1725047527,
+			"value": "to the were",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 95019.9619784369,
+			"value": "to the werewolf.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 95651.5409258053,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 97230.4882942264,
+			"value": "Give",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 97388.3830310685,
+			"value": "Give all",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 97546.2777679106,
+			"value": "Give all your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 97862.0672415948,
+			"value": "Give all your blood",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 98493.6461889632,
+			"value": "Give all your blood to",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 98809.4356626474,
+			"value": "Give all your blood to him,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 99441.0146100158,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 101335.751452121,
+			"value": "stand",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 101967.330399489,
+			"value": "stand un",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 102125.225136332,
+			"value": "stand under",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 102283.119873174,
+			"value": "stand under the",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 102598.909346858,
+			"value": "stand under the warm",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 102914.698820542,
+			"value": "stand under the warm street",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 103230.488294226,
+			"value": "stand under the warm street light.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 103546.277767911,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 105756.8040837,
+			"value": "Let",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 106388.383031068,
+			"value": "Let your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 107019.961978437,
+			"value": "Let yourself",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 107335.751452121,
+			"value": "Let yourself be",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 107651.540925805,
+			"value": "Let yourself be hyp",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 107967.330399489,
+			"value": "Let yourself be hypno",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 108283.119873174,
+			"value": "Let yourself be hypnotized.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 108914.698820542,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 117352.497863604,
+			"value": "You're",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 117579.770590877,
+			"value": "You're just",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 117807.04331815,
+			"value": "You're just a",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 118034.316045422,
+			"value": "You're just a li",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 118261.588772695,
+			"value": "You're just a little",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 118488.861499968,
+			"value": "You're just a little s",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 118716.134227241,
+			"value": "You're just a little snack,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 120534.316045422,
+			"value": "and",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 120761.588772695,
+			"value": "and so",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 121670.679681786,
+			"value": "and so is",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 122125.225136332,
+			"value": "and so is your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 122352.497863604,
+			"value": "and so is your girl",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 122807.04331815,
+			"value": "and so is your girlfriend.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 124397.952409059,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 133920.679681786,
+			"value": "Hey",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 134045.679681786,
+			"value": "Hey man,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 134420.679681786,
+			"value": "Hey man, I'm",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 134670.679681786,
+			"value": "Hey man, I'm go",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 134920.679681786,
+			"value": "Hey man, I'm gonna",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 135170.679681786,
+			"value": "Hey man, I'm gonna tear",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 135420.679681786,
+			"value": "Hey man, I'm gonna tear your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 135670.679681786,
+			"value": "Hey man, I'm gonna tear your eyes",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 136170.679681786,
+			"value": "Hey man, I'm gonna tear your eyes out,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 137670.679681786,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 141920.679681786,
+			"value": "and",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 142170.679681786,
+			"value": "and then",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 142420.679681786,
+			"value": "and then I'll",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 142670.679681786,
+			"value": "and then I'll bo",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 142920.679681786,
+			"value": "and then I'll boil",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 143170.679681786,
+			"value": "and then I'll boil your",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 143420.679681786,
+			"value": "and then I'll boil your girl",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 143670.679681786,
+			"value": "and then I'll boil your girlfriend!",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 145670.679681786,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 149670.679681786,
+			"value": "Kill",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 149795.679681786,
+			"value": "Kill a",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 149920.679681786,
+			"value": "Kill a kid,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 150170.679681786,
+			"value": "Kill a kid, cut",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 150295.679681786,
+			"value": "Kill a kid, cut em",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 150420.679681786,
+			"value": "Kill a kid, cut em up,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 150670.679681786,
+			"value": "stuff",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 150795.679681786,
+			"value": "stuff em",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 150920.679681786,
+			"value": "stuff em up",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 151045.679681786,
+			"value": "stuff em up in",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 151170.679681786,
+			"value": "stuff em up inside",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 151295.679681786,
+			"value": "stuff em up inside of",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 151420.679681786,
+			"value": "stuff em up inside of my,",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 151920.679681786,
+			"value": "stuff em up inside of my, burn",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 152420.679681786,
+			"value": "stuff em up inside of my, burning",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 152920.679681786,
+			"value": "stuff em up inside of my, burning dun",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 153170.679681786,
+			"value": "stuff em up inside of my, burning dungeon.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 153670.679681786,
+			"value": "",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 157670.679681786,
+			"value": "I",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 158670.679681786,
+			"value": "I would",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 159670.679681786,
+			"value": "I would give",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 159795.679681786,
+			"value": "I would give you",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 159920.679681786,
+			"value": "I would give you guys",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160045.679681786,
+			"value": "I would give you guys a",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160170.679681786,
+			"value": "I would give you guys a li",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160295.679681786,
+			"value": "I would give you guys a little",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160420.679681786,
+			"value": "I would give you guys a little break",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160545.679681786,
+			"value": "I would give you guys a little break but",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160670.679681786,
+			"value": "I'm",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 160920.679681786,
+			"value": "I'm not",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 161170.679681786,
+			"value": "I'm not Sa",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 161420.679681786,
+			"value": "I'm not Satan.",
+			"name": "Lyrics"
+		},
+		{
+			"strumTime": 161670.679681786,
+			"value": "",
+			"name": "Lyrics"
+		}
+	]
+}
