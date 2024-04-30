@@ -14,7 +14,7 @@ class MusicBeatState extends FlxUIState
 	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
-	private function new()
+	public function new()
 	{
 		#if DISCORD
 		DiscordRPC.clearValues();
