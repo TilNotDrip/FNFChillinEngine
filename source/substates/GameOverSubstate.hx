@@ -23,6 +23,12 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		Application.current.window.title += ' [Game Over]';
 
+		#if DISCORD
+		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Game Over]';
+		DiscordRPC.state = 'Deaths: ' + PlayState.deathCounter;
+		PlayState.game.setRpcTimestamps(false);
+		#end
+
 		this.bf = bf;
 		this.camera = camera;
 

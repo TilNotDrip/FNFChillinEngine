@@ -18,24 +18,15 @@
 
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
+	<section if="cpp"> <define name="DISCORD" if="desktop"/> </section>
 	<define name="MOD_SUPPORT" />
-
 	<define name="VIDEOS" />
-
-	<section if="cpp">
-		<define name="DISCORD" if="desktop"/>
-	</section>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
-
-	<classpath name="source" />
-
-	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
-	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
 
 	<define name="PRELOAD_ALL"    unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
@@ -64,66 +55,58 @@
 		<library name="videos"	 preload="false" />
 	</section>
 
+	<assets path="assets/fonts"    embed='true'/>
+	<assets path="assets/preload"  rename="assets" 	  exclude="*.ogg" if="web"/>
+	<assets path="assets/preload"  rename="assets" 	  exclude="*.mp3" unless="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/shared"   library="shared"   exclude="*.ogg" if="web"/>
 	<assets path="assets/shared"   library="shared"   exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/videos"   library="videos" />
-
 	<assets path="assets/week2"    library="week2"    exclude="*.ogg" if="web"/>
 	<assets path="assets/week2"    library="week2"    exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/week3"    library="week3"	  exclude="*.ogg" if="web"/>
 	<assets path="assets/week3"    library="week3"	  exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/week4"    library="week4"	  exclude="*.ogg" if="web"/>
 	<assets path="assets/week4"    library="week4"	  exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/week5"    library="week5"	  exclude="*.ogg" if="web"/>
 	<assets path="assets/week5"    library="week5"	  exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/week6"    library="week6"    exclude="*.ogg" if="web"/>
 	<assets path="assets/week6"    library="week6"    exclude="*.mp3" unless="web"/>
-
 	<assets path="assets/week7"    library="week7"    exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
-
-	<assets path="example_mods"  rename="mods" />
 	<assets path="docs/CHANGELOG.md" rename='changelog.txt'/>
-	<assets path="assets/fonts"    embed='true'/>
+	<assets path="example_mods"    rename="mods" />
+
+	<classpath name="source" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
-	<haxedev set='webgl' />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="faxe" if='switch'/>
-	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
-
 	<haxelib name="flxanimate" unless="html5"/>
-
+	<haxelib name="hxcpp-debug-server" if="desktop debug" />
+	<haxelib name="hxdiscord_rpc" if="DISCORD" />
+	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
 	<haxelib name="SScript" if="MOD_SUPPORT"/>
-
-	<section if="cpp">
-		<haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" />
-	</section>
+	<haxedev set='webgl' />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
-	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
-	<haxedef name="hscriptPos" />
 	<haxedef name="FLX_RECORD" />
+	<haxedef name="hscriptPos" />
+	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
-	<!-- _________________________________ Custom _______________________________ -->
+	<!-- _________________________________ Icons _______________________________ -->
 
 	<icon path="extras/appicons/icon16.png" size='16'/>
 	<icon path="extras/appicons/icon32.png" size='32'/>
 	<icon path="extras/appicons/icon64.png" size='64'/>
 	<icon path="extras/appicons/iconOG.png" />
+
+	<!-- _________________________________ Custom _______________________________ -->
 
 </project>

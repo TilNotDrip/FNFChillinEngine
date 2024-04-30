@@ -15,6 +15,10 @@ class OutdatedState extends MusicBeatState
 	{
 		changeWindowName('Outdated!');
 
+		#if DISCORD
+		DiscordRPC.details = 'Outdated Screen';
+		#end
+
 		super.create();
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);

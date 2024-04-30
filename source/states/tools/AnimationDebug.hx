@@ -37,6 +37,11 @@ class AnimationDebug extends MusicBeatState
 	{
 		changeWindowName('Animation Debug - ' + daAnim);
 
+		#if DISCORD
+		DiscordRPC.details = 'Animation Debug';
+		DiscordRPC.state = daAnim;
+		#end
+
 		camGAME = new SwagCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;

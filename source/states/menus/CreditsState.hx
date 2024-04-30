@@ -45,6 +45,10 @@ class CreditsState extends MusicBeatState
     {
         changeWindowName('Credits Menu');
 
+        #if DISCORD
+		DiscordRPC.details = 'Credits Menu';
+		#end
+
         var contribGet = new haxe.Http('https://api.github.com/repos/TechnikTil/FNFChillinEngine/contributors');
         contribGet.setHeader("User-Agent", "request");
 

@@ -28,6 +28,10 @@ class MainMenuState extends MusicBeatState
 	{
 		changeWindowName('Main Menu');
 
+		#if DISCORD
+		DiscordRPC.details = 'Main Menu';
+		#end
+
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 

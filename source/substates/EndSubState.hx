@@ -13,7 +13,12 @@ class EndSubState extends MusicBeatSubstate
     {
         super();
 
-        Application.current.window.title += ' [END]';
+        Application.current.window.title += ' [ENDING]';
+
+        #if DISCORD
+		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Ending]';
+		PlayState.game.setRpcTimestamps(false);
+		#end
 
         PlayState.game.isEnding = true;
         FlxG.sound.music.stop();

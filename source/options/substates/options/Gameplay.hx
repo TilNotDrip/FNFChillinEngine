@@ -10,6 +10,10 @@ class Gameplay extends BaseSubState
 {
     override public function create()
     {
+        #if DISCORD
+        DiscordRPC.state = 'Gameplay';
+        #end
+
         var camZoom:Option = new Option('Camera Zooming', '', 'camZoom', GAMEPLAY, CHECKBOX);
         addOption(camZoom);
 

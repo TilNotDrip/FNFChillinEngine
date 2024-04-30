@@ -6,6 +6,10 @@ class Display extends BaseSubState
 {
     override public function create()
     {
+        #if DISCORD
+        DiscordRPC.state = 'Display';
+        #end
+
         var fps:Option = new Option('FPS', 'How much frames the game runs per second.', 'fps', DISPLAY, NUMBER);
         fps.numType = Int;
         fps.minimumValue = 30;

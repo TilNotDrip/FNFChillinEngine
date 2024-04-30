@@ -25,6 +25,11 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		Application.current.window.title += ' [Paused]';
 
+		#if DISCORD
+		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Paused]';
+		PlayState.game.setRpcTimestamps(false);
+		#end
+
 		super();
 
 		menuItems = pauseOG;

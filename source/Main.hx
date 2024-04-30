@@ -63,10 +63,10 @@ class Main extends Sprite
 		addChild(fpsCounter);
 		#end
 
-		initData();
+		initGame();
 	}
 
-	private function initData()
+	private function initGame()
 	{
 		ChillSettings.loadSettings();
 		PlayerSettings.init();
@@ -75,6 +75,10 @@ class Main extends Sprite
 		FlxG.debugger.setLayout(MICRO);
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = [ZERO];
+
+		#if DISCORD
+		DiscordRPC.initialize();
+		#end
 	}
 
 	private static var curDate = Date.now();

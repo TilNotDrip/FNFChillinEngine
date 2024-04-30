@@ -42,10 +42,12 @@ class HealthIcon extends TrackedSprite
 
 	public function swapOldIcon():Void
 	{
+		if (FlxG.state != PlayState.game) return;
+
 		isOldIcon = !isOldIcon;
 
 		if (isOldIcon)
-			(PlayState.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
+			(PlayState.game.boyfriend.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
 		else
 			changeIcon(PlayState.SONG.player1);
 	}

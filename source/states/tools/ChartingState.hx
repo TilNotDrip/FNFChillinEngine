@@ -98,14 +98,20 @@ class ChartingState extends MusicBeatState
 			};
 		}
 
-		FlxG.mouse.visible = true;
+		changeWindowName('Charting Menu - ' + _song.song);
+
+		#if DISCORD
+		DiscordRPC.details = 'Charting Menu';
+		DiscordRPC.state = _song.song;
+		#end
+
+		if (!FlxG.mouse.visible)
+			FlxG.mouse.visible = true;
 
 		autoSave = new FlxSave();
 		autoSave.bind('autosaves', CoolTools.getSavePath());
 
 		tempBpm = _song.bpm;
-
-		changeWindowName('Charting Menu - ' + _song.song);
 
 		curSection = lastSection;
 
@@ -684,7 +690,9 @@ class ChartingState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.ENTER)
 		{
-			FlxG.mouse.visible = false;
+			if (FlxG.mouse.visible)
+				FlxG.mouse.visible = false;
+
 			lastSection = curSec;
 
 			PlayState.SONG = _song;

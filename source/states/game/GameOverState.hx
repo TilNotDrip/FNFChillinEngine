@@ -23,6 +23,11 @@ class GameOverState extends MusicBeatState
 	{
 		Application.current.window.title += ' [Secret Game Over]';
 
+		#if DISCORD
+		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Game Over (Secret)]';
+		DiscordRPC.state = 'Deaths: ' + PlayState.deathCounter;
+		#end
+
 		Conductor.songPosition = 0;
 
 		deadCharacter = new DeathCharacter(0, 0, curCharacter);

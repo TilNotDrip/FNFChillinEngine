@@ -19,6 +19,10 @@ class ControlsSubState extends MusicBeatSubstate
 
     override function create()
     {
+        #if DISCORD
+        DiscordRPC.state = 'Controls';
+        #end
+
         super.create();
 
         optionHeader = new Alphabet(0, 0, '', Bold);

@@ -3,7 +3,6 @@
 // Stuff from Haxelibs
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.FlxSubState;
 
 import flixel.graphics.frames.FlxAtlasFrames;

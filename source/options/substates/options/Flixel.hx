@@ -10,6 +10,10 @@ class Flixel extends BaseSubState
 {
     override public function create()
     {
+        #if DISCORD
+        DiscordRPC.state = 'Flixel';
+        #end
+
         var autoPause:Option = new Option('Auto Pause', 'Whether to freeze the game is unfocused.', 'autoPause', FLIXEL, CHECKBOX);
         autoPause.onChange = autopausing;
         addOption(autoPause);

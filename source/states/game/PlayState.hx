@@ -133,15 +133,25 @@ class PlayState extends MusicBeatState
 
 	public var singArray:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
 
-	public static var game:PlayState;
-
 	public var lyricText:FlxTypeText;
+
+	#if DISCORD
+	public var rpcDetailsText:String = PlayState.SONG.song;
+	public var rpcStateText:String = '[$difficulty] [Week: ${storyWeek.name}] ' + (!isStoryMode ? '[Freeplay]' : '[Story Mode]');
+	#end
+
+	public static var game:PlayState;
 
 	override public function create()
 	{
 		game = this;
 
 		changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.song + ' (' + difficulty + ')');
+
+		#if DISCORD
+		DiscordRPC.details = rpcDetailsText;
+		DiscordRPC.state = rpcStateText;
+		#end
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -370,7 +380,7 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
+		updateHealthBar();
 
 		lyricText = new FlxTypeText(0, 0, FlxG.width, "", 36);
 		lyricText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -555,6 +565,10 @@ class PlayState extends MusicBeatState
 			FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
 
 		vocals.play();
+
+		#if DISCORD
+		setRpcTimestamps(true);
+		#end
 
 		FlxG.sound.music.onComplete = function() {
 			endSong();
@@ -755,6 +769,12 @@ class PlayState extends MusicBeatState
 		}
 
 		super.closeSubState();
+
+		#if DISCORD
+		DiscordRPC.details = rpcDetailsText;
+		DiscordRPC.state = rpcStateText;
+		setRpcTimestamps(true);
+		#end
 	}
 
 	
@@ -846,12 +866,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.NINE)
 		{
 			iconP1.swapOldIcon();
-			healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
-			healthBar.updateFilledBar();
-			healthOppTxt.color = iconP2.curHealthBarColor;
-			healthPlayerTxt.color = iconP1.curHealthBarColor;
-			health -= 0.01;
-			health += 0.01;
+			updateHealthBar();
 		}
 
 		var iconOffset:Int = 26;
@@ -1192,6 +1207,10 @@ class PlayState extends MusicBeatState
 
 		updateStep();
 		resyncVocals();
+
+		#if DISCORD
+		setRpcTimestamps(true);
+		#end
 	}
 	#end
 
@@ -1301,6 +1320,7 @@ class PlayState extends MusicBeatState
 		}
 
 		changeHealthText();
+		changeJudgementText();
 	}
 
 	public function changeHealthText()
@@ -1313,6 +1333,35 @@ class PlayState extends MusicBeatState
 			healthPlayerTxt.text = '[Health: $healthPlayer%]';
 			healthOppTxt.text = '[Health: $healthOpp%]';
 		}
+	}
+
+	public function changeJudgementText()
+	{
+		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		{
+			var sickTxt = '[Sicks: $sicks]';
+			var goodTxt = '[Goods: $goods]';
+			var badTxt = '[Bads: $bads]';
+			var shitTxt = '[Shits: $shits]';
+			ratingCounterTxt.text = '$sickTxt\n$goodTxt\n$badTxt\n$shitTxt';
+		}
+	}
+
+	public function updateHealthBar()
+	{
+		iconP1.changeIcon(PlayState.game.boyfriend.curCharacter);
+		iconP2.changeIcon(PlayState.game.dad.curCharacter);
+
+		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
+		healthBar.updateFilledBar();
+
+		healthOppTxt.color = iconP2.curHealthBarColor;
+		healthPlayerTxt.color = iconP1.curHealthBarColor;
+
+		#if DISCORD
+		DiscordRPC.smallImageKey = 'icon-${iconP2.char}';
+		DiscordRPC.smallImageText = PlayState.game.dad.curCharacter;
+		#end
 	}
 
 	public function popUpScore(strumtime:Float, daNote:Note):Void
@@ -1815,7 +1864,6 @@ class PlayState extends MusicBeatState
 
 	public function goodNoteHit(note:Note):Void
 	{
-		changeHealthText();
 		changeScoreText();
 
 		if (!note.wasGoodHit)
@@ -1851,7 +1899,7 @@ class PlayState extends MusicBeatState
 
 	public function opponentNoteHit(daNote:Note):Void
 	{
-		changeHealthText();
+		changeScoreText();
 
 		if (!daNote.wasGoodHit)
 		{
@@ -2089,6 +2137,7 @@ class PlayState extends MusicBeatState
 
 			case 'Change Character':
 				var params:Array<String> = value.split(', ');
+				updateHealthBar();
 
 				switch(params[0])
 				{
@@ -2137,4 +2186,20 @@ class PlayState extends MusicBeatState
 				}
 		}
 	}
+
+	#if DISCORD
+	public function setRpcTimestamps(hasTimestamps:Bool = true)
+	{
+		if (hasTimestamps && FlxG.sound.music.playing)
+		{
+			DiscordRPC.startTimestamp = Date.now().getTime();
+			DiscordRPC.endTimestamp = (Date.now().getTime() + FlxG.sound.music.length) - FlxG.sound.music.time;
+		}
+		else
+		{
+			DiscordRPC.startTimestamp = 0;
+			DiscordRPC.endTimestamp = 0;
+		}
+	}
+	#end
 }

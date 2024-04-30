@@ -73,6 +73,10 @@ class TitleState extends MusicBeatState
 	{
 		changeWindowName('Title Screen');
 
+		#if DISCORD
+		DiscordRPC.details = 'Title Screen';
+		#end
+
 		introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
 
 		startedIntro = false;
@@ -124,7 +128,8 @@ class TitleState extends MusicBeatState
 
 		add(titleSprites);
 
-		FlxG.mouse.visible = false;
+		if (FlxG.mouse.visible)
+			FlxG.mouse.visible = false;
 
 		if (initialized)
 			skipIntro();
@@ -142,9 +147,7 @@ class TitleState extends MusicBeatState
 		var swagGoodArray:Array<Array<String>> = [];
 
 		for (i in firstArray)
-		{
 			swagGoodArray.push(i.split('--'));
-		}
 
 		return FlxG.random.getObject(swagGoodArray);
 	}

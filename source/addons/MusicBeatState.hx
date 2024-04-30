@@ -14,6 +14,17 @@ class MusicBeatState extends FlxUIState
 	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
+	private function new()
+	{
+		#if DISCORD
+		DiscordRPC.clearValues();
+		DiscordRPC.largeImageKey = 'logo';
+		DiscordRPC.largeImageText = 'Friday Night Funkin\'; Chillin Engine: V' + Application.current.meta.get('version');
+		#end
+
+		super();
+	}
+
 	override public function update(elapsed:Float)
 	{
 		var oldStep:Int = curStep;

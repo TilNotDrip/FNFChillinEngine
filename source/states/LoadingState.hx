@@ -1,5 +1,7 @@
 package states;
 
+import flixel.FlxState;
+
 import haxe.io.Path;
 
 import lime.app.Future;
@@ -36,6 +38,10 @@ class LoadingState extends MusicBeatState
 	override public function create()
 	{
 		changeWindowName('Loading...');
+
+		#if DISCORD
+		DiscordRPC.details = 'Loading...';
+		#end
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFFcaff4d);
 		add(bg);

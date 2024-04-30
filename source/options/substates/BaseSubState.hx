@@ -29,6 +29,11 @@ class BaseSubState extends MusicBeatSubstate
         if (controls.BACK)
         {
             OptionsState.optionItems.visible = true;
+
+            #if DISCORD
+            DiscordRPC.state = null;
+            #end
+
             close();
         }
 

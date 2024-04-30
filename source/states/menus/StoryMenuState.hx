@@ -35,6 +35,10 @@ class StoryMenuState extends MusicBeatState
 	{
 		changeWindowName('Story Menu');
 
+		#if DISCORD
+		DiscordRPC.details = 'Story Menu';
+		#end
+
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 

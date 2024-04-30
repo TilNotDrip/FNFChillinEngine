@@ -151,7 +151,8 @@ class ChillSettings
 			set('safeMode', OTHER, false);
         #end
 
-        set('devMode', OTHER, false);
+        if (chillSettings.data.otherSettings.get('devMode') == null)
+            set('devMode', OTHER, false);
     }
 }
 
