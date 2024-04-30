@@ -33,10 +33,6 @@ class FreeplayState extends MusicBeatState
 	{
 		changeWindowName('Freeplay Menu');
 
-		#if DISCORD
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
 		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 

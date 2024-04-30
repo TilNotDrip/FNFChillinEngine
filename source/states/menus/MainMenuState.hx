@@ -28,10 +28,6 @@ class MainMenuState extends MusicBeatState
 	{
 		changeWindowName('Main Menu');
 
-		#if DISCORD
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 

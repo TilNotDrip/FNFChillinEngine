@@ -30,8 +30,8 @@ import addons.*;
 import addons.Controls;
 import addons.CoolUtil;
 
-#if DISCORD
-import addons.discord.LegacyDiscord as DiscordClient;
+#if MOD_SUPPORT
+import modding.*;
 #end
 
 import objects.*;

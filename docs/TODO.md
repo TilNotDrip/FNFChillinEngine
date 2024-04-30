@@ -6,7 +6,6 @@
  - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
  - [ ] Ending Screen
- - [ ] Discord Game SDK integration
  - [ ] Modding API (using SScript)
  - [x] Title Screen Softcoded
  - [ ] Controller Support

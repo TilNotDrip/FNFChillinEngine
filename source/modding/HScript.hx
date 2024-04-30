@@ -1,4 +1,4 @@
-package addons;
+package modding;
 
 import openfl.Assets;
 
@@ -48,10 +48,6 @@ class HScript extends SScript
         addons.CoolUtil,
 
         addons.Paths,
-
-        #if DISCORD
-        addons.discord.LegacyDiscord,
-        #end
 
         options.ChillSettings,
 

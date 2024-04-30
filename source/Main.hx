@@ -75,16 +75,6 @@ class Main extends Sprite
 		FlxG.debugger.setLayout(MICRO);
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = [ZERO];
-
-		#if DISCORD
-		if (ChillSettings.get('discordRPC', OTHER))
-			DiscordClient.initialize();
-
-		Application.current.onExit.add(function(exitCode)
-		{
-			DiscordClient.shutdown();
-		});
-		#end
 	}
 
 	private static var curDate = Date.now();

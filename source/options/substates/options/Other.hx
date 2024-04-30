@@ -30,10 +30,6 @@ class Other extends BaseSubState
     #if DISCORD
     private function discordRPCChange()
     {
-        if (ChillSettings.get('discordRPC', OTHER))
-            DiscordClient.initialize();
-        else
-            DiscordClient.shutdown();
     }
     #end
 }

@@ -1,4 +1,4 @@
-package addons;
+package modding;
 
 #if sys
 import sys.FileSystem;

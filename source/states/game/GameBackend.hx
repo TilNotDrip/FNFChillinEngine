@@ -63,13 +63,6 @@ class GameBackend extends MusicBeatState
 	public var opponentStrums:Strums;
 	public var opponentSplashes:FlxTypedGroup<NoteSplash>;
 
-    #if DISCORD
-	public var iconRPC:String = "";
-	public var songLength:Float = 0;
-	public var detailsText:String = "";
-	public var detailsPausedText:String = "";
-	#end
-
     public static var game:GameBackend;
 
     override public function create()

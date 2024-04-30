@@ -72,10 +72,6 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		#if DISCORD
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
 		daWeeks = Week.weeks;
 		curWeekClass = daWeeks[curWeek];
 
