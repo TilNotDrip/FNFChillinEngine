@@ -88,9 +88,19 @@
 	<haxelib name="flxanimate" unless="html5"/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="DISCORD" />
-	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
+	
+	<section if="cpp"> 
+		<haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> 
+	</section>
+
 	<haxelib name="SScript" if="MOD_SUPPORT"/>
 	<haxedev set='webgl' />
+
+	<haxelib name="texter" />
+
+	<section if="cpp">
+		<haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" />
+	</section>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
