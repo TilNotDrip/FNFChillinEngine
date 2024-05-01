@@ -21,7 +21,6 @@
 	<section if="cpp"> <define name="DISCORD" if="desktop"/> </section>
 	<define name="MOD_SUPPORT" />
 	<define name="VIDEOS" />
-	<!--define name="FNF_UPDATE" /-->
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 

@@ -12,7 +12,7 @@ import objects.menu.MenuItem;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var funkinVer:String = #if FNF_UPDATE '0.2.8' #else '0.3.0 PROTOTYPE' #end;
+	public static var funkinVer:String = '0.2.8';
 
 	private var magenta:FlxSprite;
 
