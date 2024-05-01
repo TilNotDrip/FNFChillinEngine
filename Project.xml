@@ -90,6 +90,7 @@
 	<haxelib name="hxdiscord_rpc" if="DISCORD" />
 	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
 	<haxelib name="SScript" if="MOD_SUPPORT"/>
+	<haxelib name="texter" />
 	<haxedev set='webgl' />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->

@@ -60,26 +60,37 @@
         },
         {
             "id":"ngSpr",
-            "pos":[459, 374.4],
-            "scale":[0.8, 0.8],
-            "path":"titleScreen/newgrounds_logo",
+            "pos":[0, 399.4],
+            "scale":[0.55, 0.55],
+            "path":"titleScreen/newgrounds_logo_animated",
+            "animations":
+            [
+                {
+                    "name":"idle",
+                    "anim":"idle",
+                    "loop":true,
+                    "fps":4
+                }
+            ],
+            "screenCenter":"x",
+            "updateHitbox":true,
             "titleSpr":true
         }
     ],
     "titleText":
     [
         {
-            "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er",
+            "text": "The\nFunkin Crew Inc",
             "beat": 1,
             "removeSelected": false
         },
         {
-            "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er\npresent",
+            "text": "The\nFunkin Crew Inc\n presents",
             "beat": 3,
             "removeSelected": false
         },
         {
-            "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er\npresent",
+            "text": "The\nFunkin Crew Inc",
             "beat": 4,
             "removeSelected": true
         },

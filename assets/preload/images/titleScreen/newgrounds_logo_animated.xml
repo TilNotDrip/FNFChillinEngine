@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="newgrounds_logo_animated.png">
+	<SubTexture name="idle0000" x="0" y="0" width="600" height="591" />
+	<SubTexture name="idle0001" x="600" y="0" width="600" height="591" />
+</TextureAtlas>

@@ -12,7 +12,7 @@ import objects.menu.MenuItem;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var funkinVer:String = '0.3.0';
+	public static var funkinVer:String = '0.3.0 (Prototype)';
 
 	private var magenta:FlxSprite;
 

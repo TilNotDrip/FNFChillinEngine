@@ -5,7 +5,6 @@
  - [ ] Full Options Menu Rework (This includes saving)
  - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
- - [ ] Ending Screen
  - [ ] Modding API (using SScript)
  - [x] Title Screen Softcoded
  - [ ] Controller Support
@@ -19,7 +18,6 @@
  - [x] Pixel Note Splashes (`impact 1` animations)
  - [x] Pixel Note Splashes (`impact 2` animations)
  - [ ] Stage background images load from a bg folder, then the stage name
- - [ ] Seperate Voices File (`Voices.ogg` => `Voices/dad`, `Voices/bf`, `Voices/gf`)
  - [x] Botplay
  - [x] Old BF icon but pixel for pixel stages
  - [x] Put song watermark ingame
@@ -30,7 +28,6 @@
  - [ ] Fix things with diff in Story Menu
  - [ ] Fix Scaling with Chars in Story Menu
  - [ ] RGB Pallete for Notes + Note Splashes
- - [ ] Sustain Note Splashes (https://twitter.com/FNF_Developers/status/1774200908806525366)
  - [ ] Opponents have their own note colors
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
  - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.)

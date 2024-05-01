@@ -36,6 +36,8 @@ typedef TitleJSON =
 			@:optional var indices:Array<Int>;
 			var fps:Int;
 		}>;
+		@:optional var screenCenter:String;
+		@:optional var updateHitbox:Bool;
 		@:optional var titleSpr:Bool;
 	}>;
 	var titleText:Array<{
@@ -323,9 +325,9 @@ class TitleState extends MusicBeatState
 
 		titleSprites = new FlxTypedGroup<FlxSprite>();
 
-		for(jsonSpr in introText.sprites) {
+		for(jsonSpr in introText.sprites)
+		{
 			var daSprite:FlxSprite = new FlxSprite(jsonSpr.pos[0], jsonSpr.pos[1]);
-			if(jsonSpr.scale != null) daSprite.scale.set(jsonSpr.scale[0], jsonSpr.scale[1]);
 
 			if(jsonSpr.animations == null)
 				daSprite.loadGraphic(Paths.image(jsonSpr.path));
@@ -353,10 +355,26 @@ class TitleState extends MusicBeatState
 				daSprite.animation.play(jsonSpr.animations[0].name);
 			}
 
+			if(jsonSpr.scale != null) daSprite.scale.set(jsonSpr.scale[0], jsonSpr.scale[1]);
+			if(jsonSpr.updateHitbox != null && jsonSpr.updateHitbox == true) daSprite.updateHitbox();
+
+			if (jsonSpr.screenCenter != null)
+			{
+				switch(jsonSpr.screenCenter.formatToPath())
+				{
+					case 'x':
+						daSprite.screenCenter(X);
+					case 'y':
+						daSprite.screenCenter(Y);
+					case 'xy' | 'yx':
+						daSprite.screenCenter(XY);
+				}
+			}
+
 			daSprite.visible = !jsonSpr.titleSpr;
 
 			introTextSprites.set(jsonSpr.id, daSprite);
-			
+
 			if(!jsonSpr.titleSpr)
 				add(daSprite);
 			else
@@ -374,6 +392,7 @@ class TitleState extends MusicBeatState
 
 			if (ChillSettings.get('flashingLights', DISPLAY))
 				FlxG.camera.flash(FlxColor.WHITE, 4);
+
 			remove(credGroup);
 			skippedIntro = true;
 		}
