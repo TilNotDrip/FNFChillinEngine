@@ -128,8 +128,8 @@ class StoryMenuState extends MusicBeatState
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
 		leftArrow.frames = Paths.getSparrowAtlas('storyMenu/ui/arrowLeft');
-		leftArrow.animation.addByPrefix('idle', "arrow left");
-		leftArrow.animation.addByPrefix('press', "arrow push left");
+		leftArrow.animation.addByPrefix('idle', 'idle');
+		leftArrow.animation.addByPrefix('press', 'press');
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
@@ -140,8 +140,8 @@ class StoryMenuState extends MusicBeatState
 
 		rightArrow = new FlxSprite(leftArrow.x + 380, leftArrow.y);
 		rightArrow.frames = Paths.getSparrowAtlas('storyMenu/ui/arrowRight');
-		rightArrow.animation.addByPrefix('idle', 'arrow right');
-		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
+		rightArrow.animation.addByPrefix('idle', 'idle');
+		rightArrow.animation.addByPrefix('press', 'press');
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
@@ -297,6 +297,7 @@ class StoryMenuState extends MusicBeatState
 			case 'easy': sprDifficulty.offset.x = 20;
 			case 'normal': sprDifficulty.offset.x = 70;
 			case 'hard': sprDifficulty.offset.x = 20;
+			case 'erect': sprDifficulty.offset.x = 25;
 		}
 
 		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));

@@ -16,11 +16,11 @@ class Week
         // Tutorial
         daWeekThing[0] = new Week('tutorial', [['Tutorial', false]], ['Easy', 'Normal', 'Hard']);
         daWeekThing[0].characters = [null, 'bf', 'gf'];
-        daWeekThing[0].motto = 'LEFT, RIGHT!';
+        daWeekThing[0].motto = 'Teaching Time';
         daWeekThing[0].color = 0xff9271fd;
 
         // Week 1
-        daWeekThing[1] = new Week('week1', [['Bopeebo', false], ['Fresh', false], ['Dad Battle', false]], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[1] = new Week('week1', [['Bopeebo', false], ['Fresh', false], ['Dad Battle', false]], ['Easy', 'Normal', 'Hard', 'Erect', 'Nightmare']);
         daWeekThing[1].characters = ['dad', 'bf', 'gf'];
         daWeekThing[1].motto = 'Daddy Dearest';
         daWeekThing[1].color = 0xff9271fd;
@@ -32,7 +32,7 @@ class Week
         daWeekThing[2].color = 0xff223344;
 
         // Week 3
-        daWeekThing[3] = new Week('week3', [['Pico', false], ['Philly Nice', false], ['Blammed', false]], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[3] = new Week('week3', [['Pico', false], ['Philly Nice', false], ['Blammed', false]], ['Easy', 'Normal', 'Hard', 'Erect', 'Nightmare']);
         daWeekThing[3].characters = ['pico', 'bf', 'gf'];
         daWeekThing[3].motto = 'PICO';
         daWeekThing[3].color = 0xFF941653;
@@ -50,7 +50,7 @@ class Week
         daWeekThing[5].color = 0xFFa0d1ff;
 
         // Week 6
-        daWeekThing[6] = new Week('week6', [['Senpai', false], ['Roses', false], ['Thorns', false]], ['Easy', 'Normal', 'Hard']);
+        daWeekThing[6] = new Week('week6', [['Senpai', false], ['Roses', false], ['Thorns', false]], ['Easy', 'Normal', 'Hard', 'Erect', 'Nightmare']);
         daWeekThing[6].characters = ['senpai', 'bf', 'gf'];
         daWeekThing[6].motto = 'hating simulator ft. moawling';
         daWeekThing[6].color = 0xffff78bf;
@@ -58,7 +58,7 @@ class Week
         // Week 7
         daWeekThing[7] = new Week('week7', [['Ugh', false], ['Guns', false], ['Stress', false]], ['Easy', 'Normal', 'Hard']);
         daWeekThing[7].characters = ['tankman', 'bf', 'gf'];
-        daWeekThing[7].motto = 'TANKMAN';
+        daWeekThing[7].motto = 'Tankman ft. Johnny Utah';
         daWeekThing[7].color = 0xfff6b604;
 
         // Test
@@ -85,7 +85,7 @@ class Week
     public var characters:Array<String>;
 
     /**
-     * @param color The background color for the menus. `A = Alpha | R = Red | G = Green | B = Blue` Goes by 0xAARRGGBB
+     * @param color The background color for story mode. `A = Alpha | R = Red | G = Green | B = Blue` Goes by 0xAARRGGBB
      */
     public var color:FlxColor = 0xFFF9CF51;
 

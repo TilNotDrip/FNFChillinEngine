@@ -20,6 +20,8 @@ class HealthIcon extends TrackedSprite
 		'tankman' => 0xFFE1E1E1
 	];
 
+	private static var POSITION_OFFSET = 26;
+
 	public var curHealthBarColor:FlxColor;
 
 	public var char:String = '';
@@ -73,6 +75,24 @@ class HealthIcon extends TrackedSprite
 			char = newChar;
 		}
 	}
+
+	override public function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		updatePosition();
+	}
+
+	public function updatePosition()
+    {
+		if (FlxG.state != PlayState.game) return;
+
+		if (this == PlayState.game.iconP1)
+			x = PlayState.game.healthBar.x + (PlayState.game.healthBar.width * (FlxMath.remapToRange(PlayState.game.healthBar.value, 0, 2, 100, 0) * 0.01) - POSITION_OFFSET);
+
+		if (this == PlayState.game.iconP2)
+			x = PlayState.game.healthBar.x + PlayState.game.healthBar.width * (FlxMath.remapToRange(PlayState.game.healthBar.value, 0, 2, 100, 0) * 0.01) - (width - HealthIcon.POSITION_OFFSET);
+    }
 
 	public dynamic function bop()
 	{

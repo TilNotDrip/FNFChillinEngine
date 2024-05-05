@@ -208,6 +208,7 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile(Paths.txt('thorns/thornsDialogue'));
 		}
 
+		#if MOD_SUPPORT
 		HScript.loadAllScriptsAtPath('scripts/PlayState', [
             'camGAME' => camGAME,
             'camHUD' => camHUD,
@@ -223,6 +224,7 @@ class PlayState extends MusicBeatState
             'camFollow' => camFollow,
             'game' => game
         ]);
+		#end
 
 		curStage = SONG.stage;
 
@@ -239,7 +241,9 @@ class PlayState extends MusicBeatState
 			case 'tank': new Tank();
 		}
 
+		#if MOD_SUPPORT
 		HScript.runFunction('create');
+		#end
 
 		isPixel = StageBackend.stage.pixel;
 
@@ -422,7 +426,9 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.createPost();
 
+		#if MOD_SUPPORT
 		HScript.runFunction('createPost');
+		#end
 
 		if (!seenCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
 		{
@@ -459,7 +465,10 @@ class PlayState extends MusicBeatState
 	private function videoCallback()
 	{
 		StageBackend.stage.endingVideo();
+
+		#if MOD_SUPPORT
 		HScript.runFunction('endingVideo');
+		#end
 
 		startCountdown();
 		if (generatedMusic && SONG.notes[curSection] != null)
@@ -479,10 +488,12 @@ class PlayState extends MusicBeatState
 		seenCutscene = true;
 		inCutscene = false;
 
+		#if MOD_SUPPORT
 		var daFunction:Array<Dynamic> = HScript.runFunction('startCountdown');
 
 		if(daFunction.contains(HScript.StopFunction))
 			return;
+		#end
 
 		startedCountdown = true;
 
@@ -574,7 +585,9 @@ class PlayState extends MusicBeatState
 			endSong();
 		};
 
+		#if MOD_SUPPORT
 		HScript.runFunction('startSong');
+		#end
 	}
 
 	public function generateSong():Void
@@ -849,7 +862,10 @@ class PlayState extends MusicBeatState
 		}
 
 		StageBackend.stage.update(elapsed);
+
+		#if MOD_SUPPORT
 		HScript.runFunction('update', [elapsed]);
+		#end
 
 		super.update(elapsed);
 
@@ -868,11 +884,6 @@ class PlayState extends MusicBeatState
 			iconP1.swapOldIcon();
 			updateHealthBar();
 		}
-
-		var iconOffset:Int = 26;
-
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 		if (health > maxHealth && !Main.aprilFools)
 			health = maxHealth;
@@ -1218,10 +1229,12 @@ class PlayState extends MusicBeatState
 
 	public function endSong()
 	{
+		#if MOD_SUPPORT
 		var daFunction:Array<Dynamic> = HScript.runFunction('endSong');
 
 		if(daFunction.contains(HScript.StopFunction))
 			return;
+		#end
 
 		if(endScreen)
 		{
@@ -1239,7 +1252,9 @@ class PlayState extends MusicBeatState
 
 		isEnding = true;
 
+		#if MOD_SUPPORT
 		HScript.destroyAllScripts();
+		#end
 
 		if (!practiceMode && !botplay)
 			Highscore.saveScore(SONG.song, songScore, difficulty);
@@ -1564,14 +1579,20 @@ class PlayState extends MusicBeatState
 				}
 
 				StageBackend.stage.cameraMovement(dad);
+
+				#if MOD_SUPPORT
 				HScript.runFunction('cameraMovement', [dad]);
+				#end
 			}
 		}
 		else if (char == boyfriend)
 		{
 			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 			StageBackend.stage.cameraMovement(boyfriend);
+
+			#if MOD_SUPPORT
 			HScript.runFunction('cameraMovement', [boyfriend]);
+			#end
 		}
 
 		if (SONG.song.formatToPath() == 'tutorial')
@@ -1893,7 +1914,9 @@ class PlayState extends MusicBeatState
 				note.destroy();
 			}
 
+			#if MOD_SUPPORT
 			HScript.runFunction('goodNoteHit', [note]);
+			#end
 		}
 	}
 
@@ -1945,7 +1968,9 @@ class PlayState extends MusicBeatState
 				opponentSplashes.add(noteSplashOpponent);
 			}
 
+			#if MOD_SUPPORT
 			HScript.runFunction('opponentNoteHit', [daNote]);
+			#end
 		}
 	}
 
@@ -1965,7 +1990,9 @@ class PlayState extends MusicBeatState
 		StageBackend.stage.curStep = curStep;
 		StageBackend.stage.stepHit();
 
+		#if MOD_SUPPORT
 		HScript.runFunction('stepHit');
+		#end
 	}
 
 	override public function beatHit()
@@ -1987,7 +2014,9 @@ class PlayState extends MusicBeatState
 		StageBackend.stage.curBeat = curBeat;
 		StageBackend.stage.beatHit();
 
+		#if MOD_SUPPORT
 		HScript.runFunction('beatHit');
+		#end
 	}
 
 	override public function sectionHit()
@@ -2016,7 +2045,9 @@ class PlayState extends MusicBeatState
 		StageBackend.stage.curSection = curSection;
 		StageBackend.stage.sectionHit();
 
+		#if MOD_SUPPORT
 		HScript.runFunction('sectionHit');
+		#end
 	}
 
 	public function addCharacterToList(name:String, type:String)

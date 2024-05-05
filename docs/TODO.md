@@ -50,6 +50,7 @@
  - [ ] add skip cutscene key
  - [ ] Daddy Dearest extended Left Pose
  - [ ] Seperate Death Sprites from Boyfriend's Spritesheet
+ - [ ] `source/addons` renamed to `source/utils`
 
 # Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 

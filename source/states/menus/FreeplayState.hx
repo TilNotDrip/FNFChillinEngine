@@ -173,7 +173,9 @@ class FreeplayState extends MusicBeatState
 		diffText.text = "< " + daDiff.toUpperCase() + " >";
 		positionHighscore();
 
+		#if MOD_SUPPORT
 		HScript.runFunction('changeDifficulty', [curDifficulty]);
+		#end
 	}
 
 	private function changeSelection(change:Int = 0)
@@ -223,7 +225,9 @@ class FreeplayState extends MusicBeatState
 				item.alpha = 1;
 		}
 
+		#if MOD_SUPPORT
 		HScript.runFunction('changeSelection', [curSelected]);
+		#end
 	}
 
 	private function positionHighscore()

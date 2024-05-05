@@ -1,26 +1,56 @@
 # Friday Night Funkin' V0.3.0 Todo List
 
-## Big Changes
+## Title State:
+ - [x] Animated Newgrounds Logo
+ - [ ] Chance to get old newgrounds logo
+ - [ ] GF ColorSwap Easter Egg (LEFT RIGHT LEFT RIGHT UP DOWN UP DOWN (P FOR MAKING THE WINDOW SPIN))
+
+## Main Menu:
+ - [ ] Tilde for Tools in Main Menu
+
+## In-Game:
+
+### UI / Backend / Songs n stuff like that
+ - [ ] Sustain Note Splashes
+ - [ ] Restart Song Transition
+ - [ ] Seperate Voices File (`Voices.ogg` => `Voices-dad`, `Voices-bf`)
+ - [ ] Score changes with sustains
+ - [ ] Zoom to GF on song end
+ - [ ] Pausable Cutscenes
+ - [ ] Put Notes into their own spritesheet and Strums into their own spritesheet
+
+### Tutorial / Week 1
+ - [ ] Stage Lights
+
+### Week 2
+ - [ ] Boyfriend + Spooky Hey!
+
+### Week 4:
+ - [ ] MILF => M. I. L. F
+
+### Week 5:
+ - [ ] Winter-Horrorland Cutscene
+
+### Week 6:
+ - [ ] Dialogue Box close animation
+
+### Week End 1
+ - [ ]
+
+## Uncategorized
+
+### Big Changes
  - [ ] Chart Editor
  - [ ] Freeplay
  - [ ] Difficulties
- - [ ] Week End 1
  - [ ] Results Screen
+ - [ ] Shader Support
 
-## Medium Changes
- - [ ] Sustain Note Splashes
- - [ ] Restart Song Transition
+### Medium Changes
  - [ ] Screenshot
  - [ ] Sticker Transition
- - [ ] Seperate Voices File (`Voices.ogg` => `Voices-dad`, `Voices-bf`)
+ - [x] Custom Soundtray
 
-## Small Changes
- - [ ] Score changes with sustains
- - [ ] Zoom to GF on song end
+### Small Changes
  - [ ] Change Stage Names
- - [ ] MILF => M. I. L. F
  - [ ] Credits in Pause
- - [ ] Pausable Cutscenes
-
-# Tutorial / Week 1
- - [ ] Stage Lights

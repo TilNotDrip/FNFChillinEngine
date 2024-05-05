@@ -68,8 +68,11 @@ class CreditsState extends MusicBeatState
 
         contribGet.request();
 
-        contribList.push({login: '.json', avatar_url: 'https://cdn.discordapp.com/avatars/1115022846041804820/dfbe6fa28b9cccdca31c17edd931cfc5?size=1024', 
-        html_url: 'https://twitter.com/gameboy1969'}); // tweeeter
+        contribList.push({
+            login: '.json',
+            avatar_url: 'https://cdn.discordapp.com/avatars/1115022846041804820/1da21a6cbe7b90145577af30f7dd4f03?size=1024', 
+            html_url: 'https://twitter.com/gameboy1969'
+        });
 
         var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuUI/menuBG'));
         bg.screenCenter();
@@ -86,15 +89,15 @@ class CreditsState extends MusicBeatState
             var songText:Alphabet = new Alphabet(0, (70 * i) + 30, user.login, Bold);
             songText.isMenuItem = true;
             songText.targetY = i;
-                    
+
             var icon:FlxSprite = new FlxSprite().loadGraphic(fromWeb(user.avatar_url));
             icon.setGraphicSize(130, 130);
             icon.updateHitbox();
             icon.scrollFactor.set();
-        
+
             peopleArray.push(songText);
             iconArray.push(icon);
-        
+
             add(songText);
             add(icon);
         }
@@ -173,7 +176,7 @@ class CreditsState extends MusicBeatState
     public static function fromWeb(url:String):FlxGraphic
     {
         var daGraphic:FlxGraphic = null;
-        
+
         var request = new haxe.Http(url);
 		request.setHeader("User-Agent", "request");
 
