@@ -7,6 +7,7 @@ import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
 
 import flixel.input.gamepad.FlxGamepad;
+import flixel.input.keyboard.FlxKey;
 
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -14,6 +15,11 @@ import flixel.math.FlxRect;
 import haxe.Json;
 
 import openfl.Assets;
+
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+
+import shaders.ColorSwap;
 
 #if sys
 import sys.FileSystem;
@@ -53,6 +59,7 @@ typedef TitleJSON =
 class TitleState extends MusicBeatState
 {
 	public static var initialized:Bool = false;
+
 	private var startedIntro:Bool;
 
 	private var blackScreen:FlxSprite;
@@ -64,6 +71,9 @@ class TitleState extends MusicBeatState
 
 	private var introText:TitleJSON;
 	private var introTextSprites:Map<String, FlxSprite> = new Map();
+
+	private var camFilters:Array<BitmapFilter> = [];
+	private var swagShader:ColorSwap;
 
 	private var idleBoppers:Array<FlxSprite> = [];
 	private var idleDancers:Array<FlxSprite> = [];
@@ -84,6 +94,10 @@ class TitleState extends MusicBeatState
 		startedIntro = false;
 
 		super.create();
+
+		swagShader = new ColorSwap();
+		camFilters.push(new ShaderFilter(swagShader.shader));
+		FlxG.camera.filters = camFilters;
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
@@ -156,6 +170,12 @@ class TitleState extends MusicBeatState
 
 	private var transitioning:Bool = false;
 
+	private var easterEggActive:Bool = false;
+	private var curEasterPos:Int = 0;
+	private var easterArray:Array<FlxKey> = [LEFT, RIGHT, LEFT, RIGHT, UP, DOWN, UP, DOWN];
+
+	private var windowMoving:Bool = false;
+
 	override public function update(elapsed:Float)
 	{
 		if (FlxG.sound.music != null)
@@ -188,7 +208,9 @@ class TitleState extends MusicBeatState
 		{
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.onComplete = null;
-			for(i in pressDancers) {
+
+			for(i in pressDancers)
+			{
 				i.animation.play('press', true);
 				idleDancers.remove(i);
 				idleBoppers.remove(i);
@@ -196,19 +218,78 @@ class TitleState extends MusicBeatState
 
 			if (ChillSettings.get('flashingLights', DISPLAY))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
+
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
 
 			new FlxTimer().start(1, function(tmr:FlxTimer) {
 				FlxG.switchState(new MainMenuState());
+
+				if (easterEggActive)
+					FlxG.sound.music.stop();
 			});
 		}
 
 		if (pressedEnter && !skippedIntro && initialized)
 			skipIntro();
 
+		if(FlxG.keys.justPressed.Y && !windowMoving)
+		{
+			FlxTween.tween(Application.current.window, { x: Application.current.window.x + 300 }, 1.4, { ease: FlxEase.quadInOut, type: 4, startDelay: 0.35 });
+			FlxTween.tween(Application.current.window, { y: Application.current.window.y + 100 }, 0.7, { ease: FlxEase.quadInOut, type: 4 });
+
+			windowMoving = true;
+		}
+
+		if (!easterEggActive && skippedIntro)
+			checkEasterCode();
+
 		super.update(elapsed);
+	}
+
+	private function checkEasterCode()
+	{
+		if (FlxG.keys.justPressed.ANY)
+		{
+			if (controls.UI_LEFT_P || controls.NOTE_LEFT_P)
+				codePress(LEFT);
+
+			if (controls.UI_DOWN_P || controls.NOTE_DOWN_P)
+				codePress(DOWN);
+
+			if (controls.UI_UP_P || controls.NOTE_UP_P)
+				codePress(UP);
+
+			if (controls.UI_RIGHT_P || controls.NOTE_RIGHT_P)
+				codePress(RIGHT);
+		}
+	}
+
+	private function codePress(input:FlxKey)
+	{
+		if (input == easterArray[curEasterPos])
+		{
+			curEasterPos += 1;
+
+			if (curEasterPos >= easterArray.length)
+				startEasterEgg();
+		}
+		else
+			curEasterPos = 0;
+	}
+
+	private function startEasterEgg()
+	{
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7, false, null, true, function () {
+			easterEggActive = true;
+			FlxG.sound.playMusic(Paths.music('girlfriendsRingtone'));
+			Conductor.changeBPM(190);
+			Conductor.songPosition = 0;
+		});
+
+		if (ChillSettings.get('flashingLights', DISPLAY))
+			FlxG.camera.flash(FlxColor.WHITE, 1);
 	}
 
 	private function createCoolText(textArray:Array<String>)
@@ -249,7 +330,7 @@ class TitleState extends MusicBeatState
 		super.beatHit();
 
 		if (!startedIntro)
-			return ;
+			return;
 
 		if (skippedIntro)
 		{
@@ -257,12 +338,16 @@ class TitleState extends MusicBeatState
 
 			danceLeft = !danceLeft;
 
-			for(i in idleDancers) {
+			for(i in idleDancers)
+			{
 				if (danceLeft)
 					i.animation.play('danceRight');
 				else
 					i.animation.play('danceLeft');
 			}
+
+			if (easterEggActive && curBeat % 2 == 0)
+				swagShader.update(0.125);
 		}
 		else
 		{
@@ -272,33 +357,43 @@ class TitleState extends MusicBeatState
 			{
 				for (i in lastBeat...curBeat)
 				{
-					for(beatThing in introText.titleText) {
-						if(beatThing.beat == i + 1) {
-							if(beatThing.useIntroText && !beatThing.removeSelected) {
-								if(curCurWacky != 0) {
+					for (beatThing in introText.titleText)
+					{
+						if(beatThing.beat == i + 1)
+						{
+							if(beatThing.useIntroText && !beatThing.removeSelected)
+							{
+								if(curCurWacky != 0)
 									addMoreText(curWacky[curCurWacky]);
-								} else {
+								else
 									createCoolText([curWacky[curCurWacky]]);
-								}
 
 								curText = '';
 								curCurWacky++;
 
 								if(curCurWacky == introText.introText.lines) curCurWacky = 0;
-							} if(beatThing.useIntroText && beatThing.removeSelected) {
-								deleteCoolText();
+
 							}
 
-							if(!beatThing.removeSelected && !beatThing.useIntroText) {
+							if(beatThing.useIntroText && beatThing.removeSelected)
+								deleteCoolText();
+
+							if(!beatThing.removeSelected && !beatThing.useIntroText)
+							{
 								if(curText == '')
 									createCoolText(beatThing.text.split('\n'));
-								else {
+								else
+								{
 									var daText:Array<String> = beatThing.text.split('\n');
 									for(j in curText.split('\n')) daText.remove(j);
 									for(j in daText) addMoreText(j);
 								}
+
 								curText = beatThing.text;
-							} if(beatThing.removeSelected && !beatThing.useIntroText) {
+							}
+
+							if(beatThing.removeSelected && !beatThing.useIntroText)
+							{
 								curText.replace(beatThing.text, '');
 								deleteCoolText();
 								if(curText.split('\n') == []) createCoolText(curText.split('\n'));
@@ -391,7 +486,7 @@ class TitleState extends MusicBeatState
 			remove(titleSprites);
 
 			if (ChillSettings.get('flashingLights', DISPLAY))
-				FlxG.camera.flash(FlxColor.WHITE, 4);
+				FlxG.camera.flash(FlxColor.WHITE, 1);
 
 			remove(credGroup);
 			skippedIntro = true;

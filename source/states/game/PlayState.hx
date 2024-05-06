@@ -24,7 +24,6 @@ import flixel.util.FlxStringUtil;
 #if hxvlc
 import hxvlc.flixel.FlxVideo;
 import hxvlc.flixel.FlxVideoSprite;
-import hxvlc.flixel.FlxVideoBackdrop;
 #end
 
 import objects.game.*;

@@ -7,6 +7,8 @@ import flixel.tweens.misc.ColorTween;
 import objects.menu.MenuCharacter;
 import objects.menu.WeekItem;
 
+import openfl.Assets;
+
 class StoryMenuState extends MusicBeatState
 {
 	private var curWeek:Int = 0;
@@ -290,22 +292,44 @@ class StoryMenuState extends MusicBeatState
 		if (curDifficulty >= curWeekClass.difficulties.length)
 			curDifficulty = 0;
 
-		sprDifficulty.offset.x = 0;
+		var difficulty:String = curWeekClass.difficulties[curDifficulty];
 
-		switch (curWeekClass.difficulties[curDifficulty].formatToPath())
+		sprDifficulty.offset.x = 0;
+		sprDifficulty.offset.y = 0;
+
+		switch (difficulty.formatToPath())
 		{
-			case 'easy': sprDifficulty.offset.x = 20;
-			case 'normal': sprDifficulty.offset.x = 70;
-			case 'hard': sprDifficulty.offset.x = 20;
-			case 'erect': sprDifficulty.offset.x = 25;
+			case 'easy':
+				sprDifficulty.offset.x = 20;
+
+			case 'normal':
+				sprDifficulty.offset.x = 70;
+
+			case 'hard':
+				sprDifficulty.offset.x = 20;
+
+			case 'erect':
+				sprDifficulty.offset.x = 35;
+
+			case 'nightmare':
+				sprDifficulty.offset.x = 80;
+				sprDifficulty.offset.y = 10;
 		}
 
-		sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
+		if (Assets.exists(Paths.file('images/storyMenu/difficulties/' + difficulty.formatToPath() + '.xml')))
+		{
+			sprDifficulty.frames = Paths.getSparrowAtlas('storyMenu/difficulties/' + difficulty.formatToPath());
+			sprDifficulty.animation.addByPrefix('idle', 'idle', 24);
+			sprDifficulty.animation.play('idle');
+		}
+		else
+			sprDifficulty.loadGraphic(Paths.image('storyMenu/difficulties/' + difficulty.formatToPath()));
+
 		sprDifficulty.alpha = 0;
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 
 		sprDifficulty.y = leftArrow.y - 15;
-		intendedScore = Highscore.getWeekScore(curWeekClass.name, curWeekClass.difficulties[curDifficulty]);
+		intendedScore = Highscore.getWeekScore(curWeekClass.name, difficulty);
 	}
 
 	private var lerpScore:Float = 0;
