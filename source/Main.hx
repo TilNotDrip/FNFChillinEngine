@@ -59,8 +59,12 @@ class Main extends Sprite
 
 	private function setupGame():Void
 	{
-		var flxGame:FunkinGame = new FunkinGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen);
-		addChild(flxGame);
+		var funkinGame:FlxGame = new FlxGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen);
+
+		@:privateAccess
+		funkinGame._customSoundTray = FunkinSoundTray;
+
+		addChild(funkinGame);
 
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
@@ -98,17 +102,4 @@ class Main extends Sprite
 
 		return isToday;
 	}
-}
-
-/**
- * Overrided FlxGame
- */
-class FunkinGame extends FlxGame
-{
-    override public function new(gameWidth = 0, gameHeight = 0, ?initialState:flixel.util.typeLimit.NextState.InitialState, updateFramerate = 60, drawFramerate = 60, skipSplash = false, startFullscreen = false)
-    {
-        super(gameWidth, gameHeight, initialState, updateFramerate, drawFramerate, skipSplash, startFullscreen);
-
-		_customSoundTray = FunkinSoundTray;
-    }
 }
