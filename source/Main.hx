@@ -13,7 +13,13 @@ import openfl.display.Sprite;
 
 import openfl.events.Event;
 
-import states.menus.TitleState;
+#if (cpp && windows)
+@:cppFileCode('
+#include <iostream>
+#include <windows.h>
+#include <psapi.h>
+')
+#end
 
 class Main extends Sprite
 {
@@ -63,25 +69,34 @@ class Main extends Sprite
 
 		@:privateAccess
 		funkinGame._customSoundTray = FunkinSoundTray;
+		initSaves();
 
 		addChild(funkinGame);
+
+		initGame();
 
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
-
-		initGame();
 	}
 
-	private function initGame()
+	private function initSaves()
 	{
 		ChillSettings.loadSettings();
 		PlayerSettings.init();
 		Highscore.load();
+	}
+
+	private function initGame()
+	{
+		#if (cpp && windows)
+		// This disables the "Report to Microsoft" popup when the game stops responding.
+		untyped __cpp__('SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);');
+		#end
 
 		FlxG.debugger.setLayout(MICRO);
-		FlxG.game.focusLostFramerate = 60;
+		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];
 
 		#if DISCORD

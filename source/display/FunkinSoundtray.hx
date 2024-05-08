@@ -5,23 +5,23 @@ import flixel.FlxG;
 import Math;
 import flixel.system.ui.FlxSoundTray;
 
+/**
+ *  Extends the default flixel soundtray, but with some art
+ *  and lil polish!
+ *
+ *  Gets added to the game in Main.hx, right after FlxGame is new'd
+ *  since it's a Sprite rather than Flixel related object
+ */
 class FunkinSoundTray extends FlxSoundTray
 {
-	public var alphaTarget:Float;
-	public var lerpYPos:Float;
-	public var graphicScale:Float;
-	public var volumeMaxSound:String;
+	private var graphicScale:Float = 0.30;
+	private var lerpYPos:Float = 0;
+	private var alphaTarget:Float = 0;
 
-    /**
-	 * Sets up the "sound tray", the little volume meter that pops down sometimes.
-	 */
-	@:keep
+	private var volumeMaxSound:String;
+
 	public function new()
 	{
-		alphaTarget = 0;
-		lerpYPos = 0;
-		graphicScale = 0.30;
-
 		super();
 
 		removeChildren();
@@ -30,7 +30,7 @@ class FunkinSoundTray extends FlxSoundTray
 		bg.x = 1;
 		bg.y = 1;
 		bg.scaleX = graphicScale;
-        bg.scaleY = graphicScale;
+		bg.scaleY = graphicScale;
 		addChild(bg);
 
 		y = -height;
@@ -39,24 +39,21 @@ class FunkinSoundTray extends FlxSoundTray
 		var backingBar:Bitmap = new Bitmap(Paths.image("soundtray/bars_10"));
 		backingBar.x = 9;
 		backingBar.y = 5;
-        backingBar.scaleX = graphicScale;
-        backingBar.scaleY = graphicScale;
+		backingBar.scaleX = graphicScale;
+		backingBar.scaleY = graphicScale;
 		addChild(backingBar);
 
 		backingBar.alpha = 0.4;
 
 		_bars = [];
 
-		var _g:Int = 1;
-		while (_g < 11)
+		for (i in 1...11)
 		{
-			var i = _g++;
-
-			var bar = new Bitmap(Paths.image("soundtray/bars_" + i));
+			var bar:Bitmap = new Bitmap(Paths.image("soundtray/bars_" + i));
 			bar.x = 9;
-            bar.y = 5;
-            bar.scaleX = graphicScale;
-            bar.scaleY = graphicScale;
+			bar.y = 5;
+			bar.scaleX = graphicScale;
+			bar.scaleY = graphicScale;
 			addChild(bar);
 
 			_bars.push(bar);
@@ -70,9 +67,6 @@ class FunkinSoundTray extends FlxSoundTray
 		volumeMaxSound = Paths.sound("soundtray/VolMAX");
 	}
 
-	/**
-	 * This function updates the soundtray object.
-	 */
 	override public function update(MS:Float):Void
 	{
 		y = CoolUtil.coolLerp(y, lerpYPos, 0.1);
@@ -80,7 +74,7 @@ class FunkinSoundTray extends FlxSoundTray
 
 		if (_timer > 0)
 		{
-			_timer -= MS / 1000;
+			_timer -= (MS / 1000);
 			alphaTarget = 1;
 		}
 		else if (y >= -height)
@@ -94,14 +88,14 @@ class FunkinSoundTray extends FlxSoundTray
 			visible = false;
 			active = false;
 
-            #if FLX_SAVE
+			#if FLX_SAVE
 			if (FlxG.save.isBound)
 			{
 				FlxG.save.data.mute = FlxG.sound.muted;
 				FlxG.save.data.volume = FlxG.sound.volume;
 				FlxG.save.flush();
 			}
-            #end
+			#end
 		}
 	}
 
@@ -133,13 +127,8 @@ class FunkinSoundTray extends FlxSoundTray
 				FlxG.sound.load(sound).play();
 		}
 
-		var _g:Int = 0;
-		var _g1:Int = _bars.length;
-
-		while (_g < _g1)
+		for (i in 0..._bars.length)
 		{
-			var i = _g++;
-
 			if (i < globalVolume)
 				_bars[i].visible = true;
 			else

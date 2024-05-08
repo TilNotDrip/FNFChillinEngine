@@ -31,6 +31,7 @@
  - [ ] Opponents have their own note colors
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
  - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.)
+ - [ ] (If possible) Change the top of the window to be more Friday Night Funkin' Styled
 
 ## Small Changes
 
@@ -51,6 +52,7 @@
  - [ ] Daddy Dearest extended Left Pose
  - [ ] Seperate Death Sprites from Boyfriend's Spritesheet
  - [ ] `source/addons` renamed to `source/utils`
+ - [ ] Color Blindness Filter
 
 # Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
