@@ -102,9 +102,6 @@ class Strums extends FlxSpriteGroup
 				spr.offset.x += 26;
 				spr.offset.y += 26;
 			}
-
-			if(isPixel)
-				spr.scrollFactor.set();
 		}
 	}
 

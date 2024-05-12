@@ -32,7 +32,7 @@ class OptionsState extends MusicBeatState
 
         for (i in 0...optionsList.length)
         {
-            var optionItem = new Alphabet(0, 100 + (90 * i), optionsList[i], Bold);
+            var optionItem = new Alphabet(0, 100 + (90 * i), optionsList[i], BOLD);
 			optionItem.screenCenter(X);
 			optionItem.ID = i;
             optionItems.add(optionItem);

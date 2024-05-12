@@ -17,7 +17,8 @@ class HealthIcon extends TrackedSprite
 		'senpai' => 0xFFFFAA6F,
 		'spirit' => 0xFFFF3C6E,
 		'spooky' => 0xFFB4B4B4,
-		'tankman' => 0xFFE1E1E1
+		'tankman' => 0xFFE1E1E1,
+		'darnell' => 0xFF735EB0
 	];
 
 	private static var POSITION_OFFSET = 26;

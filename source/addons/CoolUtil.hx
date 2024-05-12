@@ -4,9 +4,14 @@ import lime.utils.Assets;
 
 class CoolUtil
 {
-	public static function coolTextFile(path:String):Array<String>
+	public static function coolTextFile(path:String):Null<Array<String>>
 	{
-		var daList:Array<String> = Assets.getText(path).trim().split('\n');
+		var daList:Array<String> = [];
+		try {
+			daList = Assets.getText(path).trim().split('\n');
+		} catch(e) {
+			return null;
+		}
 
 		for (i in 0...daList.length)
 			daList[i] = daList[i].trim();

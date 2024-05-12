@@ -1,0 +1,9 @@
+danceLeft 0 0
+danceRight 0 0
+combo50 0 0
+drop70 0 0
+laughCutscene 0 0
+combo100 0 0
+raiseKnife 0 52
+idleKnife -99 52
+lowerKnife 135 52

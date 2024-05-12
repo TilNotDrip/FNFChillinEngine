@@ -43,6 +43,7 @@ class DiscordRPC
 		handlers.disconnected = cpp.Function.fromStaticFunction(onDisconnected);
 		handlers.errored = cpp.Function.fromStaticFunction(onError);
         Discord.Initialize(clientID, cpp.RawPointer.addressOf(handlers), 1, null);
+        //Discord.Register(clientID, 'start "' + Sys.programPath() + '"');
 
         sys.thread.Thread.create(function():Void
 		{
@@ -79,10 +80,10 @@ class DiscordRPC
         smallImageKey = null;
         smallImageText = null;
 
-        partyId = null;
+        /*partyId = null;
         partySize = 0;
         partyMax = 0;
-        partyPrivacy = 0;
+        partyPrivacy = 0;*/
 
         matchSecret = null;
         joinSecret = null;
@@ -91,7 +92,7 @@ class DiscordRPC
 
     public static function updatePresence()
     {
-        if (!ChillSettings.get('discordRPC', OTHER)) return;
+        if (ChillSettings.get('discordRPC', OTHER))
             Discord.UpdatePresence(cpp.RawConstPointer.addressOf(presence));
     }
 

@@ -34,7 +34,7 @@ class Option extends FlxSpriteGroup
 
         super(x, y);
 
-        var optionTxt:Alphabet = new Alphabet(0, 0, name, Bold);
+        var optionTxt:Alphabet = new Alphabet(0, 0, name, BOLD);
         add(optionTxt);
 
         switch(type)
@@ -47,11 +47,11 @@ class Option extends FlxSpriteGroup
             case SLIDER:
 
             case SELECTION:
-                selection = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', Default);
+                selection = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', DEFAULT);
                 add(selection);
 
             case NUMBER:
-                number = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', Default);
+                number = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', DEFAULT);
                 add(number);
         }
     }

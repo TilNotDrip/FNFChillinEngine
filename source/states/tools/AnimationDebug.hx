@@ -31,6 +31,7 @@ class AnimationDebug extends MusicBeatState
 	{
 		super();
 		this.daAnim = daAnim;
+		this.isPlayer = isPlayer;
 	}
 
 	override public function create()

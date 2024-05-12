@@ -25,13 +25,13 @@ class ControlsSubState extends MusicBeatSubstate
 
         super.create();
 
-        optionHeader = new Alphabet(0, 0, '', Bold);
+        optionHeader = new Alphabet(0, 0, '', BOLD);
         optionHeader.scrollFactor.set();
 
-        optionControls = new Alphabet(0, 0, '', Default);
+        optionControls = new Alphabet(0, 0, '', DEFAULT);
         optionControls.scrollFactor.set();
         
-        rebindNotice = new Alphabet(0, FlxG.height - 150, '', Default);
+        rebindNotice = new Alphabet(0, FlxG.height - 150, '', DEFAULT);
         rebindNotice.scrollFactor.set();
 
         for (controlName in PlayerSettings.getControls(0).keys())

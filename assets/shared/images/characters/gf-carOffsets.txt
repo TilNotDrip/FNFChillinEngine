@@ -1,3 +1,4 @@
 danceLeft 0 0
 danceRight 0 0
-idleHair 0 0
+danceLeft-loop 0 0
+danceRight-loop 0 0

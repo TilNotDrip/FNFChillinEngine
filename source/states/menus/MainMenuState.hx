@@ -1,5 +1,6 @@
 package states.menus;
 
+import states.tools.ConvertingSongs;
 import flixel.FlxObject;
 
 import flixel.addons.transition.FlxTransitionableState;
@@ -12,7 +13,11 @@ import objects.menu.MenuItem;
 
 class MainMenuState extends MusicBeatState
 {
+<<<<<<< Updated upstream
 	public static var funkinVer:String = '0.3.2' #if debug + ' (Prototype)' #end;
+=======
+	public static var funkinVer:String = '0.3.2';
+>>>>>>> Stashed changes
 
 	private var magenta:FlxSprite;
 
@@ -128,6 +133,11 @@ class MainMenuState extends MusicBeatState
 		if(FlxG.keys.justPressed.C) // test
 		{
 			FlxG.switchState(new CreditsState());
+		}
+
+		if(FlxG.keys.justPressed.Y) // test
+		{
+			FlxG.switchState(new ConvertingSongs());
 		}
 
 		super.update(elapsed);

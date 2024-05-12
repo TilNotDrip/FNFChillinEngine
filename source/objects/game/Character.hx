@@ -30,13 +30,15 @@ class Character extends FlxSprite
 	{
 		super(x, y);
 
+		animation = new FunkinAnimationController(this);
+
 		animOffsets = new Map<String, Array<Dynamic>>();
 		curCharacter = character;
 		this.isPlayer = isPlayer;
 
 		switch (curCharacter)
 		{
-			case 'bf':
+			default:
 				frames = Paths.getSparrowAtlas('characters/BOYFRIEND');
 
 				quickAnimAdd('idle', 'BF idle dance');
@@ -104,7 +106,7 @@ class Character extends FlxSprite
 
 				y += 200;
 
-			case 'pico':
+			case 'pico', 'pico-player':
 				frames = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
 
 				quickAnimAdd('idle', "Pico Idle Dance");
@@ -134,6 +136,9 @@ class Character extends FlxSprite
 				flipX = true;
 
 				y += 300;
+
+				if(isPlayer)
+					cameraOffsets.x = -250;
 
 			case 'monster':
 				frames = Paths.getSparrowAtlas('characters/Monster_Assets');
@@ -175,7 +180,7 @@ class Character extends FlxSprite
 				quickAnimAdd('singRIGHTmiss', 'BF NOTE RIGHT MISS');
 				quickAnimAdd('singDOWNmiss', 'BF NOTE DOWN MISS');
 
-				animation.addByIndices('idleHair', 'BF idle dance', [10, 11, 12, 13], "", 24, true);
+				animation.addByIndices('idle-loop', 'BF idle dance', [10, 11, 12, 13], "", 24, true);
 
 				playAnim('idle');
 
@@ -188,7 +193,8 @@ class Character extends FlxSprite
 
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-				animation.addByIndices('idleHair', 'GF Dancing Beat Hair blowing CAR', [10, 11, 12, 25, 26, 27], "", 24, true);
+				animation.addByIndices('danceLeft-loop', 'GF Dancing Beat Hair blowing CAR', [10, 11, 12, 25, 26, 27], "", 24, true);
+				animation.addByIndices('danceLeft-loop', 'GF Dancing Beat Hair blowing CAR', [10, 11, 12, 25, 26, 27], "", 24, true);
 
 				playAnim('danceRight');
 
@@ -200,7 +206,7 @@ class Character extends FlxSprite
 				quickAnimAdd('singDOWN', "MOM DOWN POSE");
 				quickAnimAdd('singLEFT', 'Mom Left Pose');
 				quickAnimAdd('singRIGHT', 'Mom Pose Left');
-				animation.addByIndices('idleHair', "Mom Idle", [10, 11, 12, 13], "", 24, true);
+				animation.addByIndices('idle-loop', "Mom Idle", [10, 11, 12, 13], "", 24, true);
 
 				playAnim('idle');
 
@@ -428,7 +434,54 @@ class Character extends FlxSprite
 				quickAnimAdd('shoot3', "Pico shoot 3");
 				quickAnimAdd('shoot4', "Pico shoot 4");
 
+				animation.addByIndices('shoot1-loop', 'Pico shoot 1', [23, 24, 25], "", 24, true);
+				animation.addByIndices('shoot2-loop', 'Pico shoot 2', [23, 24, 25], "", 24, true);
+				animation.addByIndices('shoot3-loop', 'Pico shoot 3', [23, 24, 25], "", 24, true);
+				animation.addByIndices('shoot4-loop', 'Pico shoot 4', [23, 24, 25], "", 24, true);
+
 				playAnim('shoot1');
+
+			case 'darnell':
+				frames = Paths.getSparrowAtlas('characters/darnell');
+
+				quickAnimAdd('idle', 'Idle0');
+				quickAnimAdd('singLEFT', 'Pose Left0');
+				quickAnimAdd('singDOWN', 'Pose Down0');
+				quickAnimAdd('singUP', 'Pose Up0');
+				quickAnimAdd('singRIGHT', 'Pose Right0');
+
+				quickAnimAdd('laugh', 'Laugh0');
+				animation.addByIndices('laughCutscene', 'Laugh', [0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5], "", 24, false);
+
+				quickAnimAdd('lightCan', 'Light Can');
+				quickAnimAdd('kickCan', 'Kick Up');
+				quickAnimAdd('kneeCan', 'Kick Forward');
+				quickAnimAdd('pissed', 'Gets Pissed');
+
+				playAnim('idle');
+
+				cameraOffsets.x = 300;
+			
+			case 'nene':
+				frames = Paths.getSparrowAtlas('characters/Nene');
+
+				bopDance = 1;
+
+				animation.addByIndices('danceLeft', 'Idle0', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				animation.addByIndices('danceRight', 'Idle0', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+
+				animation.addByIndices('drop70', 'Laugh0', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11], "", 24, false);
+				quickAnimAdd('combo50', 'ComboCheer0');
+				animation.addByIndices('combo100', 'ComboFawn0', [0, 1, 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6], "", 24, false);
+
+				animation.addByIndices('laughCutscene', 'Laugh0', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11], "", 24, false);
+
+				quickAnimAdd('raiseKnife', 'KnifeRaise0');
+				quickAnimAdd('idleKnife', 'KnifeIdle0');
+				quickAnimAdd('lowerKnife', 'KnifeLower0');
+
+
+				playAnim('danceRight');
 		}
 
 		loadOffsetFile(curCharacter);
@@ -437,10 +490,10 @@ class Character extends FlxSprite
 		animation.finish();
 
 		if (isPlayer)
-		{
+		//{
 			flipX = !flipX;
 
-			if (!curCharacter.startsWith('bf'))
+			/*if (!curCharacter.startsWith('bf'))
 			{
 				var oldRight = animation.getByName('singRIGHT').frames;
 				animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
@@ -452,8 +505,8 @@ class Character extends FlxSprite
 					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
 					animation.getByName('singLEFTmiss').frames = oldMiss;
 				}
-			}
-		}
+			}*/
+		//}
 	}
 
 	/*public function loadMappedAnims()
@@ -484,7 +537,10 @@ class Character extends FlxSprite
 
 	private function loadOffsetFile(offsetCharacter:String)
 	{
-		var daFile:Array<String> = CoolUtil.coolTextFile(Paths.file("images/characters/" + offsetCharacter + "Offsets.txt", TEXT));
+		var daFile:Null<Array<String>> = CoolUtil.coolTextFile(Paths.file("images/characters/" + offsetCharacter + "Offsets.txt", TEXT));
+
+		if(daFile == null)
+			return;
 
 		for (i in daFile)
 		{
@@ -493,7 +549,7 @@ class Character extends FlxSprite
 		}
 	}
 
-	private var playingEndAnim:Bool = false;
+	//private var playingEndAnim:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
@@ -503,11 +559,11 @@ class Character extends FlxSprite
 		if(heyTimer > 0)
 			heyTimer -= elapsed;
 
-		if((playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished) || animation.curAnim == null)
+		/*if(playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished)
 		{
 			playingEndAnim = false;
 			dance();
-		}
+		}*/
 
 		if ((!isPlayer && PlayState.botplayDad) || (isPlayer && PlayState.botplay))
 		{
@@ -531,21 +587,15 @@ class Character extends FlxSprite
 				playAnim('idle', true, false, 10);
 		}
 
-		if (curCharacter.endsWith('-car'))
-		{
-			if (!animation.curAnim.name.startsWith('sing') && animation.curAnim.finished)
-				playAnim('idleHair');
-		}
-
 		switch (curCharacter)
 		{
 			case 'gf':
 				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
 					playAnim('danceRight');
 
-			case "pico-speaker":
+			/*case "pico-speaker":
 				if (animation.curAnim.finished)
-					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);
+					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);*/
 		}
 
 		super.update(elapsed);
@@ -557,41 +607,41 @@ class Character extends FlxSprite
 	{
 		if (!debugMode && heyTimer <= 0)
 		{
-			if (animation.exists(animation.curAnim.name + '-end') && !playingEndAnim && !animation.curAnim.name.endsWith('-end'))
+			var shouldIdle:Bool = true;
+
+			/*if (animation.exists(animation.curAnim.name + '-end') && !playingEndAnim && !animation.curAnim.name.endsWith('-end'))
 			{
 				playAnim(animation.curAnim.name + '-end', true);
 				playingEndAnim = true;
 				return;
-			}
+			}*/
 
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel' | 'gf-tankmen':
 					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
+						shouldIdle = false;
 
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
+				case 'tankman':
+					if (!animation.curAnim.name.endsWith('DOWN-alt'))
+						shouldIdle = false;
 
-				case 'spooky':
+				case 'pico-speaker':
+					shouldIdle = false;
+			}
+
+			if(shouldIdle)
+			{
+				if(animation.exists('danceLeft') && animation.exists('danceRight'))
+				{
 					danced = !danced;
-
+		
 					if (danced)
 						playAnim('danceRight');
 					else
 						playAnim('danceLeft');
-
-				case 'tankman':
-					if (!animation.curAnim.name.endsWith('DOWN-alt'))
-						playAnim('idle');
-
-				case 'pico-speaker':
-
-				default:
+				}
+				else
 					playAnim('idle');
 			}
 		}

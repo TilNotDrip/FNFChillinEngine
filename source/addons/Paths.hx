@@ -11,7 +11,7 @@ class Paths
 
 	public static function setCurrentLevel(name:String)
 	{
-		currentLevel = name.formatToPath();
+		currentLevel = name;
 	}
 
 	public static function getPath(file:String, type:AssetType, library:Null<String>)
@@ -39,6 +39,11 @@ class Paths
 		}
 
 		return getPreloadPath(file);
+	}	
+
+	public static function exists(file:String, type:AssetType, ?library:Null<String>)
+	{
+		return OpenFlAssets.exists(getPath(file, type, library), type);
 	}
 
 	public static function getLibraryPath(file:String, library = "preload")
@@ -86,9 +91,13 @@ class Paths
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
 
-	inline public static function voices(song:String)
+	inline public static function voices(song:String, ?person:String = '')
 	{
-		return getPath('${song.formatToPath()}/Voices.$SOUND_EXT', MUSIC, 'songs');
+		var fix:String = '';
+		if(person != '')
+			fix = '-' + person;
+
+		return getPath('${song.formatToPath()}/Voices$fix.$SOUND_EXT', MUSIC, 'songs');
 	}
 
 	inline public static function inst(song:String)
@@ -146,5 +155,30 @@ class Paths
 		trace('Converted $key.txt to $key.xml!');
 
 		return FlxAtlasFrames.fromSparrow(image(key, library), daXMLThing);
+	}
+
+	public static function atlas(folder:String, ?library:Null<String>)
+	{
+		for(daFolder in ModLoader.modFile('images/' + folder))
+		{
+			if (OpenFlAssets.exists(daFolder + '/Animation.json', TEXT))
+				return daFolder;
+		}
+
+		if (library != null)
+			return getLibraryPath('images/' + folder, library);
+
+		if (currentLevel != null)
+		{
+			var levelPath = getLibraryPathForce('images/' + folder, currentLevel);
+			if (OpenFlAssets.exists(levelPath + '/Animation.json', TEXT))
+				return levelPath;
+
+			levelPath = getLibraryPathForce('images/' + folder, "shared");
+			if (OpenFlAssets.exists(levelPath + '/Animation.json', TEXT))
+				return levelPath;
+		}
+
+		return getPreloadPath('images/' + folder);
 	}
 }

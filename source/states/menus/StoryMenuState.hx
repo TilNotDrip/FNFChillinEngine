@@ -78,6 +78,8 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
+		Conductor.changeBPM(TitleState.introText.bpm);
+
 		daWeeks = Week.weeks;
 		curWeekClass = daWeeks[curWeek];
 
@@ -163,9 +165,26 @@ class StoryMenuState extends MusicBeatState
 		super.create();
 	}
 
+	override public function beatHit()
+	{
+		for(i in 0...3)
+		{
+			if(curBeat % 2 == 0) grpWeekCharacters.members[i].animation.play('idle');
+		}
+
+		super.beatHit();
+	}
+
 	override public function update(elapsed:Float)
 	{
 		lerpScore = CoolUtil.coolLerp(lerpScore, intendedScore, 0.5);
+
+		if (FlxG.sound.music != null)
+			Conductor.songPosition = FlxG.sound.music.time;
+
+		FlxG.watch.addQuick("sectionShit", curSection);
+		FlxG.watch.addQuick("beatShit", curBeat);
+		FlxG.watch.addQuick("stepShit", curStep);
 
 		scoreText.text = "WEEK SCORE:" + Math.round(lerpScore);
 
@@ -259,10 +278,7 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = [];
-
-			for (i in curWeekClass.songs)
-				PlayState.storyPlaylist.push(i[0]);
+			PlayState.storyPlaylist = curWeekClass.songs;
 
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
@@ -376,47 +392,47 @@ class StoryMenuState extends MusicBeatState
 		for(i in 0...3)
 		{
 			grpWeekCharacters.members[i].charChange(curWeekClass.characters[i]);
+		}
 
-			if (grpWeekCharacters.members[0].animation.curAnim.name != null)
+		if (grpWeekCharacters.members[0].animation.curAnim.name != null)
+		{
+			switch (grpWeekCharacters.members[0].character)
 			{
-				switch (grpWeekCharacters.members[0].animation.curAnim.name)
-				{
-					case 'parents-christmas':
-						grpWeekCharacters.members[0].offset.set(200, 200);
-						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.9);
+				case 'parents-christmas':
+					grpWeekCharacters.members[0].offset.set(200, 200);
+					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.9);
 
-					case 'senpai':
-						grpWeekCharacters.members[0].offset.set(130, 0);
-						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1.4);
-						grpWeekCharacters.members[0].antialiasing = false;
+				case 'senpai':
+					grpWeekCharacters.members[0].offset.set(130, 0);
+					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 1.4);
+					grpWeekCharacters.members[0].antialiasing = false;
 
-					case 'mom':
-						grpWeekCharacters.members[0].offset.set(100, 200);
-						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+				case 'mom':
+					grpWeekCharacters.members[0].offset.set(100, 200);
+					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 
-					case 'dad':
-						grpWeekCharacters.members[0].offset.set(120, 200);
-						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.5);
+				case 'dad':
+					grpWeekCharacters.members[0].offset.set(120, 200);
+					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.5);
 
-					case 'tankman':
-						grpWeekCharacters.members[0].offset.set(60, -20);
-						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+				case 'tankman':
+					grpWeekCharacters.members[0].offset.set(60, -20);
+					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 
-					case 'bf':
-						grpWeekCharacters.members[0].flipX = true;
-						grpWeekCharacters.members[0].offset.set(100, 100);
-						grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
-					case 'pico':
-						grpWeekCharacters.members[0].flipX = true;
+				case 'bf':
+					grpWeekCharacters.members[0].flipX = true;
+					grpWeekCharacters.members[0].offset.set(100, 100);
+					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
+				case 'pico':
+					grpWeekCharacters.members[0].flipX = true;
 
-				}
-				grpWeekCharacters.members[0].updateHitbox();
 			}
+			grpWeekCharacters.members[0].updateHitbox();
 		}
 
 		for (i in curWeekClass.songs)
 		{
-			var stringThing:Array<String> = [i[0]];
+			var stringThing:Array<String> = [i];
 
 			for (i in stringThing)
 				txtTracklist.text += "\n" + i;

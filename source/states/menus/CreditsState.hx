@@ -86,7 +86,7 @@ class CreditsState extends MusicBeatState
         {
             var user = contribList[i];
 
-            var songText:Alphabet = new Alphabet(0, (70 * i) + 30, user.login, Bold);
+            var songText:Alphabet = new Alphabet(0, (70 * i) + 30, user.login, BOLD);
             songText.isMenuItem = true;
             songText.targetY = i;
 
@@ -102,7 +102,7 @@ class CreditsState extends MusicBeatState
             add(icon);
         }
 
-        description = new Alphabet(0, 0, '', Default);
+        description = new Alphabet(0, 0, '', DEFAULT);
         description.updateHitbox();
         description.y = FlxG.height - description.height - 100;
         description.screenCenter(X);

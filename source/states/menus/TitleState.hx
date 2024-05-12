@@ -69,7 +69,7 @@ class TitleState extends MusicBeatState
 	private var curWacky:Array<String> = [];
 	private var lastBeat:Int = 0;
 
-	private var introText:TitleJSON;
+	public static var introText:TitleJSON;
 	private var introTextSprites:Map<String, FlxSprite> = new Map();
 
 	private var camFilters:Array<BitmapFilter> = [];
@@ -87,9 +87,14 @@ class TitleState extends MusicBeatState
 
 		#if DISCORD
 		DiscordRPC.details = 'Title Screen';
+		DiscordRPC.partyId = 'yes';
+		DiscordRPC.partySize = 1;
+		DiscordRPC.partyMax = 2;
+		DiscordRPC.joinSecret = 'abc';
 		#end
 
-		introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
+		if(introText == null)
+			introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
 
 		startedIntro = false;
 
@@ -296,7 +301,7 @@ class TitleState extends MusicBeatState
 	{
 		for (i in 0...textArray.length)
 		{
-			var money:Alphabet = new Alphabet(0, 0, textArray[i], Bold);
+			var money:Alphabet = new Alphabet(0, 0, textArray[i], BOLD);
 			money.screenCenter(X);
 			money.y += (i * 60) + 200;
 			credGroup.add(money);
@@ -306,7 +311,7 @@ class TitleState extends MusicBeatState
 
 	private function addMoreText(text:String)
 	{
-		var coolText:Alphabet = new Alphabet(0, 0, text, Bold);
+		var coolText:Alphabet = new Alphabet(0, 0, text, BOLD);
 		coolText.screenCenter(X);
 		coolText.y += (textGroup.length * 60) + 200;
 		credGroup.add(coolText);
@@ -438,7 +443,7 @@ class TitleState extends MusicBeatState
 					else
 						daSprite.animation.addByPrefix(jsonAnim.name, jsonAnim.anim, jsonAnim.fps, jsonAnim.loop);
 	
-					if(jsonAnim.name.contains('dance'))
+					if(jsonAnim.name.startsWith('dance'))
 						idleDancers.push(daSprite);
 					else if(jsonAnim.name.contains('idle'))
 						idleBoppers.push(daSprite);
