@@ -16,6 +16,7 @@ class FlxAtlasSprite extends FlxAnimate
     {
       // ?ButtonSettings:Map<String, flxanimate.animate.FlxAnim.ButtonSettings>,
       FrameRate: 24.0,
+      Reversed: false,
       // ?OnComplete:Void -> Void,
       ShowPivot: #if debug false #else false #end,
       Antialiasing: true,
@@ -27,11 +28,6 @@ class FlxAtlasSprite extends FlxAnimate
    * Signal dispatched when an animation finishes playing.
    */
   public var onAnimationFinish:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
-
-  /**
-   * Signal dispatched when an animation goes to the next frame.
-   */
-  public var onAnimationFrame:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
 
   var currentAnimation:String;
 
@@ -67,24 +63,8 @@ class FlxAtlasSprite extends FlxAnimate
   public function listAnimations():Array<String>
   {
     if (this.anim == null) return [];
-    var labels:Array<String> = []; 
-    for(frame in this.anim.getFrameLabels())
-      labels.push(frame.name);
-
-    return labels;
-
-
-    //return this.anim.getFrameLabels();
+    return this.anim.getFrameLabels();
     // return [""];
-
-    // Dear EliteMasterEric,
-    // stop being on the kickstarter crack.
-    // Before, this function was just return anim.getFrameLabels().
-    // But...
-    // THESE ARE FUCKING FLXKEYFRAMES, NOT STRINGS!!!!
-    // SO NOW I GOTTA USE A FUCKING LOOP TO GET THE ACTUAL NAME,
-    // WHICH WILL SLOW DOWN THE COMPLETION TIME EVEN MOREEE.
-    // I am using https://github.com/FunkinCrew/flxanimate/:17e0d59fdbc2b6283a5c0e4df41f1c7f27b71c49, WHICH IS THE ONE YALL USE.
   }
 
   /**
@@ -121,8 +101,6 @@ class FlxAtlasSprite extends FlxAnimate
     return false;
   }
 
-  public var loop:Bool = false;
-
   /**
    * Plays an animation.
    * @param id A string ID of the animation to play.
@@ -134,8 +112,6 @@ class FlxAtlasSprite extends FlxAnimate
   public function playAnimation(id:String, restart:Bool = false, ignoreOther:Bool = false, ?loop:Bool = false):Void
   {
     if (loop == null) loop = false;
-
-    this.loop = loop;
 
     // Skip if not allowed to play animations.
     if ((!canPlayOtherAnims && !ignoreOther)) return;
@@ -163,6 +139,23 @@ class FlxAtlasSprite extends FlxAnimate
       return;
     }
 
+    anim.callback = function(_, frame:Int) {
+      var offset = loop ? 0 : -1;
+
+      var frameLabel = anim.getFrameLabel(id);
+      if (frame == (frameLabel.duration + offset) + frameLabel.index)
+      {
+        if (loop)
+        {
+          playAnimation(id, true, false, true);
+        }
+        else
+        {
+          onAnimationFinish.dispatch(id);
+        }
+      }
+    };
+
     // Prevent other animations from playing if `ignoreOther` is true.
     if (ignoreOther) canPlayOtherAnims = false;
 
@@ -171,45 +164,9 @@ class FlxAtlasSprite extends FlxAnimate
     this.currentAnimation = id;
   }
 
-  var lastFrame:Int = 0;
-  public var runLabelFunctions:Bool = true;
   override public function update(elapsed:Float)
   {
     super.update(elapsed);
-
-    if(anim.curFrame != lastFrame)
-    {
-      var frame:Int = anim.curFrame;
-      var id:String = anim.curSymbol.name;
-      var offset = loop ? 0 : -1;
-
-      onAnimationFrame.dispatch(frame);
-
-      if(runLabelFunctions)
-      {
-        var frameLabel = anim.getFrameLabel(id);
-        if (frameLabel != null && frame == (frameLabel.duration + offset) + frameLabel.index)
-        {
-          if (loop)
-          {
-            playAnimation(id, true, false, true);
-          }
-          else
-          {
-            onAnimationFinish.dispatch(id);
-          }
-      }
-      }
-      else
-      {
-        if(anim.curFrame >= (anim.length - 1))
-          onAnimationFinish.dispatch(id);
-      }
-
-      //trace('yo new frame');
-
-      lastFrame = frame;
-    }
   }
 
   /**

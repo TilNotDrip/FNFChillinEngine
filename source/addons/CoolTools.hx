@@ -23,12 +23,6 @@ class CoolTools
 		return converted;
 	}
 
-	public static function getSavePath():String
-	{
-		var packageName:Array<String> = Application.current.meta.get('packageName').split('.');
-		return packageName[1];
-	}
-
 	public static function isEqualUnordered<T>(a:Array<T>, b:Array<T>):Bool
 	{
 		if (a.length != b.length) 
@@ -58,5 +52,10 @@ class CoolTools
 			daArray.push(value);
 
 		return daArray;
+	}
+
+	public static function getLastInArray<T>(array:Array<T>):T
+	{
+		return array[array.length-1];
 	}
 }

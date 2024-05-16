@@ -157,28 +157,8 @@ class Paths
 		return FlxAtlasFrames.fromSparrow(image(key, library), daXMLThing);
 	}
 
-	public static function atlas(folder:String, ?library:Null<String>)
+	public static function atlas(folder:String, ?library:String = 'preload')
 	{
-		for(daFolder in ModLoader.modFile('images/' + folder))
-		{
-			if (OpenFlAssets.exists(daFolder + '/Animation.json', TEXT))
-				return daFolder;
-		}
-
-		if (library != null)
-			return getLibraryPath('images/' + folder, library);
-
-		if (currentLevel != null)
-		{
-			var levelPath = getLibraryPathForce('images/' + folder, currentLevel);
-			if (OpenFlAssets.exists(levelPath + '/Animation.json', TEXT))
-				return levelPath;
-
-			levelPath = getLibraryPathForce('images/' + folder, "shared");
-			if (OpenFlAssets.exists(levelPath + '/Animation.json', TEXT))
-				return levelPath;
-		}
-
-		return getPreloadPath('images/' + folder);
+		return getLibraryPath('images/' + folder, library);
 	}
 }

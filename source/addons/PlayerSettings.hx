@@ -25,7 +25,7 @@ class PlayerSettings
 	public static function init():Void
 	{
 		controlsSave = new FlxSave();
-		controlsSave.bind('controls', CoolTools.getSavePath());
+		controlsSave.bind('controls', CoolUtil.getSavePath());
 
 		if(controlsSave.data.controls != null)
 			controlSettings = controlsSave.data.controls;

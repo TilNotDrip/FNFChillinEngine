@@ -1,0 +1,32 @@
+{
+    "name": "Week 3",
+    "motto": "PICO",
+    "characters": ["pico", "bf", "gf"],
+    "color": "941653",
+    "songs": 
+    [
+        {
+            "song": "Pico",
+            "icon": "pico",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Philly Nice",
+            "icon": "pico",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Blammed",
+            "icon": "pico",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "week2"
+    }
+}

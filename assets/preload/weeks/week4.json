@@ -1,0 +1,32 @@
+{
+    "name": "Week 4",
+    "motto": "MOMMY MUST MURDER",
+    "characters": ["mom", "bf", "gf"],
+    "color": "FC96D7",
+    "songs": 
+    [
+        {
+            "song": "Satin Panties",
+            "icon": "mom",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "High",
+            "icon": "mom",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "M.I.L.F",
+            "icon": "mom",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "week3"
+    }
+}

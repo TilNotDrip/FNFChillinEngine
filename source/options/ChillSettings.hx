@@ -54,7 +54,7 @@ class ChillSettings
     public static function loadSettings()
     {
         chillSettings = new FlxSave();
-		chillSettings.bind('settings', CoolTools.getSavePath());
+		chillSettings.bind('settings', CoolUtil.getSavePath());
 
         displaySettings = chillSettings.data.displaySettings;
         gameplaySettings = chillSettings.data.gameplaySettings;

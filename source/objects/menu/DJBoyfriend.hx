@@ -1,8 +1,6 @@
 package objects.menu;
 
-import flixel.FlxSprite;
 import flixel.util.FlxSignal;
-import flixel.util.FlxTimer;
 import objects.FlxAtlasSprite;
 
 class DJBoyfriend extends FlxAtlasSprite
@@ -31,16 +29,12 @@ class DJBoyfriend extends FlxAtlasSprite
 
   public function new(x:Float, y:Float)
   {
-    super(x, y, Paths.atlas("freeplay/freeplay-boyfriend/", "preload"));
+    super(x, y, Paths.atlas("freeplay/freeplay-boyfriend", "preload"));
 
     animOffsets = new Map<String, Array<Dynamic>>();
 
-    onAnimationFinish.add(onFinishAnim);
-
-    runLabelFunctions = false;
-
-    onAnimationFrame.add(function(number:Int) {
-      switch (anim.curSymbol.name)
+    anim.callback = function(name, number) {
+      switch (name)
       {
         case "Boyfriend DJ watchin tv OG":
           if (number == 80)
@@ -52,12 +46,14 @@ class DJBoyfriend extends FlxAtlasSprite
             runTvLogic();
           }
       }
-    });
+    };
 
     setupAnimations();
 
     FlxG.debugger.track(this);
     FlxG.console.registerObject("dj", this);
+
+    anim.onComplete = onFinishAnim;
 
     FlxG.console.registerFunction("tv", function() {
       currentState = TV;
@@ -92,10 +88,11 @@ class DJBoyfriend extends FlxAtlasSprite
       case Idle:
         // We are in this state the majority of the time.
         if (getCurrentAnimation() != 'Boyfriend DJ')
+        {
           playFlashAnimation('Boyfriend DJ', true);
-        
+        }
 
-        if (getCurrentAnimation() == 'Boyfriend DJ' && isLoopFinished())
+        if (getCurrentAnimation() == 'Boyfriend DJ' && this.isLoopFinished())
         {
           if (timeSinceSpook >= SPOOK_PERIOD && !gotSpooked)
           {
@@ -154,8 +151,9 @@ class DJBoyfriend extends FlxAtlasSprite
     }
   }
 
-  function onFinishAnim(name:String):Void
+  function onFinishAnim():Void
   {
+    var name = anim.curSymbol.name;
     switch (name)
     {
       case "boyfriend dj intro":
@@ -163,7 +161,7 @@ class DJBoyfriend extends FlxAtlasSprite
         currentState = Idle;
         onIntroDone.dispatch();
       case "Boyfriend DJ":
-        // trace('Finished idle');
+      // trace('Finished idle');
       case "bf dj afk":
         trace('Finished spook');
         currentState = Idle;
@@ -289,7 +287,6 @@ class DJBoyfriend extends FlxAtlasSprite
   public function playFlashAnimation(id:String, ?Force:Bool = false, ?Reverse:Bool = false, ?Frame:Int = 0):Void
   {
     anim.play(id, Force, Reverse, Frame);
-    loop = false;
     applyAnimOffset();
   }
 

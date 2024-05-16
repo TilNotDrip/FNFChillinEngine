@@ -59,7 +59,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 
 		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
-		Conductor.changeBPM(100);
+		Conductor.bpm = 100;
 	}
 
 	private var playingDeathSound:Bool = false;

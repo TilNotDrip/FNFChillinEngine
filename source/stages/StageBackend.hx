@@ -47,10 +47,6 @@ class StageBackend extends FlxBasic
 
     private var camFollow(get, never):FlxObject;
 
-    public var curStep:Int = 0;
-    public var curBeat:Int = 0;
-    public var curSection:Int = 0;
-
     // New Function
     public function new()
     {

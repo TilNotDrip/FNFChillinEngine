@@ -1,0 +1,32 @@
+{
+    "name": "Week 6",
+    "motto": "hating simulator ft. moawling",
+    "characters": ["senpai", "bf", "gf"],
+    "color": "FF78BF",
+    "songs": 
+    [
+        {
+            "song": "Senpai",
+            "icon": "senpai",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Roses",
+            "icon": "senpai",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Thorns",
+            "icon": "spirit",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "week5"
+    }
+}

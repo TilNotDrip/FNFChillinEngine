@@ -26,7 +26,7 @@ class Main extends Sprite
 	private var game = {
 		width: 1280,
 		height: 720,
-		state: TitleState,
+		state: states.menus.TitleState,
 		framerate: 60,
 		splash: true,
 		fullscreen: false

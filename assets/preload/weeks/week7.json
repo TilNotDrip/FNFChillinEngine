@@ -1,0 +1,32 @@
+{
+    "name": "Week 7",
+    "motto": "Tankman ft. Johnny Utah",
+    "characters": ["tankman", "bf", "gf"],
+    "color": "F6B604",
+    "songs": 
+    [
+        {
+            "song": "Ugh",
+            "icon": "tankman",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Guns",
+            "icon": "tankman",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Stress",
+            "icon": "tankman",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "week6"
+    }
+}

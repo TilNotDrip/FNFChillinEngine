@@ -1,6 +1,5 @@
 package objects.menu;
 
-import states.menus.FreeplayState.FreeplaySongData;
 import shaders.HSVShader;
 import shaders.GaussianBlurShader;
 import flixel.group.FlxGroup;
@@ -25,7 +24,7 @@ class SongMenuItem extends FlxSpriteGroup
    * Modify this by calling `init()`
    * If `null`, assume this SongMenuItem is for the "Random Song" option.
    */
-  public var songData(default, null):Null<FreeplaySongData> = null;
+  public var songData(default, null):Null<addons.Week.SongData> = null;
 
   public var selected(default, set):Bool;
 
@@ -168,20 +167,20 @@ class SongMenuItem extends FlxSpriteGroup
     updateSelected();
   }
 
-  public function init(?x:Float, ?y:Float, songData:Null<FreeplaySongData>):Void
+  public function init(?x:Float, ?y:Float, songData:Null<addons.Week.SongData>):Void
   {
     if (x != null) this.x = x;
     if (y != null) this.y = y;
     this.songData = songData;
 
     // Update capsule text.
-    songText.text = (songData != null) ? songData.week.songs[songData.id] : 'Random';
+    songText.text = (songData != null) ? songData.song : 'Random';
     // Update capsule character.
-    if (songData != null && songData.week.icons[songData.id] != null) setCharacter(songData.week.icons[songData.id]);
+    if (songData != null && songData.icon != null) setCharacter(songData.icon);
     //updateDifficultyRating((songData != null) ? songData.songRating : 0);
     // Update opacity, offsets, etc.
 
-    if(songData != null && songData.week.explicitSongs.contains(songData.week.songs[songData.id]))
+    if(songData != null && songData.explicit)
       explicitIcon.alpha = 1;
     else
       explicitIcon.alpha = 0;

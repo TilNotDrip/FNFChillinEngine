@@ -1,11 +1,5 @@
 package substates;
 
-<<<<<<< Updated upstream
-class StickerSubState extends MusicBeatSubstate
-{
-
-}
-=======
 import flixel.FlxSprite;
 import haxe.Json;
 import lime.utils.Assets;
@@ -389,4 +383,3 @@ typedef StickerShit =
   stickers:Map<String, Array<String>>,
   stickerPacks:Map<String, Array<String>>
 }
->>>>>>> Stashed changes

@@ -150,19 +150,19 @@ class Song
 
 				crochetLimit += crochet;
 				curSection++;
-			}
 
-			if(song[curSection] == null)
-			{
-				song[curSection] = {
-					lengthInSteps: 16,
-					bpm: actualSong.bpm,
-					changeBPM: false,
-					mustHitSection: camOnBF,
-					sectionNotes: [],
-					typeOfSection: 0,
-					altAnim: false
-				};
+				if(song[curSection] == null)
+				{
+					song[curSection] = {
+						lengthInSteps: 16,
+						bpm: actualSong.bpm,
+						changeBPM: false,
+						mustHitSection: camOnBF,
+						sectionNotes: [],
+						typeOfSection: 0,
+						altAnim: false
+					};
+				}
 			}
 
 			var daArray:Array<Dynamic> = [note.t];

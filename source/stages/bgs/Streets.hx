@@ -8,6 +8,14 @@ class Streets extends StageBackend
 {
     var scrollingSky:FlxTiledSprite;
 
+	var pupilState:PupilState = NORMAL;
+
+	var abot:FlxAtlasSprite;
+	// var abotViz:ABotVis;
+	var stereoBG:FlxSprite;
+	var eyeWhites:FlxSprite;
+	var pupil:FlxAtlasSprite;
+
     var car1:BGSprite;
     var car2:BGSprite;
     var traffic:BGSprite;
@@ -57,6 +65,25 @@ class Streets extends StageBackend
 
         var foreground:BGSprite = new BGSprite('phillyStreets/phillyForeground', 88, 317);
         add(foreground);
+
+
+		// a-bot!!
+		eyeWhites = new FlxSprite().makeGraphic(160, 60, FlxColor.WHITE);
+		add(eyeWhites);
+
+		stereoBG = new FlxSprite(0, 0, Paths.image('characters/abot/stereoBG'));
+		add(stereoBG);
+
+		pupil = new FlxAtlasSprite(0, 0, Paths.atlas("characters/abot/systemEyes", 'shared'));
+		add(pupil);
+
+		//viz
+
+		abot = new FlxAtlasSprite(0, 0, Paths.atlas("characters/abot/abotSystem", 'shared'));
+		add(abot);
+
+		// FlxG.debugger.track(abot);
+		// FlxG.debugger.track(pupil);
     }
 
     override public function createPost()
@@ -69,13 +96,67 @@ class Streets extends StageBackend
         gfGroup.setPosition(1453 + globalOffset[0], 900 + globalOffset[1]);
         opponentGroup.setPosition(900 + globalOffset[0], 1110 + globalOffset[1]);
 
-        
+		pupil.anim.play('a bot eyes lookin', true);
+		pupil.anim.pause();
+
+		abot.anim.play('Abot System', true);
+		abot.anim.pause();
     }
 
     override public function update(elapsed:Float)
     {
         if(scrollingSky != null) scrollingSky.scrollX -= FlxG.elapsed * 22;
+
+		abot.x = gfGroup.x - 100;
+		abot.y = gfGroup.y + 316; // 764 - 740
+
+		eyeWhites.x = abot.x + 40;
+		eyeWhites.y = abot.y + 250;
+
+		pupil.x = gfGroup.x - 607;
+		pupil.y = gfGroup.y - 176;
+
+		stereoBG.x = abot.x + 150;
+		stereoBG.y = abot.y + 30;
+
+		if (pupil.anim.isPlaying)
+		{
+			switch (pupilState)
+			{
+				case NORMAL:
+					if (pupil.anim.curFrame >= 17)
+					{
+						pupilState = LEFT;
+						pupil.anim.pause();
+					}
+
+				case LEFT:
+					if (pupil.anim.curFrame >= 31)
+					{
+						pupilState = NORMAL;
+						pupil.anim.pause();
+					}
+
+			}
+		}
     }
+
+	override public function cameraMovement(char:objects.game.Character)
+	{
+		if(char == opponent && pupilState == NORMAL)
+		{
+			pupilState = LEFT;
+			pupil.anim.play('', true);
+			pupil.anim.curFrame = 0;
+		}
+
+		if(char == player && pupilState == LEFT)
+		{
+			pupilState = NORMAL;
+			pupil.anim.play('', true);
+			pupil.anim.curFrame = 17;
+		}
+	}
 
     var lightsStop:Bool = false;
     var lastChange:Int = 0;
@@ -85,7 +166,7 @@ class Streets extends StageBackend
 		super.beatHit();
 
 		// Try driving a car when its possible
-		if (FlxG.random.bool(10) && curBeat != (lastChange + changeInterval) && carInterruptable)
+		if (FlxG.random.bool(10) && Conductor.curBeat != (lastChange + changeInterval) && carInterruptable)
 		{
 			if(!lightsStop)
 				driveCar(car1);
@@ -94,12 +175,12 @@ class Streets extends StageBackend
 		}
 
 		// try driving one on the right too. in this case theres no red light logic, it just can only spawn on green lights
-		if(FlxG.random.bool(10) && curBeat != (lastChange + changeInterval) && car2Interruptable && !lightsStop) 
+		if(FlxG.random.bool(10) && Conductor.curBeat != (lastChange + changeInterval) && car2Interruptable && !lightsStop) 
             driveCarBack(car2);
 
 		// After the interval has been hit, change the light state.
-		if (curBeat == (lastChange + changeInterval)) 
-            changeLights(curBeat);
+		if (Conductor.curBeat == (lastChange + changeInterval)) 
+            changeLights(Conductor.curBeat);
 	}
 
     var carWaiting:Bool = false; // if the car is waiting at the lights and is ready to go on green
@@ -320,4 +401,10 @@ class Streets extends StageBackend
                 finishCarLights(car1);
 		}
 	}
+}
+
+enum abstract PupilState(Int)
+{
+	var NORMAL = 0;
+	var LEFT = 1;
 }

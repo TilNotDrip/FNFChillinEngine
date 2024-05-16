@@ -1,0 +1,32 @@
+{
+    "name": "Week 2",
+    "motto": "Spooky Month",
+    "characters": ["spooky", "bf", "gf"],
+    "color": "223344",
+    "songs": 
+    [
+        {
+            "song": "Spookeez",
+            "icon": "spooky",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "South",
+            "icon": "spooky",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Monster",
+            "icon": "spooky",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "week1"
+    }
+}

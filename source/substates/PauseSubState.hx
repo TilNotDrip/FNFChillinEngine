@@ -98,6 +98,13 @@ class PauseSubState extends MusicBeatSubstate
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
+		var swagCamera = FlxG.cameras.add(new SwagCamera(), false);
+		swagCamera.bgColor = 0x00000000;
+		
+		forEach(function(obj) {
+			obj.cameras = [swagCamera];
+		});
+
 		regenMenu();
 	}
 
@@ -178,9 +185,9 @@ class PauseSubState extends MusicBeatSubstate
 				}
 				else
 				{
-					var difficulty:String = PlayState.storyWeek.difficulties[curSelected];
+					var difficulty:String = PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties[curSelected];
 
-					for(i in PlayState.storyWeek.difficulties) {
+					for(i in PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties) {
 						if(i.formatToPath() == daSelected.formatToPath()) {
 							difficulty = i;
 							break;
@@ -199,7 +206,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		difficultyChoices = [];
 
-		for(i in PlayState.storyWeek.difficulties)
+		for(i in PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties)
 			difficultyChoices.push(i.toUpperCase());
 
 		difficultyChoices.push('BACK');
@@ -212,9 +219,6 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		pauseMusic.destroy();
 		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.difficulty + ')');
-
-		for(tween in PlayState.game.bopTween)
-			if(tween != null) tween.active = true;
 
 		super.destroy();
 	}

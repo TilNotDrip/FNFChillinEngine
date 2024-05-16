@@ -58,7 +58,7 @@ class AnimationDebug extends MusicBeatState
 
 		char = new Character(0, 0, daAnim, isPlayer);
 		char.screenCenter();
-		char.debugMode = true;
+		//char.debugMode = true;
 		add(char);
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
@@ -175,31 +175,31 @@ class AnimationDebug extends MusicBeatState
 		{
 			updateTexts();
 			if (upP)
-				char.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
+				char.animOffsets.get(animList[curAnim]).y += 1 * multiplier;
 			if (downP)
-				char.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
+				char.animOffsets.get(animList[curAnim]).y -= 1 * multiplier;
 			if (leftP)
-				char.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
+				char.animOffsets.get(animList[curAnim]).x += 1 * multiplier;
 			if (rightP)
-				char.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
+				char.animOffsets.get(animList[curAnim]).x -= 1 * multiplier;
 
 			updateTexts();
 			genBoyOffsets(false);
 			char.playAnim(animList[curAnim], true);
 		}
 
-		if (FlxG.keys.justPressed.ENTER)
+		if (controls.ACCEPT)
 		{
 			var outputString:String = "";
 
 			for (swagAnim in animList)
-				outputString += swagAnim + " " + char.animOffsets.get(swagAnim)[0] + " " + char.animOffsets.get(swagAnim)[1] + "\n";
+				outputString += swagAnim + " " + char.animOffsets.get(swagAnim).x + " " + char.animOffsets.get(swagAnim).y + "\n";
 
 			outputString.trim();
 			saveOffsets(outputString);
 		}
 
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (controls.BACK)
 			FlxG.switchState(new PlayState());
 
 		super.update(elapsed);

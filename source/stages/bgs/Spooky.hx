@@ -17,7 +17,7 @@ class Spooky extends StageBackend
     {
 		FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
 
-		lightningStrikeBeat = curBeat;
+		lightningStrikeBeat = Conductor.curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
 
         halloweenBG.dance();
@@ -31,7 +31,7 @@ class Spooky extends StageBackend
 
     override public function beatHit()
     {
-        if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
+        if (FlxG.random.bool(10) && Conductor.curBeat > lightningStrikeBeat + lightningOffset)
             lightningStrikeShit();
     }
 }

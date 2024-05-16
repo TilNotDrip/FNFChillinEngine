@@ -56,7 +56,7 @@ class GameOverState extends MusicBeatState
 			startVol = 0.2;
 		}
 
-		Conductor.changeBPM(100);
+		Conductor.bpm = 100;
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), startVol);

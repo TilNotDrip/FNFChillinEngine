@@ -130,7 +130,7 @@ class TitleState extends MusicBeatState
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
-		Conductor.changeBPM(introText.bpm);
+		Conductor.bpm = introText.bpm;
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -289,7 +289,7 @@ class TitleState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7, false, null, true, function () {
 			easterEggActive = true;
 			FlxG.sound.playMusic(Paths.music('girlfriendsRingtone'));
-			Conductor.changeBPM(190);
+			Conductor.bpm = 190;
 			Conductor.songPosition = 0;
 		});
 
@@ -351,16 +351,16 @@ class TitleState extends MusicBeatState
 					i.animation.play('danceLeft');
 			}
 
-			if (easterEggActive && curBeat % 2 == 0)
+			if (easterEggActive && Conductor.curBeat % 2 == 0)
 				swagShader.update(0.125);
 		}
 		else
 		{
 			// if the user is draggin the window some beats will
 			// be missed so this is just to compensate
-			if (curBeat > lastBeat)
+			if (Conductor.curBeat > lastBeat)
 			{
-				for (i in lastBeat...curBeat)
+				for (i in lastBeat...Conductor.curBeat)
 				{
 					for (beatThing in introText.titleText)
 					{
@@ -412,7 +412,7 @@ class TitleState extends MusicBeatState
 					}
 				}
 			}
-			lastBeat = curBeat;
+			lastBeat = Conductor.curBeat;
 		}
 	}
 

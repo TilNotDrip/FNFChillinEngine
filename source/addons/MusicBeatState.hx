@@ -6,9 +6,6 @@ import flixel.addons.ui.FlxUIState;
 
 class MusicBeatState extends FlxUIState
 {
-	private var curStep:Int = 0;
-	private var curBeat:Int = 0;
-	private var curSection:Int = 0;
 	private var controls(get, never):Controls;
 
 	inline private function get_controls():Controls
@@ -22,56 +19,18 @@ class MusicBeatState extends FlxUIState
 		DiscordRPC.largeImageText = 'Friday Night Funkin\'; Chillin Engine: V' + Application.current.meta.get('version');
 		#end
 
+		FlxG.fixedTimestep = false;
+
 		super();
 	}
 
-	override public function update(elapsed:Float)
+	override public function create()
 	{
-		var oldStep:Int = curStep;
+		Conductor.stepSignal.add(stepHit);
+		Conductor.beatSignal.add(beatHit);
+		Conductor.sectionSignal.add(sectionHit);
 
-		updateStep();
-		updateBeat();
-		updateSection();
-
-		if (oldStep != curStep && curStep >= 0)
-		{
-			stepHit();
-
-			if (curStep % 4 == 0)
-				beatHit();
-
-			if (curStep % 16 == 0)
-				sectionHit();
-		}
-
-		super.update(elapsed);
-	}
-
-	private function updateSection():Void
-	{
-		curSection = Math.floor(curStep / 16);
-	}
-
-	private function updateBeat():Void
-	{
-		curBeat = Math.floor(curStep / 4);
-	}
-
-	private function updateStep():Void
-	{
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
-
-		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
+		super.create();
 	}
 
 	public function stepHit():Void {}
@@ -82,4 +41,11 @@ class MusicBeatState extends FlxUIState
 
 	public function changeWindowName(windowName:String = '') 
 		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
+
+	override public function destroy()
+	{
+		Conductor.stepSignal.remove(stepHit);
+		Conductor.beatSignal.remove(beatHit);
+		Conductor.sectionSignal.remove(sectionHit);
+	}
 }

@@ -10,7 +10,7 @@ class Highscore
 	public static function load():Void
 	{
 		saveScores = new FlxSave();
-		saveScores.bind('scores', CoolTools.getSavePath());
+		saveScores.bind('scores', CoolUtil.getSavePath());
 
 		if (saveScores.data.songScores != null)
 			songScores = saveScores.data.songScores;

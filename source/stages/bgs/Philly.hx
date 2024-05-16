@@ -122,7 +122,7 @@ class Philly extends StageBackend
         if (!trainMoving)
             trainCooldown += 1;
 
-        if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
+        if (Conductor.curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
         {
             trainCooldown = FlxG.random.int(-4, 0);
             trainStart();

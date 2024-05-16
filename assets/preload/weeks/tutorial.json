@@ -1,0 +1,20 @@
+{
+    "name": "Tutorial",
+    "motto": "Teaching Time",
+    "characters": [null, "bf", "gf"],
+    "color": "9271FD",
+    "songs": 
+    [
+        {
+            "song": "Tutorial",
+            "icon": "gf",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": ""
+    }
+}

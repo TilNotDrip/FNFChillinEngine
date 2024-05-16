@@ -50,4 +50,10 @@ class CoolUtil
 		FlxG.openURL(link);
 		#end
 	}
+
+	public static function getSavePath():String
+	{
+		var packageName:Array<String> = Application.current.meta.get('packageName').split('.');
+		return packageName[1];
+	}
 }

@@ -21,6 +21,8 @@ class HealthIcon extends TrackedSprite
 		'darnell' => 0xFF735EB0
 	];
 
+	public var daTween:FlxTween = null;
+
 	private static var POSITION_OFFSET = 26;
 
 	public var curHealthBarColor:FlxColor;
@@ -97,7 +99,8 @@ class HealthIcon extends TrackedSprite
 
 	public dynamic function bop()
 	{
-		FlxTween.tween(scale, {x: 1.3, y: 1.3}, (Conductor.crochet / 1000) * 0.1, {ease: FlxEase.cubeIn});
-		FlxTween.tween(scale, {x: 1, y: 1}, (Conductor.crochet / 1000) * 0.9, {ease: FlxEase.cubeOut, startDelay: (Conductor.crochet / 1000) * 0.1});
+		daTween = FlxTween.tween(scale, {x: 1.3, y: 1.3}, (Conductor.crochet / 1000) * 0.1, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween) {
+			daTween = FlxTween.tween(scale, {x: 1, y: 1}, (Conductor.crochet / 1000) * 0.9, {ease: FlxEase.cubeOut});
+		}});
 	}
 }

@@ -1,0 +1,33 @@
+{
+    "name": "Week 1",
+    "dataName": "week1",
+    "motto": "Daddy Dearest",
+    "characters": ["dad", "bf", "gf"],
+    "color": "9271FD",
+    "songs": 
+    [
+        {
+            "song": "Bopeebo",
+            "icon": "dad",
+            "difficulties": ["Easy", "Normal", "Hard", "Erect"],
+            "explicit": false
+        }, 
+        {
+            "song": "Fresh",
+            "icon": "dad",
+            "difficulties": ["Easy", "Normal", "Hard", "Erect"],
+            "explicit": false
+        },
+        {
+            "song": "Dad Battle",
+            "icon": "dad",
+            "difficulties": ["Easy", "Normal", "Hard", "Erect"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "tutorial"
+    }
+}

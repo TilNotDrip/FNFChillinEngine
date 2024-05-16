@@ -12,7 +12,7 @@ class ConvertingSongs extends MusicBeatState
     var curSelected:Int = -1;
     private var _file:FileReference;
 
-    var songs:Array<Array<String>> = [['Blazin\'', 'Easy'], ['Blazin\'', 'Normal'], ['Blazin\'', 'Hard']];
+    var songs:Array<Array<String>> = [['Bopeebo', 'Erect'], ['Fresh', 'Erect'], ['Dad Battle', 'Erect']];
 
     override public function update(elapsed:Float)
     {
@@ -71,6 +71,6 @@ class ConvertingSongs extends MusicBeatState
 		_file.addEventListener(Event.COMPLETE, onSaveComplete);
 		_file.addEventListener(Event.CANCEL, onSaveCancel);
 		_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-		_file.save(data.trim(), song[0].formatToPath() + '/' + song[1].formatToPath() + ".json");
+		_file.save(data.trim(), song[0].formatToPath() + '-' + song[1].formatToPath() + ".json");
     }
 }

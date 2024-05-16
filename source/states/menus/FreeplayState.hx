@@ -1,5 +1,6 @@
 package states.menus;
 
+import addons.Week;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxAngle;
 import shaders.*;
@@ -24,12 +25,6 @@ import openfl.utils.Assets;
  typedef FreeplayStateParams =
  {
    ?character:String,
- };
-
- typedef FreeplaySongData = 
- {
-	id:Int, 
-	week:Week
  };
  
  /**
@@ -72,7 +67,7 @@ import openfl.utils.Assets;
 	*/
    public static final FADE_OUT_END_VOLUME:Float = 0.0;
  
-   var songs:Array<FreeplaySongData> = [];
+   var songs:Array<SongData> = [];
  
    var diffIdsCurrent:Array<String> = [];
    var diffIdsTotal:Array<String> = [];
@@ -173,15 +168,15 @@ import openfl.utils.Assets;
  
 	 for (week in Week.weeks)
 	 {
-	   for (i in 0...week.songs.length)
+	   for (song in week.songs)
 	   {
 		 // Only display songs which actually have available charts for the current character.
-		 var availableDifficultiesForSong:Array<String> = week.difficulties;
+		 var availableDifficultiesForSong:Array<String> = song.difficulties;
 		 if (availableDifficultiesForSong.length == 0) continue;
  
-		 songs.push({week: week, id: i});
+		 songs.push(song);
 
-		 for (difficulty in week.difficulties)
+		 for (difficulty in song.difficulties)
 		 {
 		   if(!diffIdsTotal.contains(difficulty)) diffIdsTotal.push(difficulty);
 		 }
@@ -294,7 +289,7 @@ import openfl.utils.Assets;
 		 speed: 0.3
 	   });
  
-	 dj = new DJBoyfriend(0, 0);
+	 dj = new DJBoyfriend(640, 366);
 	 dj.scrollFactor.set();
 	 dj.updateHitbox();
 	 exitMovers.set([dj],
@@ -514,7 +509,7 @@ import openfl.utils.Assets;
    }
  
    var currentFilter:SongFilter = null;
-   var currentFilteredSongs:Array<FreeplaySongData> = [];
+   var currentFilteredSongs:Array<SongData> = [];
  
    /**
 	* Given the current filter, rebuild the current song list.
@@ -525,7 +520,7 @@ import openfl.utils.Assets;
 	*/
    public function generateSongList(filterStuff:Null<SongFilter>, force:Bool = false, onlyIfChanged:Bool = true):Void
    {
-	 var tempSongs:Array<FreeplaySongData> = songs;
+	 var tempSongs:Array<SongData> = songs;
  
 	 // Remember just the difficulty because it's important for song sorting.
 	 if (rememberedDifficulty != null)
@@ -540,7 +535,7 @@ import openfl.utils.Assets;
 	 {
 	   tempSongs = tempSongs.filter(song -> {
 		 if (song == null) return true; // Random
-		 return song.week.difficulties.contains(currentDifficulty);
+		 return song.difficulties.contains(currentDifficulty);
 	   });
 	 }
  
@@ -553,7 +548,7 @@ import openfl.utils.Assets;
 	 // Only now do we know that the filter is actually changing.
  
 	 // If curSelected is 0, the result will be null and fall back to the rememberedSongId.
-	 rememberedSongId = (curSelected != 0 && grpCapsules.members[curSelected] != null && grpCapsules.members[curSelected].songData != null) ? grpCapsules.members[curSelected].songData.week.songs[grpCapsules.members[curSelected].songData.id].formatToPath() : rememberedSongId;
+	 rememberedSongId = (curSelected != 0 && grpCapsules.members[curSelected] != null && grpCapsules.members[curSelected].songData != null) ? grpCapsules.members[curSelected].songData.song.formatToPath() : rememberedSongId;
  
 	 for (cap in grpCapsules.members)
 	 {
@@ -616,9 +611,9 @@ import openfl.utils.Assets;
 	* Filters an array of songs based on a filter
 	* @param songsToFilter What data to use when filtering
 	* @param songFilter The filter to apply
-	* @return Array<FreeplaySongData>
+	* @return Array<SongData>
 	*/
-   public function sortSongs(songsToFilter:Array<FreeplaySongData>, songFilter:SongFilter):Array<FreeplaySongData>
+   public function sortSongs(songsToFilter:Array<SongData>, songFilter:SongFilter):Array<SongData>
    {
 	 switch (songFilter.filterType)
 	 {
@@ -631,7 +626,7 @@ import openfl.utils.Assets;
 		 var filterRegexp:EReg = new EReg('^[' + songFilter.filterData + '].*', 'i');
 		 songsToFilter = songsToFilter.filter(str -> {
 		   if (str == null) return true; // Random
-		   return filterRegexp.match(str.week.songs[str.id]);
+		   return filterRegexp.match(str.song);
 		 });
  
 	   case STARTSWITH:
@@ -639,7 +634,7 @@ import openfl.utils.Assets;
  
 		 songsToFilter = songsToFilter.filter(str -> {
 		   if (str == null) return true; // Random
-		   return str.week.songs[str.id].formatToPath().startsWith(songFilter.filterData);
+		   return str.song.formatToPath().startsWith(songFilter.filterData);
 		 });
 	   case ALL:
 	   // no filter!
@@ -934,10 +929,10 @@ import openfl.utils.Assets;
    public override function destroy():Void
    {
 	 super.destroy();
-	 var daSong:Null<FreeplaySongData> = currentFilteredSongs[curSelected];
+	 var daSong:Null<SongData> = currentFilteredSongs[curSelected];
 	 if (daSong != null)
 	 {
-	   clearDaCache(daSong.week.songs[daSong.id]);
+	   clearDaCache(daSong.song);
 	 }
    }
  
@@ -956,10 +951,10 @@ import openfl.utils.Assets;
  
 	 currentDifficulty = diffIdsCurrent[currentDifficultyIndex];
  
-	 var daSong:Null<FreeplaySongData> = grpCapsules.members[curSelected].songData;
+	 var daSong:Null<SongData> = grpCapsules.members[curSelected].songData;
 	 if (daSong != null)
 	 {
-	   var songScore:Null<Int> = Highscore.getScore(grpCapsules.members[curSelected].songData.week.songs[grpCapsules.members[curSelected].songData.id], currentDifficulty);
+	   var songScore:Null<Int> = Highscore.getScore(grpCapsules.members[curSelected].songData.song, currentDifficulty);
 	   intendedScore = (songScore != null) ? songScore : 0;
 	   //intendedCompletion = (songScore != null) ? songScore.accuracy : 0.0;
 	   rememberedDifficulty = currentDifficulty;
@@ -1034,9 +1029,9 @@ import openfl.utils.Assets;
 	 for (song in songs)
 	 {
 	   if (song == null) continue;
-	   if (song.week.songs[song.id] != actualSongTho)
+	   if (song.song != actualSongTho)
 	   {
-		 trace('trying to remove: ' + song.week.songs[song.id]);
+		 trace('trying to remove: ' + song.song);
 		 // openfl.Assets.cache.clear(Paths.inst(song.songName));
 	   }
 	 }
@@ -1055,7 +1050,7 @@ import openfl.utils.Assets;
 	 });
  
 	 trace('Available songs: ${availableSongCapsules.map(function(cap) {
-	   return cap.songData.week.songs[cap.songData.id];
+	   return cap.songData.song;
 	 })}');
  
 	 if (availableSongCapsules.length == 0)
@@ -1088,7 +1083,7 @@ import openfl.utils.Assets;
  
 	 new FlxTimer().start(1, function(tmr:FlxTimer) {
 		var poop:String = currentDifficulty.formatToPath();
-		var song:String = cap.songData.week.songs[cap.songData.id].formatToPath();
+		var song:String = cap.songData.song.formatToPath();
 		PlayState.SONG = Song.loadFromJson(poop, song);
 		PlayState.songEvents = SongEvent.loadFromJson(song);
 
@@ -1098,7 +1093,8 @@ import openfl.utils.Assets;
 		PlayState.isStoryMode = false;
 		PlayState.difficulty = currentDifficulty;
 
-		PlayState.storyWeek = cap.songData.week;
+		PlayState.storyWeek = cap.songData.head;
+		PlayState.curSongIndex = cap.songData.head.songs.indexOf(cap.songData);
 		trace('Week: ' + PlayState.storyWeek.name);
 	    LoadingState.loadAndSwitchState(new PlayState());
 	 });
@@ -1110,7 +1106,7 @@ import openfl.utils.Assets;
 	 {
 		for(song in currentFilteredSongs)
 		{
-			if(song.week.songs[song.id].formatToPath() == rememberedSongId)
+			if(song.song.formatToPath() == rememberedSongId)
 			{
 				curSelected = currentFilteredSongs.indexOf(song)+1;
 				break;
@@ -1140,11 +1136,11 @@ import openfl.utils.Assets;
 	 var daSongCapsule:SongMenuItem = grpCapsules.members[curSelected];
 	 if (daSongCapsule.songData != null)
 	 {
-	   var songScore:Null<Int> = Highscore.getScore(daSongCapsule.songData.week.songs[daSongCapsule.songData.id], currentDifficulty);
+	   var songScore:Null<Int> = Highscore.getScore(daSongCapsule.songData.song, currentDifficulty);
 	   intendedScore = (songScore != null) ? songScore : 0;
 	   //intendedCompletion = (songScore != null) ? songScore.accuracy : 0.0;
-	   diffIdsCurrent = daSongCapsule.songData.week.difficulties;
-	   rememberedSongId = daSongCapsule.songData.week.songs[daSongCapsule.songData.id];
+	   diffIdsCurrent = daSongCapsule.songData.difficulties;
+	   rememberedSongId = daSongCapsule.songData.song;
 	   changeDiff();
 	 }
 	 else
@@ -1176,7 +1172,7 @@ import openfl.utils.Assets;
 		if(FlxG.sound.music != null) 
 			FlxG.sound.music.pause();
 
-		 Conductor.changeBPM(145);
+		 Conductor.bpm = 145;
 
 		 randomSong.play();
 		 randomSong.fadeIn(2, 0, 0.8);
@@ -1187,7 +1183,7 @@ import openfl.utils.Assets;
 		 {
 			FlxG.sound.music.resume();
 
-			Conductor.changeBPM(TitleState.introText.bpm);
+			Conductor.bpm = TitleState.introText.bpm;
 
 			randomSong.pause();
 		 	FlxG.sound.music.fadeIn(2, 0, 0.8);
@@ -1214,155 +1210,6 @@ import openfl.utils.Assets;
 	 }
    }
 
-<<<<<<< Updated upstream
-		add(scoreText);
-
-		super.create();
-
-		changeSelection();
-		changeDifficulty();
-	}
-
-	override public function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		if (FlxG.sound.music != null)
-		{
-			if (FlxG.sound.music.volume < 0.7)
-				FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
-
-		lerpScore = CoolUtil.coolLerp(lerpScore, intendedScore, 0.4);
-
-		scoreText.text = "PERSONAL BEST:" + Math.round(lerpScore);
-
-		positionHighscore();
-
-		if (controls.UI_UP_P)
-			changeSelection(-1);
-		if (controls.UI_DOWN_P)
-			changeSelection(1);
-
-		if (FlxG.mouse.wheel != 0)
-			changeSelection(-FlxG.mouse.wheel);
-
-		if (controls.UI_LEFT_P)
-			changeDifficulty(-1);
-
-		if (controls.UI_RIGHT_P)
-			changeDifficulty(1);
-
-		if (controls.BACK)
-		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.switchState(new MainMenuState());
-		}
-
-		if (controls.ACCEPT)
-		{
-			var poop:String = songs[curSelected].week.difficulties[curDifficulty].formatToPath();
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].song.formatToPath());
-			PlayState.songEvents = SongEvent.loadFromJson(songs[curSelected].song.formatToPath());
-
-			if (PlayState.songEvents == null)
-				PlayState.songEvents = [];
-
-			PlayState.isStoryMode = false;
-			PlayState.difficulty = songs[curSelected].week.difficulties[curDifficulty];
-
-			PlayState.storyWeek = songs[curSelected].week;
-			trace('Week: ' + PlayState.storyWeek.name);
-			LoadingState.loadAndSwitchState(new PlayState());
-		}
-	}
-
-	private function changeDifficulty(change:Int = 0)
-	{
-		curDifficulty += change;
-
-		if (curDifficulty < 0)
-			curDifficulty = songs[curSelected].week.difficulties.length - 1;
-
-		if (curDifficulty >= songs[curSelected].week.difficulties.length)
-			curDifficulty = 0;
-
-		var daDiff:String = songs[curSelected].week.difficulties[curDifficulty];
-
-		intendedScore = Highscore.getScore(songs[curSelected].song, daDiff);
-
-		PlayState.difficulty = songs[curSelected].week.difficulties[curDifficulty];
-
-		diffText.text = "< " + daDiff.toUpperCase() + " >";
-		positionHighscore();
-
-		#if MOD_SUPPORT
-		HScript.runFunction('changeDifficulty', [curDifficulty]);
-		#end
-	}
-
-	private function changeSelection(change:Int = 0)
-	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = songs.length - 1;
-
-		if (curSelected >= songs.length)
-			curSelected = 0;
-
-		if (!songs[curSelected].week.difficulties.contains(songs[curSelected].week.difficulties[curDifficulty]))
-			changeDifficulty();
-
-		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
-
-		if(colorTween != null) colorTween.cancel();
-		colorTween = FlxTween.color(bg, 0.6, bg.color, songs[curSelected].week.color);
-
-		var bullShit:Int = 0;
-
-		for (i in 0...iconArray.length)
-			iconArray[i].alpha = 0.6;
-
-		iconArray[curSelected].alpha = 1;
-
-		explicitSpr.forEach(function (explicit:TrackedSprite) {
-			explicit.alpha = 0.6;
-
-			if (explicit.ID != curSelected)
-				explicit.alpha = 0.6;
-			else
-				explicit.alpha = 1;
-		});
-
-		for (item in grpSongs.members)
-		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-
-			if (item.targetY == 0)
-				item.alpha = 1;
-		}
-
-		#if MOD_SUPPORT
-		HScript.runFunction('changeSelection', [curSelected]);
-		#end
-	}
-
-	private function positionHighscore()
-	{
-		scoreText.x = FlxG.width - scoreText.width - 6;
-		scoreBG.scale.x = FlxG.width - scoreText.x + 6;
-		scoreBG.x = FlxG.width - scoreBG.scale.x / 2;
-
-		diffText.x = Std.int(scoreBG.x + scoreBG.width / 2);
-		diffText.x -= (diffText.width / 2);
-	}
-=======
    override public function beatHit()
    {
    	dj.dance();
@@ -1677,7 +1524,7 @@ class FreeplayLetter extends FlxAtlasSprite
 
   public function new(x:Float, y:Float, ?letterInd:Int)
   {
-    super(x, y, Paths.atlas("freeplay/sortedLetters/"));
+    super(x, y, Paths.atlas("freeplay/sortedLetters", 'preload'));
 
     // this is used for the regex
     // /^[OR].*/gi doesn't work for showing the song Pico, so now it's
@@ -1734,5 +1581,4 @@ class FreeplayLetter extends FlxAtlasSprite
     }
     // updateHitbox();
   }
->>>>>>> Stashed changes
 }

@@ -1,0 +1,32 @@
+{
+    "name": "Weekend 1",
+    "motto": "DUE DEBTS",
+    "characters": ["dad", "pico", "gf"],
+    "color": "413CAE",
+    "songs": 
+    [
+        {
+            "song": "Lit Up",
+            "icon": "darnell",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "2Hot",
+            "icon": "darnell",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
+            "song": "Blazin'",
+            "icon": "darnell",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        }
+    ],
+    "lockMetadata":
+    {
+        "onDefault": false,
+        "unlockAfterWeek": "week6"
+    }
+}

@@ -11,8 +11,7 @@ class Character extends FlxSprite
 	public var curCharacter:String = 'bf';
 	public var deathCharacter:String = 'bf-dead';
 
-	public var animOffsets:Map<String, Array<Dynamic>>;
-	public var debugMode:Bool = false;
+	public var animOffsets:Map<String, FlxPoint>;
 
 	public var isPlayer:Bool = false;
 	public var startedDeath:Bool = false;
@@ -20,7 +19,11 @@ class Character extends FlxSprite
 	public var isPixel(default, set):Bool = false;
 
 	public var holdTimer:Float = 0;
-	public var bopDance:Float = 1;
+	public var holdTimerLimit:Float = 4;
+
+	public var allowedToIdle:Bool = true;
+
+	public var bopDance:Float = 2;
 
 	public var cameraOffsets:FlxPoint = new FlxPoint();
 
@@ -32,7 +35,7 @@ class Character extends FlxSprite
 
 		animation = new FunkinAnimationController(this);
 
-		animOffsets = new Map<String, Array<Dynamic>>();
+		animOffsets = new Map<String, FlxPoint>();
 		curCharacter = character;
 		this.isPlayer = isPlayer;
 
@@ -82,6 +85,8 @@ class Character extends FlxSprite
 			case 'dad':
 				frames = Paths.getSparrowAtlas('characters/DADDY_DEAREST');
 
+				holdTimerLimit = 6;
+
 				quickAnimAdd('idle', 'Dad idle dance');
 				quickAnimAdd('singUP', 'Dad Sing note UP');
 				quickAnimAdd('singRIGHT', 'Dad Sing Note LEFT');
@@ -104,7 +109,7 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
-				y += 200;
+				y = 200;
 
 			case 'pico', 'pico-player':
 				frames = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
@@ -135,7 +140,7 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-				y += 300;
+				y = 300;
 
 				if(isPlayer)
 					cameraOffsets.x = -250;
@@ -151,7 +156,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				y += 100;
+				y = 100;
 
 			case 'mom':
 				frames = Paths.getSparrowAtlas('characters/Mom_Assets');
@@ -266,7 +271,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				x -= 500;
+				x = -500;
 
 			case 'monster-christmas':
 				frames = Paths.getSparrowAtlas('characters/monsterChristmas');
@@ -279,7 +284,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				y += 130;
+				y = 130;
 
 			case 'bf-pixel':
 				deathCharacter = 'bf-pixel-dead';
@@ -331,8 +336,8 @@ class Character extends FlxSprite
 
 				isPixel = true;
 
-				x += 150;
-				y += 360;
+				x = 150;
+				y = 360;
 
 			case 'senpai-angry':
 				frames = Paths.getSparrowAtlas('characters/senpai');
@@ -347,8 +352,8 @@ class Character extends FlxSprite
 
 				isPixel = true;
 
-				x += 150;
-				y += 360;
+				x = 150;
+				y = 360;
 
 			case 'spirit':
 				frames = Paths.getSparrowAtlas('characters/spirit');
@@ -363,8 +368,8 @@ class Character extends FlxSprite
 
 				isPixel = true;
 
-				x -= 150;
-				y += 100;
+				x = -150;
+				y = 100;
 
 			case 'gf-tankmen':
 				frames = Paths.getSparrowAtlas('characters/gfTankmen');
@@ -424,7 +429,7 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-				y += 180;
+				y = 180;
 
 			case 'pico-speaker':
 				frames = Paths.getSparrowAtlas('characters/picoSpeaker');
@@ -489,6 +494,8 @@ class Character extends FlxSprite
 		dance();
 		animation.finish();
 
+		Conductor.beatSignal.add(beatHit);
+
 		if (isPlayer)
 		//{
 			flipX = !flipX;
@@ -545,7 +552,7 @@ class Character extends FlxSprite
 		for (i in daFile)
 		{
 			var splitWords:Array<String> = i.split(" ");
-			addOffset(splitWords[0], Std.parseInt(splitWords[1]), Std.parseInt(splitWords[2]));
+			animOffsets[splitWords[0]] = new FlxPoint(Std.parseFloat(splitWords[1]), Std.parseFloat(splitWords[2]));
 		}
 	}
 
@@ -565,28 +572,6 @@ class Character extends FlxSprite
 			dance();
 		}*/
 
-		if ((!isPlayer && PlayState.botplayDad) || (isPlayer && PlayState.botplay))
-		{
-			var dadVar:Float = 4;
-
-			if (curCharacter == 'dad')
-				dadVar = 6.1;
-
-			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
-			{
-				dance();
-				holdTimer = 0;
-			}
-		}
-		else
-		{
-			if (!animation.curAnim.name.startsWith('sing') && animation.curAnim.finished)
-				holdTimer = 0;
-
-			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
-				playAnim('idle', true, false, 10);
-		}
-
 		switch (curCharacter)
 		{
 			case 'gf':
@@ -601,13 +586,30 @@ class Character extends FlxSprite
 		super.update(elapsed);
 	}
 
+	private function beatHit()
+	{
+		if (animation.curAnim.name.startsWith('sing'))
+		{
+			if(holdTimer >= (Conductor.stepCrochet * holdTimerLimit) / 1000 && allowedToIdle)
+				dance();
+		}
+		else
+		{
+			if(Conductor.curBeat % bopDance == 0)
+				dance();
+		}
+			
+	}
+
 	private var danced:Bool = false;
 
 	public function dance()
 	{
-		if (!debugMode && heyTimer <= 0)
+		if (heyTimer <= 0)
 		{
-			var shouldIdle:Bool = true;
+			holdTimer = 0;
+
+			var cantIdle:Bool = false;
 
 			/*if (animation.exists(animation.curAnim.name + '-end') && !playingEndAnim && !animation.curAnim.name.endsWith('-end'))
 			{
@@ -619,18 +621,16 @@ class Character extends FlxSprite
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel' | 'gf-tankmen':
-					if (!animation.curAnim.name.startsWith('hair'))
-						shouldIdle = false;
+					cantIdle = animation.curAnim.name.startsWith('hair');
 
 				case 'tankman':
-					if (!animation.curAnim.name.endsWith('DOWN-alt'))
-						shouldIdle = false;
+					cantIdle = animation.curAnim.name.endsWith('DOWN-alt');
 
 				case 'pico-speaker':
-					shouldIdle = false;
+					cantIdle = true;
 			}
 
-			if(shouldIdle)
+			if(!cantIdle)
 			{
 				if(animation.exists('danceLeft') && animation.exists('danceRight'))
 				{
@@ -652,10 +652,11 @@ class Character extends FlxSprite
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(AnimName);
-		if (animOffsets.exists(AnimName))
-			offset.set(daOffset[0], daOffset[1]);
-		else
-			offset.set(0, 0);
+
+		offset.set(0, 0);
+
+		if (daOffset != null)
+			offset += daOffset;
 
 		if (AnimName == 'singLEFT')
 			danced = true;
@@ -668,9 +669,6 @@ class Character extends FlxSprite
 		if (AnimName == 'hey' || AnimName == 'cheer')
 			heyTimer = 0.55;
 	}
-
-	public function addOffset(name:String, x:Float = 0, y:Float = 0)
-		animOffsets[name] = [x, y];
 
 	private function set_isPixel(value:Bool):Bool
 	{

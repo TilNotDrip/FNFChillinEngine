@@ -13,11 +13,7 @@ import objects.menu.MenuItem;
 
 class MainMenuState extends MusicBeatState
 {
-<<<<<<< Updated upstream
 	public static var funkinVer:String = '0.3.2' #if debug + ' (Prototype)' #end;
-=======
-	public static var funkinVer:String = '0.3.2';
->>>>>>> Stashed changes
 
 	private var magenta:FlxSprite;
 
