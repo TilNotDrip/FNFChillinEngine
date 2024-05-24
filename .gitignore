@@ -1,4 +1,5 @@
-export/
+.github/
 .vscode/
 .haxelib/
+export/
 .DS_STORE
