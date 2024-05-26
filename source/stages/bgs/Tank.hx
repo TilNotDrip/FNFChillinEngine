@@ -1,5 +1,6 @@
 package stages.bgs;
 
+import flxanimate.FlxAnimate;
 import flixel.math.FlxAngle;
 import flixel.math.FlxPoint;
 
@@ -95,7 +96,7 @@ class Tank extends StageBackend
 
     override public function createPost()
     {
-        switch (PlayState.SONG.player3)
+        switch (PlayState.SONG.metadata.gf)
 		{
 			case 'pico-speaker':
 				gfGroup.x -= 50;
@@ -125,7 +126,7 @@ class Tank extends StageBackend
 		opponentGroup.y += 60;
 		opponentGroup.x -= 80;
 
-		if (PlayState.SONG.player3 != 'pico-speaker')
+		if (PlayState.SONG.metadata.gf != 'pico-speaker')
 		{
 			gfGroup.x -= 170;
 			gfGroup.y -= 75;

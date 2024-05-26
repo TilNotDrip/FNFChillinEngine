@@ -2,10 +2,18 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin'; Chillin' Engine" file="ChillinEngine" packageName="com.chillinengine.tilnotdrip" package="com.chillinengine.tilnotdrip" main="Main" version="0.1-ALPHA" company="TilNotDrip" />
+	<app
+		title="Friday Night Funkin'; Chillin' Engine"
+		file="ChillinEngine"
+		package="com.chillinengine.tilnotdrip"
+		packageName="com.chillinengine.tilnotdrip"
+		version="0.1.0-ALPHA"
+		company="TilNotDrip"
+		main="Main"
+		preloader="flixel.system.FlxPreloader"
+	/>
 
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
-	<app preloader="flixel.system.FlxPreloader" />
 	<set name="SWF_VERSION" value="11.8" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
@@ -14,7 +22,6 @@
 	<window if="html5"   resizable="true" />
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 	<window if="mobile"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
-	<window if="switch"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
 
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
@@ -57,7 +64,7 @@
 		<library name="videos"	 preload="false" />
 	</section>
 
-	<assets path="assets/fonts"    embed='true'/>
+	<assets path="assets/fonts" />
 	<assets path="assets/preload"  rename="assets" 	  exclude="*.ogg" if="web"/>
 	<assets path="assets/preload"  rename="assets" 	  exclude="*.mp3" unless="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
@@ -77,25 +84,31 @@
 	<assets path="assets/week6"    library="week6"    exclude="*.mp3" unless="web"/>
 	<assets path="assets/week7"    library="week7"    exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
-	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
 	<assets path="assets/weekend1" library="weekend1" exclude="*.ogg" if="web"/>
 	<assets path="assets/weekend1" library="weekend1" exclude="*.mp3" unless="web"/>
+
 	<assets path="docs/CHANGELOG.md" rename='changelog.txt'/>
-	<assets path="example_mods"    rename="mods" />
 
 	<classpath name="source" />
+
+	<!-- _________________________________ Icons _______________________________ -->
+
+	<icon path="extras/appicons/icon16.png" size='16'/>
+	<icon path="extras/appicons/icon32.png" size='32'/>
+	<icon path="extras/appicons/icon64.png" size='64'/>
+	<icon path="extras/appicons/iconOG.png" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="flxanimate" unless="html5"/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="DISCORD" />
 	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
 	<haxelib name="SScript" if="MOD_SUPPORT"/>
 	<haxelib name="texter" />
+
 	<haxedev set='webgl' />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
@@ -107,13 +120,6 @@
 	<haxedef name="message.reporting" value="pretty" />
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 	<haxedef name="REDIRECT_ASSETS_FOLDER" />
-
-	<!-- _________________________________ Icons _______________________________ -->
-
-	<icon path="extras/appicons/icon16.png" size='16'/>
-	<icon path="extras/appicons/icon32.png" size='32'/>
-	<icon path="extras/appicons/icon64.png" size='64'/>
-	<icon path="extras/appicons/iconOG.png" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 

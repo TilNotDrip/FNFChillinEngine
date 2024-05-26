@@ -3,6 +3,7 @@ package stages.bgs;
 import flixel.math.FlxPoint;
 import objects.game.BGSprite;
 import flixel.addons.display.FlxTiledSprite;
+import flxanimate.FlxAnimate;
 
 class Streets extends StageBackend
 {
@@ -10,11 +11,11 @@ class Streets extends StageBackend
 
 	var pupilState:PupilState = NORMAL;
 
-	var abot:FlxAtlasSprite;
+	var abot:FlxAnimate;
 	// var abotViz:ABotVis;
 	var stereoBG:FlxSprite;
 	var eyeWhites:FlxSprite;
-	var pupil:FlxAtlasSprite;
+	var pupil:FlxAnimate;
 
     var car1:BGSprite;
     var car2:BGSprite;
@@ -42,6 +43,7 @@ class Streets extends StageBackend
         add(highwayLights);
 
         var highwayLightmap:BGSprite = new BGSprite('phillyStreets/phillyHighwayLights_lightmap', 284, 305);
+		highwayLightmap.blend = ADD;
         add(highwayLightmap);
 
         var highway:BGSprite = new BGSprite('phillyStreets/phillyHighway', 139, 209);
@@ -57,30 +59,16 @@ class Streets extends StageBackend
         car2.flipX = true;
         add(car2);
 
-		var trafficLightMap:BGSprite = new BGSprite('phillyStreets/phillyTraffic_lightmap', 1840, 608, 0.9, 1);
-        add(trafficLightMap);
-
         traffic = new BGSprite('phillyStreets/phillyTraffic', 1840, 608, 0.9, 1, ['redtogreen', 'greentored']);
         add(traffic);
+
+		var trafficLightMap:BGSprite = new BGSprite('phillyStreets/phillyTraffic_lightmap', 1840, 608, 0.9, 1);
+		trafficLightMap.blend = ADD;
+        add(trafficLightMap);
 
         var foreground:BGSprite = new BGSprite('phillyStreets/phillyForeground', 88, 317);
         add(foreground);
 
-
-		// a-bot!!
-		eyeWhites = new FlxSprite().makeGraphic(160, 60, FlxColor.WHITE);
-		add(eyeWhites);
-
-		stereoBG = new FlxSprite(0, 0, Paths.image('characters/abot/stereoBG'));
-		add(stereoBG);
-
-		pupil = new FlxAtlasSprite(0, 0, Paths.atlas("characters/abot/systemEyes", 'shared'));
-		add(pupil);
-
-		//viz
-
-		abot = new FlxAtlasSprite(0, 0, Paths.atlas("characters/abot/abotSystem", 'shared'));
-		add(abot);
 
 		// FlxG.debugger.track(abot);
 		// FlxG.debugger.track(pupil);
@@ -96,11 +84,25 @@ class Streets extends StageBackend
         gfGroup.setPosition(1453 + globalOffset[0], 900 + globalOffset[1]);
         opponentGroup.setPosition(900 + globalOffset[0], 1110 + globalOffset[1]);
 
-		pupil.anim.play('a bot eyes lookin', true);
-		pupil.anim.pause();
+		// a-bot!!
+		eyeWhites = new FlxSprite().makeGraphic(160, 60, FlxColor.WHITE);
+		addBehindGF(eyeWhites);
 
-		abot.anim.play('Abot System', true);
-		abot.anim.pause();
+		stereoBG = new FlxSprite(0, 0, Paths.image('characters/abot/stereoBG'));
+		addBehindGF(stereoBG);
+
+		pupil = new FlxAnimate(0, 0, Paths.atlas("characters/abot/systemEyes", 'shared'));
+		//pupil.scrollFactor.set();
+		addBehindGF(pupil);
+
+		//viz
+
+		abot = new FlxAnimate(0, 0, Paths.atlas("characters/abot/abotSystem", 'shared'));
+		//abot.scrollFactor.set();
+		addBehindGF(abot);
+
+		//pupil.scrollFactor.set(1, 1);
+		//abot.scrollFactor.set(1, 1);
     }
 
     override public function update(elapsed:Float)
@@ -126,14 +128,14 @@ class Streets extends StageBackend
 				case NORMAL:
 					if (pupil.anim.curFrame >= 17)
 					{
-						pupilState = LEFT;
+						//pupilState = NORMAL;
 						pupil.anim.pause();
 					}
 
 				case LEFT:
 					if (pupil.anim.curFrame >= 31)
 					{
-						pupilState = NORMAL;
+						//pupilState = LEFT;
 						pupil.anim.pause();
 					}
 
@@ -143,18 +145,18 @@ class Streets extends StageBackend
 
 	override public function cameraMovement(char:objects.game.Character)
 	{
-		if(char == opponent && pupilState == NORMAL)
-		{
-			pupilState = LEFT;
-			pupil.anim.play('', true);
-			pupil.anim.curFrame = 0;
-		}
-
-		if(char == player && pupilState == LEFT)
+		if(char == game.dad && pupilState == LEFT)
 		{
 			pupilState = NORMAL;
 			pupil.anim.play('', true);
 			pupil.anim.curFrame = 17;
+		}
+
+		if(char == game.boyfriend && pupilState == NORMAL)
+		{
+			pupilState = LEFT;
+			pupil.anim.play('', true);
+			pupil.anim.curFrame = 0;
 		}
 	}
 

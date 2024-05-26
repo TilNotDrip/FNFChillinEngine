@@ -139,7 +139,7 @@ class FreeplayState extends MusicBeatState
 		if (controls.ACCEPT)
 		{
 			var poop:String = songs[curSelected].week.difficulties[curDifficulty].formatToPath();
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].song.formatToPath());
+			PlayState.SONG = Song.autoSelectJson(songs[curSelected].song.formatToPath(), poop);
 			PlayState.songEvents = SongEvent.loadFromJson(songs[curSelected].song.formatToPath());
 
 			if (PlayState.songEvents == null)

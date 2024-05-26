@@ -7,7 +7,7 @@
     "previewEnd": 15000,
     "stage": "streets",
     "characters": {
-      "player": "pico-playable",
+      "player": "pico-player",
       "girlfriend": "nene",
       "opponent": "darnell"
     },

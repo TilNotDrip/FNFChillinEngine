@@ -1,7 +1,5 @@
 package addons;
 
-import addons.Conductor.BPMChangeEvent;
-
 class MusicBeatSubstate extends FlxSubState
 {
 	public function new()
@@ -17,50 +15,30 @@ class MusicBeatSubstate extends FlxSubState
 	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
-	override public function update(elapsed:Float)
+	override public function create()
 	{
-		var oldStep:Int = curStep;
+		Conductor.stepSignal.add(stepHit);
+		Conductor.beatSignal.add(beatHit);
+		Conductor.sectionSignal.add(sectionHit);
 
-		updateStep();
-		curSection = Math.floor(curStep / 16);
-		curBeat = Math.floor(curStep / 4);
-
-		if (oldStep != curStep && curStep >= 0)
-			stepHit();
-
-		super.update(elapsed);
+		super.create();
 	}
 
-	private function updateStep():Void
-	{
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition > Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
+	public function stepHit():Void {}
 
-		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
-	}
-
-	public function stepHit():Void
-	{
-		if (curStep % 4 == 0)
-			beatHit();
-	}
-
-	public function beatHit():Void
-	{
-		if (curStep % 16 == 0)
-			sectionHit();
-	}
+	public function beatHit():Void {}
 
 	public function sectionHit():Void {}
 
 	public function changeWindowName(windowName:String = '') 
 		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
+
+	override public function destroy()
+	{
+		Conductor.stepSignal.remove(stepHit);
+		Conductor.beatSignal.remove(beatHit);
+		Conductor.sectionSignal.remove(sectionHit);
+
+		super.destroy();
+	}
 }

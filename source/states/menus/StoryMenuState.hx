@@ -297,7 +297,7 @@ class StoryMenuState extends MusicBeatState
 			PlayState.difficulty = weekDifficulties[curWeek][curDifficulty];
 
 			var whatToLoad:String = PlayState.difficulty.formatToPath();
-			PlayState.SONG = Song.loadFromJson(whatToLoad, curWeekClass.songs[0].song.formatToPath());
+			PlayState.SONG = Song.autoSelectJson(curWeekClass.songs[0].song.formatToPath(), whatToLoad);
 			PlayState.songEvents = SongEvent.loadFromJson(curWeekClass.songs[0].song.formatToPath());
 			if(PlayState.songEvents == null) PlayState.songEvents = [];
 			PlayState.storyWeek = curWeekClass;

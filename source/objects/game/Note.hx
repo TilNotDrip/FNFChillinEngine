@@ -17,7 +17,8 @@ class Note extends FlxSprite
 
 	private var willMiss:Bool = false;
 
-	public var altNote:Bool = false;
+	public var suffix:String = '';
+	public var type(default, set):String = 'Normal';
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -52,18 +53,54 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
+		
+    }
+
+	private function set_type(value:String):String
+	{
+		switch(value)
+		{
+			case 'Alt':
+				suffix = 'alt';
+			
+			default:
+				suffix = '';
+				resetColors();
+				reloadNote();
+		}
+
+		return type;
+	}
+
+	public function resetColors()
+	{
+		if(isPixel)
+		{
+			arrowColorsRed = [0xFFE276FF, 0xFF3DCAFF, 0xFF71E300, 0xFFFF884E];
+			arrowColorsGreen = [0xFFFFF9FF, 0xFFF4FFFF, 0xFFF6FFE6, 0xFFFFFAF5];
+			arrowColorsBlue = [0xFF60008D, 0xFF003060, 0xFF003100, 0xFF6C0000];
+		}
+		else
+		{
+			arrowColorsRed = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
+			arrowColorsGreen = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
+			arrowColorsBlue = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
+		}
+	}
+
+	public function reloadNote(?path:String = 'Notes')
+	{
 		if (isPixel)
 		{
-			loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
+			var noteToFrame:Array<Int> = [4, 5, 6, 7];
+			
+			loadGraphic(Paths.image('pixelui/' + path), true, 17, 17);
 
-			animation.add('purpleScroll', [4]);
-			animation.add('blueScroll', [5]);
-			animation.add('greenScroll', [6]);
-			animation.add('redScroll', [7]);
+			animation.add('scroll', [noteToFrame[noteData]]);
 
 			if (isSustainNote)
 			{
-				loadGraphic(Paths.image('pixelui/NotesENDS'), true, 7, 6);
+				loadGraphic(Paths.image('pixelui/' + path + 'ENDS'), true, 7, 6);
 
 				animation.add('hold', [0]);
 				animation.add('holdend', [1]);
@@ -72,50 +109,26 @@ class Note extends FlxSprite
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			antialiasing = false;
 			updateHitbox();
-
-			arrowColorsRed = [0xFFE276FF, 0xFF3DCAFF, 0xFF71E300, 0xFFFF884E];
-			arrowColorsGreen = [0xFFFFF9FF, 0xFFF4FFFF, 0xFFF6FFE6, 0xFFFFFAF5];
-			arrowColorsBlue = [0xFF60008D, 0xFF003060, 0xFF003100, 0xFF6C0000];
 		}
 		else
 		{
-			frames = Paths.getSparrowAtlas('ui/Notes');
+			var noteToString:Array<String> = ['left', 'down', 'up', 'right'];
 
-			animation.addByPrefix('purpleScroll', 'left static');
-			animation.addByPrefix('blueScroll', 'down static');
-			animation.addByPrefix('greenScroll', 'up static');
-			animation.addByPrefix('redScroll', 'right static');
+			frames = Paths.getSparrowAtlas('ui/' + path);
+
+			animation.addByPrefix('scroll', noteToString[noteData] + ' static');
 
 			animation.addByPrefix('hold', 'hold piece');
 			animation.addByPrefix('holdend', 'hold end');
 
 			setGraphicSize(Std.int(width * 0.7));
 			updateHitbox();
-
-			arrowColorsRed = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
-			arrowColorsGreen = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
-			arrowColorsBlue = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
 		}
 
-		switch (noteData)
-		{
-			case 0:
-				x += swagWidth * 0;
-				animation.play('purpleScroll');
-				rgbShader.rgb = [arrowColorsRed[0], arrowColorsGreen[0], arrowColorsBlue[0]];
-			case 1:
-				x += swagWidth * 1;
-				animation.play('blueScroll');
-				rgbShader.rgb = [arrowColorsRed[1], arrowColorsGreen[1], arrowColorsBlue[1]];
-			case 2:
-				x += swagWidth * 2;
-				animation.play('greenScroll');
-				rgbShader.rgb = [arrowColorsRed[2], arrowColorsGreen[2], arrowColorsBlue[2]];
-			case 3:
-				x += swagWidth * 3;
-				animation.play('redScroll');
-				rgbShader.rgb = [arrowColorsRed[3], arrowColorsGreen[3], arrowColorsBlue[3]];
-		}
+		animation.play('scroll');
+
+		x += swagWidth * noteData;
+		rgbShader.rgb = [arrowColorsRed[noteData], arrowColorsGreen[noteData], arrowColorsBlue[noteData]];
 
 		if (isSustainNote && prevNote != null)
 		{
@@ -124,13 +137,9 @@ class Note extends FlxSprite
 			if (ChillSettings.get('downScroll', GAMEPLAY))
 				angle = 180;
 
-			x += width / 2;
-
 			animation.play('holdend');
 
 			updateHitbox();
-
-			x -= width / 2;
 
 			if (isPixel)
 				x += 30;
@@ -139,13 +148,13 @@ class Note extends FlxSprite
 			{
 				prevNote.animation.play('hold');
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
+				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.metadata.speed;
 				prevNote.updateHitbox();
 			}
 		}
 
 		shader = rgbShader.shader;
-    }
+	}
 
 	override public function update(elapsed:Float)
 	{

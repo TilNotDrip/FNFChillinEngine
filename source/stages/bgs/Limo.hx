@@ -45,6 +45,14 @@ class Limo extends StageBackend
 
         playerGroup.y -= 220;
 		playerGroup.x += 260;
+
+		var sunOverlay:FlxSprite = new FlxSprite(-398, -304).loadGraphic(Paths.image('limo/limoOverlay'));
+		sunOverlay.setGraphicSize(Std.int(sunOverlay.width * 0.76));
+		sunOverlay.updateHitbox();
+		sunOverlay.alpha = 0.465;
+		sunOverlay.scrollFactor.set(0.2, 0.2);
+		sunOverlay.blend = ADD; // into your fucking face crusher
+		add(sunOverlay);
     }
 
     override public function cameraMovement(char:Character)

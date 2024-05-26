@@ -55,9 +55,7 @@ class ConvertingSongs extends MusicBeatState
     {
         var song:Array<String> = songs[curSelected];
 
-        var meta:String = Assets.getText(Paths.json(song[0].formatToPath() + '/' + song[0].formatToPath() + '-metadata')).trim();
-
-        var _song:SwagSong = Song.downgradeChart(Assets.getText(Paths.json(song[0].formatToPath() + '/' + song[0].formatToPath() + '-chart')).trim(), meta, song[1].formatToPath());
+        var _song:SwagSong = Song.autoSelectJson(song[0].formatToPath(), song[1].formatToPath());
 
         var json = {
             "song": _song

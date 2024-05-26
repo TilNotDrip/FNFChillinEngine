@@ -32,6 +32,7 @@ class Main extends Sprite
 		fullscreen: false
 	};
 
+	@:deprecated('aprilFools in Main will soon be replaced for a Macro.')
 	public static var aprilFools(get, never):Bool;
 
 	public static function main():Void

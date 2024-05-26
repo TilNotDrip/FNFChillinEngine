@@ -1,5 +1,6 @@
 package addons;
 
+import addons.SongEvent;
 import addons.Section.SwagSection;
 
 import haxe.Json;
@@ -7,6 +8,40 @@ import haxe.Json;
 import lime.utils.Assets;
 
 typedef SwagSong =
+{
+	var notes:Array<SwagNote>;
+	var events:Array<SwagEvent>;
+	var metadata:SwagMetadata;
+}
+typedef SwagNote =
+{
+	var type:String;
+	var time:Float;
+	var strum:String;
+	var direction:Int;
+	var length:Int;
+}
+typedef SwagMetadata =
+{
+	var bpmArray:Array<SwagBPMChange>;
+
+	var player:String;
+	var opponent:String;
+	var gf:String;
+	var stage:String;
+
+	var song:String;
+	var speed:Float;
+}
+
+typedef SwagBPMChange = 
+{
+	var time:Float;
+	var bpm:Float;
+	var sectionSteps:Int;
+}
+
+typedef LegacySwagSong =
 {
 	var song:String;
 	var notes:Array<SwagSection>;
@@ -23,50 +58,100 @@ typedef SwagSong =
 
 class Song
 {
-	public var song:String;
-	public var notes:Array<SwagSection>;
-	public var bpm:Float;
-	public var needsVoices:Bool = true;
-	public var speed:Float = 1;
-
-	public var player1:String = 'bf';
-	public var player2:String = 'dad';
-	public var player3:String = 'gf';
-
-	public var stage:String = '';
-
-	public function new(song, notes, bpm)
+	public static function autoSelectJson(song:String, difficulty:String):SwagSong
 	{
-		this.song = song;
-		this.notes = notes;
-		this.bpm = bpm;
+		var daSong:SwagSong = null;
+		if(getSongFile('$song/$song-chart') != null)
+			daSong = convertFromVSlice(song, difficulty);
+
+		trace('${daSong != null}fully passed vslice check!');
+
+		if(getSongFile('$song/$difficulty').contains('"sectionNotes":') && daSong == null) // shitty, but it works
+			daSong = upgradeJson(song, difficulty);
+
+		trace('${daSong != null}fully passed old chart check!');
+
+		if(daSong == null)
+			daSong = loadFromJson(song, difficulty);
+
+		trace('${daSong != null}fully passed new chart check!');
+
+		return daSong;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
+	public static function loadFromJson(song:String, difficulty:String):SwagSong
 	{
-		var rawJson = null;
-        try {
-			rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/' + jsonInput.formatToPath())).trim();
-        } catch(e) {
-			FlxG.log.error('Error loading Song!\nDetails: ' + e);
-            return null;
-        }
+		var rawJson:Null<String> = getSongFile('$song/$difficulty');
 
-		while (!rawJson.endsWith("}"))
-			rawJson = rawJson.substr(0, rawJson.length - 1);
+		if(rawJson == null)
+			return null;
 
-		return parseJSONshit(rawJson);
+		return cast Json.parse(rawJson);
 	}
 
-	public static function parseJSONshit(rawJson:String):SwagSong
+	public static function upgradeJson(song:String, difficulty:String):SwagSong
 	{
-		var swagShit:SwagSong = cast Json.parse(rawJson).song;
-		return swagShit;
+		var daSong:SwagSong = {
+			notes: [],
+			events: [],
+			metadata: null
+		};
+
+		var rawJson:Null<String> = getSongFile('$song/$difficulty');
+
+		if(rawJson == null)
+			return null;
+
+		var convertedJson:LegacySwagSong = cast Json.parse(rawJson).song;
+
+		var daBPMArray:Array<SwagBPMChange> = [];
+		var curBPMChange:SwagBPMChange = {time: 0, bpm: convertedJson.bpm, sectionSteps: 16};
+		daBPMArray.push(curBPMChange);
+
+		for(i in 0...convertedJson.notes.length)
+		{
+			var section:SwagSection = convertedJson.notes[i];
+			daSong.events.push({name: 'Focus Camera', value: (section.mustHitSection) ? 'bf' : 'dad', strumTime: (((60 / curBPMChange.bpm) * 1000) * (curBPMChange.sectionSteps / 4)) * i});
+
+			if(section.changeBPM)
+				daBPMArray.push({time: (((60 / curBPMChange.bpm) * 1000) * (curBPMChange.sectionSteps / 4)) * i, sectionSteps: section.lengthInSteps, bpm: section.bpm});
+
+			for(note in section.sectionNotes)
+			{
+				var daNote:String = 'Default';
+
+				if(note[3])
+					daNote = 'Alt';
+				else if(note[3] != null && note[3] is String) // i feel like being nice, so im making it psych compatible
+					daNote = note[3];
+
+				daSong.notes.push({type: daNote, time: note[0], length: note[2], direction: Std.int(note[1] % 4),
+					strum: (
+						(section.mustHitSection && note[1] >= 4) ||  (!section.mustHitSection && note[1] <= 3)
+				) ? 'Opponent' : 'Player'});
+			}
+		}
+
+		daSong.metadata = {
+			bpmArray: daBPMArray,
+			player: convertedJson.player1,
+			opponent: convertedJson.player2,
+			gf: convertedJson.player3,
+			stage: convertedJson.stage,
+			song: convertedJson.song,
+			speed: convertedJson.speed
+		};
+
+		return daSong;
 	}
 
-	public static function downgradeChart(rawJson:String, rawMetadata:String, diff:String):SwagSong
+	public static function convertFromVSlice(song:String, difficulty:String):SwagSong
 	{
-		var song:Array<SwagSection> = [];
+		var daSong:SwagSong = {
+			notes: [],
+			events: [],
+			metadata: null
+		};
 
 		var convertedMetadata:{
 			var version:String;
@@ -92,17 +177,18 @@ class Song
 				var stage:String;
 				var noteStyle:String;
 			};
-		} = Json.parse(rawMetadata);
+		} = Json.parse(getSongFile('$song/$song-metadata'));
 
-		var convertedParsed = Json.parse(rawJson);
+		var convertedParsed = Json.parse(getSongFile('$song/$song-chart'));
 
-		var convertedJson:Array<{
+		var convertedNotes:Array<{
 			var t:Int;
 			var d:Int;
-			@:optional var l:Int;
-		}> = Reflect.getProperty(convertedParsed.notes, diff); // im not doin all that
+			var l:Int;
+			var k:String;
+		}> = Reflect.getProperty(convertedParsed.notes, difficulty); // im not doin all that
 
-		if(convertedJson == null)
+		if(convertedNotes == null)
 			return null;
 
 		var convertedEvents:Array<{
@@ -113,7 +199,7 @@ class Song
 
 		var scrollSpeed:Null<Float> = 1;
 
-		scrollSpeed = Reflect.getProperty(convertedParsed.scrollSpeed, diff);
+		scrollSpeed = Reflect.getProperty(convertedParsed.scrollSpeed, difficulty);
 		
 		if(scrollSpeed == null)
 			scrollSpeed = Reflect.getProperty(convertedParsed.scrollSpeed, 'default');
@@ -121,69 +207,87 @@ class Song
 		if(scrollSpeed == null)
 			scrollSpeed = 1;
 
-		var actualSong:SwagSong = {
-			song: convertedMetadata.songName,
-			notes: song,
-			bpm: convertedMetadata.timeChanges[0].bpm,
-			needsVoices: true,
-			player1: convertedMetadata.playData.characters.player,
-			player2: convertedMetadata.playData.characters.opponent,
-			player3: convertedMetadata.playData.characters.girlfriend,
+		for(note in convertedNotes)
+		{
+			daSong.notes.push({type: note.k ?? 'Default', direction: Std.int(note.d % 4), time: note.t,
+			strum: (note.d <= 3) ? 'Player' : 'Opponent', length: note.l ?? 0});
+		}
+
+		for(event in convertedEvents)
+		{
+			var daEventName:String = '';
+			var daEventValue:String = '';
+
+			switch(event.e)
+			{
+				case "ZoomCamera":
+					daEventName = 'Zoom Camera';
+					daEventValue = Std.string(event.v.zoom ?? event.v);
+
+				case "FocusCamera":
+					daEventName = 'Focus Camera';
+					switch(event.v.char ?? event.v)
+					{
+						case -1:
+							daEventValue = 'pos: ${event.v.x}, ${event.v.y}';
+						case 1:
+							daEventValue = 'dad';
+
+						case 0:
+							daEventValue = 'bf';
+
+						case 2:
+							daEventValue = 'gf';
+					}
+
+				case "PlayAnimation":
+					if(event.v.anim == 'hey')
+					{
+						daEventName = 'Hey!';
+						daEventValue = 'bf gf';
+					}
+
+				default:
+					continue;
+			}
+
+			daSong.events.push({name: daEventName, value: daEventValue, strumTime: event.t});
+		}
+
+		var daBPMArray:Array<SwagBPMChange> = [];
+
+		for(change in convertedMetadata.timeChanges)
+		{
+			daBPMArray.push({time: change.t, bpm: change.bpm, sectionSteps: Std.int(change.n * change.d)});
+		}
+
+		daSong.metadata = {
+			bpmArray: daBPMArray,
+			player: convertedMetadata.playData.characters.player,
+			opponent: convertedMetadata.playData.characters.opponent,
+			gf: convertedMetadata.playData.characters.girlfriend,
 			stage: convertedMetadata.playData.stage,
+			song: convertedMetadata.songName,
 			speed: scrollSpeed
 		};
 
-		var crochet:Float = (((60 / actualSong.bpm) * 1000) / 4) * 16;
-		var crochetLimit:Float = crochet;
+		return daSong;
+	}
 
-		var curSection:Int = 0;
-		var camOnBF:Bool = true;
-		for(note in convertedJson)
-		{
-			while (note.t >= crochetLimit)
-			{
-				for(event in convertedEvents)
-				{
-					if((event.t >= crochetLimit - crochet && event.t <= crochetLimit) && event.e == 'FocusCamera')
-						camOnBF = (event.v.char == 0);
-				}
+	private static function getSongFile(path:String):Null<String>
+	{
+		var rawJson:Null<String> = null;
+        try {
+			rawJson = Assets.getText(Paths.json(path)).trim();
 
-				crochetLimit += crochet;
-				curSection++;
+			while (!rawJson.endsWith("}"))
+				rawJson = rawJson.substr(0, rawJson.length - 1);
+        } catch(e) {
+			trace('Error loading Song!\nDetails: ' + e);
+			FlxG.log.error('Error loading Song!\nDetails: ' + e);
+            rawJson = null;
+        }
 
-				if(song[curSection] == null)
-				{
-					song[curSection] = {
-						lengthInSteps: 16,
-						bpm: actualSong.bpm,
-						changeBPM: false,
-						mustHitSection: camOnBF,
-						sectionNotes: [],
-						typeOfSection: 0,
-						altAnim: false
-					};
-				}
-			}
-
-			var daArray:Array<Dynamic> = [note.t];
-
-			if(camOnBF)
-				daArray.push(note.d);
-			else
-			{
-				var direction:Int = (note.d + 4) % 8;
-
-				daArray.push(direction);
-			}
-
-			if(note.l != null) 
-				daArray.push(note.l);
-			else
-				daArray.push(0);
-
-			song[curSection].sectionNotes.push(daArray);
-		}
-
-		return actualSong;
+		return rawJson;
 	}
 }

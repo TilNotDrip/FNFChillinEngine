@@ -1,0 +1,83 @@
+{
+    "notes": 
+    [
+        {
+            "type": "Default",
+            "time": 0,
+            "strum": "Opponent",
+            "direction": 2,
+            "length": 0
+        },
+        {
+            "type": "Default",
+            "time": 600,
+            "strum": "Opponent",
+            "direction": 3,
+            "length": 600
+        },
+        {
+            "type": "Default",
+            "time": 1200,
+            "strum": "Opponent",
+            "direction": 3,
+            "length": 600
+        },
+        {
+            "type": "Default",
+            "time": 2400,
+            "strum": "Player",
+            "direction": 2,
+            "length": 0
+        },
+        {
+            "type": "Default",
+            "time": 3000,
+            "strum": "Player",
+            "direction": 3,
+            "length": 600
+        },
+        {
+            "type": "Default",
+            "time": 3600,
+            "strum": "Player",
+            "direction": 3,
+            "length": 600
+        }
+    ],
+    "events":
+    [
+        {
+            "name": "Focus Camera",
+            "value": "dad",
+            "strumTime": 0
+        },
+        {
+            "name": "Focus Camera",
+            "value": "bf",
+            "strumTime": 2400
+        },
+        {
+            "name": "Hey!",
+            "value": "bf gf",
+            "strumTime": 4200
+        }
+    ],
+    "metadata":
+    {
+        "bpmArray": 
+        [
+            {
+                "time": 0,
+                "bpm": 100,
+                "sectionSteps": 16
+            }
+        ],
+        "player": "bf",
+        "opponent": "dad",
+        "gf": "gf",
+        "stage": "stage",
+
+        "song": "Bopeebo",
+        "speed": 1
+    }
+}

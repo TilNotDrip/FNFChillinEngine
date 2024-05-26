@@ -4,11 +4,11 @@ All notable changes will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0]
+## [0.1.0]
 
 ### Added
 
-- Old Game Over easter egg (0.1% Chance to get it at death and even more rare to people who are good at this game)
+- Old game over easter egg (0.1% Chance to get it at death and even more rare to people who are good at this game)
 - Misses + Accuracy with score text
 - Health % on both sides of the healthbar
 - Judgement Counter on the Left of the screen
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pixel Note Splashes
 - Softcoded Title Screen (`assets/data/title.json`)
 - Window Name Changing
-- BF Old Easter Egg now has a Pixel varient
+- BF Old Icon Easter Egg now has a Pixel variant
 - Ending Screen
 - More characters in the alphabet (Sprite not the actual alphabet)
 - Events

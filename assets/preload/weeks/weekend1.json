@@ -6,6 +6,12 @@
     "songs": 
     [
         {
+            "song": "Darnell",
+            "icon": "darnell",
+            "difficulties": ["Easy", "Normal", "Hard"],
+            "explicit": false
+        },
+        {
             "song": "Lit Up",
             "icon": "darnell",
             "difficulties": ["Easy", "Normal", "Hard"],

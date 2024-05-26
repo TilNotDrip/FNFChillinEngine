@@ -185,7 +185,11 @@ class Character extends FlxSprite
 				quickAnimAdd('singRIGHTmiss', 'BF NOTE RIGHT MISS');
 				quickAnimAdd('singDOWNmiss', 'BF NOTE DOWN MISS');
 
-				animation.addByIndices('idle-loop', 'BF idle dance', [10, 11, 12, 13], "", 24, true);
+				animation.addByIndices('idle-loop', 'BF idle dance', [12,13,14,15], "", 24, true);
+				animation.addByIndices('singUP-loop', 'BF NOTE UP0', [4,5,6,7], "", 24, true);
+				animation.addByIndices('singLEFT-loop', 'BF NOTE LEFT0', [4,5,6,7], "", 24, true);
+				animation.addByIndices('singRIGHT-loop', 'BF NOTE RIGHT0', [4,5,6,7], "", 24, true);
+				animation.addByIndices('singDOWN-loop', 'BF NOTE DOWN0', [4,5,6,7], "", 24, true);
 
 				playAnim('idle');
 
@@ -198,8 +202,8 @@ class Character extends FlxSprite
 
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-				animation.addByIndices('danceLeft-loop', 'GF Dancing Beat Hair blowing CAR', [10, 11, 12, 25, 26, 27], "", 24, true);
-				animation.addByIndices('danceLeft-loop', 'GF Dancing Beat Hair blowing CAR', [10, 11, 12, 25, 26, 27], "", 24, true);
+				animation.addByIndices('danceLeft-loop', 'GF Dancing Beat Hair blowing CAR', [28, 29, 30, 31], "", 24, true);
+				animation.addByIndices('danceRight-loop', 'GF Dancing Beat Hair blowing CAR', [28, 29, 30, 31], "", 24, true);
 
 				playAnim('danceRight');
 
@@ -211,7 +215,12 @@ class Character extends FlxSprite
 				quickAnimAdd('singDOWN', "MOM DOWN POSE");
 				quickAnimAdd('singLEFT', 'Mom Left Pose');
 				quickAnimAdd('singRIGHT', 'Mom Pose Left');
-				animation.addByIndices('idle-loop', "Mom Idle", [10, 11, 12, 13], "", 24, true);
+
+				animation.addByIndices('idle-loop', "Mom Idle", [12,13,14,15], "", 24, true);
+				animation.addByIndices('singUP-loop', "Mom Up Pose", [4,5,6,7], "", 24, true);
+				animation.addByIndices('singDOWN-loop', "MOM DOWN POSE", [4,5,6,7], "", 24, true);
+				animation.addByIndices('singLEFT-loop', 'Mom Left Pose', [4,5,6,7], "", 24, true);
+				animation.addByIndices('singRIGHT-loop', 'Mom Pose Left', [4,5,6,7], "", 24, true);
 
 				playAnim('idle');
 

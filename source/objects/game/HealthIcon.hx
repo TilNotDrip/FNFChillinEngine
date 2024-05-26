@@ -54,7 +54,7 @@ class HealthIcon extends TrackedSprite
 		if (isOldIcon)
 			(PlayState.game.boyfriend.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
 		else
-			changeIcon(PlayState.SONG.player1);
+			changeIcon(PlayState.SONG.metadata.player);
 	}
 
 	public function changeIcon(newChar:String):Void

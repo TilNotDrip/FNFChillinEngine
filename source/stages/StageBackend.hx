@@ -33,7 +33,7 @@ class StageBackend extends FlxBasic
 
     private var dialogue(get, never):Array<String>;
 
-    private var curSong:String = PlayState.SONG.song;
+    private var curSong:String = PlayState.SONG.metadata.song;
 
     private var isStoryMode:Bool = PlayState.isStoryMode;
 

@@ -1084,7 +1084,7 @@ import openfl.utils.Assets;
 	 new FlxTimer().start(1, function(tmr:FlxTimer) {
 		var poop:String = currentDifficulty.formatToPath();
 		var song:String = cap.songData.song.formatToPath();
-		PlayState.SONG = Song.loadFromJson(poop, song);
+		PlayState.SONG = Song.autoSelectJson(song, poop);
 		PlayState.songEvents = SongEvent.loadFromJson(song);
 
 		if (PlayState.songEvents == null)
@@ -1501,9 +1501,9 @@ class LetterSort extends FlxTypedSpriteGroup<FlxSprite>
 }
 
 /**
- * The actual FlxAtlasSprite for the letters, with their animation code stuff and regex stuff
+ * The actual FlxAnimate for the letters, with their animation code stuff and regex stuff
  */
-class FreeplayLetter extends FlxAtlasSprite
+class FreeplayLetter extends flxanimate.FlxAnimate
 {
   /**
    * A preformatted array of letter strings, for use when doing regex

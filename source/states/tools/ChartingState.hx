@@ -1,4 +1,5 @@
-package states.tools;
+// GOTTA REWORK THIS, DISABLED FOR NOW.
+/*package states.tools;
 
 import addons.SongEvent.SwagEvent;
 import addons.Conductor.BPMChangeEvent;
@@ -98,11 +99,11 @@ class ChartingState extends MusicBeatState
 			};
 		}
 
-		changeWindowName('Charting Menu - ' + _song.song);
+		changeWindowName('Charting Menu - ' + _SONG.metadata.song);
 
 		#if DISCORD
 		DiscordRPC.details = 'Charting Menu';
-		DiscordRPC.state = _song.song;
+		DiscordRPC.state = _SONG.metadata.song;
 		#end
 
 		if (!FlxG.mouse.visible)
@@ -165,7 +166,7 @@ class ChartingState extends MusicBeatState
 
 		updateGrid();
 
-		loadSong(_song.song);
+		loadSong(_SONG.metadata.song);
 		Conductor.bpm = _song.bpm;
 		Conductor.mapBPMChanges(_song);
 
@@ -208,7 +209,7 @@ class ChartingState extends MusicBeatState
 
 	private function addSongUI():Void
 	{
-		var UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
+		var UI_songTitle = new FlxUIInputText(10, 10, 70, _SONG.metadata.song, 8);
 		typingShits[0] = UI_songTitle;
 
 		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
@@ -267,12 +268,12 @@ class ChartingState extends MusicBeatState
 
 		var reloadSong:FlxButton = new FlxButton(saveEventButton.x, saveEventButton.y + 30, "Reload Audio", function()
 		{
-			loadSong(_song.song.formatToPath());
+			loadSong(_SONG.metadata.song.formatToPath());
 		});
 
 		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, reloadSong.y + 30, "Reload JSON", function()
 		{
-			loadJson(_song.song.formatToPath());
+			loadJson(_SONG.metadata.song.formatToPath());
 		});
 
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', loadAutosave);
@@ -290,32 +291,32 @@ class ChartingState extends MusicBeatState
 
 		var player1DropDown = new FlxUIDropDownMenu(10, loadAutosaveBtn.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
-			_song.player1 = characters[Std.parseInt(character)];
+			_SONG.metadata.player = characters[Std.parseInt(character)];
 			updateHeads();
 		});
-		player1DropDown.selectedLabel = _song.player1;
+		player1DropDown.selectedLabel = _SONG.metadata.player;
 
 		var player2DropDown = new FlxUIDropDownMenu(140, loadAutosaveBtn.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
-			_song.player2 = characters[Std.parseInt(character)];
+			_SONG.metadata.opponent = characters[Std.parseInt(character)];
 			updateHeads();
 		});
-		player2DropDown.selectedLabel = _song.player2;
+		player2DropDown.selectedLabel = _SONG.metadata.opponent;
 
 		var player3DropDown = new FlxUIDropDownMenu(140, loadAutosaveBtn.y + 60, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
-			_song.player3 = characters[Std.parseInt(character)];
+			_SONG.metadata.gf = characters[Std.parseInt(character)];
 			updateHeads();
 		});
-		player3DropDown.selectedLabel = _song.player3;
+		player3DropDown.selectedLabel = _SONG.metadata.gf;
 
 
 		var stageDropDown = new FlxUIDropDownMenu(10, loadAutosaveBtn.y + 60, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(stage:String)
 		{
-			_song.stage = stages[Std.parseInt(stage)];
+			_SONG.metadata.stage = stages[Std.parseInt(stage)];
 		});
 
-		stageDropDown.selectedLabel = _song.stage;
+		stageDropDown.selectedLabel = _SONG.metadata.stage;
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
@@ -594,7 +595,7 @@ class ChartingState extends MusicBeatState
 		Conductor.curStep = recalculateSteps();
 
 		Conductor.songPosition = FlxG.sound.music.time;
-		_song.song = typingShits[0].text;
+		_SONG.metadata.song = typingShits[0].text;
 
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps));
 
@@ -975,13 +976,13 @@ class ChartingState extends MusicBeatState
 	{
 		if (check_mustHitSection.checked)
 		{
-			leftIcon.changeIcon(_song.player1);
-			rightIcon.changeIcon(_song.player2);
+			leftIcon.changeIcon(_SONG.metadata.player);
+			rightIcon.changeIcon(_SONG.metadata.opponent);
 		}
 		else
 		{
-			leftIcon.changeIcon(_song.player2);
-			rightIcon.changeIcon(_song.player1);
+			leftIcon.changeIcon(_SONG.metadata.opponent);
+			rightIcon.changeIcon(_SONG.metadata.player);
 		}
 	}
 
@@ -1215,7 +1216,7 @@ class ChartingState extends MusicBeatState
 
 	private function loadJson(song:String):Void
 	{
-		PlayState.SONG = Song.loadFromJson(PlayState.difficulty.formatToPath(), song.formatToPath());
+		PlayState.SONG = Song.autoSelectJson(PlayState.difficulty.formatToPath(), song.formatToPath());
 		LoadingState.loadAndSwitchState(new ChartingState());
 	}
 
@@ -1294,4 +1295,4 @@ class ChartingState extends MusicBeatState
 		_file = null;
 		FlxG.log.error("Problem saving Level data");
 	}
-}
+}*/

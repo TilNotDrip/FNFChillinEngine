@@ -1,9 +1,9 @@
 package objects.menu;
 
 import flixel.util.FlxSignal;
-import objects.FlxAtlasSprite;
+import flxanimate.FlxAnimate;
 
-class DJBoyfriend extends FlxAtlasSprite
+class DJBoyfriend extends FlxAnimate
 {
   // Represents the sprite's current status.
   // Without state machines I would have driven myself crazy years ago.
@@ -33,21 +33,6 @@ class DJBoyfriend extends FlxAtlasSprite
 
     animOffsets = new Map<String, Array<Dynamic>>();
 
-    anim.callback = function(name, number) {
-      switch (name)
-      {
-        case "Boyfriend DJ watchin tv OG":
-          if (number == 80)
-          {
-            FlxG.sound.play(Paths.sound('remote_click'));
-          }
-          if (number == 85)
-          {
-            runTvLogic();
-          }
-      }
-    };
-
     setupAnimations();
 
     FlxG.debugger.track(this);
@@ -64,7 +49,7 @@ class DJBoyfriend extends FlxAtlasSprite
     [remote hand under,boyfriend top head,brim piece,arm cringe l,red lazer,dj arm in,bf fist pump arm,hand raised right,forearm left,fist shaking,bf smile eyes closed face,arm cringe r,bf clenched face,face shrug,boyfriend falling,blue tint 1,shirt sleeve,bf clenched fist,head BF relaxed,blue tint 2,hand down left,blue tint 3,blue tint 4,head less smooshed,blue tint 5,boyfriend freeplay,BF head slight turn,blue tint 6,arm shrug l,blue tint 7,shoulder raised w sleeve,blue tint 8,fist pump face,blue tint 9,foot rested light,hand turnaround,arm chill right,Boyfriend DJ,arm shrug r,head back bf,hat top piece,dad bod,face surprise snap,Boyfriend DJ fist pump,office chair,foot rested right,chest down,office chair upright,body chill,bf dj afk,head mouth open dad,BF Head defalt HAIR BLOWING,hand shrug l,face piece,foot wag,turn table,shoulder up left,turntable lights,boyfriend dj body shirt blowing,body chunk turned,hand down right,dj arm out,hand shrug r,body chest out,rave hand,palm,chill face default,head back semi bf,boyfriend bottom head,DJ arm,shoulder right dad,bf surprise,boyfriend dj body,hs1,Boyfriend DJ watchin tv OG,spinning disk,hs2,arm chill left,boyfriend dj intro,hs3,hs4,chill face extra,hs5,remote hand upright,hs6,pant over table,face surprise,bf arm peace,arm turnaround,bf eyes 1,arm slammed table,eye squit,leg BF,head mid piece,arm backing,arm swoopin in,shoe right lowering,forearm right,hand out,blue tint 10,body falling back,remote thumb press,shoulder,hair spike single,bf bent
     arm,crt,foot raised right,dad hand,chill face 1,chill face 2,clenched fist,head SMOOSHED,shoulder left dad,df1,body chunk upright,df2,df3,df4,hat front piece,df5,foot rested right 2,hand in,arm spun,shoe raised left,bf 1 finger hand,bf mouth 1,Boyfriend DJ confirm,forearm down ,hand raised left,remote thumb up]
    */
-  override public function listAnimations():Array<String>
+  public function listAnimations():Array<String>
   {
     var anims:Array<String> = [];
     @:privateAccess
@@ -75,6 +60,7 @@ class DJBoyfriend extends FlxAtlasSprite
     return anims;
   }
 
+  var oldFrame:Int = -1;
   public override function update(elapsed:Float):Void
   {
     super.update(elapsed);
@@ -149,6 +135,38 @@ class DJBoyfriend extends FlxAtlasSprite
         currentState = (currentState == Idle ? TV : Idle);
       }
     }
+
+    if(anim.curSymbol.curFrame != oldFrame)
+    {
+      switch (anim.curSymbol.name)
+      {
+        case "Boyfriend DJ watchin tv OG":
+          if (anim.curSymbol.curFrame == 80)
+          {
+            FlxG.sound.play(Paths.sound('remote_click'));
+          }
+          if (anim.curSymbol.curFrame == 85)
+          {
+            runTvLogic();
+          }
+      }
+    }
+
+    oldFrame = anim.curSymbol.curFrame;
+
+  }
+
+  public function isLoopFinished():Bool
+  {
+    if (this.anim == null) return false;
+    if (!this.anim.isPlaying) return false;
+
+    // Reverse animation finished.
+    if (this.anim.reversed && this.anim.curFrame == 0) return true;
+    // Forward animation finished.
+    if (!this.anim.reversed && this.anim.curFrame >= (this.anim.length - 1)) return true;
+
+    return false;
   }
 
   function onFinishAnim():Void
@@ -278,7 +296,7 @@ class DJBoyfriend extends FlxAtlasSprite
     animOffsets[name] = [x, y];
   }
 
-  override public function getCurrentAnimation():String
+  public function getCurrentAnimation():String
   {
     if (this.anim == null || this.anim.curSymbol == null) return "";
     return this.anim.curSymbol.name;

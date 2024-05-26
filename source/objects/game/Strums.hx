@@ -12,20 +12,21 @@ class Strums extends FlxSpriteGroup
 	public var staticNotes:RGBShader = new RGBShader();
 
 	// lmao idk how to do this correctly
-	public var pressNoteLeft:RGBShader = new RGBShader();
-	public var pressNoteDown:RGBShader = new RGBShader();
-	public var pressNoteUp:RGBShader = new RGBShader();
-	public var pressNoteRight:RGBShader = new RGBShader();
+	public var pressNote:Array<RGBShader> = [new RGBShader(), new RGBShader(), new RGBShader(), new RGBShader()];
 
 	private var staticNoteColors:Array<FlxColor>;
 
+	@:allow(objects.game.NoteGroup)
 	private var isPixel:Bool = false;
 
-    public function new(x:Float, y:Float, notes:Int, isPixel:Bool)
+	public var strumID:String;
+
+    public function new(strumID:String, x:Float, y:Float, notes:Int, isPixel:Bool)
 	{
         super(x, y);
 		this.notes = notes;
 		this.isPixel = isPixel;
+		this.strumID = strumID;
 
 		for(note in 0...notes)
 		{
@@ -87,15 +88,7 @@ class Strums extends FlxSpriteGroup
 			if (spr.animation.curAnim.name == 'static')
 				spr.shader = staticNotes.shader;
 			else
-			{
-				switch(i)
-				{
-					case 0: spr.shader = pressNoteLeft.shader;
-					case 1: spr.shader = pressNoteDown.shader;
-					case 2: spr.shader = pressNoteUp.shader;
-					case 3: spr.shader = pressNoteRight.shader;
-				}
-			}
+				spr.shader = pressNote[i].shader;
 
 			if (spr.animation.curAnim.name == 'confirm' && !isPixel)
 			{
@@ -119,5 +112,15 @@ class Strums extends FlxSpriteGroup
 			if(spr.ID == note) daSpr = spr;
 		});
 		return daSpr;
+	}
+
+	override private function get_width()
+	{
+		return Note.swagWidth * 4;
+	}
+
+	override private function get_height()
+	{
+		return Note.swagWidth * 4;
 	}
 }

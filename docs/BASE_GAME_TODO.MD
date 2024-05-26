@@ -3,7 +3,7 @@
 ## Title State:
  - [x] Animated Newgrounds Logo
  - [ ] Chance to get old newgrounds logo
- - [ ] GF ColorSwap Easter Egg (LEFT RIGHT LEFT RIGHT UP DOWN UP DOWN (P FOR MAKING THE WINDOW SPIN))
+ - [x] GF ColorSwap Easter Egg (LEFT RIGHT LEFT RIGHT UP DOWN UP DOWN (P FOR MAKING THE WINDOW SPIN))
 
 ## Main Menu:
  - [ ] Tilde for Tools in Main Menu
@@ -13,20 +13,20 @@
 ### UI / Backend / Songs n stuff like that
  - [ ] Sustain Note Splashes
  - [ ] Restart Song Transition
- - [ ] Seperate Voices File (`Voices.ogg` => `Voices-dad`, `Voices-bf`)
- - [ ] Score changes with sustains
+ - [x] Seperate Voices File (`Voices.ogg` => `Voices-dad`, `Voices-bf`)
+ - [ ] Score lerping
  - [ ] Zoom to GF on song end
  - [ ] Pausable Cutscenes
  - [ ] Put Notes into their own spritesheet and Strums into their own spritesheet
 
 ### Tutorial / Week 1
- - [ ] Stage Lights
+ - [ ] Stage  (EDIT: Come to think of it, I don't even think that existed, we'll add it anyways.)
 
 ### Week 2
  - [ ] Boyfriend + Spooky Hey!
 
 ### Week 4:
- - [ ] MILF => M. I. L. F
+ - [x] MILF => M. I. L. F
 
 ### Week 5:
  - [ ] Winter-Horrorland Cutscene

@@ -35,7 +35,7 @@ class DialogueBox extends FlxSpriteGroup
 	{
 		super();
 
-		switch (PlayState.SONG.song.formatToPath())
+		switch (PlayState.SONG.metadata.song.formatToPath())
 		{
 			case 'senpai':
 				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
@@ -59,7 +59,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (PlayState.isPixel)
 		{
-			switch(PlayState.SONG.song.formatToPath())
+			switch(PlayState.SONG.metadata.song.formatToPath())
 			{
 				case 'roses':
 					portraitLeft = new FlxSprite(-20, 45);
@@ -94,7 +94,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		var hasDialog = false;
 
-		switch (PlayState.SONG.song.formatToPath())
+		switch (PlayState.SONG.metadata.song.formatToPath())
 		{
 			case 'senpai':
 				hasDialog = true;
@@ -162,7 +162,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
-		if (PlayState.SONG.song.formatToPath() == 'thorns')
+		if (PlayState.SONG.metadata.song.formatToPath() == 'thorns')
 		{
 			portraitLeft.color = FlxColor.BLACK;
 			swagDialogue.color = FlxColor.WHITE;
@@ -196,7 +196,7 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					isEnding = true;
 
-					if (PlayState.SONG.song.formatToPath() == 'senpai' || PlayState.SONG.song.formatToPath() == 'thorns')
+					if (PlayState.SONG.metadata.song.formatToPath() == 'senpai' || PlayState.SONG.metadata.song.formatToPath() == 'thorns')
 						FlxG.sound.music.fadeOut(2.2, 0);
 
 					new FlxTimer().start(0.2, function(tmr:FlxTimer)

@@ -46,7 +46,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += PlayState.SONG.song;
+		levelInfo.text += PlayState.SONG.metadata.song;
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
 		levelInfo.updateHitbox();
@@ -194,7 +194,7 @@ class PauseSubState extends MusicBeatSubstate
 						}
 					}
 
-					PlayState.SONG = Song.loadFromJson(difficulty.formatToPath(), PlayState.SONG.song.formatToPath());
+					PlayState.SONG = Song.autoSelectJson(PlayState.SONG.metadata.song.formatToPath(), difficulty.formatToPath());
 					PlayState.difficulty = difficulty;
 					FlxG.resetState();
 				}
@@ -218,7 +218,7 @@ class PauseSubState extends MusicBeatSubstate
 	override public function destroy()
 	{
 		pauseMusic.destroy();
-		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.difficulty + ')');
+		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.metadata.song + ' (' + PlayState.difficulty + ')');
 
 		super.destroy();
 	}

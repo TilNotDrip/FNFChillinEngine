@@ -1,7 +1,5 @@
 package addons;
 
-import addons.Conductor.BPMChangeEvent;
-
 import flixel.addons.ui.FlxUIState;
 
 class MusicBeatState extends FlxUIState
@@ -44,8 +42,7 @@ class MusicBeatState extends FlxUIState
 
 	override public function destroy()
 	{
-		Conductor.stepSignal.remove(stepHit);
-		Conductor.beatSignal.remove(beatHit);
-		Conductor.sectionSignal.remove(sectionHit);
+		Conductor.destroy();
+		super.destroy();
 	}
 }
