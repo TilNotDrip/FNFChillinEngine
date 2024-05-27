@@ -1,4 +1,4 @@
-## What happens when two fags (@TechnikTil & @CrusherNotDrip) make a cracker?
+## What happens when two secret twins (@TechnikTil & @CrusherNotDrip) make an engine?
 # Introducing... Chillin' Engine
 
 ## Credits
