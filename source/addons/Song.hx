@@ -213,10 +213,24 @@ class Song
 			strum: (note.d <= 3) ? 'Player' : 'Opponent', length: note.l ?? 0});
 		}
 
+		var daBPMArray:Array<SwagBPMChange> = [];
+
+		for(change in convertedMetadata.timeChanges)
+		{
+			daBPMArray.push({time: change.t, bpm: change.bpm, sectionSteps: Std.int(change.n * change.d)});
+		}
+
 		for(event in convertedEvents)
 		{
 			var daEventName:String = '';
 			var daEventValue:String = '';
+			var curBPMChange:SwagBPMChange = null;
+
+			for(bpmChange in daBPMArray)
+			{
+				if(bpmChange.time <= event.t)
+					curBPMChange = bpmChange;
+			}
 
 			switch(event.e)
 			{
@@ -229,7 +243,8 @@ class Song
 					switch(event.v.char ?? event.v)
 					{
 						case -1:
-							daEventValue = 'pos: ${event.v.x}, ${event.v.y}';
+							daEventValue = '';
+
 						case 1:
 							daEventValue = 'dad';
 
@@ -239,6 +254,15 @@ class Song
 						case 2:
 							daEventValue = 'gf';
 					}
+
+					if(event.v.ease != null)
+						daEventValue += ((daEventValue != '') ? ', ' : '') + event.v.ease;
+
+					if(event.v.duration != null)
+						daEventValue += ((daEventValue != '') ? ', ' : '') + FlxMath.roundDecimal(event.v.duration * ((60 / curBPMChange.bpm) / 4), 2);
+
+					if(event.v.x != null && event.v.y != null)
+						daEventValue = daEventValue + ((daEventValue != '') ? ', ' : '') + '[${event.v.x}, ${event.v.y}]';
 
 				case "PlayAnimation":
 					if(event.v.anim == 'hey')
@@ -252,13 +276,6 @@ class Song
 			}
 
 			daSong.events.push({name: daEventName, value: daEventValue, strumTime: event.t});
-		}
-
-		var daBPMArray:Array<SwagBPMChange> = [];
-
-		for(change in convertedMetadata.timeChanges)
-		{
-			daBPMArray.push({time: change.t, bpm: change.bpm, sectionSteps: Std.int(change.n * change.d)});
 		}
 
 		daSong.metadata = {

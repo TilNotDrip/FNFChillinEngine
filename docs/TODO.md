@@ -3,9 +3,8 @@
 ## Big Changes
 
  - [ ] Full Options Menu Rework (This includes saving)
- - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
- - [ ] Modding API (using SScript)
+ - [ ] Modding API (using hscript-plus)
  - [x] Title Screen Softcoded
  - [ ] Controller Support
  - [ ] Lyrics
@@ -30,9 +29,9 @@
  - [ ] Fix things with diff in Story Menu
  - [ ] Fix Scaling with Chars in Story Menu
  - [ ] RGB Pallete for Notes + Note Splashes
- - [ ] Opponents have their own note colors
+ - [ ] Opponents have their own note colors (make it an option?)
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
- - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.)
+ - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.) <!-- no -Til -->
 
 ## Small Changes
 

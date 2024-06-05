@@ -1,5 +1,6 @@
 package stages.bgs;
 
+import objects.game.CutsceneHandler;
 import flxanimate.FlxAnimate;
 import flixel.math.FlxAngle;
 import flixel.math.FlxPoint;
@@ -132,15 +133,6 @@ class Tank extends StageBackend
 			gfGroup.y -= 75;
 		}
 
-		if (isStoryMode)
-		{
-			gfCutsceneLayer = new FlxGroup();
-			insert(PlayState.game.members.indexOf(gf) + 1, gfCutsceneLayer);
-
-			bfTankCutsceneLayer = new FlxGroup();
-			insert(PlayState.game.members.indexOf(player) + 1, bfTankCutsceneLayer);
-		}
-
 		add(foregroundSprites);
 
 		if (isStoryMode)
@@ -157,89 +149,80 @@ class Tank extends StageBackend
 		}
     }
 
-	#if (VIDEOS && !hxvlc)
-	private var blackShit:FlxSprite;
-	#end
-
 	private function ughIntro()
 	{
-		#if (VIDEOS && !hxvlc)
-		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
-		add(blackShit);
-
-		game.playVideo('ughCutscene');
-
+		var daCutscene:CutsceneHandler = new CutsceneHandler('ughCutscene');
 		camGAME.zoom = zoom * 1.2;
 
 		camFollow.x += 100;
 		camFollow.y += 100;
-		#else
+
 		inCutscene = true;
 
-		camGAME.zoom = zoom * 1.2;
+		#if web
+		daCutscene.startVideo('ughCutscene');
+		#else
+		daCutscene.endTime = 3 + 3 + 6.1;
 
-		camFollow.x += 100;
-		camFollow.y += 100;
+		daCutscene.cutsceneSound.loadEmbedded(Paths.music('DISTORTO'), true);
+		daCutscene.cutsceneSound.play();
+		daCutscene.cutsceneSound.fadeIn(5, 0, 0.5);
 
-		FlxG.sound.playMusic(Paths.music('DISTORTO'), 0);
-		FlxG.sound.music.fadeIn(5, 0, 0.5);
+		daCutscene.add(this);
+		daCutscene.add(player);
 
-		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/ughIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/ughIntro', 'week7'));
 		tankCutscene.anim.addBySymbol('wellWellWell', 'TANK TALK 1 P1', 24, false);
 		tankCutscene.anim.addBySymbol('killYou', 'TANK TALK 1 P2', 24, false);
-		bfTankCutsceneLayer.add(tankCutscene);
-
 		tankCutscene.anim.play('wellWellWell');
+		daCutscene.add(tankCutscene);
 
-		FlxG.camera.zoom *= 1.2;
-		camFollow.y += 100;
+		daCutscene.cutsceneCamera.zoom *= 1.4;
+		//daCutscene.cutsceneCamera.scroll.y += 200;
 
 		camGAME.zoom *= 1.2;
 
 		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('wellWellWell'));
 		eduardoAhh.play(true);
 
-		cameraMovement(opponent);
+		//daCutscene.cutsceneCamera.scroll.set(opponent.getMidpoint().x + 10, opponent.getMidpoint().y - 70);
 
-		new FlxTimer().start(3, function(tmr:FlxTimer)
+		daCutscene.addEvent(3, function()
 		{
-			camFollow.setPosition(player.getMidpoint().x, player.getMidpoint().y - 70);
-			FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.27, {ease: FlxEase.quadInOut});
+			//daCutscene.cutsceneCamera.scroll.set(player.getMidpoint().x, player.getMidpoint().y - 70);
+			FlxTween.tween(daCutscene.cutsceneCamera, {zoom: zoom * 1.15}, 0.27, {ease: FlxEase.quadInOut});
+		});
 
-			new FlxTimer().start(1.5, function(bep:FlxTimer)
+		daCutscene.addEvent(3 + 1.5, function()
+		{
+			player.playAnim('singUP');
+			FlxG.sound.play(Paths.sound('bfBeep'), function()
 			{
-				player.playAnim('singUP');
-				FlxG.sound.play(Paths.sound('bfBeep'), function()
-				{
-					player.playAnim('idle');
-				});
-			});
-
-			new FlxTimer().start(3, function(swaggy:FlxTimer)
-			{
-				camFollow.setPosition(opponent.getMidpoint().x + 10, opponent.getMidpoint().y - 70);
-				FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.5, {ease: FlxEase.quadInOut});
-				eduardoAhh.loadEmbedded(Paths.sound('killYou'));
-				eduardoAhh.play(true);
-				tankCutscene.anim.play('killYou');
-				new FlxTimer().start(6.1, function(swagasdga:FlxTimer)
-				{
-					FlxTween.tween(camGAME, {zoom: zoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
-
-					FlxG.sound.music.fadeOut((Conductor.crochet / 1000) * 5, 0);
-
-					new FlxTimer().start((Conductor.crochet / 1000) * 5, function(money:FlxTimer)
-					{
-						opponent.visible = true;
-						bfTankCutsceneLayer.remove(tankCutscene);
-					});
-
-					startCountdown();
-				});
+				player.playAnim('idle');
 			});
 		});
+
+		daCutscene.addEvent(3 + 3, function()
+		{
+			//daCutscene.cutsceneCamera.scroll.set(opponent.getMidpoint().x + 10, opponent.getMidpoint().y - 70);
+			FlxTween.tween(daCutscene.cutsceneCamera, {zoom: zoom}, 0.5, {ease: FlxEase.quadInOut});
+			eduardoAhh.loadEmbedded(Paths.sound('killYou'));
+			eduardoAhh.play(true);
+			tankCutscene.anim.play('killYou');
+		});
+
+		daCutscene.callback.add(function()
+		{
+			FlxTween.tween(camGAME, {zoom: zoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
+
+			daCutscene.cutsceneSound.fadeOut((Conductor.crochet / 1000) * 5, 0);
+
+			inCutscene = false;
+			startCountdown();
+		});
 		#end
+
+		game.openSubState(daCutscene);
 	}
 
 	private function gunsIntro()

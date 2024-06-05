@@ -247,6 +247,27 @@ class TitleState extends MusicBeatState
 			windowMoving = true;
 		}
 
+		/*if(FlxG.keys.justPressed.T)
+		{
+			FunkinServer.hostServer('0.0.0.0', 8000);
+
+			FunkinServer.onEvent.add(function(event) {
+				trace('event! ' + event.event + ', ' + event.params);
+				FunkinServer.addEvent('testing', ['callback event', 'from server']);
+			});
+		}
+
+		if(FlxG.keys.justPressed.U)
+		{
+			FunkinServer.joinServer('127.0.0.1', 8000);
+
+			FunkinServer.onEvent.add(function(event) {
+				trace('event! ' + event.event + ', ' + event.params);
+			});
+
+			FunkinServer.addEvent('testing', ['initial event', 'from client']);
+		}*/
+
 		if (!easterEggActive && skippedIntro)
 			checkEasterCode();
 

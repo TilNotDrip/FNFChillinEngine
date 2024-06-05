@@ -1,5 +1,6 @@
 package options.objects;
 
+import objects.menu.Checkbox;
 import flixel.group.FlxSpriteGroup;
 
 class Option extends FlxSpriteGroup
@@ -40,7 +41,9 @@ class Option extends FlxSpriteGroup
         switch(type)
         {
             case CHECKBOX:
-                checkbox = new Checkbox(optionTxt.x + optionTxt.width + 50, 0);
+                checkbox = new Checkbox();
+                checkbox.sprTracker = optionTxt;
+                checkbox.sprOffsetX = 50;
                 checkbox.check(ChillSettings.get(varName, category));
                 add(checkbox);
 
@@ -105,44 +108,6 @@ enum abstract OptionVarType(Int)
     var SLIDER = 1;
     var SELECTION = 2;
     var NUMBER = 3;
-}
-
-class Checkbox extends FlxSprite
-{
-    public function new(x:Float, y:Float)
-    {
-        super(x, y);
-
-        frames = Paths.getSparrowAtlas('menuUI/checkbox');
-        animation.addByIndices('idle', 'Unselect', [13,13], '', 24, true);
-        animation.addByIndices('idle selected', 'Press', [13,13], '', 24, true);
-        animation.addByPrefix('checked', 'Press', 24, false);
-        animation.addByPrefix('unchecked', 'Unselect', 24, false);
-
-        setGraphicSize(Std.int(width * 0.2));
-        updateHitbox();
-    }
-
-    public function check(value:Bool)
-    {
-        if(value)
-        {
-            animation.play('checked', true);
-            animation.finishCallback = function(anim:String) {
-                animation.play('idle selected', true);
-                animation.finishCallback = null;
-            }
-        }
-        else
-        {
-            animation.play('unchecked', true);
-
-            animation.finishCallback = function(anim:String) {
-                animation.play('idle', true);
-                animation.finishCallback = null;
-            }
-        }
-    }
 }
 
 // I dont wanna add this to todo but I wanna add this

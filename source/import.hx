@@ -17,6 +17,7 @@ import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 
 import flixel.tweens.FlxEase;
+import addons.ChillinEase;
 import flixel.tweens.FlxTween;
 
 import flixel.util.FlxColor;

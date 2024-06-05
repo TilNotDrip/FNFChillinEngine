@@ -14,7 +14,7 @@
         {
             "song": "High",
             "icon": "mom",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {

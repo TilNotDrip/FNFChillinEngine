@@ -18,6 +18,7 @@ import objects.Alphabet as AtlasText;
 import substates.StickerSubState;
 import objects.menu.BGScrollingText;
 import openfl.utils.Assets;
+import substates.ModifierSubstate;
 
 /**
  * Parameters used to initialize the FreeplayState.
@@ -924,6 +925,12 @@ import openfl.utils.Assets;
 	 {
 	   grpCapsules.members[curSelected].onConfirm();
 	 }
+
+	 if(FlxG.keys.pressed.TAB)
+	 {
+		openSubState(new ModifierSubstate());
+		persistentUpdate = false;
+	 }
    }
  
    public override function destroy():Void
@@ -1341,7 +1348,7 @@ import openfl.utils.Assets;
  
 	 difficultyId = diffId;
  
-	 if (Assets.exists(Paths.file('images/freeplay/freeplay${diffId}.xml')))
+	 if (Paths.exists('images/freeplay/freeplay${diffId}.xml', TEXT))
 	 {
 	   this.frames = Paths.getSparrowAtlas('freeplay/freeplay${diffId}');
 	   this.animation.addByPrefix('idle', 'idle0', 24, true);

@@ -1,5 +1,6 @@
 package;
 
+import display.FunkinWindowBar;
 import display.FunkinSoundtray.FunkinSoundTray;
 import display.FPS;
 
@@ -31,8 +32,7 @@ class Main extends Sprite
 		splash: true,
 		fullscreen: false
 	};
-
-	@:deprecated('aprilFools in Main will soon be replaced for a Macro.')
+	
 	public static var aprilFools(get, never):Bool;
 
 	public static function main():Void
@@ -64,6 +64,8 @@ class Main extends Sprite
 
 	public static var fpsCounter:FPS;
 
+	// public static var titleBar:FunkinWindowBar;
+
 	private function setupGame():Void
 	{
 		var funkinGame:FlxGame = new FlxGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen);
@@ -74,10 +76,13 @@ class Main extends Sprite
 
 		addChild(funkinGame);
 
+		/*titleBar = new FunkinWindowBar();
+		addChild(titleBar);*/
+
 		initGame();
 
 		#if !mobile
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
+		fpsCounter = new FPS(10, 32 + 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
 	}
@@ -100,6 +105,23 @@ class Main extends Sprite
 		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];
 
+		//FlxG.scaleMode = new flixel.system.scaleModes.StageSizeScaleMode();
+
+		/*FlxG.signals.postUpdate.add(function() {
+			FlxG.game.y = 32;
+		});*/
+
+		//Lib.application.window.borderless = true;
+
+		Lib.application.window.onResize.add(function(width:Int, height:Int) {
+			//titleBar.reloadWindowBar(width);
+
+			@:privateAccess
+			FlxG.game.resizeGame(width, height);
+
+			trace('Game resized!');
+		}, false, 99);
+
 		#if DISCORD
 		DiscordRPC.initialize();
 		#end
@@ -109,13 +131,6 @@ class Main extends Sprite
 
 	private static function get_aprilFools():Bool
 	{
-		var isToday:Bool;
-
-		if (curDate.getDate() == 1 && curDate.getMonth() == 4)
-			isToday = true;
-		else
-			isToday = false;
-
-		return isToday;
+		return (curDate.getDate() == 1 && curDate.getMonth() == 4);
 	}
 }

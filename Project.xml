@@ -106,8 +106,9 @@
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="DISCORD" />
 	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
-	<haxelib name="SScript" if="MOD_SUPPORT"/>
+	<haxelib name="hscript-plus" if="MOD_SUPPORT"/>
 	<haxelib name="texter" />
+	<haxelib name="haxe-ws" />
 
 	<haxedev set='webgl' />
 

@@ -33,6 +33,21 @@ class DJBoyfriend extends FlxAnimate
 
     animOffsets = new Map<String, Array<Dynamic>>();
 
+    anim.callback = function(name:String, frame:Int) {
+      switch (name)
+      {
+        case "Boyfriend DJ watchin tv OG":
+          if (frame == 80)
+          {
+            FlxG.sound.play(Paths.sound('remote_click'));
+          }
+          if (frame == 85)
+          {
+            runTvLogic();
+          }
+      }
+    };
+
     setupAnimations();
 
     FlxG.debugger.track(this);
@@ -60,7 +75,6 @@ class DJBoyfriend extends FlxAnimate
     return anims;
   }
 
-  var oldFrame:Int = -1;
   public override function update(elapsed:Float):Void
   {
     super.update(elapsed);
@@ -108,6 +122,7 @@ class DJBoyfriend extends FlxAnimate
         // I shit myself.
     }
 
+    #if DEBUG
     if (FlxG.keys.pressed.CONTROL)
     {
       if (FlxG.keys.justPressed.LEFT)
@@ -135,24 +150,7 @@ class DJBoyfriend extends FlxAnimate
         currentState = (currentState == Idle ? TV : Idle);
       }
     }
-
-    if(anim.curSymbol.curFrame != oldFrame)
-    {
-      switch (anim.curSymbol.name)
-      {
-        case "Boyfriend DJ watchin tv OG":
-          if (anim.curSymbol.curFrame == 80)
-          {
-            FlxG.sound.play(Paths.sound('remote_click'));
-          }
-          if (anim.curSymbol.curFrame == 85)
-          {
-            runTvLogic();
-          }
-      }
-    }
-
-    oldFrame = anim.curSymbol.curFrame;
+    #end
 
   }
 

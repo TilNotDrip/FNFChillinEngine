@@ -13,10 +13,13 @@ import flixel.math.FlxPoint;
 
 import objects.game.Character;
 
-class StageBackend extends FlxBasic
+class StageBackend extends FlxGroup
 {
     public static var stage:StageBackend; 
     private var game:PlayState = PlayState.game;
+
+    public var addInFront:Bool = false;
+    public var frontGrp:FlxGroup = new FlxGroup();
 
     // Main Stage Variables
     public var zoom:Float = 1.05;
@@ -71,19 +74,23 @@ class StageBackend extends FlxBasic
     public function beatHit() {}
     public function sectionHit() {}
 
-    // Adding / Removing n stuff
-    private function add(object:FlxBasic) PlayState.game.add(object);
-    private function remove(object:FlxBasic) PlayState.game.remove(object);
-    private function insert(position:Int, object:FlxBasic) PlayState.game.insert(position, object);
+    override public function add(spr:FlxBasic)
+    {
+        if(addInFront)
+            return frontGrp.add(spr);
+        else
+            return super.add(spr);
+    }
 
+    // uh oh
     private function addBehindGF(object:FlxBasic) {
-        insert(PlayState.game.members.indexOf(gfGroup), object);
+        //insert(PlayState.game.members.indexOf(gfGroup), object);
     }
     private function addBehindOpponent(object:FlxBasic) {
-        insert(PlayState.game.members.indexOf(opponentGroup), object);
+        //insert(PlayState.game.members.indexOf(opponentGroup), object);
     }
     private function addBehindPlayer(object:FlxBasic) {
-        insert(PlayState.game.members.indexOf(playerGroup), object);
+        //insert(PlayState.game.members.indexOf(playerGroup), object);
     }
 
     // Other Functions

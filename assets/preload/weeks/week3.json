@@ -8,19 +8,19 @@
         {
             "song": "Pico",
             "icon": "pico",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {
             "song": "Philly Nice",
             "icon": "pico",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {
             "song": "Blammed",
             "icon": "pico",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         }
     ],

@@ -58,4 +58,13 @@ class CoolTools
 	{
 		return array[array.length-1];
 	}
+
+	public static function find<T>(input:Array<T>, predicate:T->Bool):Null<T>
+	{
+	  	for (element in input)
+	  	{
+			if (predicate(element)) return element;
+	  	}
+		return null;
+	}
 }

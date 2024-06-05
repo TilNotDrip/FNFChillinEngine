@@ -34,10 +34,8 @@ class StickerSubState extends MusicBeatSubstate
 
   /**
    * The state to switch to after the stickers are done.
-   * This is a FUNCTION so we can pass it directly to `FlxG.switchState()`,
-   * and we can add constructor parameters in the caller.
    */
-  var targetState:StickerSubState->FlxState;
+  var targetState:FlxState;
 
   // what "folders" to potentially load from (as of writing only "keys" exist)
   var soundSelections:Array<String> = [];
@@ -45,11 +43,11 @@ class StickerSubState extends MusicBeatSubstate
   var soundSelection:String = "";
   var sounds:Array<String> = [];
 
-  public function new(?oldStickers:Array<StickerSprite>, ?targetState:StickerSubState->FlxState):Void
+  public function new(targetState:FlxState):Void
   {
     super();
 
-    this.targetState = (targetState == null) ? ((sticker) -> new MainMenuState()) : targetState;
+    this.targetState = targetState;
 
     // todo still
     // make sure that ONLY plays mp3/ogg files
@@ -100,35 +98,26 @@ class StickerSubState extends MusicBeatSubstate
     // grpStickers.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
     grpStickers.cameras = FlxG.cameras.list;
 
-    if (oldStickers != null)
-    {
-      for (sticker in oldStickers)
-      {
-        grpStickers.add(sticker);
-      }
-
-      degenStickers();
-    }
-    else
-      regenStickers();
+    regenStickers();
   }
 
   public function degenStickers():Void
   {
     grpStickers.cameras = FlxG.cameras.list;
 
-    /*
+    ///*
       if (dipshit != null)
       {
         FlxG.removeChild(dipshit);
         dipshit = null;
       }
-     */
+     //*/
 
     if (grpStickers.members == null || grpStickers.members.length == 0)
     {
       switchingState = false;
       close();
+      FlxG.state.persistentUpdate = true;
       return;
     }
 
@@ -142,6 +131,7 @@ class StickerSubState extends MusicBeatSubstate
         if (grpStickers == null || ind == grpStickers.members.length - 1)
         {
           switchingState = false;
+          FlxG.state.persistentUpdate = true;
           close();
         }
       });
@@ -248,27 +238,25 @@ class StickerSubState extends MusicBeatSubstate
 
             // I think this grabs the screen and puts it under the stickers?
             // Leaving this commented out rather than stripping it out because it's cool...
-            /*
+            ///*
               dipshit = new Sprite();
               var scrn:BitmapData = new BitmapData(FlxG.width, FlxG.height, true, 0x00000000);
               var mat:Matrix = new Matrix();
-              scrn.draw(grpStickers.cameras[0].canvas, mat);
+              scrn.draw(grpStickers.cameras[0].canvas, mat, null, null, null, FlxSprite.defaultAntialiasing);
 
               var bitmap:Bitmap = new Bitmap(scrn);
 
               dipshit.addChild(bitmap);
-              // FlxG.addChildBelowMouse(dipshit);
-             */
-
-            FlxG.switchState(() -> {
-              // TODO: Rework this asset caching stuff
-              // NOTE: This has to come AFTER the state switch,
-              // otherwise the game tries to render destroyed sprites!
-              // FunkinSprite.preparePurgeCache();
-              // FunkinSprite.purgeCache();
-
-              return targetState(this);
-            });
+              FlxG.addChildBelowMouse(dipshit);
+             //*/
+            
+            // Paths.clearImageCache();
+            FlxG.switchState(targetState);
+            targetState.persistentUpdate = false;
+            targetState.openSubState(this);
+            openCallback = function() {
+              degenStickers();
+            }
           }
         });
       });
@@ -282,7 +270,7 @@ class StickerSubState extends MusicBeatSubstate
     var lastOne:StickerSprite = grpStickers.members[grpStickers.members.length - 1];
     lastOne.updateHitbox();
     lastOne.angle = 0;
-    lastOne.screenCenter();
+    //lastOne.screenCenter();
   }
 
   override public function update(elapsed:Float):Void

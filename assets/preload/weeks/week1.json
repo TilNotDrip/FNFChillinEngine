@@ -9,19 +9,19 @@
         {
             "song": "Bopeebo",
             "icon": "dad",
-            "difficulties": ["Easy", "Normal", "Hard", "Erect"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         }, 
         {
             "song": "Fresh",
             "icon": "dad",
-            "difficulties": ["Easy", "Normal", "Hard", "Erect"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {
             "song": "Dad Battle",
             "icon": "dad",
-            "difficulties": ["Easy", "Normal", "Hard", "Erect"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         }
     ],

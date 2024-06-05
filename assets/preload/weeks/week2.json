@@ -8,13 +8,13 @@
         {
             "song": "Spookeez",
             "icon": "spooky",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {
             "song": "South",
             "icon": "spooky",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {

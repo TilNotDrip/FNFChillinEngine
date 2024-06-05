@@ -19,6 +19,7 @@ class Note extends FlxSprite
 
 	public var suffix:String = '';
 	public var type(default, set):String = 'Normal';
+	public var lowPriority:Bool = false;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -53,11 +54,12 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
-		
+		type = type;
     }
 
 	private function set_type(value:String):String
 	{
+		var funnyPath:String = 'Notes';
 		switch(value)
 		{
 			case 'Alt':
@@ -66,8 +68,9 @@ class Note extends FlxSprite
 			default:
 				suffix = '';
 				resetColors();
-				reloadNote();
 		}
+
+		reloadNote(funnyPath);
 
 		return type;
 	}
@@ -125,8 +128,6 @@ class Note extends FlxSprite
 			updateHitbox();
 		}
 
-		animation.play('scroll');
-
 		x += swagWidth * noteData;
 		rgbShader.rgb = [arrowColorsRed[noteData], arrowColorsGreen[noteData], arrowColorsBlue[noteData]];
 
@@ -152,6 +153,8 @@ class Note extends FlxSprite
 				prevNote.updateHitbox();
 			}
 		}
+		else
+			animation.play('scroll');
 
 		shader = rgbShader.shader;
 	}
@@ -169,9 +172,9 @@ class Note extends FlxSprite
 			}
 			else
 			{
-				if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset)
+				if (strumTime > Conductor.songPosition - Scoring.PBOT1_MISS_THRESHOLD)
 				{
-					if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
+					if (strumTime < Conductor.songPosition + Scoring.PBOT1_MISS_THRESHOLD)
 						canBeHit = true;
 				}
 				else

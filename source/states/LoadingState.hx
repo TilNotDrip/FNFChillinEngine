@@ -154,7 +154,7 @@ class LoadingState extends MusicBeatState
 
 	inline public static function loadAndSwitchState(target:FlxState, stopMusic = false)
 	{
-		FlxG.switchState(getNextState(target, stopMusic));
+		FlxG.state.openSubState(new substates.StickerSubState(getNextState(target, stopMusic)));
 	}
 
 	private static function getNextState(target:FlxState, stopMusic = false):FlxState

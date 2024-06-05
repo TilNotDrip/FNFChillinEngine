@@ -29,6 +29,6 @@ class ModLoader
             if(!ignorePath.contains(daMod) && disabledList.contains(daMod)) theMods.push('mods/$daMod/$path');
         #end
         theMods.push('mods/$path');
-        return ['mods/$path'];
+        return theMods;
     }
 }

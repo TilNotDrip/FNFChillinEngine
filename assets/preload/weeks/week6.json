@@ -8,19 +8,19 @@
         {
             "song": "Senpai",
             "icon": "senpai",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {
             "song": "Roses",
             "icon": "senpai",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         },
         {
             "song": "Thorns",
             "icon": "spirit",
-            "difficulties": ["Easy", "Normal", "Hard"],
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"],
             "explicit": false
         }
     ],

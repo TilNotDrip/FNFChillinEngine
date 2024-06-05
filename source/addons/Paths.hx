@@ -1,5 +1,7 @@
 package addons;
 
+import flixel.graphics.FlxGraphic;
+import openfl.system.System;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 
@@ -8,6 +10,55 @@ class Paths
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 
 	static var currentLevel:String;
+
+	private static var imageCache:Map<String, FlxGraphic> = new Map();
+	private static var clearingCache:Bool = false;
+
+	private static final excludePaths:Array<String> = ['shared:assets/shared/images/transitionSwag', 'assets/images/soundtray'];
+	public static function clearImageCache()
+	{
+		clearingCache = true;
+
+		var imageArray:Array<String> = imageCache.keyValues();
+
+		@:privateAccess
+		while(imageArray.length != 0)
+		{
+			var path:String = imageArray.shift();
+			var image:FlxGraphic = imageCache.get(path);
+
+			for(excludeyy in excludePaths)
+			{
+				if(path.startsWith(excludeyy))
+				{
+					image.persist = true;
+					image.destroyOnNoUse = false;
+					return;
+				}
+			}
+
+			if(image != null)
+			{
+				image.persist = false;
+				image.destroyOnNoUse = true;
+				image.destroy();
+			}
+
+			// remove the key from all cache maps
+			FlxG.bitmap._cache.remove(path);
+			openfl.Assets.cache.removeBitmapData(path);
+			imageCache.remove(path);
+
+			trace('Successfully dealed with ${path}!');
+		}
+
+		System.gc();
+
+		clearingCache = false;
+
+		/*while(imageArray.length != 0)
+			Sys.sleep(0.01);*/
+	}
 
 	public static function setCurrentLevel(name:String)
 	{
@@ -27,13 +78,13 @@ class Paths
 		if (library != null)
 			return getLibraryPath(file, library);
 
+		var levelPath = getLibraryPathForce(file, "shared");
+		if (OpenFlAssets.exists(levelPath, type))
+			return levelPath;
+
 		if (currentLevel != null)
 		{
 			var levelPath = getLibraryPathForce(file, currentLevel);
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
-
-			levelPath = getLibraryPathForce(file, "shared");
 			if (OpenFlAssets.exists(levelPath, type))
 				return levelPath;
 		}
@@ -109,7 +160,34 @@ class Paths
 	{
 		var path = getPath('images/$key.png', IMAGE, library);
 
-		return OpenFlAssets.getBitmapData(path, true);
+		var daReturn:FlxGraphic = null;
+
+		if(false/*imageCache.exists(path)*/)
+		{
+			daReturn = imageCache.get(path);
+
+			if(daReturn == null || daReturn.bitmap == null)
+			{
+				trace('Image was loaded from cache, but it doesn\'t exist! Retrying function... ($path)');
+				imageCache.remove(path);
+				daReturn = image(key, library);
+			}
+		}
+		else
+		{
+			try {
+				daReturn = FlxGraphic.fromAssetKey(path, false, path, /*false*/true);
+			}
+
+			if(daReturn != null)
+				imageCache.set(path, daReturn);
+		}
+
+		if(daReturn == null)
+			trace('Image does\' t exist! ($path)');
+
+		return daReturn;
+		
 	}
 
 	inline public static function font(key:String)

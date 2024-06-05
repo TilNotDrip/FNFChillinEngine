@@ -40,6 +40,7 @@ class PlayerSettings
 	{
 		new FlxTimer().start(0.001, function(tmr:FlxTimer) {
 			controlsSave.data.controls = controlSettings;
+			controlsSave.flush();
 		});
 		return controlSettings[id];
 	}

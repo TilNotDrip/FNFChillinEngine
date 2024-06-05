@@ -121,6 +121,6 @@ class Strums extends FlxSpriteGroup
 
 	override private function get_height()
 	{
-		return Note.swagWidth * 4;
+		return Note.swagWidth;
 	}
 }

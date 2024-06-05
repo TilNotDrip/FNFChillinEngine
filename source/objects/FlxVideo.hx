@@ -1,5 +1,6 @@
 package objects;
 
+import openfl.display.BitmapData;
 import flixel.FlxBasic;
 
 import openfl.events.NetStatusEvent;
@@ -10,7 +11,7 @@ import openfl.net.NetConnection;
 import openfl.net.NetStream;
 
 // TO BE USED WITH WEB ONLY
-class FlxVideo extends FlxBasic
+class FlxVideo extends FlxSprite
 {
 	private var video:Video;
 	private var netStream:NetStream;
@@ -29,8 +30,6 @@ class FlxVideo extends FlxBasic
 		video.x = 0;
 		video.y = 0;
 
-		FlxG.addChildBelowMouse(video);
-
 		var netConnection = new NetConnection();
 		netConnection.connect(null);
 
@@ -40,10 +39,17 @@ class FlxVideo extends FlxBasic
 		netStream.play(vidSrc);
 	}
 
+	override public function update(elapsed:Float)
+	{
+		var scrn:BitmapData = new BitmapData(video.videoWidth, video.videoHeight, true, 0x00000000);
+		scrn.draw(video);
+
+		loadGraphic(scrn);
+	}
+
 	public function finishVideo():Void
 	{
 		netStream.dispose();
-		FlxG.removeChild(video);
 
 		if (finishCallback != null)
 			finishCallback();
@@ -53,8 +59,8 @@ class FlxVideo extends FlxBasic
 	{
 		video.attachNetStream(netStream);
 
-		video.width = FlxG.width;
-		video.height = FlxG.height;
+		//video.width = FlxG.width;
+		//video.height = FlxG.height;
 	}
 
 	private function netConnection_onNetStatus(event:NetStatusEvent):Void
