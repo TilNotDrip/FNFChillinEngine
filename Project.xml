@@ -20,8 +20,8 @@
 
 	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
 	<window if="html5"   resizable="true" />
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
-	<window if="mobile"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false" />
+	<window if="mobile"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="false" />
 
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
