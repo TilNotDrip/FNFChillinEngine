@@ -1,6 +1,8 @@
 name: Chillin Engine Compiling
 run-name: Compiling Chillin Engine...
-on: [push]
+
+on: [ push, pull_request ]
+    
 jobs:
   CompileWindows:
     runs-on: windows-latest
@@ -17,12 +19,12 @@ jobs:
           cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
         run: "haxelib run hmm install"
-      - name: Compile The Game for Windows
+      - name: Compile The Game
         run: "haxelib run lime build Project.xml windows"
-      - name: Upload Windows Game Executable
+      - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
-          name: WindowsGame
+          name: ReleaseGame
           path: ${{ github.workspace }}/export/release/windows/bin/
   CompileLinux:
     runs-on: ubuntu-latest
@@ -39,11 +41,11 @@ jobs:
           cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
         run: "haxelib run hmm install"
-      - name: Compile The Game for Windows
+      - name: Compile The Game
         run: "haxelib run lime build Project.xml linux"
-      - name: Upload Windows Game Executable
+      - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
-          name: WindowsGame
-          path: ${{ github.workspace }}/export/release/windows/bin/
+          name: ReleaseGame
+          path: ${{ github.workspace }}/export/release/linux/bin/
         
