@@ -16,7 +16,7 @@ jobs:
           haxelib install --quiet hmm 
           cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
-        run: "haxelib run hmm --quiet install"
+        run: "haxelib run hmm install"
       - name: Compile The Game for Windows
         run: "haxelib run lime build Project.xml windows"
       - name: Upload Windows Game Executable
