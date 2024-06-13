@@ -1,0 +1,51 @@
+name: Chillin Engine Compiling
+run-name: Compiling Chillin Engine...
+
+on: [ push, pull_request ]
+    
+jobs:
+  CompileWindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Haxe environment
+        uses: krdlab/setup-haxe@v1.5.1
+        with:
+          haxe-version: 4.3.0
+      - name: Download HMM
+        run: |
+          haxe -version
+          haxelib install --quiet hmm 
+          cd ${{ github.workspace }}
+      - name: Use HMM to install dependencies.
+        run: "haxelib run hmm install"
+      - name: Compile The Game
+        run: "haxelib run lime build Project.xml windows"
+      - name: Upload Game Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ReleaseGame
+          path: ${{ github.workspace }}/export/release/windows/bin/
+  CompileLinux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Haxe environment
+        uses: krdlab/setup-haxe@v1.5.1
+        with:
+          haxe-version: 4.3.0
+      - name: Download HMM
+        run: |
+          haxe -version
+          haxelib install --quiet hmm 
+          cd ${{ github.workspace }}
+      - name: Use HMM to install dependencies.
+        run: "haxelib run hmm install"
+      - name: Compile The Game
+        run: "haxelib run lime build Project.xml linux"
+      - name: Upload Game Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ReleaseGame
+          path: ${{ github.workspace }}/export/release/linux/bin/
+        
