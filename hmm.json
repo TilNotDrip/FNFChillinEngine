@@ -27,8 +27,10 @@
         },
         {
             "name": "flxanimate",
-            "type": "haxelib",
-            "version": null
+            "type": "git",
+            "dir": null,
+            "ref": "17e0d59fdbc2b6283a5c0e4df41f1c7f27b71c49",
+            "url": "https://github.com/FunkinCrew/flxanimate"
         },
         {
             "name": "hscript",
@@ -48,7 +50,7 @@
         {
             "name": "hxvlc",
             "type": "haxelib",
-            "version": null
+            "version": "1.5.3"
         },
         {
             "name": "SScript",
