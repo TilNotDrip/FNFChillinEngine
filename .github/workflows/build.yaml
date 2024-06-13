@@ -13,12 +13,12 @@ jobs:
       - name: Download HMM
         run: |
           haxe -version
-          haxelib install hmm
+          haxelib install --quiet hmm 
           cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
-        run: "haxelib run hmm install"
+        run: "haxelib run --quiet hmm install"
       - name: Compile The Game for Windows
-        run: "haxelib run lime test windows"
+        run: "haxelib run lime build Project.xml windows"
       - name: Upload Windows Game Executable
         uses: actions/upload-artifact@v4
         with:
