@@ -6,9 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}/windowsGame
-        
       - name: Setup Haxe environment
         uses: krdlab/setup-haxe@v1.5.1
         with:
@@ -17,7 +14,7 @@ jobs:
         run: |
           haxe -version
           haxelib install hmm
-          cd ${{ github.workspace }}/windowsGame
+          cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
         run: "haxelib run hmm install"
       - name: Compile The Game for Windows
@@ -26,5 +23,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: WindowsGame
-          path: ${{ github.workspace }}/windowsGame/export/release/windows/bin/
+          path: ${{ github.workspace }}/export/release/windows/bin/
         
