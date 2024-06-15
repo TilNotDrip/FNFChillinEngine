@@ -2,13 +2,17 @@
     "dependencies": [
         {
             "name": "lime",
-            "type": "haxelib",
-            "version": null
+            "type": "git",
+            "dir": null,
+            "ref": "872ff6db2f2d27c0243d4ff76802121ded550dd7",
+            "url": "https://github.com/FunkinCrew/lime"
         },
         {
             "name": "openfl",
-            "type": "haxelib",
-            "version": null
+            "type": "git",
+            "dir": null,
+            "ref": "228c1b5063911e2ad75cef6e3168ef0a4b9f9134",
+            "url": "https://github.com/FunkinCrew/openfl"
         },
         {
             "name": "flixel",
@@ -17,25 +21,46 @@
         },
         {
             "name": "flixel-addons",
-            "type": "haxelib",
-            "version": null
+            "type": "git",
+            "dir": null,
+            "ref": "a523c3b56622f0640933944171efed46929e360e",
+            "url": "https://github.com/FunkinCrew/flixel-addons"
         },
         {
             "name": "flixel-ui",
-            "type": "haxelib",
-            "version": null
+            "type": "git",
+            "dir": null,
+            "ref": "master",
+            "url": "https://github.com/ChillinEngine/flixel-ui"
         },
         {
             "name": "flxanimate",
             "type": "git",
             "dir": null,
-            "ref": "17e0d59fdbc2b6283a5c0e4df41f1c7f27b71c49",
-            "url": "https://github.com/FunkinCrew/flxanimate"
+            "ref": "master",
+            "url": "https://github.com/ChillinEngine/flxanimate"
+        },
+        {
+            "name": "format",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "haxe-ws",
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "hscript",
             "type": "haxelib",
             "version": null
+        },
+        {
+            "name": "hscript-plus",
+            "type": "git",
+            "dir": null,
+            "ref": "master",
+            "url": "https://github.com/DleanJeans/hscript-plus/"
         },
         {
             "name": "hxcpp-debug-server",
@@ -48,12 +73,12 @@
             "version": null
         },
         {
-            "name": "hxvlc",
+            "name": "hxp",
             "type": "haxelib",
             "version": null
         },
         {
-            "name": "hscript-plus",
+            "name": "hxvlc",
             "type": "haxelib",
             "version": null
         },
