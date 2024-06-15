@@ -969,6 +969,7 @@ class PlayState extends MusicBeatState
 					FlxG.switchState(new AnimationDebug(SONG.metadata.opponent, false));
 			}
 
+			#if debug
 			if (FlxG.keys.justPressed.ONE && !isEnding && canEnd)
 			{
 				FlxG.sound.music.stop();
@@ -980,6 +981,7 @@ class PlayState extends MusicBeatState
 				changeSection(1);
 			if (FlxG.keys.justPressed.PAGEDOWN && !isEnding)
 				changeSection(1);
+			#end
 
 			if (FlxG.keys.justPressed.L && !isEnding)
 				botplayDad = !botplayDad;
