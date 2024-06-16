@@ -73,9 +73,9 @@
             "version": null
         },
         {
-            "name": "hxcpp",
+            "name": "hxp",
             "type": "haxelib",
-            "version": "1.5.3"
+            "version": null
         },
         {
             "name": "hxvlc",
