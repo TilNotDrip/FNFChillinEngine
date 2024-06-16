@@ -73,7 +73,7 @@
             "version": null
         },
         {
-            "name": "hxp",
+            "name": "hxcpp",
             "type": "haxelib",
             "version": "1.5.3"
         },
