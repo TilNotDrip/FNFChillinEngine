@@ -34,8 +34,10 @@ jobs:
         uses: krdlab/setup-haxe@v1.5.1
         with:
           haxe-version: 4.3.0
-      - name: Install VLC
-        run: sudo apt-get install libvlc-dev libvlccore-dev vlc-bin vlc
+      - name: Install Linux dependencies.
+        run: |
+            sudo apt update
+            sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6
       - name: Download HMM
         run: |
           haxe -version
