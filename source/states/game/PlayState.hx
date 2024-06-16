@@ -635,9 +635,7 @@ class PlayState extends MusicBeatState
 	{
 		startingSong = false;
 
-		#if debug
 		canEnd = true;
-		#end
 
 		previousFrameTime = FlxG.game.ticks;
 
@@ -892,9 +890,7 @@ class PlayState extends MusicBeatState
 	public var paused:Bool = false;
 	public var startedCountdown:Bool = false;
 	public var canPause:Bool = false;
-	#if debug
 	public var canEnd:Bool = false;
-	#end
 
 	public var eventsCalled:Array<SwagEvent> = [];
 
@@ -1251,7 +1247,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	#if debug
 	private function changeSection(sec:Int):Void
 	{
 		FlxG.sound.music.pause();
@@ -1275,7 +1270,6 @@ class PlayState extends MusicBeatState
 		setRpcTimestamps(true);
 		#end
 	}
-	#end
 
 
 	public function restartSong()
@@ -1397,9 +1391,7 @@ class PlayState extends MusicBeatState
 			camHUD.visible = false;
 			canPause = false;
 
-			#if debug
 			canEnd = false;
-			#end
 		}
 		else
 		{
