@@ -9,13 +9,11 @@ class Note extends FlxSprite
 	public var isPixel:Bool;
 
 	public var mustPress:Bool = false;
+	
+	public var wasHit:Bool = false;
+	public var mayHit:Bool = false;
 
-	public var canBeHit:Bool = false;
-	public var tooLate:Bool = false;
-	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
-
-	private var willMiss:Bool = false;
 
 	public var suffix:String = '';
 	public var type(default, set):String = 'Normal';
@@ -34,7 +32,7 @@ class Note extends FlxSprite
 	public var arrowColorsGreen:Array<FlxColor> = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
 	public var arrowColorsBlue:Array<FlxColor> = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
 
-	public var rgbShader:RGBShader = new RGBShader();
+	private var rgbShader:RGBShader = new RGBShader();
 
 	public function new(strumTime:Float, noteData:Int, isPixel:Bool, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
@@ -157,41 +155,6 @@ class Note extends FlxSprite
 			animation.play('scroll');
 
 		shader = rgbShader.shader;
-	}
-
-	override public function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		if ((mustPress || PlayState.botplay) || (!mustPress || PlayState.botplayDad))
-		{
-			if (willMiss && !wasGoodHit)
-			{
-				tooLate = true;
-				canBeHit = false;
-			}
-			else
-			{
-				if (strumTime > Conductor.songPosition - Scoring.PBOT1_MISS_THRESHOLD)
-				{
-					if (strumTime < Conductor.songPosition + Scoring.PBOT1_MISS_THRESHOLD)
-						canBeHit = true;
-				}
-				else
-				{
-					canBeHit = true;
-					willMiss = true;
-				}
-			}
-		}
-		else
-			canBeHit = false;
-
-		if (tooLate && !inEditor)
-		{
-			if (alpha > 0.3)
-				alpha = 0.3;
-		}
 	}
 
 	public function returnColors(note:Int)

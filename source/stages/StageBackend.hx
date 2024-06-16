@@ -66,8 +66,6 @@ class StageBackend extends FlxGroup
 
     private function startCountdown() return PlayState.game.startCountdown();
 
-    override public function update(elapsed:Float) {}
-
     public function cameraMovement(char:Character) {}
 
     public function stepHit() {}

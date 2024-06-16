@@ -420,6 +420,7 @@ class Tank extends StageBackend
     override public function update(elapsed:Float)
     {
         moveTank();
+		super.update(elapsed);
     }
 
     private function moveTank():Void

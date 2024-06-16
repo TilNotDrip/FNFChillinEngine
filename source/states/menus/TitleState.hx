@@ -93,6 +93,10 @@ class TitleState extends MusicBeatState
 		DiscordRPC.joinSecret = 'abc';
 		#end
 
+		#if MOD_SUPPORT
+		HScript.init();
+		#end
+
 		if(introText == null)
 			introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
 
@@ -156,6 +160,8 @@ class TitleState extends MusicBeatState
 			skipIntro();
 		else
 			initialized = true;
+
+		add(new objects.game.SustainNote(600));
 
 		startedIntro = true;
 	}

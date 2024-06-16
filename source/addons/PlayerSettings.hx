@@ -14,12 +14,12 @@ class PlayerSettings
 
 	public var controls(default, null):Controls;
 
-	public static var controlSettings:Array<Map<String, Array<Array<String>>>> = [];
+	public static var controlSettings:Array<Map<String, Array<Array<Int>>>> = [];
 
 	private function new(id:Int, gamepad:FlxGamepad)
 	{
 		this.id = id;
-		this.controls = new Controls(id, gamepad);
+		this.controls = new Controls(getControls(id), gamepad);
 	}
 
 	public static function init():Void
@@ -27,39 +27,39 @@ class PlayerSettings
 		controlsSave = new FlxSave();
 		controlsSave.bind('controls', CoolUtil.getSavePath());
 
-		if(controlsSave.data.controls != null)
+		/*if(controlsSave.data.controls != null)
 			controlSettings = controlsSave.data.controls;
-		else
+		else*/
 			controlSettings.push(getDefaultControls());
 
 		players.push(new PlayerSettings(numPlayers, FlxG.gamepads.getByID(numPlayers)));
 		++numPlayers;
 	}
 
-	public static function getControls(id:Int):Map<String, Array<Array<String>>>
+	public static function getControls(id:Int):Map<String, Array<Array<Int>>>
 	{
-		new FlxTimer().start(0.001, function(tmr:FlxTimer) {
+		/*new FlxTimer().start(0.001, function(tmr:FlxTimer) {
 			controlsSave.data.controls = controlSettings;
 			controlsSave.flush();
-		});
+		});*/
 		return controlSettings[id];
 	}
 
 	private static function getDefaultControls()
 	{
 		return [
-			'UI_UP' => [['W', 'UP'], ['DPAD_UP', 'LEFT_STICK_DIGITAL_UP']],
-			'UI_DOWN' => [['S', 'DOWN'], ['DPAD_DOWN', 'LEFT_STICK_DIGITAL_DOWN']],
-			'UI_LEFT' => [['A', 'LEFT'], ['DPAD_LEFT', 'LEFT_STICK_DIGITAL_LEFT']],
-			'UI_RIGHT' => [['D', 'RIGHT'], ['DPAD_RIGHT', 'LEFT_STICK_DIGITAL_RIGHT']],
-			'NOTE_UP' => [['W', 'UP'], ['DPAD_UP', 'Y']],
-			'NOTE_DOWN' => [['S', 'DOWN'], ['DPAD_DOWN', 'A']],
-			'NOTE_LEFT' => [['A', 'LEFT'], ['DPAD_LEFT', 'X']],
-			'NOTE_RIGHT' => [['D', 'RIGHT'], ['DPAD_RIGHT', 'B']],
-			'ACCEPT' => [['SPACE', 'ENTER'], ['A']],
-			'BACK' => [['BACKSPACE', 'ESCAPE'], ['B']],
-			'PAUSE' => [['ENTER', 'ESCAPE'], ['START']],
-			'RESET' => [['R'], []]
+			'UI_UP' => [[87, 38], [11, 34]],
+			'UI_DOWN' => [[83, 40], [12, 36]],
+			'UI_LEFT' => [[65, 37], [13, 37]],
+			'UI_RIGHT' => [[68, 39], [14, 35]],
+			'NOTE_UP' => [[87, 38], [11, 3]],
+			'NOTE_DOWN' => [[83, 40], [12, 0]],
+			'NOTE_LEFT' => [[65, 37], [13, 2]],
+			'NOTE_RIGHT' => [[68, 39], [14, 1]],
+			'ACCEPT' => [[32, 13], [0, 7]],
+			'BACK' => [[8, 27], [1]],
+			'PAUSE' => [[13, 27], [7]],
+			'RESET' => [[82], []]
 		];
 	}
 }

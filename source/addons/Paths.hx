@@ -176,7 +176,7 @@ class Paths
 		else
 		{
 			try {
-				daReturn = FlxGraphic.fromAssetKey(path, false, path, /*false*/true);
+				daReturn = FlxGraphic.fromAssetKey(path, false, path, true/*false*/);
 			}
 
 			if(daReturn != null)
@@ -210,29 +210,38 @@ class Paths
 		trace('getPackerAtlas is deprecated!');
 		trace('Converting $key.txt to $key.xml...');
 
-		var keyShit:Array<String> = key.split('/');
-		var yay:String = 
-		'<?xml version="1.0" encoding="utf-8"?>\n	<TextureAtlas imagePath="${keyShit[keyShit.length-1]}.png">\n		<!-- Created with Til\'s bare hands -->\n		<!-- from .txt -->\n';
+		var headOfYay:Xml = Xml.createDocument();
+		var yay:Xml = Xml.createElement('TextureAtlas');
+
+		yay.set('imagePath', key.split('/').getLastInArray() + '.png');
+
 		for(i in CoolUtil.coolTextFile(file('images/$key.txt', library))) {
-			var daThing:Array<String> = i.split(' = ')[1].split(' ');
-			var nameShit:String = '';
-			var stupid:Array<String> = i.split(' = ')[0].split('_');
+			var daThing:Array<String> = i.substring(i.lastIndexOf(' = ')).split(' ');
+			var stupidNameFix:Array<String> = i.substring(0, i.indexOf(' = ')).split('_');
 
-			nameShit += stupid[0];
+			var nameFix:String = '';
 
-			for(j in 1...4-stupid[1].length+1) nameShit += '0';
-			nameShit += stupid[1];
+			nameFix += stupidNameFix[0];
 
-			yay += '	<SubTexture name="$nameShit" x="${daThing[0]}" y="${daThing[1]}" width="${daThing[2]}" height="${daThing[3]}"/>\n';
+			for(j in 1...4-stupidNameFix[1].length+1) nameFix += '0';
+			nameFix += stupidNameFix[1];
+
+			var subTexture:Xml = Xml.createElement('SubTexture');
+
+			subTexture.set('name', nameFix);
+			subTexture.set('x', daThing[0]);
+			subTexture.set('y', daThing[1]);
+			subTexture.set('width', daThing[2]);
+			subTexture.set('height', daThing[3]);
+
+			yay.addChild(subTexture);
 		}
 
-		yay += '</TextureAtlas>';
-
-		var daXMLThing:Xml = Xml.parse(yay);
+		headOfYay.addChild(yay);
 
 		trace('Converted $key.txt to $key.xml!');
 
-		return FlxAtlasFrames.fromSparrow(image(key, library), daXMLThing);
+		return FlxAtlasFrames.fromSparrow(image(key, library), headOfYay);
 	}
 
 	public static function atlas(folder:String, ?library:String = 'preload')

@@ -141,6 +141,8 @@ class Streets extends StageBackend
 
 			}
 		}
+
+		super.update(elapsed);
     }
 
 	override public function cameraMovement(char:objects.game.Character)

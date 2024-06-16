@@ -64,6 +64,8 @@ class Philly extends StageBackend
         }
 
         lightFadeShader.update((Conductor.crochet / 1000) * FlxG.elapsed * 1.5);
+
+        super.update(elapsed);
     }
 
 	private var trainMoving:Bool = false;

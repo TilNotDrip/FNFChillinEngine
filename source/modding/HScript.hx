@@ -1,123 +1,96 @@
 package modding;
 
-import flixel.util.FlxDestroyUtil.IFlxDestroyable;
-import openfl.Assets;
-
 #if sys
 import sys.FileSystem;
+import sys.io.File;
 #end
 
-import hscript.plus.ScriptState;
+import hscript.*;
 
 class HScript
 {
-    public static var StopFunction:HScriptFunctions = STOP;
-    public static var ContinueFunction:HScriptFunctions = CONTINUE;
+	public static var variables(get, null):Map<String, Dynamic>; static function get_variables() return _interp.variables;
 
-    private static var importList:Array<Dynamic> = [
-        flixel.FlxG,
-        flixel.FlxSprite,
-        flixel.FlxSubState,
+	static var _parser:Parser;
+	static var _interp:Interp;
 
-        flixel.graphics.frames.FlxAtlasFrames,
+	static var scriptsLoaded:Map<String, Dynamic> = new Map();
 
-        flixel.group.FlxGroup.FlxTypedGroup,
-        flixel.group.FlxGroup,
+	public static function init()
+	{
+		_parser = new Parser();
+		_parser.allowTypes = true;
+		
+		_interp = new Interp();
+		//_interp.setResolveImportFunction(resolveImport);
 
-        flixel.math.FlxMath,
-
-        flixel.sound.FlxSound,
-
-        flixel.text.FlxText,
-
-        flixel.tweens.FlxEase,
-        flixel.tweens.FlxTween,
-
-        //flixel.util.FlxColor, // gonna fix this later
-        flixel.util.FlxTimer,
-
-        lime.app.Application,
-
-        addons.Controls,
-        addons.CoolUtil,
-
-        addons.Paths,
-
-        options.ChillSettings,
-
-        states.game.GameBackend,
-        states.game.PlayState,
-
-        states.menus.StoryMenuState,
-        states.menus.FreeplayState,
-        states.menus.MainMenuState,
-
-        states.LoadingState,
-        StringTools,
-        addons.CoolTools
-    ];
-
-    public var scripts:Array<HScriptState> = [];
-
-    public function new(path:String, specialImports:Map<String, Dynamic>)
-    {
-        for(scriptPath in ModLoader.modFile(path))
-        {
-            var scriptsAvailable:Array<String> = FileSystem.readDirectory(scriptPath);
-
-            try {
-                for(script in scriptsAvailable)
-                {
-                    var daScript:HScriptState = new HScriptState();
-                    daScript.executeFile(script);
-                    scripts.push(daScript);
-                }
-            } catch(e) {
-                trace('overdue charger notices');
-            }
-        }
-    }
-
-    var daFunctionToCall:Dynamic = null;
-    public function runFunction(func:String, ?args:Array<Dynamic> = null):Array<Dynamic>
-    {
-        var returnArray:Array<Dynamic> = [];
-        for(script in scripts)
-        {
-            daFunctionToCall = script.get(func);
-
-            if(Reflect.isFunction(daFunctionToCall))
-                returnArray.push(Reflect.callMethod(this, daFunctionToCall, args));
-        }
-
-        return returnArray;
-    }
-
-
-    public function destroy() 
-    {
-        for(script in scripts)
-            script.destroy();
-    }
-}
-
-private class HScriptState extends ScriptState implements IFlxDestroyable
-{
-    override function error(e:Dynamic) 
-    {
-        trace('Exception on Script (' + e + ')');
-		return;
+		addGeneralScripts();
 	}
 
-    public function destroy()
-    {
-        _parser = null;
-        _interp = null;
-    }
+	/**
+	 * Adds all scripts in scripts to the mod manager.
+	 */
+	public static function addGeneralScripts()
+	{
+		for(path in ModLoader.modFile('scripts/'))
+		{
+			var letsHope:Array<String> = [];
+
+			try letsHope = FileSystem.readDirectory(path);
+
+			if(letsHope == null)
+				letsHope = [];
+
+			for(file in letsHope)
+			{
+				if((path + file).endsWith('.hx'))
+					addScript(path + file);
+			} 
+		}
+	}
+
+	/**
+	 * Adds a singular script to the manager.
+	 * @param path 
+	 */
+	public static function addScript(path:String)
+	{
+		var name:String = path.substring(path.lastIndexOf('/')+1, path.lastIndexOf('.hx'));
+
+		var script:String = File.getContent(path);
+
+		_interp.execute(_parser.parseString(script, path));
+
+		var daClass:Dynamic = variables.get(name);
+
+		variables.set('STOP', StopFunction);
+
+		if(daClass.create != null)
+			daClass.create();
+	}
+
+	static function resolveImport(importyy:String)
+	{
+		for(script in scriptsLoaded.keys())
+		{
+			if(script.substring(script.lastIndexOf('.')+1) == importyy)
+				return scriptsLoaded.get(script);
+		}
+
+		return Type.resolveClass(importyy);
+	}
+
+	public static function runForAllScripts(func:(String, Dynamic)->Void)
+	{
+		for(script in scriptsLoaded.keys())
+			func(script, scriptsLoaded.get(script));
+	}
 }
 
-enum abstract HScriptFunctions(String)
+class StopFunction // gotta do smth so it isnt empty
 {
-    var CONTINUE = 'continue';
-    var STOP = 'stop';
+	function doShit()
+	{
+		return false;
+	}
 }

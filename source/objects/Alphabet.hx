@@ -37,6 +37,9 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
   inline function get_maxHeight()
     return font.maxHeight;
 
+  private var xPosMax:Float = 0;
+  private var yPosMax:Float = 0;
+
   public function new(x = 0.0, y = 0.0, text:String, fontName:AtlasFont = AtlasFont.DEFAULT)
   {
     if (!fonts.exists(fontName)) fonts[fontName] = new AtlasFontData(fontName);
@@ -108,6 +111,8 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
    */
   function appendTextCased(text:String)
   {
+    xPosMax = 0;
+    yPosMax = 0;
     var charCount = group.countLiving();
     var xPos:Float = 0;
     var yPos:Float = 0;
@@ -118,6 +123,8 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
       var lastChar = group.members[charCount - 1];
       xPos = lastChar.x + lastChar.width - x;
       yPos = lastChar.y + lastChar.height - maxHeight - y;
+      if(xPos >= xPosMax) xPosMax = xPos;
+      if(yPos >= yPosMax - maxHeight) yPosMax = yPos + maxHeight;
     }
 
     var splitValues = text.split("");
@@ -153,6 +160,9 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
             charCount++;
           }
       }
+
+      if(xPos >= xPosMax) xPosMax = xPos;
+      if(yPos >= yPosMax - maxHeight) yPosMax = yPos + maxHeight;
     }
   }
 
@@ -176,6 +186,16 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 	}
 
 	super.update(elapsed);
+  }
+
+  override function get_width():Float
+  {
+    return xPosMax;
+  }
+
+  override function get_height():Float
+  {
+    return yPosMax;
   }
 }
 

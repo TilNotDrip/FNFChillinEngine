@@ -1,0 +1,38 @@
+{
+    "res": [150, 150],
+    
+    "color": "A1A1A1",
+    "bopOnBeat": true,
+    "antialiasing": true,
+    
+    "animation": 
+    [
+        {
+            "name": "normal",
+            "anim": "",
+            "indices": [0, 0],
+            "fps": 0
+        },
+        {
+            "name": "death",
+            "anim": "",
+            "loop": true,
+            "indices": [1, 1],
+            "fps": 0
+        }
+    ],
+
+    "healthChanges":
+    [
+        {
+            "healthChange": 20,
+            "underHealthChange": true,
+            "anim": "death"
+        },
+        {
+            "healthChange": 20,
+            "underHealthChange": false,
+            "anim": "normal"
+        }
+    ]
+}

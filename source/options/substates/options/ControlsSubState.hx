@@ -31,7 +31,8 @@ class ControlsSubState extends MusicBeatSubstate
         optionControls = new Alphabet(0, 0, '', DEFAULT);
         optionControls.scrollFactor.set();
         
-        rebindNotice = new Alphabet(0, FlxG.height - 150, '', DEFAULT);
+        rebindNotice = new Alphabet(0, 0, '', DEFAULT);
+        rebindNotice.screenCenter();
         rebindNotice.scrollFactor.set();
 
         for (controlName in PlayerSettings.getControls(0).keys())
@@ -67,7 +68,7 @@ class ControlsSubState extends MusicBeatSubstate
         if(FlxG.keys.justReleased.ANY && rebindingStage != -1 && okAcceptIsOver)
         {
             var daKey:FlxKey = FlxG.keys.firstJustReleased();
-            PlayerSettings.getControls(0).get(controlOptions[curSelected])[0].push(daKey.toString());
+            PlayerSettings.getControls(0).get(controlOptions[curSelected])[0].push(daKey);
             optionControls.text = PlayerSettings.getControls(0).get(controlOptions[curSelected])[0].toString();
             rebindingStage++;
         }
@@ -101,7 +102,8 @@ class ControlsSubState extends MusicBeatSubstate
         if(!rebindNotice.text.contains(Std.string(Math.round(escapeTimer))))
         {
             rebindNotice.text = 'Rebinding...\nHold your back key for ' + Math.round(escapeTimer) + ' sec to exit';
-            rebindNotice.screenCenter(X);
+            rebindNotice.screenCenter();
+            rebindNotice.x += rebindNotice.height * 2;
         }
 
         super.update(elapsed);

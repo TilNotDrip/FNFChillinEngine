@@ -49,11 +49,41 @@ class CreditsState extends MusicBeatState
 		DiscordRPC.details = 'Credits Menu';
 		#end
 
-        var contribGet = new haxe.Http('https://api.github.com/repos/TechnikTil/FNFChillinEngine/contributors');
+        var contribGet = new haxe.Http('https://api.github.com/repositories/761493757/contributors');
         contribGet.setHeader("User-Agent", "request");
 
         contribGet.onData = function(data:String) {
             contribList = cast Json.parse(data);
+
+            for(user in contribList)
+                if(peopleLikeJson.contains(user.login))
+                    contribList.remove(user);
+
+            contribList.push({
+                login: '.json',
+                avatar_url: 'https://cdn.discordapp.com/avatars/1115022846041804820/1da21a6cbe7b90145577af30f7dd4f03?size=1024', 
+                html_url: 'https://twitter.com/gameboy1969'
+            });
+    
+            for(i in 0...contribList.length)
+            {
+                var user = contribList[i];
+    
+                var songText:Alphabet = new Alphabet(0, (70 * i) + 30, user.login, BOLD);
+                songText.isMenuItem = true;
+                songText.targetY = i;
+    
+                var icon:FlxSprite = new FlxSprite().loadGraphic(fromWeb(user.avatar_url));
+                icon.setGraphicSize(130, 130);
+                icon.updateHitbox();
+                icon.scrollFactor.set();
+    
+                peopleArray.push(songText);
+                iconArray.push(icon);
+    
+                this.add(songText);
+                this.add(icon);
+            }
         }
 
         contribGet.onError = function(error:String) 
@@ -68,45 +98,14 @@ class CreditsState extends MusicBeatState
 
         contribGet.request();
 
-        contribList.push({
-            login: '.json',
-            avatar_url: 'https://cdn.discordapp.com/avatars/1115022846041804820/1da21a6cbe7b90145577af30f7dd4f03?size=1024', 
-            html_url: 'https://twitter.com/gameboy1969'
-        });
-
         var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuUI/menuBG'));
         bg.screenCenter();
         add(bg);
-
-        for(user in contribList)
-            if(peopleLikeJson.contains(user.login))
-                contribList.remove(user);
-
-        for(i in 0...contribList.length)
-        {
-            var user = contribList[i];
-
-            var songText:Alphabet = new Alphabet(0, (70 * i) + 30, user.login, BOLD);
-            songText.isMenuItem = true;
-            songText.targetY = i;
-
-            var icon:FlxSprite = new FlxSprite().loadGraphic(fromWeb(user.avatar_url));
-            icon.setGraphicSize(130, 130);
-            icon.updateHitbox();
-            icon.scrollFactor.set();
-
-            peopleArray.push(songText);
-            iconArray.push(icon);
-
-            add(songText);
-            add(icon);
-        }
 
         description = new Alphabet(0, 0, '', DEFAULT);
         description.updateHitbox();
         description.y = FlxG.height - description.height - 100;
         description.screenCenter(X);
-        description.offset.x = -(description.width / 2);
         description.scrollFactor.set();
         add(description);
 
@@ -130,7 +129,7 @@ class CreditsState extends MusicBeatState
 		if (controls.UI_DOWN_P)
 			changeSelection(1);
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT && contribList != null)
             CoolUtil.openURL(contribList[curSelected].html_url);
 
         if (controls.BACK)
@@ -140,6 +139,9 @@ class CreditsState extends MusicBeatState
     private function changeSelection(change:Int = 0)
 	{
         FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+
+        if(contribList == null)
+            return;
 
 		curSelected += change;
 

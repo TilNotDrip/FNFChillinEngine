@@ -26,7 +26,7 @@
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
 	<define name="DISCORD" if="desktop cpp"/>
-	<define name="MOD_SUPPORT" />
+	<!--define name="MOD_SUPPORT" /-->
 	<define name="VIDEOS" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
@@ -106,7 +106,8 @@
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="DISCORD" />
 	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
-	<haxelib name="hscript-plus" if="MOD_SUPPORT"/>
+	<haxelib name="hscript-ex" if="MOD_SUPPORT"/>
+	<haxelib name="hscript" if="MOD_SUPPORT"/>
 	<haxelib name="texter" />
 	<haxelib name="haxe-ws" />
 

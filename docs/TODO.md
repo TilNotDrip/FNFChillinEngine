@@ -49,7 +49,7 @@
  - [x] Make Philly window lights white so i can just change colors throughout the code
  - [ ] BF doesn't ascend when he's opponent
  - [ ] add skip cutscene key
- - [ ] Daddy Dearest extended Left Pose
+ - [x] Daddy Dearest extended Left Pose
  - [ ] Seperate Death Sprites from Boyfriend's Spritesheet
  - [ ] Color Blindness Filter
  - [ ] Seperate Senpai Angry and Senpai Sprites

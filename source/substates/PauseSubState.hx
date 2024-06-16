@@ -163,7 +163,8 @@ class PauseSubState extends MusicBeatSubstate
 					openDifficultyMenu();
 
 				case "Restart Song":
-					FlxG.resetState();
+					PlayState.game.restartSong();
+					close();
 
 				case "Exit to menu":
 					PlayState.seenCutscene = false;

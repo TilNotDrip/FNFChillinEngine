@@ -69,11 +69,15 @@ class Strums extends FlxSpriteGroup
 		}
     } 
 
-	override public function update(elapsed:Float)
+	public function tweenInNotes()
 	{
-		offsetThingy();
-		super.update(elapsed);
-		offsetThingy();
+		for(i in 0...notes)
+		{
+			var babyArrow:FlxSprite = getNote(i);
+			babyArrow.y -= 10;
+			babyArrow.alpha = 0;
+			FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+		}
 	}
 
 	public function offsetThingy()

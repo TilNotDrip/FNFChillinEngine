@@ -48,22 +48,19 @@ class Controls
 	public var CHEAT (get, never):Bool; inline function get_CHEAT () return checkKey('CHEAT');
 	#end
 
-	public function new(id:Int, ?controller:FlxGamepad = null) 
+	public function new(controls:Map<String, Array<Array<Int>>>, ?controller:FlxGamepad = null) 
 	{
 		this.controller = controller;
-		this.id = id;
+		this.controls = controls;
 	}
 
-	var id:Int;
+	var controls:Map<String, Array<Array<Int>>>;
 	var controller:FlxGamepad = null;
 	public function checkKey(key:String, type:String = 'pressed'):Bool
 	{
 		var checked:Bool = false;
 
-		var keyArray:Array<FlxKey> = [];
-
-		for(key in PlayerSettings.getControls(id).get(key)[0])
-			keyArray.push(FlxKey.fromString(key));
+		var keyArray:Array<FlxKey> = controls.get(key)[0];
 
 		switch(type)
 		{
@@ -80,10 +77,7 @@ class Controls
 
 		if(controller != null)
 		{
-			var buttonArray:Array<FlxGamepadInputID> = [];
-
-			for(key in PlayerSettings.getControls(id).get(key)[1])
-				buttonArray.push(FlxGamepadInputID.fromString(key));
+			var buttonArray:Array<FlxGamepadInputID> = controls.get(key)[1];
 
 			switch(type)
 			{
