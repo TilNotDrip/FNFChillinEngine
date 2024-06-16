@@ -983,7 +983,7 @@ class PlayState extends MusicBeatState
 					FlxG.switchState(new AnimationDebug(SONG.metadata.opponent, false));
 			}
 
-			if (FlxG.keys.justPressed.ONE && canEnd)
+			if (FlxG.keys.justPressed.ONE && !isEnding && canEnd)
 			{
 				FlxG.sound.music.stop();
 				for(song in vocals) song.stop();
