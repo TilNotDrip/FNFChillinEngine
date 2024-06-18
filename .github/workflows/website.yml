@@ -54,13 +54,17 @@ jobs:
           cd ${{ github.workspace }}/main
           haxelib run hmm install
       - name: Compile The Game for Main
-        run: haxelib run lime build html5
+        run: |
+          cd ${{ github.workspace }}/main
+          haxelib run lime build html5
       - name: Use HMM to install dependencies for Dev.
         run: |
           cd ${{ github.workspace }}/dev
           haxelib run hmm install
       - name: Compile The Game for Dev
-        run: haxelib run lime build html5
+        run: |
+          cd ${{ github.workspace }}/dev
+          haxelib run lime build html5
       - name: Clean up Main
         run: |
           mv -f ${{ github.workspace }}/main ${{ github.workspace }}/TEMP_MAIN
