@@ -1306,8 +1306,8 @@ class PlayState extends MusicBeatState
 		HScript.runForAllScripts(function(name:String, script:Dynamic) {
 			var daFunction:Dynamic = null;
 			
-			if(script.startCountdown != null) 
-				daFunction = script.startCountdown();
+			if(script.endSong != null) 
+				daFunction = script.endSong();
 
 			if(daFunction == HScript.StopFunction) stoppedFunction = true;
 		});

@@ -119,16 +119,15 @@ class Song
 			for(note in section.sectionNotes)
 			{
 				var daNote:String = 'Default';
+                var daStrum:String = ((section.mustHitSection && note[1] >= 4) || (!section.mustHitSection && note[1] <= 3)) ? 'Opponent' : 'Player';
 
-				if(note[3])
+				if(note[3] || (section.altAnim && daStrum == 'Opponent'))
 					daNote = 'Alt';
 				else if(note[3] != null && note[3] is String) // i feel like being nice, so im making it psych compatible
-					daNote = note[3];
+					daNote = note[3].replace('Note', '').trim();
 
 				daSong.notes.push({type: daNote, time: note[0], length: note[2], direction: Std.int(note[1] % 4),
-					strum: (
-						(section.mustHitSection && note[1] >= 4) ||  (!section.mustHitSection && note[1] <= 3)
-				) ? 'Opponent' : 'Player'});
+					strum: daStrum});
 			}
 		}
 
