@@ -67,7 +67,7 @@ jobs:
             cd ${{ github.workspace }}
             haxelib run hmm install
       - name: Compile The Game
-        run: haxelib run lime build macos
+        run: haxelib run lime build mac
       - name: Wait for 1.5 seconds
         run: sleep 1.5
       - name: Upload Game Executable
