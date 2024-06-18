@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
-        uses: krdlab/setup-haxe@v1.5.1
+        uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.0
+          haxe-version: latest
       - name: Download HMM
         run: haxelib install --quiet hmm
       - name: Use HMM to install dependencies.
@@ -30,9 +30,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
-        uses: krdlab/setup-haxe@v1.5.1
+        uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.0
+          haxe-version: latest
       - name: Install Linux dependencies.
         run: |
             sudo apt update
@@ -57,9 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
-        uses: krdlab/setup-haxe@v1.5.1
+        uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.0
+          haxe-version: latest
       - name: Download HMM
         run: haxelib install --quiet hmm
       - name: Use HMM to install dependencies.
