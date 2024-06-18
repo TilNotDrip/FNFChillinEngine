@@ -36,8 +36,8 @@ jobs:
           haxe-version: 4.3.0
       - name: Install Linux dependencies.
         run: |
-            echo "deb http://deb.debian.org/debian/ sid main contrib non-free" > /etc/apt/sources.list 
-            echo "deb-src http://deb.debian.org/debian/ sid main contrib non-free" >> /etc/apt/sources.list 
+            sudo echo "deb http://deb.debian.org/debian/ sid main contrib non-free" > /etc/apt/sources.list 
+            sudo echo "deb-src http://deb.debian.org/debian/ sid main contrib non-free" >> /etc/apt/sources.list 
             sudo apt update
             sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev
       - name: Download HMM
