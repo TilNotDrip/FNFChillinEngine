@@ -37,8 +37,9 @@ jobs:
       - name: Install Linux dependencies.
         run: |
             sudo apt update
-            sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev
-            ldd --version
+            sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc
+            wget http://ftp.de.debian.org/debian/pool/main/g/glibc/libc6_2.31-13+deb11u8_amd64.deb
+            sudo dpkg -i libc6_2.31-13+deb11u8_amd64.deb
       - name: Download HMM
         run: |
           haxe -version
