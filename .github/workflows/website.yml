@@ -33,16 +33,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-      - name: "Move Main Branch to folder"
-        run: mv -f ${{ github.workspace }} ${{ github.workspace }}/main
-      - name: "Checkout DEV Branch"
+          path: ${{ github.workspace }}/main
+      - name: "Checkout Dev Branch"
         uses: actions/checkout@v4
         with:
           ref: FNF-UPDATE
-      - name: "Move Dev Branch to folder"
-        run: |
-          mv -f ${{ github.workspace }} ${{ github.workspace }}/dev
-          mv -f ${{ github.workspace }}/dev/main ${{ github.workspace }}/main
+          path: ${{ github.workspace }}/dev
       - name: Setup Haxe environment
         uses: krdlab/setup-haxe@v1.5.1
         with:
