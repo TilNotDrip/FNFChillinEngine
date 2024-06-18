@@ -27,7 +27,7 @@ jobs:
           name: ReleaseGame
           path: ${{ github.workspace }}/export/release/windows/bin/
   CompileLinux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
@@ -37,9 +37,7 @@ jobs:
       - name: Install Linux dependencies.
         run: |
             sudo apt update
-            sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc
-            wget http://ftp.de.debian.org/debian/pool/main/g/glibc/libc6_2.31-13+deb11u8_amd64.deb
-            sudo dpkg -i libc6_2.31-13+deb11u8_amd64.deb
+            sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev -y
       - name: Download HMM
         run: |
           haxe -version
