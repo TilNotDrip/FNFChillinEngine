@@ -4,7 +4,7 @@ run-name: Compiling Chillin Engine...
 on: [ push, pull_request ]
     
 jobs:
-  CompileWindows:
+  Windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,34 +18,51 @@ jobs:
           haxelib install --quiet hmm 
           cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
-        run: "haxelib run hmm install"
+        run: haxelib run hmm install
       - name: Compile The Game
-        run: "haxelib run lime build Project.xml windows"
+        run: haxelib run lime build Project.xml windows
       - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
-          name: ReleaseGame
+          name: WindowsGame
           path: ${{ github.workspace }}/export/release/windows/bin/
-  CompileLinux:
-    runs-on: ubuntu-latest
+  Linux:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
         uses: krdlab/setup-haxe@v1.5.1
         with:
           haxe-version: 4.3.0
+      - name: Install Linux dependencies.
+        run: |
+            sudo apt update
+            sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev -y
       - name: Download HMM
         run: |
           haxe -version
           haxelib install --quiet hmm 
           cd ${{ github.workspace }}
       - name: Use HMM to install dependencies.
-        run: "haxelib run hmm install"
+        run: haxelib run hmm install
       - name: Compile The Game
-        run: "haxelib run lime build Project.xml linux"
+        run: haxelib run lime build Project.xml linux
+      - name: Check for Compilation path
+        run: |
+            cd ${{ github.workspace }}
+            dir
+            cd export
+            dir
+            cd release
+            dir
+            cd linux
+            dir
+            cd bin
+            dir
+            echo "Should be good!"
       - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
-          name: ReleaseGame
+          name: LinuxGame
           path: ${{ github.workspace }}/export/release/linux/bin/
         
