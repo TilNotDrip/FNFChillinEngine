@@ -4,7 +4,7 @@ run-name: Compiling Chillin Engine...
 on: [ push, pull_request ]
     
 jobs:
-  CompileWindows:
+  Windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,9 +24,9 @@ jobs:
       - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
-          name: ReleaseGame
+          name: WindowsGame
           path: ${{ github.workspace }}/export/release/windows/bin/
-  CompileLinux:
+  Linux:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -47,9 +47,22 @@ jobs:
         run: haxelib run hmm install
       - name: Compile The Game
         run: haxelib run lime build Project.xml linux
+      - name: Check for Compilation path
+        run: |
+            cd ${{ github.workspace }}
+            dir
+            cd export
+            dir
+            cd release
+            dir
+            cd linux
+            dir
+            cd bin
+            dir
+            echo "Should be good!"
       - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
-          name: ReleaseGame
+          name: LinuxGame
           path: ${{ github.workspace }}/export/release/linux/bin/
         
