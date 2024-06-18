@@ -9,18 +9,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
-        uses: krdlab/setup-haxe@v1.5.1
+        uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.0
+          haxe-version: 4.3.4
       - name: Download HMM
-        run: |
-          haxe -version
-          haxelib install --quiet hmm 
-          cd ${{ github.workspace }}
+        run: haxelib install --quiet hmm
       - name: Use HMM to install dependencies.
-        run: haxelib run hmm install
+        run: |
+            cd ${{ github.workspace }}
+            haxelib run hmm install
       - name: Compile The Game
-        run: haxelib run lime build Project.xml windows
+        run: haxelib run lime build windows
       - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
@@ -31,38 +30,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
-        uses: krdlab/setup-haxe@v1.5.1
+        uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.0
+          haxe-version: 4.3.4
       - name: Install Linux dependencies.
         run: |
             sudo apt update
             sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev -y
       - name: Download HMM
-        run: |
-          haxe -version
-          haxelib install --quiet hmm 
-          cd ${{ github.workspace }}
+        run: haxelib install --quiet hmm
       - name: Use HMM to install dependencies.
-        run: haxelib run hmm install
-      - name: Compile The Game
-        run: haxelib run lime build Project.xml linux
-      - name: Check for Compilation path
         run: |
             cd ${{ github.workspace }}
-            dir
-            cd export
-            dir
-            cd release
-            dir
-            cd linux
-            dir
-            cd bin
-            dir
-            echo "Should be good!"
+            haxelib run hmm install
+      - name: Compile The Game
+        run: haxelib run lime build linux
+      - name: Wait for 1.5 seconds
+        run: sleep 1.5
       - name: Upload Game Executable
         uses: actions/upload-artifact@v4
         with:
           name: LinuxGame
           path: ${{ github.workspace }}/export/release/linux/bin/
-        
+  MacOS:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Haxe environment
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.4
+      - name: Download HMM
+        run: haxelib install --quiet hmm
+      - name: Use HMM to install dependencies.
+        run: |
+            cd ${{ github.workspace }}
+            haxelib run hmm install
+      - name: Compile The Game
+        run: haxelib run lime build mac
+      - name: Wait for 1.5 seconds
+        run: sleep 1.5
+      - name: Upload Game Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: MacOSGame
+          path: ${{ github.workspace }}/export/release/macos/bin/
