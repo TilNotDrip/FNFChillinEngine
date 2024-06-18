@@ -52,32 +52,7 @@ jobs:
         with:
           name: LinuxGame
           path: ${{ github.workspace }}/export/release/linux/bin/
-  MacOSARM:
-    name: "MacOS (ARM)"
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Haxe environment
-        uses: krdlab/setup-haxe@v1.5.1
-        with:
-          haxe-version: 4.3.0
-      - name: Download HMM
-        run: haxelib install --quiet hmm
-      - name: Use HMM to install dependencies.
-        run: |
-            cd ${{ github.workspace }}
-            haxelib run hmm install
-      - name: Compile The Game
-        run: haxelib run lime build macos
-      - name: Wait for 1.5 seconds
-        run: sleep 1.5
-      - name: Upload Game Executable
-        uses: actions/upload-artifact@v4
-        with:
-          name: MacOSARMGame
-          path: ${{ github.workspace }}/export/release/macos/bin/
   MacOS:
-    name: "MacOS"
     runs-on: macos-latest-large
     steps:
       - uses: actions/checkout@v4
