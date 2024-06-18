@@ -32,7 +32,7 @@ jobs:
       - name: "Checkout Main Branch"
         uses: actions/checkout@v4
         with:
-          repository: 'main'
+          ref: main
       - name: "Move Main Branch to folder"
         run: |
           mkdir ${{ github.workspace }}/main
@@ -40,7 +40,7 @@ jobs:
       - name: "Checkout DEV Branch"
         uses: actions/checkout@v4
         with:
-          repository: 'FNF-UPDATE'
+          ref: FNF-UPDATE
       - name: "Move Dev Branch to folder"
         run: |
           mkdir ${{ github.workspace }}/dev
