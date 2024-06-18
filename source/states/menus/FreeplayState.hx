@@ -1348,9 +1348,9 @@ import substates.ModifierSubstate;
  
 	 difficultyId = diffId;
  
-	 if (Paths.exists('images/freeplay/freeplay${diffId}.xml', TEXT))
+	 if (Paths.exists('images/freeplay/freeplay${diffId.formatToPath()}.xml', TEXT))
 	 {
-	   this.frames = Paths.getSparrowAtlas('freeplay/freeplay${diffId}');
+	   this.frames = Paths.getSparrowAtlas('freeplay/freeplay${diffId.formatToPath()}');
 	   this.animation.addByPrefix('idle', 'idle0', 24, true);
 	   if (ChillSettings.get('flashingLights', DISPLAY)) this.animation.play('idle');
 	 }
@@ -1366,7 +1366,7 @@ class LetterSort extends FlxTypedSpriteGroup<FlxSprite>
   public var letters:Array<FreeplayLetter> = [];
 
   // starts at 2, cuz that's the middle letter on start (accounting for fav and #, it should begin at ALL filter)
-  var curSelection:Int = 2;
+  var curSelection:Int = 1;
 
   public var changeSelectionCallback:String->Void;
 
@@ -1501,7 +1501,7 @@ class LetterSort extends FlxTypedSpriteGroup<FlxSprite>
     if (curSelection >= letters[0].regexLetters.length) curSelection = 0;
 
     for (letter in letters)
-      letter.changeLetter(diff, curSelection);
+      letter.changeLetter(diff, curSelection+1);
 
     if (changeSelectionCallback != null) changeSelectionCallback(letters[2].regexLetters[letters[2].curLetter]); // bullshit and long lol!
   }
@@ -1541,7 +1541,7 @@ class FreeplayLetter extends flxanimate.FlxAnimate
     var alphabet:String = 'A-B_C-D_E-H_I-L_M-N_O-R_S_T_U-Z';
     regexLetters = alphabet.split('_');
     regexLetters.insert(0, 'ALL');
-    regexLetters.insert(0, 'fav');
+    // regexLetters.insert(0, 'fav');
     regexLetters.insert(0, '#');
 
     // the symbols from flash don't have dashes, so we clean this up for use with animations
