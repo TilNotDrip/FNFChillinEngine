@@ -53,7 +53,7 @@ jobs:
           name: LinuxGame
           path: ${{ github.workspace }}/export/release/linux/bin/
   MacOS:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v4
       - name: Setup Haxe environment
