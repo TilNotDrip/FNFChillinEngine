@@ -1,5 +1,7 @@
 package display;
 
+#if sys
+	
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.Sprite;
@@ -58,3 +60,5 @@ class FunkinWindowBar extends Sprite
         trace(name);
     }
 }
+#end
+#e
