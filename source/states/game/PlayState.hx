@@ -1346,11 +1346,14 @@ class PlayState extends MusicBeatState
         campaignScore += songScore;
 
 		curSongIndex++;
-		
-		while(storyWeek.songs.length > curSongIndex && !storyWeek.songs[curSongIndex].difficulties.contains(difficulty))
-			curSongIndex++;
 
-        if (storyWeek.songs.length <= curSongIndex)
+		while(!(storyWeek.songs[curSongIndex].difficulties.contains(difficulty) && storyWeek.songs[curSongIndex] != null))
+		{
+			trace('updated index because of issues!');
+			curSongIndex++;
+		}
+
+        if (storyWeek.songs[curSongIndex] == null)
         {
             FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
