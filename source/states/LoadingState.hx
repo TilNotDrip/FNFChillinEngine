@@ -162,7 +162,7 @@ class LoadingState extends MusicBeatState
 		Paths.setCurrentLevel(directory);
 		#if NO_PRELOAD_ALL
 		var loaded = isSoundLoaded(getSongPath())
-			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()))
+			&& (isSoundLoaded(getVocalPath()))
 			&& isLibraryLoaded("shared");
 
 		if (!loaded)
