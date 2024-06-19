@@ -1,6 +1,9 @@
 package;
 
+#if sys
 import display.FunkinWindowBar;
+#end
+
 import display.FunkinSoundtray.FunkinSoundTray;
 import display.FPS;
 
