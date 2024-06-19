@@ -1,0 +1,92 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Update Website
+run-name: Updating Chillin Engine Website...
+
+on: 
+  push:
+    branches: 
+      - "main"
+      - "FNF-UPDATE"
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Checkout Main Branch"
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: ${{ github.workspace }}/main
+      - name: "Checkout Dev Branch"
+        uses: actions/checkout@v4
+        with:
+          ref: FNF-UPDATE
+          path: ${{ github.workspace }}/dev
+      - name: Setup Haxe environment
+        uses: krdlab/setup-haxe@v1.5.1
+        with:
+          haxe-version: 4.3.4
+      - name: Install Linux dependencies.
+        run: |
+          sudo apt update
+          sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev -y -q
+      - name: Download HMM
+        run: haxelib install --quiet hmm 
+      - name: Use HMM to install dependencies for Main.
+        run: |
+          cd ${{ github.workspace }}/main
+          haxelib run hmm install -q
+      - name: Compile The Game for Main
+        run: |
+          cd ${{ github.workspace }}/main
+          haxelib run lime build html5
+      - name: Use HMM to install dependencies for Dev.
+        run: |
+          cd ${{ github.workspace }}/dev
+          haxelib run hmm install -q
+      - name: Compile The Game for Dev
+        run: |
+          cd ${{ github.workspace }}/dev
+          haxelib run lime build html5
+      - name: Clean up Main
+        run: |
+          mv -f ${{ github.workspace }}/main ${{ github.workspace }}/TEMP_MAIN
+          mv -f ${{ github.workspace }}/TEMP_MAIN/export/release/html5/bin ${{ github.workspace }}/main
+          rm -f -r ${{ github.workspace }}/TEMP_MAIN
+      - name: Clean up Dev
+        run: |
+          mv -f ${{ github.workspace }}/dev ${{ github.workspace }}/TEMP_DEV
+          mv -f ${{ github.workspace }}/TEMP_DEV/export/release/html5/bin ${{ github.workspace }}/dev
+          rm -f -r ${{ github.workspace }}/TEMP_DEV
+      - name: Make Redirects
+        run: |
+          echo "<meta http-equiv="refresh" content=\"0; url='./main/index.html'\" />" > ${{ github.workspace }}/index.html
+          echo "<meta http-equiv="refresh" content=\"0; url='./dev/index.html'\" />" > ${{ github.workspace }}/dev.html
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ github.workspace }}/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
