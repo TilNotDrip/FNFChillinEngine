@@ -149,6 +149,8 @@ class Tank extends StageBackend
 		}
     }
 
+	var blackShit:FlxSprite;
+
 	private function ughIntro()
 	{
 		var daCutscene:CutsceneHandler = new CutsceneHandler('ughCutscene');
