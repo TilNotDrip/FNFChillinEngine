@@ -46,13 +46,13 @@ jobs:
       - name: Install Linux dependencies.
         run: |
           sudo apt update
-          sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev -y
+          sudo apt install libvlc-dev libvlccore-dev vlc-bin vlc libc6 libc6-dev -y -q
       - name: Download HMM
         run: haxelib install --quiet hmm 
       - name: Use HMM to install dependencies for Main.
         run: |
           cd ${{ github.workspace }}/main
-          haxelib run hmm install
+          haxelib run hmm install -q
       - name: Compile The Game for Main
         run: |
           cd ${{ github.workspace }}/main
@@ -60,7 +60,7 @@ jobs:
       - name: Use HMM to install dependencies for Dev.
         run: |
           cd ${{ github.workspace }}/dev
-          haxelib run hmm install
+          haxelib run hmm install -q
       - name: Compile The Game for Dev
         run: |
           cd ${{ github.workspace }}/dev
