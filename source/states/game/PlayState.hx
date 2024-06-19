@@ -1377,7 +1377,7 @@ class PlayState extends MusicBeatState
             for(song in vocals) song.stop();
 
             prevCamFollow = camFollow;
-			SONG = Song.autoSelectJson(storyWeek.songs[curSongIndex].song, difficulty.formatToPath());
+			SONG = Song.autoSelectJson(storyWeek.songs[curSongIndex].song.formatToPath(), difficulty.formatToPath());
 			songEvents = SongEvent.loadFromJson(storyWeek.songs[curSongIndex].song);
 
 			if (songEvents == null)
