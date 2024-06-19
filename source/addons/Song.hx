@@ -61,12 +61,21 @@ class Song
 	public static function autoSelectJson(song:String, difficulty:String):SwagSong
 	{
 		var daSong:SwagSong = null;
+		
 		if(getSongFile('$song/$song-chart') != null)
 			daSong = convertFromVSlice(song, difficulty);
 
 		trace('${daSong != null}fully passed vslice check!');
 
-		if(getSongFile('$song/$difficulty').contains('"sectionNotes":') && daSong == null) // shitty, but it works
+		var daSongString:String = getSongFile('$song/$difficulty');
+
+		if(daSongString == null)
+			daSongString = getSongFile('$song/$song-$difficulty');
+
+		if(daSongString == null)
+			return null; // dont even bother
+		
+		if(daSong == null && daSongString.contains('"sectionNotes":')) // shitty, but it works
 			daSong = upgradeJson(song, difficulty);
 
 		trace('${daSong != null}fully passed old chart check!');
@@ -111,6 +120,10 @@ class Song
 		for(i in 0...convertedJson.notes.length)
 		{
 			var section:SwagSection = convertedJson.notes[i];
+			
+			if(section == null)
+				continue; // for blazin, or other bad song converters
+			
 			daSong.events.push({name: 'Focus Camera', value: (section.mustHitSection) ? 'bf' : 'dad', strumTime: (((60 / curBPMChange.bpm) * 1000) * (curBPMChange.sectionSteps / 4)) * i});
 
 			if(section.changeBPM)
