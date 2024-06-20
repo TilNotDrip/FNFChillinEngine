@@ -1834,7 +1834,7 @@ class PlayState extends MusicBeatState
 				if (daNote == null) daNote = byDirection[i][0];
         		if (daNote == null) continue;
 
-				var whatStrum:Strum = (daNote.mustPress) ? playerStrums : opponentStrums;
+				var whatStrum:Strums = (daNote.mustPress) ? playerStrums : opponentStrums;
 				var curHoldCover:NoteHoldCover = curHoldCovers.get((daNote.mustPress) ? 'Player' : 'Opponent')[i];
 
 				if(!daNote.wasHit)
