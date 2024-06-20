@@ -1810,13 +1810,10 @@ class PlayState extends MusicBeatState
 			controls.NOTE_RIGHT
 		];
 
-		if(!holdArray.contains(true))
-			return;
-
 		var byDirection:Array<Array<Note>> = [[], [], [], []];
 
 		notes.forEachAlive(function(note:Note) {
-			if(note.mustPress && note.mayHit && note.isSustainNote) 
+			if(note.mayHit && note.isSustainNote && ((note.mustPress && holdArray[note.noteData]) || !note.mustPress))
 				byDirection[note.noteData].push(note);
 		});
 
