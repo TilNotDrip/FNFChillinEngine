@@ -342,12 +342,9 @@ class PlayState extends MusicBeatState
 		{
 			holdCovers = new FlxTypedGroup<NoteHoldCover>();
 
-			for(i in 0...4)
-			{
-				var holdCover:NoteHoldCover = new NoteHoldCover();
-				holdCovers.add(holdCover);
-				holdCover.kill();
-			}
+			var holdCover:NoteHoldCover = new NoteHoldCover();
+			holdCovers.add(holdCover);
+			holdCover.kill();
 
 			add(holdCovers);
 		}
@@ -1769,8 +1766,8 @@ class PlayState extends MusicBeatState
       		// Play the strumline animation.
       		playerStrums.playNoteAnim(input, 'static', true);
 
-			if(holdCovers.members[input].alive)
-				holdCovers.members[input].playEnd();
+			/*if(holdCovers.members[input].alive)
+				holdCovers.members[input].playEnd();*/
     	}
   	}
 
@@ -1801,6 +1798,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public var curHoldCovers:Map<String, Array<NoteHoldCover>>;
+	
 	public function handleHoldNotes()
 	{
 		var holdArray:Array<Bool> = [
@@ -1813,30 +1812,42 @@ class PlayState extends MusicBeatState
 		var byDirection:Array<Array<Note>> = [[], [], [], []];
 
 		notes.forEachAlive(function(note:Note) {
-			if(note.mayHit && note.isSustainNote && ((note.mustPress && holdArray[note.noteData]) || !note.mustPress))
+			if(note.mayHit && note.isSustainNote && ((note.mustPress && holdArray[note.noteData]) || (!note.mustPress && Conductor.songPosition >= note.strumTime)))
 				byDirection[note.noteData].push(note);
 		});
+
+		if(curHoldCovers == null)
+		{
+			curHoldCovers = new Map();
+
+			for(strumHead in ['Opponent', 'Player'])
+				curHoldCovers.set(strumHead, [null, null, null, null]);
+		}
 
 		var strumLineMid:Float = playerStrums.y + (playerStrums.height / 2);
 		
 		for(i in 0...byDirection.length)
 		{
-			if(!holdCovers.members[i].alive && byDirection[i][0] != null)
-			{
-				holdCovers.members[i].setColors(byDirection[i][0].returnColors(byDirection[i][0].noteData));
-				holdCovers.members[i].revive();
-				holdCovers.members[i].setPosition(playerStrums.x + (Note.swagWidth * byDirection[i][0].noteData) - 20, playerStrums.y - 10);
-				holdCovers.members[i].playStart();
-			}
-			
 			while (byDirection[i].length > 0)
 			{
 				var daNote:Null<Note> = byDirection[i].find((note) -> !note.lowPriority);
 				if (daNote == null) daNote = byDirection[i][0];
         		if (daNote == null) continue;
 
+				var whatStrum:Strum = (daNote.mustPress) ? playerStrums : opponentStrums;
+				var curHoldCover:NoteHoldCover = curHoldCovers.get((daNote.mustPress) ? 'Player' : 'Opponent')[i];
+
 				if(!daNote.wasHit)
 					daNote.wasHit = true;
+
+				if(curHoldCover == null)
+				{
+					var holdCover:NoteHoldCover = holdCovers.recycle(NoteHoldCover);
+					holdCover.setColors(daNote.returnColors(i));
+					holdCover.setPosition(whatStrum.x + (Note.swagWidth * i) - 20, whatStrum.y - 10);
+					holdCover.playStart();
+					holdCovers.add(holdCover);
+				}
 
 				if ((daNote.wasHit || (daNote.prevNote.wasHit && !daNote.mayHit))
 					&& daNote.y + daNote.offset.y * daNote.scale.y <= strumLineMid)
@@ -1853,8 +1864,8 @@ class PlayState extends MusicBeatState
 					if ((!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
 						|| (ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
 					{
-						if(daNote.animation.curAnim.name.endsWith("end"))
-							holdCovers.members[i].playEnd();
+						if(curHoldCover != null && daNote.animation.curAnim.name.endsWith("end"))
+							curHoldCover.playEnd();
 
 						daNote.kill();
 					}
