@@ -72,8 +72,8 @@ class Song
 		if(daSongString == null)
 			daSongString = getSongFile('$song/$song-$difficulty');
 
-		if(daSongString == null)
-			return null; // dont even bother
+		if(daSongString == null && daSong == null)
+			return null; // dont even bother, it wont work
 		
 		if(daSong == null && daSongString.contains('"sectionNotes":')) // shitty, but it works
 			daSong = upgradeJson(song, difficulty);
@@ -106,7 +106,10 @@ class Song
 			metadata: null
 		};
 
-		var rawJson:Null<String> = getSongFile('$song/$difficulty');
+		var rawJson:String = getSongFile('$song/$difficulty');
+
+		if(rawJson == null)
+			rawJson = getSongFile('$song/$song-$difficulty');
 
 		if(rawJson == null)
 			return null;
