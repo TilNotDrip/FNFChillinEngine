@@ -1847,6 +1847,8 @@ class PlayState extends MusicBeatState
 					holdCover.setPosition(whatStrum.x + (Note.swagWidth * i) - 20, whatStrum.y - 10);
 					holdCover.playStart();
 					holdCovers.add(holdCover);
+					
+					curHoldCovers.get((daNote.mustPress) ? 'Player' : 'Opponent')[i] = holdCover;
 				}
 
 				if ((daNote.wasHit || (daNote.prevNote.wasHit && !daNote.mayHit))
