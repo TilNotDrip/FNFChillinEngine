@@ -1842,13 +1842,13 @@ class PlayState extends MusicBeatState
 
 				if(curHoldCover == null)
 				{
-					var holdCover:NoteHoldCover = holdCovers.recycle(NoteHoldCover);
-					holdCover.setColors(daNote.returnColors(i));
-					holdCover.setPosition(whatStrum.x + (Note.swagWidth * i) - 20, whatStrum.y - 10);
-					holdCover.playStart();
-					holdCovers.add(holdCover);
+					curHoldCover = holdCovers.recycle(NoteHoldCover);
+					curHoldCover.setColors(daNote.returnColors(i));
+					curHoldCover.setPosition(whatStrum.x + (Note.swagWidth * i) - 20, whatStrum.y - 10);
+					curHoldCover.playStart();
+					holdCovers.add(curHoldCover);
 					
-					curHoldCovers.get((daNote.mustPress) ? 'Player' : 'Opponent')[i] = holdCover;
+					curHoldCovers.get((daNote.mustPress) ? 'Player' : 'Opponent')[i] = curHoldCover;
 				}
 
 				if ((daNote.wasHit || (daNote.prevNote.wasHit && !daNote.mayHit))
@@ -1861,14 +1861,18 @@ class PlayState extends MusicBeatState
 					daNote.clipRect = swagRect;
 				}
 
+				if(curHoldCover != null && daNote.animation.curAnim.name.endsWith("end"))
+				{
+					curHoldCover.playEnd();
+					curHoldCovers.get((daNote.mustPress) ? 'Player' : 'Opponent')[i] = null;
+					trace('Hold note ended!');
+				}
+
 				if (daNote.wasHit)
 				{
 					if ((!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
 						|| (ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
 					{
-						if(curHoldCover != null && daNote.animation.curAnim.name.endsWith("end"))
-							curHoldCover.playEnd();
-
 						daNote.kill();
 					}
 				}
