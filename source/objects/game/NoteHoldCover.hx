@@ -14,6 +14,7 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 	var sparks:FlxSprite;
 
 	public var state:NoteHoldCoverState = STARTING;
+	public var direction:Null<Int> = null;
 
 	public var rgbShader:RGBShader = new RGBShader();
 
@@ -84,6 +85,7 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 		super.kill();
 
 		visible = false;
+		direction = null;
 
 		if (glow != null)
 			glow.visible = false;
@@ -100,6 +102,7 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 
 		visible = true;
 		alpha = 1.0;
+		direction = null;
 
 		if (glow != null)
 			glow.visible = true;
