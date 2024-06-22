@@ -13,7 +13,7 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 	var glow:FlxSprite;
 	var sparks:FlxSprite;
 
-	public var state:NoteHoldCoverState = STARTING;
+	public var state:NoteHoldCoverState = START;
 	public var direction:Null<Int> = null;
 
 	public var rgbShader:RGBShader = new RGBShader();
