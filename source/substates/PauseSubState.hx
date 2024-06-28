@@ -1,8 +1,10 @@
 package substates;
 
+import objects.menu.MenuAlphabet;
+
 class PauseSubState extends MusicBeatSubstate
 {
-	private var grpMenuShit:FlxTypedGroup<Alphabet>;
+	private var grpMenuShit:FlxTypedGroup<MenuAlphabet>;
 
 	private var pauseOG:Array<String> = [
 		'Resume',
@@ -95,7 +97,7 @@ class PauseSubState extends MusicBeatSubstate
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
 		FlxTween.tween(deathCounter, {alpha: 1, y: deathCounter.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
 
-		grpMenuShit = new FlxTypedGroup<Alphabet>();
+		grpMenuShit = new FlxTypedGroup<MenuAlphabet>();
 		add(grpMenuShit);
 
 		var swagCamera = FlxG.cameras.add(new SwagCamera(), false);
@@ -117,8 +119,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		for (i in 0...menuItems.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], BOLD);
-			songText.isMenuItem = true;
+			var songText:MenuAlphabet = new MenuAlphabet(0, (70 * i) + 30, menuItems[i], BOLD);
 			songText.targetY = i;
 			grpMenuShit.add(songText);
 		}
@@ -171,10 +172,14 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.seenEndCutscene = false;
 					PlayState.deathCounter = 0;
 
+					var toSwitchTo:flixel.FlxState = null;
+
 					if (PlayState.isStoryMode)
-						FlxG.switchState(new StoryMenuState());
+						toSwitchTo = new StoryMenuState();
 					else
-						FlxG.switchState(new FreeplayState());
+						toSwitchTo = new FreeplayState();
+
+					StickerTransition.switchState(toSwitchTo);
 			}
 
 			if(difficultyChoices.contains(daSelected))

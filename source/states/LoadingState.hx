@@ -157,7 +157,8 @@ class LoadingState extends MusicBeatState
 		#if NO_PRELOAD_ALL
 		FlxG.switchState(getNextState(target, stopMusic));
 		#else
-		FlxG.state.openSubState(new substates.StickerSubState(getNextState(target, stopMusic)));
+		substates.StickerTransition.switchState(getNextState(target, stopMusic));
+		//FlxG.state.openSubState(new substates.StickerSubState(getNextState(target, stopMusic)));
 		#end
 	}
 
