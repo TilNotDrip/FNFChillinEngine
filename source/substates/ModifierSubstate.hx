@@ -1,11 +1,12 @@
 package substates;
 
+import objects.menu.MenuAlphabet;
 import addons.Modifiers;
 import objects.menu.Checkbox;
 
 class ModifierSubstate extends MusicBeatSubstate
 {
-    private var grpMenuShit:FlxTypedGroup<Alphabet>;
+    private var grpMenuShit:FlxTypedGroup<MenuAlphabet>;
     private var grpCheckShit:FlxTypedGroup<Checkbox>;
 
     var daModifiers:Array<ModifierData>;
@@ -22,7 +23,7 @@ class ModifierSubstate extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
-        grpMenuShit = new FlxTypedGroup<Alphabet>();
+        grpMenuShit = new FlxTypedGroup<MenuAlphabet>();
 		add(grpMenuShit);
 
         grpCheckShit = new FlxTypedGroup<Checkbox>();
@@ -47,8 +48,7 @@ class ModifierSubstate extends MusicBeatSubstate
 
 		for (i in 0...daModifiers.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, daModifiers[i].name, BOLD);
-			songText.isMenuItem = true;
+			var songText:MenuAlphabet = new MenuAlphabet(0, (70 * i) + 30, daModifiers[i].name, BOLD);
 			songText.targetY = i;
 			grpMenuShit.add(songText);
 

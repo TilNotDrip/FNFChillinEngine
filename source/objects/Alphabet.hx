@@ -19,9 +19,6 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 
   var font:AtlasFontData;
 
-  public var targetY:Float = 0;
-  public var isMenuItem:Bool = false;
-
   public var atlas(get, never):FlxAtlasFrames;
 
   inline function get_atlas()
@@ -37,8 +34,7 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
   inline function get_maxHeight()
     return font.maxHeight;
 
-  private var xPosMax:Float = 0;
-  private var yPosMax:Float = 0;
+  public var maxWidth(default, set):Float = 0;
 
   public function new(x = 0.0, y = 0.0, text:String, fontName:AtlasFont = AtlasFont.DEFAULT)
   {
@@ -49,6 +45,17 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 
     this.text = text;
   }
+
+  function set_maxWidth(value:Float)
+  {
+    maxWidth = value;
+
+    group.kill();
+    appendTextCased(restrictCase(text));
+
+    return maxWidth;
+  }
+    
 
   function set_text(value:String)
   {
@@ -111,8 +118,6 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
    */
   function appendTextCased(text:String)
   {
-    xPosMax = 0;
-    yPosMax = 0;
     var charCount = group.countLiving();
     var xPos:Float = 0;
     var yPos:Float = 0;
@@ -123,46 +128,38 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
       var lastChar = group.members[charCount - 1];
       xPos = lastChar.x + lastChar.width - x;
       yPos = lastChar.y + lastChar.height - maxHeight - y;
-      if(xPos >= xPosMax) xPosMax = xPos;
-      if(yPos >= yPosMax - maxHeight) yPosMax = yPos + maxHeight;
     }
 
     var splitValues = text.split("");
     for (i in 0...splitValues.length)
     {
-      switch (splitValues[i])
+      var char:String = splitValues[i];
+      if((maxWidth > 0 && xPos >= maxWidth) || char == "\n")
       {
-        case " ":
-          {
-            xPos += 40;
-          }
-        case "\n":
-          {
-            xPos = 0;
-            yPos += maxHeight;
-          }
-        case char:
-          {
-            var charSprite:AtlasChar;
-            if (group.members.length <= charCount) charSprite = new AtlasChar(atlas, char);
-            else
-            {
-              charSprite = group.members[charCount];
-              charSprite.revive();
-              charSprite.char = char;
-              charSprite.alpha = 1; // gets multiplied when added
-            }
-            charSprite.x = xPos;
-            charSprite.y = yPos + maxHeight - charSprite.height;
-            add(charSprite);
-
-            xPos += charSprite.width;
-            charCount++;
-          }
+        xPos = 0;
+        yPos += maxHeight;
       }
 
-      if(xPos >= xPosMax) xPosMax = xPos;
-      if(yPos >= yPosMax - maxHeight) yPosMax = yPos + maxHeight;
+      if(char == " ")
+        xPos += 40;
+      else
+      {
+        var charSprite:AtlasChar;
+        if (group.members.length <= charCount) charSprite = new AtlasChar(atlas, char);
+        else
+        {
+          charSprite = group.members[charCount];
+          charSprite.revive();
+          charSprite.char = char;
+          charSprite.alpha = 1; // gets multiplied when added
+        }
+        charSprite.x = xPos;
+        charSprite.y = yPos + maxHeight - charSprite.height;
+        add(charSprite);
+
+        xPos += charSprite.width;
+        charCount++;
+      }
     }
   }
 
@@ -173,29 +170,6 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
       LabelValuePair.weak("y", y),
       LabelValuePair.weak("text", text)
     ]);
-  }
-
-  override function update(elapsed:Float)
-  {
-	if (isMenuItem)
-	{
-		var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
-
-		y = CoolUtil.coolLerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
-		x = CoolUtil.coolLerp(x, (targetY * 20) + 90, 0.16);
-	}
-
-	super.update(elapsed);
-  }
-
-  override function get_width():Float
-  {
-    return xPosMax;
-  }
-
-  override function get_height():Float
-  {
-    return yPosMax;
   }
 }
 

@@ -1,5 +1,6 @@
 package states.menus;
 
+import objects.menu.MenuAlphabet;
 import flixel.graphics.FlxGraphic;
 
 import haxe.Json;
@@ -35,7 +36,7 @@ class CreditsState extends MusicBeatState
         @:optional var contributions:Int;
     }>;
 
-    private var peopleArray:Array<Alphabet> = [];
+    private var peopleArray:Array<MenuAlphabet> = [];
     private var iconArray:Array<FlxSprite> = [];
 
     private var peopleLikeJson:Array<String> = [
@@ -69,8 +70,7 @@ class CreditsState extends MusicBeatState
             {
                 var user = contribList[i];
     
-                var songText:Alphabet = new Alphabet(0, (70 * i) + 30, user.login, BOLD);
-                songText.isMenuItem = true;
+                var songText:MenuAlphabet = new MenuAlphabet(0, (70 * i) + 30, user.login, BOLD);
                 songText.targetY = i;
     
                 var icon:FlxSprite = new FlxSprite().loadGraphic(fromWeb(user.avatar_url));

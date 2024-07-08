@@ -6,26 +6,39 @@ import shaders.RGBShader;
 
 class SustainNote extends FlxSprite
 {
-    private var rgbShader:RGBShader = new RGBShader();
+    public var head:Note;
 
-    public function new(length:Float, ?speed:Float = 1)
+    public function new()
+    {
+        super();
+    }
+
+    public function generateSustain(length:Float, speed:Float)
     {
         var daSprite:BitmapData = null;
 
-        var holdSprite:BitmapData = BitmapData.fromFile(Paths.getPath('images/ui/notes/hold.png', IMAGE, null));
+        var holdSprite:BitmapData = openfl.utils.Assets.getBitmapData(Paths.getPath('images/ui/notes/hold.png', IMAGE, null));
+        var endSprite:BitmapData = openfl.utils.Assets.getBitmapData(Paths.getPath('images/ui/notes/end.png', IMAGE, null));
 
         var daCalculatedLength:Float = length / Conductor.stepCrochet;
         var daCalculatedHeight:Float = (44 * Math.floor(daCalculatedLength)-1) * Conductor.stepCrochet / 100 * 1.5 * speed;
-        daSprite = new BitmapData(49, Std.int(daCalculatedHeight), true, 0x0);
         
-        for (susNote in 0...Std.int(daCalculatedHeight))
-		{
-            daSprite.draw(holdSprite, new openfl.geom.Matrix(1, 0, 0, 1, 0, susNote));
+        if(daCalculatedHeight > 64)
+            daCalculatedHeight -= 64;
+        else
+            daCalculatedHeight = 0;
+
+        daSprite = new BitmapData(49, Std.int(daCalculatedHeight) + 64, true, 0x0);
+        
+        if(daCalculatedHeight == 0)
+        {
+            for (susNote in 0...Std.int(daCalculatedHeight))
+            {
+                daSprite.draw(holdSprite, new openfl.geom.Matrix(1, 0, 0, 1, 0, susNote), null, null, null, antialiasing);
+            }
         }
 
-        //Math.floor(daCalculatedLength)
-
-        super();
+        daSprite.draw(endSprite, new openfl.geom.Matrix(1, 0, 0, 1, 0, Std.int(daCalculatedHeight)), null, null, null, antialiasing);
         
         loadGraphic(daSprite);
 

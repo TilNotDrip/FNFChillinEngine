@@ -30,7 +30,7 @@ class Strums extends FlxSpriteGroup
 
 		for(note in 0...notes)
 		{
-			var newNote:FlxSprite = new FlxSprite(Note.swagWidth * note);
+			var newNote:FlxSprite = new FlxSprite(OldNote.swagWidth * note);
 
 			if (isPixel)
 			{
@@ -120,11 +120,11 @@ class Strums extends FlxSpriteGroup
 
 	override private function get_width()
 	{
-		return Note.swagWidth * 4;
+		return OldNote.swagWidth * 4;
 	}
 
 	override private function get_height()
 	{
-		return Note.swagWidth;
+		return OldNote.swagWidth;
 	}
 }

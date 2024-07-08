@@ -19,7 +19,7 @@ typedef SwagNote =
 	var time:Float;
 	var strum:String;
 	var direction:Int;
-	var length:Int;
+	var length:Null<Float>;
 }
 typedef SwagMetadata =
 {
@@ -271,7 +271,19 @@ class Song
 					}
 
 					if(event.v.ease != null)
-						daEventValue += ((daEventValue != '') ? ', ' : '') + event.v.ease;
+					{
+						var daEase:String = event.v.ease;
+
+						switch(event.v.ease.toLowerCase())
+						{
+							case 'classic':
+								daEase = 'lerp';
+
+							case 'instant':
+								daEase = 'lerp, 0';
+						}
+						daEventValue += ((daEventValue != '') ? ', ' : '') + daEase;
+					}
 
 					if(event.v.duration != null)
 						daEventValue += ((daEventValue != '') ? ', ' : '') + FlxMath.roundDecimal(event.v.duration * ((60 / curBPMChange.bpm) / 4), 2);

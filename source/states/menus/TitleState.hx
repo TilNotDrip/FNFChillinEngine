@@ -161,8 +161,6 @@ class TitleState extends MusicBeatState
 		else
 			initialized = true;
 
-		add(new objects.game.SustainNote(600));
-
 		startedIntro = true;
 	}
 

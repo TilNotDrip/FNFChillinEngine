@@ -19,7 +19,7 @@ class FreeplayState extends MusicBeatState
 	private var lerpScore:Float = 0;
 	private var intendedScore:Int = 0;
 
-	private var grpSongs:FlxTypedGroup<Alphabet>;
+	private var grpSongs:FlxTypedGroup<MenuAlphabet>;
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
@@ -43,7 +43,7 @@ class FreeplayState extends MusicBeatState
 		bg = new FlxSprite().loadGraphic(Paths.image('menuUI/menuDesat'));
 		add(bg);
 
-		grpSongs = new FlxTypedGroup<Alphabet>();
+		grpSongs = new FlxTypedGroup<MenuAlphabet>();
 		add(grpSongs);
 
 		explicitSpr = new FlxTypedGroup<TrackedSprite>();
@@ -54,8 +54,7 @@ class FreeplayState extends MusicBeatState
 			{
 				songs.push({song: week.songs[i][0], week: week});
 
-				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, week.songs[i][0], Bold);
-				songText.isMenuItem = true;
+				var songText:MenuAlphabet = new MenuAlphabet(0, (70 * i) + 30, week.songs[i][0], Bold);
 				songText.targetY = i;
 				grpSongs.add(songText);
 

@@ -1,164 +1,130 @@
 package objects.game;
 
+import addons.Song.SwagNote;
 import shaders.RGBShader;
 
-class Note extends FlxSprite
+class Note extends FlxSprite 
 {
-	public var strumTime:Float = 0;
-	public var noteData:Int = 0;
-	public var isPixel:Bool;
+    public static final NOTE_COLORS:Array<Array<FlxColor>> = [
+        [0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
+        [0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
+        [0xFF12FA05, 0xFFFFFFFF, 0xFF0A4447],
+        [0xFFF9393F, 0xFFFFFFFF, 0xFF651038]
+    ];
 
-	public var mustPress:Bool = false;
-	
-	public var wasHit:Bool = false;
-	public var mayHit:Bool = false;
+    public static final NOTE_COLORS_PIXEL:Array<Array<FlxColor>> = [
+        [0xFFE276FF, 0xFFFFF9FF, 0xFF60008D],
+        [0xFF3DCAFF, 0xFFF4FFFF, 0xFF003060],
+        [0xFF71E300, 0xFFF6FFE6, 0xFF003100],
+        [0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]
+    ];
+    
+    public var strums:Strums;
 
-	public var prevNote:Note;
+    public var data:SwagNote;
+    public var sustain(default, null):SustainNote = null;
 
-	public var suffix:String = '';
-	public var type(default, set):String = 'Normal';
-	public var lowPriority:Bool = false;
+    public var isPixel(default, set):Bool = false;
+    
+    public var animToPlay:String = '';
+    public var lowPriority:Bool = false;
 
-	public var sustainLength:Float = 0;
-	public var isSustainNote:Bool = false;
+    private var rgbShader:RGBShader = new RGBShader();
+    private var curTexture:Null<String> = null;
 
-	public static var swagWidth:Float = 160 * 0.7;
+    public function new(data:SwagNote, isPixel:Bool)
+    {
+        this.data = data;
+        this.isPixel = isPixel;
 
-	public var inEditor:Bool = false;
+        if(data.length != null && data.length > 1)
+            generateSustain(data.length);
 
-	public var colors:Array<String> = ['purple', 'blue', 'green', 'red']; 
-
-	public var arrowColorsRed:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
-	public var arrowColorsGreen:Array<FlxColor> = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
-	public var arrowColorsBlue:Array<FlxColor> = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
-
-	private var rgbShader:RGBShader = new RGBShader();
-
-	public function new(strumTime:Float, noteData:Int, isPixel:Bool, ?prevNote:Note, ?sustainNote:Bool = false)
-	{
-		super();
-
-		this.isPixel = isPixel;
-
-		if (prevNote == null)
-			prevNote = this;
-
-		this.prevNote = prevNote;
-		isSustainNote = sustainNote;
-
-		x += 50;
-		y -= 2000;
-		this.strumTime = strumTime;
-
-		this.noteData = noteData;
-
-		type = type;
+        super();
     }
 
-	private function set_type(value:String):String
-	{
-		var funnyPath:String = 'Notes';
-		switch(value)
-		{
-			case 'Alt':
-				suffix = 'alt';
-			
-			default:
-				suffix = '';
-				resetColors();
-		}
+    public function setNoteTypeValues(name:String)
+    {
+        animToPlay = "sing" + (cast (data.direction, Direction)).toString();
+        lowPriority = false;
 
-		reloadNote(funnyPath);
+        var texture:String = 'Notes';
 
-		return type;
-	}
+        switch(name)
+        {
+            case 'Alt':
+                animToPlay += '-alt';
+        }
 
-	public function resetColors()
-	{
-		if(isPixel)
-		{
-			arrowColorsRed = [0xFFE276FF, 0xFF3DCAFF, 0xFF71E300, 0xFFFF884E];
-			arrowColorsGreen = [0xFFFFF9FF, 0xFFF4FFFF, 0xFFF6FFE6, 0xFFFFFAF5];
-			arrowColorsBlue = [0xFF60008D, 0xFF003060, 0xFF003100, 0xFF6C0000];
-		}
-		else
-		{
-			arrowColorsRed = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
-			arrowColorsGreen = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
-			arrowColorsBlue = [0xFF3C1F56, 0xFF1542B7, 0xFF0A4447, 0xFF651038];
-		}
-	}
+        reloadNoteTexture();
+    }
 
-	public function reloadNote(?path:String = 'Notes')
-	{
-		if (isPixel)
-		{
-			var noteToFrame:Array<Int> = [4, 5, 6, 7];
-			
-			loadGraphic(Paths.image('pixelui/' + path), true, 17, 17);
+    public function generateSustain(length:Float)
+    {
+        sustain = new SustainNote();
+        sustain.generateSustain(length, PlayState.SONG.metadata.speed);
+        sustain.head = this;
+        sustain.shader = rgbShader.shader;
+    }
 
-			animation.add('scroll', [noteToFrame[noteData]]);
+    override public function update(elapsed:Float)
+    {
+        super.update(elapsed);
 
-			if (isSustainNote)
+        if(sustain != null)
+        {
+            sustain.x = x + ((width - sustain.width) / 2);
+            sustain.y = y + (Conductor.stepCrochet * (0.45 * FlxMath.roundDecimal(PlayState.SONG.metadata.speed, 2)));
+        }
+    }
+
+    public function reloadNoteTexture(?path:String = 'Notes')
+    {
+        curTexture = path;
+
+        if(isPixel)
+        {
+            loadGraphic(Paths.image('pixelui/' + path), true, 17, 17);
+
+			animation.add('scroll', [[4, 5, 6, 7][data.direction]]);
+
+			/*if (isSustainNote)
 			{
 				loadGraphic(Paths.image('pixelui/' + path + 'ENDS'), true, 7, 6);
 
 				animation.add('hold', [0]);
 				animation.add('holdend', [1]);
-			}
+			}*/
 
-			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+            setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			antialiasing = false;
 			updateHitbox();
-		}
-		else
-		{
-			var noteToString:Array<String> = ['left', 'down', 'up', 'right'];
 
-			frames = Paths.getSparrowAtlas('ui/' + path);
+            rgbShader.rgb = NOTE_COLORS[data.direction];
+        }
+        else
+        {
+            frames = Paths.getSparrowAtlas('ui/' + path);
 
-			animation.addByPrefix('scroll', noteToString[noteData] + ' static');
+			animation.addByPrefix('scroll', (cast (data.direction, Direction)).toString() + ' static');
 
-			animation.addByPrefix('hold', 'hold piece');
-			animation.addByPrefix('holdend', 'hold end');
-
-			setGraphicSize(Std.int(width * 0.7));
-			updateHitbox();
-		}
-
-		x += swagWidth * noteData;
-		rgbShader.rgb = [arrowColorsRed[noteData], arrowColorsGreen[noteData], arrowColorsBlue[noteData]];
-
-		if (isSustainNote && prevNote != null)
-		{
-			alpha = 0.6;
-
-			if (ChillSettings.get('downScroll', GAMEPLAY))
-				angle = 180;
-
-			animation.play('holdend');
-
+            setGraphicSize(Std.int(width * 0.7));
+            antialiasing = FlxSprite.defaultAntialiasing;
 			updateHitbox();
 
-			if (isPixel)
-				x += 30;
+            rgbShader.rgb = NOTE_COLORS_PIXEL[data.direction];
+        }
 
-			if (prevNote.isSustainNote)
-			{
-				prevNote.animation.play('hold');
+        shader = rgbShader.shader;
+    }
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.metadata.speed;
-				prevNote.updateHitbox();
-			}
-		}
-		else
-			animation.play('scroll');
+    private function set_isPixel(value:Bool):Bool
+    {
+        isPixel = value;
 
-		shader = rgbShader.shader;
-	}
+        if(curTexture != null)
+            reloadNoteTexture(curTexture);
 
-	public function returnColors(note:Int)
-	{
-		return [arrowColorsRed[note], arrowColorsGreen[note], arrowColorsBlue[note]];
-	}
+        return isPixel;
+    }
 }

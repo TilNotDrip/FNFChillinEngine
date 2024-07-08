@@ -77,12 +77,12 @@ class NoteGroup extends FlxTypedSpriteGroup<Note>
         forEach(function(daNote:Note)
 		{
             if(downScroll)
-                daNote.y = (maxHeight - Note.swagWidth) - ((Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(speed, 2)));
+                daNote.y = (maxHeight - OldNote.swagWidth) - ((Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(speed, 2)));
             else
                 daNote.y = ((Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(speed, 2)));
 
-            daNote.x = (Note.swagWidth * daNote.noteData);
-            if(daNote.isSustainNote) daNote.x += ((Note.swagWidth - daNote.width) / 2);
+            daNote.x = (OldNote.swagWidth * daNote.noteData);
+            if(daNote.isSustainNote) daNote.x += ((OldNote.swagWidth - daNote.width) / 2);
 		});
 
         forEachDead(function(daNote:Note) {
@@ -102,7 +102,7 @@ class NoteGroup extends FlxTypedSpriteGroup<Note>
             {
                 if (downScroll)
                 {
-                    var strumLineMid:Float = maxHeight - Note.swagWidth / 2;
+                    var strumLineMid:Float = maxHeight - OldNote.swagWidth / 2;
     
                     if (daNote.animation.curAnim.name.endsWith("end") && daNote.prevNote != null)
                         daNote.y += daNote.prevNote.height;
@@ -121,7 +121,7 @@ class NoteGroup extends FlxTypedSpriteGroup<Note>
                 }
                 else
                 {
-                    var strumLineMid:Float = Note.swagWidth / 2;
+                    var strumLineMid:Float = OldNote.swagWidth / 2;
     
                      if (despawn && (botplay || (daNote.wasGoodHit || (daNote.prevNote.wasGoodHit && !daNote.canBeHit)))
                         && daNote.y + daNote.offset.y * daNote.scale.y <= strumLineMid)

@@ -133,7 +133,8 @@ class MainMenuState extends MusicBeatState
 
 		if(FlxG.keys.justPressed.Y) // test
 		{
-			FlxG.switchState(new ConvertingSongs());
+			persistentUpdate = false;
+			openSubState(new substates.DialogueSubState());
 		}
 
 		super.update(elapsed);

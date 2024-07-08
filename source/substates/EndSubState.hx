@@ -105,7 +105,7 @@ class EndSubState extends MusicBeatSubstate
         {
             hitEnd = true;
 
-            StageBackend.stage.endingStuff();
+            PlayState.game.curStage.endingStuff();
         }
     }
 }

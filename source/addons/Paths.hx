@@ -76,7 +76,11 @@ class Paths
 		#end
 
 		if (library != null)
-			return getLibraryPath(file, library);
+		{
+			var levelPath = getLibraryPath(file, library);
+			if (OpenFlAssets.exists(levelPath, type))
+				return levelPath;
+		}
 
 		var levelPath = getLibraryPathForce(file, "shared");
 		if (OpenFlAssets.exists(levelPath, type))
