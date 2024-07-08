@@ -60,7 +60,7 @@ class LoadingState extends MusicBeatState
 			var introComplete = callbacks.add("introComplete");
 			checkLoadSong(getSongPath());
 
-			if(Paths.exists('${SONG.metadata.song.formatToPath()}/Voices.${Paths.SOUND_EXT}', MUSIC, 'songs'))
+			if(Paths.exists('${PlayState.SONG.metadata.song.formatToPath()}/Voices.${Paths.SOUND_EXT}', MUSIC, 'songs'))
 				checkLoadSong(getVocalPath());
 			else
 			{
