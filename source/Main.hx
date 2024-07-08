@@ -28,8 +28,8 @@ import openfl.events.Event;
 class Main extends Sprite
 {
 	private var game = {
-		width: 720,
-		height: 1280,
+		width: 1280,
+		height: 720,
 		state: states.menus.TitleState,
 		framerate: 60,
 		splash: true,
