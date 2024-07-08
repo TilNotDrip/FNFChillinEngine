@@ -1,9 +1,7 @@
 package objects.game;
 
 import flixel.addons.text.FlxTypeText;
-
 import flixel.group.FlxSpriteGroup;
-
 import flixel.input.FlxKeyManager;
 
 class DialogueBox extends FlxSpriteGroup
@@ -59,7 +57,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (PlayState.isPixel)
 		{
-			switch(PlayState.SONG.metadata.song.formatToPath())
+			switch (PlayState.SONG.metadata.song.formatToPath())
 			{
 				case 'roses':
 					portraitLeft = new FlxSprite(-20, 45);
@@ -122,10 +120,10 @@ class DialogueBox extends FlxSpriteGroup
 		}
 
 		this.dialogueList = dialogueList;
-		
+
 		if (!hasDialog)
 			return;
-		
+
 		box.animation.play('normalOpen');
 		box.setGraphicSize(Std.int(box.width * PlayState.daPixelZoom * 0.9));
 		box.antialiasing = false;
@@ -225,7 +223,7 @@ class DialogueBox extends FlxSpriteGroup
 		}
 		else if (controls.ACCEPT && dialogueStarted)
 			swagDialogue.skip();
-		
+
 		super.update(elapsed);
 	}
 

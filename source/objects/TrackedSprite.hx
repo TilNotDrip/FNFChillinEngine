@@ -2,15 +2,15 @@ package objects;
 
 class TrackedSprite extends FlxSprite
 {
-    /**
-     * The object you want it attached to.
-     */
-    public var sprTracker:FlxSprite;
+	/**
+	 * The object you want it attached to.
+	 */
+	public var sprTracker:FlxSprite;
 
-    public var sprOffsetX:Float = 0.0;
-    public var sprOffsetY:Float = 0.0;
+	public var sprOffsetX:Float = 0.0;
+	public var sprOffsetY:Float = 0.0;
 
-    override public function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 

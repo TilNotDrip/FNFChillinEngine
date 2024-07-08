@@ -1,12 +1,9 @@
 package states.menus;
 
 import flixel.addons.transition.FlxTransitionableState;
-
 import flixel.tweens.misc.ColorTween;
-
 import objects.menu.MenuCharacter;
 import objects.menu.WeekItem;
-
 import openfl.Assets;
 
 class StoryMenuState extends MusicBeatState
@@ -100,14 +97,14 @@ class StoryMenuState extends MusicBeatState
 				grpLocks.add(lock);
 			}
 
-			for(song in daWeeks[i].songs)
+			for (song in daWeeks[i].songs)
 			{
-				for(difficulty in song.difficulties)
+				for (difficulty in song.difficulties)
 				{
-					if(weekDifficulties[i] == null)
+					if (weekDifficulties[i] == null)
 						weekDifficulties[i] = [];
-					
-					if(!weekDifficulties[i].contains(difficulty)) 
+
+					if (!weekDifficulties[i].contains(difficulty))
 						weekDifficulties[i].push(difficulty);
 				}
 			}
@@ -150,7 +147,8 @@ class StoryMenuState extends MusicBeatState
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
-		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + weekDifficulties[curWeek][curDifficulty].formatToPath()));
+		sprDifficulty = new FlxSprite(leftArrow.x + 130,
+			leftArrow.y).loadGraphic(Paths.image('storyMenu/difficulties/' + weekDifficulties[curWeek][curDifficulty].formatToPath()));
 		changeDifficulty();
 
 		difficultySelectors.add(sprDifficulty);
@@ -180,9 +178,10 @@ class StoryMenuState extends MusicBeatState
 
 	override public function beatHit()
 	{
-		for(i in 0...3)
+		for (i in 0...3)
 		{
-			if(Conductor.curBeat % 2 == 0) grpWeekCharacters.members[i].animation.play('idle');
+			if (Conductor.curBeat % 2 == 0)
+				grpWeekCharacters.members[i].animation.play('idle');
 		}
 
 		super.beatHit();
@@ -279,7 +278,7 @@ class StoryMenuState extends MusicBeatState
 
 	private function selectWeek()
 	{
-		if (!curWeekClass.lockMetadata.locked) 
+		if (!curWeekClass.lockMetadata.locked)
 		{
 			if (!stopspamming)
 			{
@@ -299,7 +298,8 @@ class StoryMenuState extends MusicBeatState
 			var whatToLoad:String = PlayState.difficulty.formatToPath();
 			PlayState.SONG = Song.autoSelectJson(curWeekClass.songs[0].song.formatToPath(), whatToLoad);
 			PlayState.songEvents = SongEvent.loadFromJson(curWeekClass.songs[0].song.formatToPath());
-			if(PlayState.songEvents == null) PlayState.songEvents = [];
+			if (PlayState.songEvents == null)
+				PlayState.songEvents = [];
 			PlayState.storyWeek = curWeekClass;
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -395,12 +395,13 @@ class StoryMenuState extends MusicBeatState
 
 	private function updateText()
 	{
-		if(colorTween != null) colorTween.cancel();
+		if (colorTween != null)
+			colorTween.cancel();
 		colorTween = FlxTween.color(colorBG, 0.3, colorBG.color, curWeekClass.color);
 
 		txtTracklist.text = "Tracks:\n";
 
-		for(i in 0...3)
+		for (i in 0...3)
 		{
 			grpWeekCharacters.members[i].charChange(curWeekClass.characters[i]);
 		}
@@ -436,7 +437,6 @@ class StoryMenuState extends MusicBeatState
 					grpWeekCharacters.members[0].setGraphicSize(grpWeekCharacters.members[0].width * 0.99);
 				case 'pico':
 					grpWeekCharacters.members[0].flipX = true;
-
 			}
 			grpWeekCharacters.members[0].updateHitbox();
 		}

@@ -1,32 +1,31 @@
 package addons;
 
 import haxe.Json;
-
 import lime.utils.Assets;
 
 typedef SwagEvent =
 {
-    var name:String;
-    var value:String;
-    var strumTime:Float;
+	var name:String;
+	var value:String;
+	var strumTime:Float;
 }
 
 class SongEvent
 {
-    private function new() {}
+	private function new() {}
 
-    public static function loadFromJson(folder:String):Array<SwagEvent>
+	public static function loadFromJson(folder:String):Array<SwagEvent>
 	{
-        var rawJson = null;
+		var rawJson = null;
 
-        try
-        {
-            rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/events')).trim();
-        }
-        catch(e)
-        {
-            return null;
-        }
+		try
+		{
+			rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/events')).trim();
+		}
+		catch (e)
+		{
+			return null;
+		}
 
 		while (!rawJson.endsWith("}"))
 			rawJson = rawJson.substr(0, rawJson.length - 1);
@@ -40,12 +39,12 @@ class SongEvent
 		return swagShit;
 	}
 
-    public static var events:Array<Array<String>> = [
-        [' ', 'Null object reference.'],
-        ['Camera Zoom', 'Zoom in the camera.'],
-        ['Hey!', 'Play Hey! Animation on \'Characters\''],
-        ['Pico Animation', 'Play Pico Shooting animations.'],
-        ['Lyrics', 'Sets Lyric Text'],
-        ['Change Character', 'Changes the character.']
-    ];
+	public static var events:Array<Array<String>> = [
+		[' ', 'Null object reference.'],
+		['Camera Zoom', 'Zoom in the camera.'],
+		['Hey!', 'Play Hey! Animation on \'Characters\''],
+		['Pico Animation', 'Play Pico Shooting animations.'],
+		['Lyrics', 'Sets Lyric Text'],
+		['Change Character', 'Changes the character.']
+	];
 }

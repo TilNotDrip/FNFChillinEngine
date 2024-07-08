@@ -7,7 +7,7 @@
 		file="ChillinEngine"
 		package="com.chillinengine.tilnotdrip"
 		packageName="com.chillinengine.tilnotdrip"
-		version="0.1.0-ALPHA"
+		version="0.1.0"
 		company="TilNotDrip"
 		main="Main"
 		preloader="flixel.system.FlxPreloader"
@@ -103,12 +103,12 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
+	<haxelib name="flxanimate" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="DISCORD" />
 	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
 	<haxelib name="hscript-ex" if="MOD_SUPPORT"/>
 	<haxelib name="hscript" if="MOD_SUPPORT"/>
-	<haxelib name="texter" />
 	<haxelib name="haxe-ws" />
 
 	<haxedev set='webgl' />

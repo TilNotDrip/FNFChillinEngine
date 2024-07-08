@@ -39,7 +39,7 @@ class Conductor
 		var oldBeat:Int = curBeat;
 		var oldSection:Int = curSection;
 
-		if(bpmChangeMap[0] != null && bpmChangeMap[0].time >= songPosition)
+		if (bpmChangeMap[0] != null && bpmChangeMap[0].time >= songPosition)
 		{
 			bpm = bpmChangeMap[0].bpm;
 			sectionSteps = bpmChangeMap[0].sectionSteps;
@@ -58,9 +58,6 @@ class Conductor
 
 		if (oldSection != curSection && curSection >= 0)
 			sectionSignal.dispatch();
-
-		//trace('updated shizz');
-
 
 		return songPosition;
 	}
@@ -110,7 +107,7 @@ class Conductor
 		return bpm;
 	}
 
-	static function sortByTime(Obj1:SwagBPMChange, Obj2:SwagBPMChange) 
+	static function sortByTime(Obj1:SwagBPMChange, Obj2:SwagBPMChange)
 	{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.time, Obj2.time);
 	}

@@ -1,15 +1,17 @@
 package modding;
 
+import hscript.*;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
 #end
 
-import hscript.*;
-
 class HScript
 {
-	public static var variables(get, null):Map<String, Dynamic>; static function get_variables() return _interp.variables;
+	public static var variables(get, null):Map<String, Dynamic>;
+
+	static function get_variables()
+		return _interp.variables;
 
 	static var _parser:Parser;
 	static var _interp:Interp;
@@ -20,9 +22,9 @@ class HScript
 	{
 		_parser = new Parser();
 		_parser.allowTypes = true;
-		
+
 		_interp = new Interp();
-		//_interp.setResolveImportFunction(resolveImport);
+		// _interp.setResolveImportFunction(resolveImport);
 
 		addGeneralScripts();
 	}
@@ -32,30 +34,31 @@ class HScript
 	 */
 	public static function addGeneralScripts()
 	{
-		for(path in ModLoader.modFile('scripts/'))
+		for (path in ModLoader.modFile('scripts/'))
 		{
 			var letsHope:Array<String> = [];
 
-			try letsHope = FileSystem.readDirectory(path);
+			try
+				letsHope = FileSystem.readDirectory(path);
 
-			if(letsHope == null)
+			if (letsHope == null)
 				letsHope = [];
 
-			for(file in letsHope)
+			for (file in letsHope)
 			{
-				if((path + file).endsWith('.hx'))
+				if ((path + file).endsWith('.hx'))
 					addScript(path + file);
-			} 
+			}
 		}
 	}
 
 	/**
 	 * Adds a singular script to the manager.
-	 * @param path 
+	 * @param path
 	 */
 	public static function addScript(path:String)
 	{
-		var name:String = path.substring(path.lastIndexOf('/')+1, path.lastIndexOf('.hx'));
+		var name:String = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.hx'));
 
 		var script:String = File.getContent(path);
 
@@ -65,24 +68,24 @@ class HScript
 
 		variables.set('STOP', StopFunction);
 
-		if(daClass.create != null)
+		if (daClass.create != null)
 			daClass.create();
 	}
 
 	static function resolveImport(importyy:String)
 	{
-		for(script in scriptsLoaded.keys())
+		for (script in scriptsLoaded.keys())
 		{
-			if(script.substring(script.lastIndexOf('.')+1) == importyy)
+			if (script.substring(script.lastIndexOf('.') + 1) == importyy)
 				return scriptsLoaded.get(script);
 		}
 
 		return Type.resolveClass(importyy);
 	}
 
-	public static function runForAllScripts(func:(String, Dynamic)->Void)
+	public static function runForAllScripts(func:(String, Dynamic) -> Void)
 	{
-		for(script in scriptsLoaded.keys())
+		for (script in scriptsLoaded.keys())
 			func(script, scriptsLoaded.get(script));
 	}
 }

@@ -37,7 +37,7 @@ class MusicBeatState extends FlxUIState
 
 	public function sectionHit():Void {}
 
-	public function changeWindowName(windowName:String = '') 
+	public function changeWindowName(windowName:String = '')
 		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
 
 	override public function destroy()

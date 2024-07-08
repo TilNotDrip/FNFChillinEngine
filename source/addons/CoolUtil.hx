@@ -7,9 +7,12 @@ class CoolUtil
 	public static function coolTextFile(path:String):Null<Array<String>>
 	{
 		var daList:Array<String> = [];
-		try {
+		try
+		{
 			daList = Assets.getText(path).trim().split('\n');
-		} catch(e) {
+		}
+		catch (e)
+		{
 			return null;
 		}
 
@@ -42,10 +45,7 @@ class CoolUtil
 	public static function openURL(link:String)
 	{
 		#if linux
-		Sys.command('/usr/bin/xdg-open', [
-			link,
-			"&"
-		]);
+		Sys.command('/usr/bin/xdg-open', [link, "&"]);
 		#else
 		FlxG.openURL(link);
 		#end

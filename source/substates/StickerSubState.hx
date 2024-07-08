@@ -56,12 +56,14 @@ class StickerSubState extends MusicBeatSubstate
 
 		var assetsInList = openfl.utils.Assets.list();
 
-		var soundFilterFunc = function(a:String) {
+		var soundFilterFunc = function(a:String)
+		{
 			return a.startsWith('assets/shared/sounds/stickersounds/');
 		};
 
 		soundSelections = assetsInList.filter(soundFilterFunc);
-		soundSelections = soundSelections.map(function(a:String) {
+		soundSelections = soundSelections.map(function(a:String)
+		{
 			return a.replace('assets/shared/sounds/stickersounds/', '').split('/')[0];
 		});
 
@@ -79,7 +81,8 @@ class StickerSubState extends MusicBeatSubstate
 
 		soundSelection = FlxG.random.getObject(soundSelections);
 
-		var filterFunc = function(a:String) {
+		var filterFunc = function(a:String)
+		{
 			return a.startsWith('assets/shared/sounds/stickersounds/' + soundSelection + '/');
 		};
 		var assetsInList3 = openfl.utils.Assets.list();
@@ -107,12 +110,12 @@ class StickerSubState extends MusicBeatSubstate
 		grpStickers.cameras = FlxG.cameras.list;
 
 		///*
-			if (dipshit != null)
-			{
-				FlxG.removeChild(dipshit);
-				dipshit = null;
-			}
-		 //*/
+		if (dipshit != null)
+		{
+			FlxG.removeChild(dipshit);
+			dipshit = null;
+		}
+		//*/
 
 		if (grpStickers.members == null || grpStickers.members.length == 0)
 		{
@@ -124,7 +127,8 @@ class StickerSubState extends MusicBeatSubstate
 
 		for (ind => sticker in grpStickers.members)
 		{
-			new FlxTimer().start(sticker.timing, _ -> {
+			new FlxTimer().start(sticker.timing, _ ->
+			{
 				sticker.visible = false;
 				var daSound:String = FlxG.random.getObject(sounds);
 				FlxG.sound.play(Paths.sound(daSound));
@@ -213,8 +217,10 @@ class StickerSubState extends MusicBeatSubstate
 		{
 			sticker.timing = FlxMath.remapToRange(ind, 0, grpStickers.members.length, 0, 0.9);
 
-			new FlxTimer().start(sticker.timing, _ -> {
-				if (grpStickers == null) return;
+			new FlxTimer().start(sticker.timing, _ ->
+			{
+				if (grpStickers == null)
+					return;
 
 				sticker.visible = true;
 				var daSound:String = FlxG.random.getObject(sounds);
@@ -223,10 +229,13 @@ class StickerSubState extends MusicBeatSubstate
 				var frameTimer:Int = FlxG.random.int(0, 2);
 
 				// always make the last one POP
-				if (ind == grpStickers.members.length - 1) frameTimer = 2;
+				if (ind == grpStickers.members.length - 1)
+					frameTimer = 2;
 
-				new FlxTimer().start((1 / 24) * frameTimer, _ -> {
-					if (sticker == null) return;
+				new FlxTimer().start((1 / 24) * frameTimer, _ ->
+				{
+					if (sticker == null)
+						return;
 
 					sticker.scale.x = sticker.scale.y = FlxG.random.float(0.97, 1.02);
 
@@ -240,22 +249,23 @@ class StickerSubState extends MusicBeatSubstate
 						// I think this grabs the screen and puts it under the stickers?
 						// Leaving this commented out rather than stripping it out because it's cool...
 						///*
-							dipshit = new Sprite();
-							var scrn:BitmapData = new BitmapData(FlxG.width, FlxG.height, true, 0x00000000);
-							var mat:Matrix = new Matrix();
-							scrn.draw(grpStickers.cameras[0].canvas, mat, null, null, null, FlxSprite.defaultAntialiasing);
+						dipshit = new Sprite();
+						var scrn:BitmapData = new BitmapData(FlxG.width, FlxG.height, true, 0x00000000);
+						var mat:Matrix = new Matrix();
+						scrn.draw(grpStickers.cameras[0].canvas, mat, null, null, null, FlxSprite.defaultAntialiasing);
 
-							var bitmap:Bitmap = new Bitmap(scrn);
+						var bitmap:Bitmap = new Bitmap(scrn);
 
-							dipshit.addChild(bitmap);
-							FlxG.addChildBelowMouse(dipshit);
-						 //*/
-						
+						dipshit.addChild(bitmap);
+						FlxG.addChildBelowMouse(dipshit);
+						//*/
+
 						// Paths.clearImageCache();
 						FlxG.switchState(targetState);
 						targetState.persistentUpdate = false;
 						targetState.openSubState(this);
-						openCallback = function() {
+						openCallback = function()
+						{
 							degenStickers();
 						}
 					}
@@ -263,7 +273,8 @@ class StickerSubState extends MusicBeatSubstate
 			});
 		}
 
-		grpStickers.sort((ord, a, b) -> {
+		grpStickers.sort((ord, a, b) ->
+		{
 			return FlxSort.byValues(ord, a.timing, b.timing);
 		});
 
@@ -271,7 +282,7 @@ class StickerSubState extends MusicBeatSubstate
 		var lastOne:StickerSprite = grpStickers.members[grpStickers.members.length - 1];
 		lastOne.updateHitbox();
 		lastOne.angle = 0;
-		//lastOne.screenCenter();
+		// lastOne.screenCenter();
 	}
 
 	override public function update(elapsed:Float):Void
@@ -288,13 +299,15 @@ class StickerSubState extends MusicBeatSubstate
 
 	override public function close():Void
 	{
-		if (switchingState) return;
+		if (switchingState)
+			return;
 		super.close();
 	}
 
 	override public function destroy():Void
 	{
-		if (switchingState) return;
+		if (switchingState)
+			return;
 		super.destroy();
 	}
 }
@@ -311,9 +324,8 @@ class StickerSprite extends FlxSprite
 		scrollFactor.set();
 	}
 }
-
 /*class StickerInfo
-{
+	{
 	public var name:String;
 	public var artist:String;
 	public var stickers:Map<String, Array<String>>;
@@ -362,11 +374,11 @@ class StickerSprite extends FlxSprite
 	{
 		return this.stickerPacks[packName];
 	}
-}
+	}
 
-// somethin damn cute just for the json to cast to!
-typedef StickerShit =
-{
+	// somethin damn cute just for the json to cast to!
+	typedef StickerShit =
+	{
 	name:String,
 	artist:String,
 	stickers:Map<String, Array<String>>,

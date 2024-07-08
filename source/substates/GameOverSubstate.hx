@@ -2,9 +2,7 @@ package substates;
 
 import flixel.FlxCamera;
 import flixel.FlxObject;
-
 import objects.game.DeathCharacter;
-
 import states.tools.AnimationDebug;
 
 class GameOverSubstate extends MusicBeatSubstate
@@ -13,6 +11,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	public var deathChar:DeathCharacter;
 
 	public var stageSuffix:String = '';
+
 	private var startVol:Float = 1;
 
 	private var camFollow:FlxObject;

@@ -2,15 +2,11 @@ package states.tools;
 
 import flixel.FlxCamera;
 import flixel.FlxObject;
-
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
-
 import objects.game.Character;
-
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-
 import openfl.net.FileReference;
 
 class AnimationDebug extends MusicBeatState
@@ -58,7 +54,7 @@ class AnimationDebug extends MusicBeatState
 
 		char = new Character(0, 0, daAnim, isPlayer);
 		char.screenCenter();
-		//char.debugMode = true;
+		// char.debugMode = true;
 		add(char);
 
 		dumbTexts = new FlxTypedGroup<FlxText>();

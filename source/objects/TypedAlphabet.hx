@@ -477,7 +477,7 @@ class TypedAlphabet extends Alphabet
 		// If the text changed, update it.
 		if (helperString != text)
 		{
-            appendText(helperString.replace(text, ''));
+			appendText(helperString.replace(text, ''));
 			text = helperString;
 
 			// If we're done typing, call the onComplete() function

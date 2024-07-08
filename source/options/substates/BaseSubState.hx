@@ -3,110 +3,109 @@ package options.substates;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import options.objects.Option;
-
 import options.states.OptionsState;
 
+/**
+ * The base structure for an options substate.
+ *
+ * You can just extend this and add all the options in the create function.
+ */
 class BaseSubState extends MusicBeatSubstate
 {
-    public static var parent:OptionsState;
+	public static var parent:OptionsState;
 
-    private static var curSelected:Int = 0;
-    private var options:Array<Option> = [];
-    
-    private var camFollow:FlxObject = new FlxObject();
+	private static var curSelected:Int = 0;
 
-    override public function create()
-    {
-        super.create();
+	private var options:Array<Option> = [];
 
-        camFollow.x = FlxG.width / 2;
+	override public function create():Void
+	{
+		super.create();
 
-        var camOptions:FlxCamera = new SwagCamera();
-        camOptions.follow(camFollow, LOCKON, 0.04);
-        camOptions.focusOn(camFollow.getPosition());
-        camOptions.bgColor.alpha = 0;
-        FlxG.cameras.add(camOptions, false);
+		for (i in 0...options.length)
+		{
+			options[i].y = 100 + (90 * i);
+			options[i].optionTxt.targetY = i;
+		}
 
-        for (i in 0...options.length)
-        {
-            options[i].screenCenter(X);
-            options[i].y = 100 + (180 * i);
-            options[i].cameras = [camOptions];
-        }
+		changeItem();
+	}
 
-        changeItem();
-    }
+	override public function update(elapsed:Float):Void
+	{
+		if (controls.BACK)
+		{
+			OptionsState.optionItems.visible = true;
 
-    override public function update(elapsed:Float)
-    {
-        if (controls.BACK)
-        {
-            OptionsState.optionItems.visible = true;
+			#if DISCORD
+			DiscordRPC.state = null;
+			#end
 
-            #if DISCORD
-            DiscordRPC.state = null;
-            #end
+			close();
+		}
 
-            close();
-        }
+		if (controls.UI_UP_P)
+			changeItem(-1);
 
-        if(controls.UI_UP_P)
-            changeItem(-1);
+		if (controls.UI_DOWN_P)
+			changeItem(1);
 
-        if(controls.UI_DOWN_P)
-            changeItem(1);
+		if (controls.UI_LEFT_P)
+			changeOptionValue(-1);
 
-        if(controls.UI_LEFT_P)
-            changeOptionValue(-1);
+		if (controls.UI_RIGHT_P)
+			changeOptionValue(1);
 
-        if(controls.UI_RIGHT_P)
-            changeOptionValue(1);
+		if (controls.ACCEPT)
+		{
+			if (options[curSelected].type == CHECKBOX)
+				options[curSelected].press();
+		}
 
-        if (controls.ACCEPT)
-        {
-            if (options[curSelected].type == CHECKBOX)
-                options[curSelected].press();
-        }
+		super.update(elapsed);
+	}
 
-        super.update(elapsed);
-    }
-
-    private function changeItem(change:Int = 0)
+	function changeItem(change:Int = 0):Void
 	{
 		curSelected += change;
 
-        if (curSelected < 0)
+		if (curSelected < 0)
 			curSelected = options.length - 1;
 
 		if (curSelected >= options.length)
 			curSelected = 0;
 
-        for (i in 0...options.length)
-            options[i].alpha = 0.6;
+		var targetPlacement:Int = 0;
 
-        options[curSelected].alpha = 1;
+		for (i in 0...options.length)
+		{
+			options[i].optionTxt.targetY = targetPlacement - curSelected;
+			options[i].alpha = 0.6;
 
-        camFollow.setPosition(options[curSelected].getGraphicMidpoint().x, options[curSelected].getGraphicMidpoint().y);
+			targetPlacement++;
+		}
+
+		options[curSelected].alpha = 1;
 	}
 
-    private function changeOptionValue(change:Int = 0)
-    {
-        if (options[curSelected].type == NUMBER)
-        {
-            var multiplier:Float = 1;
+	function changeOptionValue(change:Int = 0):Void
+	{
+		if (options[curSelected].type == NUMBER)
+		{
+			var multiplier:Float = 1;
 
-            if (options[curSelected].numType == Float)
-                multiplier = 0.1;
+			if (options[curSelected].numType == Float)
+				multiplier = 0.1;
 
-            options[curSelected].changeValue(change * multiplier);
-        }
-        else if (options[curSelected].type == SELECTION)
-            options[curSelected].changeValue(change);
-    }
+			options[curSelected].changeValue(change * multiplier);
+		}
+		else if (options[curSelected].type == SELECTION)
+			options[curSelected].changeValue(change);
+	}
 
-    private function addOption(option:Option)
-    {
-        options.push(option);
-        add(option);
-    }
+	function addOption(option:Option):Void
+	{
+		options.push(option);
+		add(option);
+	}
 }

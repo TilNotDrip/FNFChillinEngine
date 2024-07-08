@@ -13,8 +13,10 @@ class MenuCharacter extends FlxSprite
 
 	public function charChange(char:String)
 	{
-		if(char == null) char = '';
-		if(char == this.character) return;
+		if (char == null)
+			char = '';
+		if (char == this.character)
+			return;
 
 		this.character = char;
 
@@ -35,15 +37,24 @@ class MenuCharacter extends FlxSprite
 		{
 			switch (char)
 			{
-				case 'bf': prefixes = ['BF idle dance white', 'BF HEY!!'];
-				case 'gf': prefixes = ['GF Dancing Beat WHITE'];
-				case 'dad': prefixes = ['Dad idle dance BLACK LINE'];
-				case 'spooky': prefixes = ['spooky dance idle BLACK LINES'];
-				case 'pico': prefixes = ['Pico Idle Dance'];
-				case 'mom': prefixes = ['Mom Idle BLACK LINES'];
-				case 'parents-christmas': prefixes = ['Parent Christmas Idle Black Lines'];
-				case 'senpai': prefixes = ['SENPAI idle Black Lines'];
-				case 'tankman': prefixes = ['Tankman Menu BLACK'];
+				case 'bf':
+					prefixes = ['BF idle dance white', 'BF HEY!!'];
+				case 'gf':
+					prefixes = ['GF Dancing Beat WHITE'];
+				case 'dad':
+					prefixes = ['Dad idle dance BLACK LINE'];
+				case 'spooky':
+					prefixes = ['spooky dance idle BLACK LINES'];
+				case 'pico':
+					prefixes = ['Pico Idle Dance'];
+				case 'mom':
+					prefixes = ['Mom Idle BLACK LINES'];
+				case 'parents-christmas':
+					prefixes = ['Parent Christmas Idle Black Lines'];
+				case 'senpai':
+					prefixes = ['SENPAI idle Black Lines'];
+				case 'tankman':
+					prefixes = ['Tankman Menu BLACK'];
 			}
 
 			frames = Paths.getSparrowAtlas('storyMenu/characters/' + char);

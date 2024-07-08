@@ -1,7 +1,6 @@
 package addons;
 
 import flixel.input.gamepad.FlxGamepad;
-
 import flixel.util.FlxSave;
 
 class PlayerSettings
@@ -28,9 +27,9 @@ class PlayerSettings
 		controlsSave.bind('controls', CoolUtil.getSavePath());
 
 		/*if(controlsSave.data.controls != null)
-			controlSettings = controlsSave.data.controls;
-		else*/
-			controlSettings.push(getDefaultControls());
+				controlSettings = controlsSave.data.controls;
+			else */
+		controlSettings.push(getDefaultControls());
 
 		players.push(new PlayerSettings(numPlayers, FlxG.gamepads.getByID(numPlayers)));
 		++numPlayers;

@@ -1,7 +1,6 @@
 package objects;
 
 import flixel.FlxCamera;
-
 import flixel.math.FlxPoint;
 
 class SwagCamera extends FlxCamera

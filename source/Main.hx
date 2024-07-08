@@ -3,18 +3,12 @@ package;
 #if sys
 import display.FunkinWindowBar;
 #end
-
 import display.FunkinSoundtray.FunkinSoundTray;
 import display.FPS;
-
 import flixel.FlxGame;
-
 import flixel.system.ui.FlxSoundTray;
-
 import openfl.Lib;
-
 import openfl.display.Sprite;
-
 import openfl.events.Event;
 
 #if (cpp && windows)
@@ -24,7 +18,6 @@ import openfl.events.Event;
 #include <psapi.h>
 ')
 #end
-
 class Main extends Sprite
 {
 	private var game = {
@@ -35,7 +28,7 @@ class Main extends Sprite
 		splash: true,
 		fullscreen: false
 	};
-	
+
 	public static var aprilFools(get, never):Bool;
 
 	public static function main():Void
@@ -64,7 +57,6 @@ class Main extends Sprite
 	private var overlay:Sprite;
 
 	// TODO: run shutdown -r -t 0 to test out safe mode
-
 	public static var fpsCounter:FPS;
 
 	// public static var titleBar:FunkinWindowBar;
@@ -80,7 +72,7 @@ class Main extends Sprite
 		addChild(funkinGame);
 
 		/*titleBar = new FunkinWindowBar();
-		addChild(titleBar);*/
+			addChild(titleBar); */
 
 		initGame();
 
@@ -108,16 +100,17 @@ class Main extends Sprite
 		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];
 
-		//FlxG.scaleMode = new flixel.system.scaleModes.StageSizeScaleMode();
+		// FlxG.scaleMode = new flixel.system.scaleModes.StageSizeScaleMode();
 
 		/*FlxG.signals.postUpdate.add(function() {
 			FlxG.game.y = 32;
 		});*/
 
-		//Lib.application.window.borderless = true;
+		// Lib.application.window.borderless = true;
 
-		Lib.application.window.onResize.add(function(width:Int, height:Int) {
-			//titleBar.reloadWindowBar(width);
+		Lib.application.window.onResize.add(function(width:Int, height:Int)
+		{
+			// titleBar.reloadWindowBar(width);
 
 			@:privateAccess
 			FlxG.game.resizeGame(width, height);

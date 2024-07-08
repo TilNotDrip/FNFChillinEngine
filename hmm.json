@@ -31,14 +31,14 @@
             "type": "git",
             "dir": null,
             "ref": "master",
-            "url": "https://github.com/ChillinEngine/flixel-ui"
+            "url": "https://github.com/TilNotDrip/flixel-ui"
         },
         {
             "name": "flxanimate",
             "type": "git",
             "dir": null,
             "ref": "master",
-            "url": "https://github.com/ChillinEngine/flxanimate"
+            "url": "https://github.com/TilNotDrip/flxanimate"
         },
         {
             "name": "format",
@@ -56,11 +56,9 @@
             "version": null
         },
         {
-            "name": "hscript-plus",
-            "type": "git",
-            "dir": null,
-            "ref": "master",
-            "url": "https://github.com/DleanJeans/hscript-plus/"
+            "name": "hscript-ex",
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "hxcpp-debug-server",
@@ -79,11 +77,6 @@
         },
         {
             "name": "hxvlc",
-            "type": "haxelib",
-            "version": null
-        },
-        {
-            "name": "texter",
             "type": "haxelib",
             "version": null
         }

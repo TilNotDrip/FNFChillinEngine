@@ -102,8 +102,9 @@ class PauseSubState extends MusicBeatSubstate
 
 		var swagCamera = FlxG.cameras.add(new SwagCamera(), false);
 		swagCamera.bgColor = 0x00000000;
-		
-		forEach(function(obj) {
+
+		forEach(function(obj)
+		{
 			obj.cameras = [swagCamera];
 		});
 
@@ -182,9 +183,9 @@ class PauseSubState extends MusicBeatSubstate
 					StickerTransition.switchState(toSwitchTo);
 			}
 
-			if(difficultyChoices.contains(daSelected))
+			if (difficultyChoices.contains(daSelected))
 			{
-				if(daSelected == 'BACK')
+				if (daSelected == 'BACK')
 				{
 					menuItems = pauseOG;
 					regenMenu();
@@ -193,8 +194,10 @@ class PauseSubState extends MusicBeatSubstate
 				{
 					var difficulty:String = PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties[curSelected];
 
-					for(i in PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties) {
-						if(i.formatToPath() == daSelected.formatToPath()) {
+					for (i in PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties)
+					{
+						if (i.formatToPath() == daSelected.formatToPath())
+						{
 							difficulty = i;
 							break;
 						}
@@ -212,7 +215,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		difficultyChoices = [];
 
-		for(i in PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties)
+		for (i in PlayState.storyWeek.songs[PlayState.curSongIndex].difficulties)
 			difficultyChoices.push(i.toUpperCase());
 
 		difficultyChoices.push('BACK');
@@ -224,7 +227,11 @@ class PauseSubState extends MusicBeatSubstate
 	override public function destroy()
 	{
 		pauseMusic.destroy();
-		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.metadata.song + ' (' + PlayState.difficulty + ')');
+		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ')
+			+ PlayState.SONG.metadata.song
+			+ ' ('
+			+ PlayState.difficulty
+			+ ')');
 
 		super.destroy();
 	}

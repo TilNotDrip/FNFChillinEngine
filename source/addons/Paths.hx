@@ -15,6 +15,7 @@ class Paths
 	private static var clearingCache:Bool = false;
 
 	private static final excludePaths:Array<String> = ['shared:assets/shared/images/transitionSwag', 'assets/images/soundtray'];
+
 	public static function clearImageCache()
 	{
 		clearingCache = true;
@@ -22,14 +23,14 @@ class Paths
 		var imageArray:Array<String> = imageCache.keyValues();
 
 		@:privateAccess
-		while(imageArray.length != 0)
+		while (imageArray.length != 0)
 		{
 			var path:String = imageArray.shift();
 			var image:FlxGraphic = imageCache.get(path);
 
-			for(excludeyy in excludePaths)
+			for (excludeyy in excludePaths)
 			{
-				if(path.startsWith(excludeyy))
+				if (path.startsWith(excludeyy))
 				{
 					image.persist = true;
 					image.destroyOnNoUse = false;
@@ -37,7 +38,7 @@ class Paths
 				}
 			}
 
-			if(image != null)
+			if (image != null)
 			{
 				image.persist = false;
 				image.destroyOnNoUse = true;
@@ -57,7 +58,7 @@ class Paths
 		clearingCache = false;
 
 		/*while(imageArray.length != 0)
-			Sys.sleep(0.01);*/
+			Sys.sleep(0.01); */
 	}
 
 	public static function setCurrentLevel(name:String)
@@ -68,7 +69,7 @@ class Paths
 	public static function getPath(file:String, type:AssetType, library:Null<String>)
 	{
 		#if MOD_SUPPORT
-		for(daFile in ModLoader.modFile(file))
+		for (daFile in ModLoader.modFile(file))
 		{
 			if (OpenFlAssets.exists(daFile, type))
 				return daFile;
@@ -94,7 +95,7 @@ class Paths
 		}
 
 		return getPreloadPath(file);
-	}	
+	}
 
 	public static function exists(file:String, type:AssetType, ?library:Null<String>)
 	{
@@ -149,7 +150,7 @@ class Paths
 	inline public static function voices(song:String, ?person:String = '')
 	{
 		var fix:String = '';
-		if(person != '')
+		if (person != '')
 			fix = '-' + person;
 
 		return getPath('${song.formatToPath()}/Voices$fix.$SOUND_EXT', MUSIC, 'songs');
@@ -166,11 +167,11 @@ class Paths
 
 		var daReturn:FlxGraphic = null;
 
-		if(false/*imageCache.exists(path)*/)
+		if (false /*imageCache.exists(path)*/)
 		{
 			daReturn = imageCache.get(path);
 
-			if(daReturn == null || daReturn.bitmap == null)
+			if (daReturn == null || daReturn.bitmap == null)
 			{
 				trace('Image was loaded from cache, but it doesn\'t exist! Retrying function... ($path)');
 				imageCache.remove(path);
@@ -179,19 +180,19 @@ class Paths
 		}
 		else
 		{
-			try {
-				daReturn = FlxGraphic.fromAssetKey(path, false, path, true/*false*/);
+			try
+			{
+				daReturn = FlxGraphic.fromAssetKey(path, false, path, true /*false*/);
 			}
 
-			if(daReturn != null)
+			if (daReturn != null)
 				imageCache.set(path, daReturn);
 		}
 
-		if(daReturn == null)
+		if (daReturn == null)
 			trace('Image does\' t exist! ($path)');
 
 		return daReturn;
-		
 	}
 
 	inline public static function font(key:String)
@@ -199,7 +200,8 @@ class Paths
 		return getPath('fonts/$key', FONT, 'preload');
 	}
 
-	public static function video(videoFile:String):String {
+	public static function video(videoFile:String):String
+	{
 		return getPath('videos/$videoFile.mp4', BINARY, 'preload');
 	}
 
@@ -219,7 +221,8 @@ class Paths
 
 		yay.set('imagePath', key.split('/').getLastInArray() + '.png');
 
-		for(i in CoolUtil.coolTextFile(file('images/$key.txt', library))) {
+		for (i in CoolUtil.coolTextFile(file('images/$key.txt', library)))
+		{
 			var daThing:Array<String> = i.substring(i.lastIndexOf(' = ')).split(' ');
 			var stupidNameFix:Array<String> = i.substring(0, i.indexOf(' = ')).split('_');
 
@@ -227,7 +230,8 @@ class Paths
 
 			nameFix += stupidNameFix[0];
 
-			for(j in 1...4-stupidNameFix[1].length+1) nameFix += '0';
+			for (j in 1...4 - stupidNameFix[1].length + 1)
+				nameFix += '0';
 			nameFix += stupidNameFix[1];
 
 			var subTexture:Xml = Xml.createElement('SubTexture');

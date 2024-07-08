@@ -85,7 +85,7 @@ class GameOverState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
 				{
 					FlxG.sound.music.fadeIn(4, 0.2, 1);
-				});					
+				});
 			}
 		}
 

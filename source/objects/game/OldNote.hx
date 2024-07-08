@@ -9,7 +9,7 @@ class OldNote extends FlxSprite
 	public var isPixel:Bool;
 
 	public var mustPress:Bool = false;
-	
+
 	public var wasHit:Bool = false;
 	public var mayHit:Bool = false;
 
@@ -26,7 +26,7 @@ class OldNote extends FlxSprite
 
 	public var inEditor:Bool = false;
 
-	public var colors:Array<String> = ['purple', 'blue', 'green', 'red']; 
+	public var colors:Array<String> = ['purple', 'blue', 'green', 'red'];
 
 	public var arrowColorsRed:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
 	public var arrowColorsGreen:Array<FlxColor> = [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF];
@@ -53,16 +53,16 @@ class OldNote extends FlxSprite
 		this.noteData = noteData;
 
 		type = type;
-    }
+	}
 
 	private function set_type(value:String):String
 	{
 		var funnyPath:String = 'Notes';
-		switch(value)
+		switch (value)
 		{
 			case 'Alt':
 				suffix = 'alt';
-			
+
 			default:
 				suffix = '';
 				resetColors();
@@ -75,7 +75,7 @@ class OldNote extends FlxSprite
 
 	public function resetColors()
 	{
-		if(isPixel)
+		if (isPixel)
 		{
 			arrowColorsRed = [0xFFE276FF, 0xFF3DCAFF, 0xFF71E300, 0xFFFF884E];
 			arrowColorsGreen = [0xFFFFF9FF, 0xFFF4FFFF, 0xFFF6FFE6, 0xFFFFFAF5];
@@ -94,7 +94,7 @@ class OldNote extends FlxSprite
 		if (isPixel)
 		{
 			var noteToFrame:Array<Int> = [4, 5, 6, 7];
-			
+
 			loadGraphic(Paths.image('pixelui/' + path), true, 17, 17);
 
 			animation.add('scroll', [noteToFrame[noteData]]);

@@ -2,18 +2,14 @@ package states.menus;
 
 import states.tools.ConvertingSongs;
 import flixel.FlxObject;
-
 import flixel.addons.transition.FlxTransitionableState;
-
 import flixel.effects.FlxFlicker;
-
 import flixel.ui.FlxButton;
-
 import objects.menu.MenuItem;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var funkinVer:String = '0.3.2' #if debug + ' (Prototype)' #end;
+	public static var funkinVer:String = '0.4.1' #if debug + ' (Prototype)' #end;
 
 	private var magenta:FlxSprite;
 
@@ -21,6 +17,7 @@ class MainMenuState extends MusicBeatState
 	private var menuItems:FlxTypedGroup<MenuItem>;
 
 	private static var curSelected:Int = 0;
+
 	private var selected:Bool = false;
 
 	private var camFollow:FlxObject;
@@ -126,12 +123,12 @@ class MainMenuState extends MusicBeatState
 			FlxG.switchState(new TitleState());
 		}
 
-		if(FlxG.keys.justPressed.C) // test
+		if (FlxG.keys.justPressed.C) // test
 		{
 			FlxG.switchState(new CreditsState());
 		}
 
-		if(FlxG.keys.justPressed.Y) // test
+		if (FlxG.keys.justPressed.Y) // test
 		{
 			persistentUpdate = false;
 			openSubState(new substates.DialogueSubState());

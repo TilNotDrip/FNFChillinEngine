@@ -2,11 +2,8 @@ package objects;
 
 import openfl.display.BitmapData;
 import flixel.FlxBasic;
-
 import openfl.events.NetStatusEvent;
-
 import openfl.media.Video;
-
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
 
@@ -59,8 +56,8 @@ class FlxVideo extends FlxSprite
 	{
 		video.attachNetStream(netStream);
 
-		//video.width = FlxG.width;
-		//video.height = FlxG.height;
+		// video.width = FlxG.width;
+		// video.height = FlxG.height;
 	}
 
 	private function netConnection_onNetStatus(event:NetStatusEvent):Void

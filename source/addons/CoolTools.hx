@@ -11,12 +11,12 @@ class CoolTools
 
 		var converted:String = '';
 
-		for(i in 0...original.length)
+		for (i in 0...original.length)
 		{
 			var letter:String = original.charAt(i).toLowerCase();
-			if(toDash.indexOf(letter) != -1) 
+			if (toDash.indexOf(letter) != -1)
 				converted += '-';
-			else if(toHide.indexOf(letter) == -1)
+			else if (toHide.indexOf(letter) == -1)
 				converted += letter;
 		}
 
@@ -25,19 +25,18 @@ class CoolTools
 
 	public static function isEqualUnordered<T>(a:Array<T>, b:Array<T>):Bool
 	{
-		if (a.length != b.length) 
+		if (a.length != b.length)
 			return false;
-
 
 		for (element in a)
 		{
-			if (!b.contains(element)) 
+			if (!b.contains(element))
 				return false;
 		}
 
 		for (element in b)
 		{
-			if (!a.contains(element)) 
+			if (!a.contains(element))
 				return false;
 		}
 
@@ -48,7 +47,7 @@ class CoolTools
 	{
 		var daArray:Array<K> = [];
 
-		for(value in map.keys())
+		for (value in map.keys())
 			daArray.push(value);
 
 		return daArray;
@@ -56,15 +55,16 @@ class CoolTools
 
 	public static function getLastInArray<T>(array:Array<T>):T
 	{
-		return array[array.length-1];
+		return array[array.length - 1];
 	}
 
 	public static function find<T>(input:Array<T>, predicate:T->Bool):Null<T>
 	{
-	  	for (element in input)
-	  	{
-			if (predicate(element)) return element;
-	  	}
+		for (element in input)
+		{
+			if (predicate(element))
+				return element;
+		}
 		return null;
 	}
 }

@@ -1,12 +1,12 @@
 package objects.game;
 
 import flixel.group.FlxSpriteGroup;
-
 import shaders.RGBShader;
 
 class Strums extends FlxSpriteGroup
 {
 	public var notes:Int;
+
 	private var noteArray:Array<String> = ['left', 'down', 'up', 'right'];
 
 	public var staticNotes:RGBShader = new RGBShader();
@@ -21,14 +21,14 @@ class Strums extends FlxSpriteGroup
 
 	public var strumID:String;
 
-    public function new(strumID:String, x:Float, y:Float, notes:Int, isPixel:Bool)
+	public function new(strumID:String, x:Float, y:Float, notes:Int, isPixel:Bool)
 	{
-        super(x, y);
+		super(x, y);
 		this.notes = notes;
 		this.isPixel = isPixel;
 		this.strumID = strumID;
 
-		for(note in 0...notes)
+		for (note in 0...notes)
 		{
 			var newNote:FlxSprite = new FlxSprite(OldNote.swagWidth * note);
 
@@ -67,11 +67,11 @@ class Strums extends FlxSpriteGroup
 
 			add(newNote);
 		}
-    } 
+	}
 
 	public function tweenInNotes()
 	{
-		for(i in 0...notes)
+		for (i in 0...notes)
 		{
 			var babyArrow:FlxSprite = getNote(i);
 			babyArrow.y -= 10;
@@ -82,7 +82,7 @@ class Strums extends FlxSpriteGroup
 
 	public function offsetThingy()
 	{
-		for(i in 0...notes)
+		for (i in 0...notes)
 		{
 			var spr:FlxSprite = getNote(i);
 
@@ -110,10 +110,13 @@ class Strums extends FlxSpriteGroup
 
 	public function getNote(note:Int):FlxSprite
 	{
-		if(note >= notes) throw 'Note ID ' + note + ' doesnt exist!';
+		if (note >= notes)
+			throw 'Note ID ' + note + ' doesnt exist!';
 		var daSpr:FlxSprite = null;
-		forEach(function(spr:FlxSprite) {
-			if(spr.ID == note) daSpr = spr;
+		forEach(function(spr:FlxSprite)
+		{
+			if (spr.ID == note)
+				daSpr = spr;
 		});
 		return daSpr;
 	}

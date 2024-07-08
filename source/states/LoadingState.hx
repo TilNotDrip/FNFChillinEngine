@@ -1,16 +1,12 @@
 package states;
 
 import flixel.FlxState;
-
 import haxe.io.Path;
-
 import lime.app.Future;
 import lime.app.Promise;
-
 import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
 import lime.utils.Assets as LimeAssets;
-
 import openfl.utils.Assets;
 
 class LoadingState extends MusicBeatState
@@ -158,7 +154,7 @@ class LoadingState extends MusicBeatState
 		FlxG.switchState(getNextState(target, stopMusic));
 		#else
 		substates.StickerTransition.switchState(getNextState(target, stopMusic));
-		//FlxG.state.openSubState(new substates.StickerSubState(getNextState(target, stopMusic)));
+		// FlxG.state.openSubState(new substates.StickerSubState(getNextState(target, stopMusic)));
 		#end
 	}
 
@@ -166,9 +162,7 @@ class LoadingState extends MusicBeatState
 	{
 		Paths.setCurrentLevel(directory);
 		#if NO_PRELOAD_ALL
-		var loaded = isSoundLoaded(getSongPath())
-			&& (isSoundLoaded(getVocalPath()))
-			&& isLibraryLoaded("shared");
+		var loaded = isSoundLoaded(getSongPath()) && (isSoundLoaded(getVocalPath())) && isLibraryLoaded("shared");
 
 		if (!loaded)
 			return new LoadingState(target, stopMusic);
@@ -267,15 +261,24 @@ class LoadingState extends MusicBeatState
 
 		switch (PlayState.SONG.metadata.stage)
 		{
-			case 'spooky': dir = 'week2';
-			case 'philly': dir = 'week3';
-			case 'limo': dir = 'week4';
-			case 'mall': dir = 'week5';
-			case 'mallEvil': dir = 'week5';
-			case 'school': dir = 'week6';
-			case 'schoolEvil': dir = 'week6';
-			case 'tank': dir = 'week7';
-			case 'streets': dir = 'weekend1';
+			case 'spooky':
+				dir = 'week2';
+			case 'philly':
+				dir = 'week3';
+			case 'limo':
+				dir = 'week4';
+			case 'mall':
+				dir = 'week5';
+			case 'mallEvil':
+				dir = 'week5';
+			case 'school':
+				dir = 'week6';
+			case 'schoolEvil':
+				dir = 'week6';
+			case 'tank':
+				dir = 'week7';
+			case 'streets':
+				dir = 'weekend1';
 		}
 
 		return dir;

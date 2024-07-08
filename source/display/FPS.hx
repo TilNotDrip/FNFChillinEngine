@@ -1,10 +1,8 @@
 package display;
 
 import flixel.util.FlxStringUtil;
-
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-
 import openfl.system.System;
 
 /**
@@ -17,7 +15,8 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Float;
-    public var currentMEM(default, null):String;
+
+	public var currentMEM(default, null):String;
 	public var currentState(default, null):String;
 
 	@:noCompletion private var cacheCount:Int;
@@ -38,10 +37,14 @@ class FPS extends TextField
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
-		text = "FPS: " + currentFPS
-            + "\nMEM: " + currentMEM
-            + "\nState: " + currentState
-            + "\nVersion: " + Application.current.meta.get('version');
+		text = "FPS: "
+			+ currentFPS
+			+ "\nMEM: "
+			+ currentMEM
+			+ "\nState: "
+			+ currentState
+			+ "\nVersion: "
+			+ Application.current.meta.get('version');
 		multiline = true;
 		width += 100;
 
@@ -66,10 +69,14 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount)
 		{
-			text = "FPS: " + currentFPS
-            + "\nMEM: " + currentMEM
-            + "\nSTATE: " + currentState
-            + "\nVERSION: " + Application.current.meta.get('version');
+			text = "FPS: "
+				+ currentFPS
+				+ "\nMEM: "
+				+ currentMEM
+				+ "\nSTATE: "
+				+ currentState
+				+ "\nVERSION: "
+				+ Application.current.meta.get('version');
 		}
 
 		cacheCount = currentCount;

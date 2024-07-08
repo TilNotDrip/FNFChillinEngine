@@ -1,9 +1,7 @@
 package objects.game;
 
 import addons.SongEvent.SwagEvent;
-
 import flixel.math.FlxPoint;
-
 import flixel.util.FlxSort;
 
 class Character extends FlxSprite
@@ -142,7 +140,7 @@ class Character extends FlxSprite
 
 				y = 300;
 
-				if(isPlayer)
+				if (isPlayer)
 					cameraOffsets.x = -250;
 
 			case 'monster':
@@ -185,11 +183,11 @@ class Character extends FlxSprite
 				quickAnimAdd('singRIGHTmiss', 'BF NOTE RIGHT MISS');
 				quickAnimAdd('singDOWNmiss', 'BF NOTE DOWN MISS');
 
-				animation.addByIndices('idle-loop', 'BF idle dance', [12,13,14,15], "", 24, true);
-				animation.addByIndices('singUP-loop', 'BF NOTE UP0', [4,5,6,7], "", 24, true);
-				animation.addByIndices('singLEFT-loop', 'BF NOTE LEFT0', [4,5,6,7], "", 24, true);
-				animation.addByIndices('singRIGHT-loop', 'BF NOTE RIGHT0', [4,5,6,7], "", 24, true);
-				animation.addByIndices('singDOWN-loop', 'BF NOTE DOWN0', [4,5,6,7], "", 24, true);
+				animation.addByIndices('idle-loop', 'BF idle dance', [12, 13, 14, 15], "", 24, true);
+				animation.addByIndices('singUP-loop', 'BF NOTE UP0', [4, 5, 6, 7], "", 24, true);
+				animation.addByIndices('singLEFT-loop', 'BF NOTE LEFT0', [4, 5, 6, 7], "", 24, true);
+				animation.addByIndices('singRIGHT-loop', 'BF NOTE RIGHT0', [4, 5, 6, 7], "", 24, true);
+				animation.addByIndices('singDOWN-loop', 'BF NOTE DOWN0', [4, 5, 6, 7], "", 24, true);
 
 				playAnim('idle');
 
@@ -201,7 +199,8 @@ class Character extends FlxSprite
 				bopDance = 1;
 
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24,
+					false);
 				animation.addByIndices('danceLeft-loop', 'GF Dancing Beat Hair blowing CAR', [28, 29, 30, 31], "", 24, true);
 				animation.addByIndices('danceRight-loop', 'GF Dancing Beat Hair blowing CAR', [28, 29, 30, 31], "", 24, true);
 
@@ -216,11 +215,11 @@ class Character extends FlxSprite
 				quickAnimAdd('singLEFT', 'Mom Left Pose');
 				quickAnimAdd('singRIGHT', 'Mom Pose Left');
 
-				animation.addByIndices('idle-loop', "Mom Idle", [12,13,14,15], "", 24, true);
-				animation.addByIndices('singUP-loop', "Mom Up Pose", [4,5,6,7], "", 24, true);
-				animation.addByIndices('singDOWN-loop', "MOM DOWN POSE", [4,5,6,7], "", 24, true);
-				animation.addByIndices('singLEFT-loop', 'Mom Left Pose', [4,5,6,7], "", 24, true);
-				animation.addByIndices('singRIGHT-loop', 'Mom Pose Left', [4,5,6,7], "", 24, true);
+				animation.addByIndices('idle-loop', "Mom Idle", [12, 13, 14, 15], "", 24, true);
+				animation.addByIndices('singUP-loop', "Mom Up Pose", [4, 5, 6, 7], "", 24, true);
+				animation.addByIndices('singDOWN-loop', "MOM DOWN POSE", [4, 5, 6, 7], "", 24, true);
+				animation.addByIndices('singLEFT-loop', 'Mom Left Pose', [4, 5, 6, 7], "", 24, true);
+				animation.addByIndices('singRIGHT-loop', 'Mom Pose Left', [4, 5, 6, 7], "", 24, true);
 
 				playAnim('idle');
 
@@ -465,7 +464,9 @@ class Character extends FlxSprite
 				quickAnimAdd('singRIGHT', 'Pose Right0');
 
 				quickAnimAdd('laugh', 'Laugh0');
-				animation.addByIndices('laughCutscene', 'Laugh', [0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5], "", 24, false);
+				animation.addByIndices('laughCutscene', 'Laugh', [
+					0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5
+				], "", 24, false);
 
 				quickAnimAdd('lightCan', 'Light Can');
 				quickAnimAdd('kickCan', 'Kick Up');
@@ -475,7 +476,7 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				cameraOffsets.x = 300;
-			
+
 			case 'nene':
 				frames = Paths.getSparrowAtlas('characters/Nene');
 
@@ -488,12 +489,13 @@ class Character extends FlxSprite
 				quickAnimAdd('combo50', 'ComboCheer0');
 				animation.addByIndices('combo100', 'ComboFawn0', [0, 1, 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6], "", 24, false);
 
-				animation.addByIndices('laughCutscene', 'Laugh0', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11], "", 24, false);
+				animation.addByIndices('laughCutscene', 'Laugh0', [
+					0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11, 7, 8, 9, 10, 11
+				], "", 24, false);
 
 				quickAnimAdd('raiseKnife', 'KnifeRaise0');
 				quickAnimAdd('idleKnife', 'KnifeIdle0');
 				quickAnimAdd('lowerKnife', 'KnifeLower0');
-
 
 				playAnim('danceRight');
 		}
@@ -506,10 +508,10 @@ class Character extends FlxSprite
 		Conductor.beatSignal.add(beatHit);
 
 		if (isPlayer)
-		//{
+			// {
 			flipX = !flipX;
 
-			/*if (!curCharacter.startsWith('bf'))
+		/*if (!curCharacter.startsWith('bf'))
 			{
 				var oldRight = animation.getByName('singRIGHT').frames;
 				animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
@@ -521,31 +523,31 @@ class Character extends FlxSprite
 					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
 					animation.getByName('singLEFTmiss').frames = oldMiss;
 				}
-			}*/
-		//}
+		}*/
+
+		// }
 	}
 
 	/*public function loadMappedAnims()
-	{
-		var swagshit = Song.loadFromJson('picospeaker', 'stress');
-
-		var daConversion:Array<SwagEvent> = [];
-
-		var notes = swagshit.notes;
-
-		for (section in notes)
 		{
-			for (idk in section.sectionNotes)
+			var swagshit = Song.loadFromJson('picospeaker', 'stress');
+
+			var daConversion:Array<SwagEvent> = [];
+
+			var notes = swagshit.notes;
+
+			for (section in notes)
 			{
-				daConversion.push({name: 'Pico Animation', params: [(idk[1] == 0) ? 'left' : 'right'], strumTime: idk[0]});
+				for (idk in section.sectionNotes)
+				{
+					daConversion.push({name: 'Pico Animation', params: [(idk[1] == 0) ? 'left' : 'right'], strumTime: idk[0]});
+				}
 			}
-		}
 
-		var fuckYou = {
-			"events": daConversion
-		}
+			var fuckYou = {
+				"events": daConversion
+			}
 	}*/
-
 	private function quickAnimAdd(name:String, prefix:String)
 	{
 		animation.addByPrefix(name, prefix, 24, false);
@@ -555,7 +557,7 @@ class Character extends FlxSprite
 	{
 		var daFile:Null<Array<String>> = CoolUtil.coolTextFile(Paths.file("images/characters/" + offsetCharacter + "Offsets.txt", TEXT));
 
-		if(daFile == null)
+		if (daFile == null)
 			return;
 
 		for (i in daFile)
@@ -565,20 +567,20 @@ class Character extends FlxSprite
 		}
 	}
 
-	//private var playingEndAnim:Bool = false;
+	// private var playingEndAnim:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
 		if (animation.curAnim.name.startsWith('sing'))
 			holdTimer += elapsed;
 
-		if(heyTimer > 0)
+		if (heyTimer > 0)
 			heyTimer -= elapsed;
 
 		/*if(playingEndAnim && animation.curAnim.name.endsWith('-end') && animation.curAnim.finished)
-		{
-			playingEndAnim = false;
-			dance();
+			{
+				playingEndAnim = false;
+				dance();
 		}*/
 
 		switch (curCharacter)
@@ -587,9 +589,9 @@ class Character extends FlxSprite
 				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
 					playAnim('danceRight');
 
-			/*case "pico-speaker":
-				if (animation.curAnim.finished)
-					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);*/
+				/*case "pico-speaker":
+					if (animation.curAnim.finished)
+						playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3); */
 		}
 
 		super.update(elapsed);
@@ -599,15 +601,14 @@ class Character extends FlxSprite
 	{
 		if (animation.curAnim.name.startsWith('sing'))
 		{
-			if(holdTimer >= (Conductor.stepCrochet * holdTimerLimit) / 1000 && allowedToIdle)
+			if (holdTimer >= (Conductor.stepCrochet * holdTimerLimit) / 1000 && allowedToIdle)
 				dance();
 		}
 		else
 		{
-			if(Conductor.curBeat % bopDance == 0)
+			if (Conductor.curBeat % bopDance == 0)
 				dance();
 		}
-			
 	}
 
 	private var danced:Bool = false;
@@ -621,10 +622,10 @@ class Character extends FlxSprite
 			var cantIdle:Bool = false;
 
 			/*if (animation.exists(animation.curAnim.name + '-end') && !playingEndAnim && !animation.curAnim.name.endsWith('-end'))
-			{
-				playAnim(animation.curAnim.name + '-end', true);
-				playingEndAnim = true;
-				return;
+				{
+					playAnim(animation.curAnim.name + '-end', true);
+					playingEndAnim = true;
+					return;
 			}*/
 
 			switch (curCharacter)
@@ -639,12 +640,12 @@ class Character extends FlxSprite
 					cantIdle = true;
 			}
 
-			if(!cantIdle)
+			if (!cantIdle)
 			{
-				if(animation.exists('danceLeft') && animation.exists('danceRight'))
+				if (animation.exists('danceLeft') && animation.exists('danceRight'))
 				{
 					danced = !danced;
-		
+
 					if (danced)
 						playAnim('danceRight');
 					else

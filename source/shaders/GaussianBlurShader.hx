@@ -7,11 +7,11 @@ import flixel.addons.display.FlxRuntimeShader;
  */
 class GaussianBlurShader extends FlxRuntimeShader
 {
-  public var amount:Float;
+	public var amount:Float;
 
-  public function new(amount:Float = 1.0)
-  {
-    super("
+	public function new(amount:Float = 1.0)
+	{
+		super("
     #pragma header
 
 		const float bluramount  = 1.0;
@@ -25,7 +25,7 @@ class GaussianBlurShader extends FlxRuntimeShader
 
 		vec4 blur9(sampler2D image, vec2 uv, vec2 resolution, vec2 direction) {
 
-      vec4 color = vec4(0.0);
+			vec4 color = vec4(0.0);
 			vec2 off1 = vec2(1.3846153846) * direction;
 			vec2 off2 = vec2(3.2307692308) * direction;
 			color += texture2D(image, uv) * 0.2270270270;
@@ -85,12 +85,13 @@ class GaussianBlurShader extends FlxRuntimeShader
 			gl_FragColor = blurredShit;
     }
     ");
-    setAmount(amount);
-  }
 
-  public function setAmount(value:Float):Void
-  {
-    this.amount = value;
-    this.setFloat("_amount", amount);
-  }
+		setAmount(amount);
+	}
+
+	public function setAmount(value:Float):Void
+	{
+		this.amount = value;
+		this.setFloat("_amount", amount);
+	}
 }

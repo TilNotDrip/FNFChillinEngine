@@ -1,7 +1,6 @@
 package objects.menu;
 
 import flixel.addons.transition.FlxTransitionableState;
-
 import flixel.effects.FlxFlicker;
 
 class MenuItem extends FlxSprite
