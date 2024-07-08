@@ -59,10 +59,10 @@ class LoadingState extends MusicBeatState
 			callbacks = new MultiCallback(onLoad);
 			var introComplete = callbacks.add("introComplete");
 			checkLoadSong(getSongPath());
+
 			checkLoadSong(getVocalPath());
-			
-			checkLoadSong(Paths.voices(PlayState.SONG.metadata.song, PlayState.SONG.metadata.opponent.split('-')[0].trim()));
-			checkLoadSong(Paths.voices(PlayState.SONG.metadata.song, PlayState.SONG.metadata.player.split('-')[0].trim()));
+			checkLoadSong(getVocalPath(PlayState.SONG.metadata.opponent.split('-')[0].trim()));
+			checkLoadSong(getVocalPath(PlayState.SONG.metadata.player.split('-')[0].trim()));
 
 			checkLibrary("shared");
 			checkLibrary(directory);
@@ -75,16 +75,14 @@ class LoadingState extends MusicBeatState
 
 	private function checkLoadSong(path:String)
 	{
-		if (!Assets.cache.hasSound(path))
+		if(!Assets.exists(path, SOUND))
+			return;
+
+		var callback = callbacks.add("song:" + path);
+		Assets.loadSound(path).onComplete(function(_)
 		{
-			var library = Assets.getLibrary("songs");
-			var symbolPath = path.split(":").pop();
-			var callback = callbacks.add("song:" + path);
-			Assets.loadSound(path).onComplete(function(_)
-			{
-				callback();
-			});
-		}
+			callback();
+		});
 	}
 
 	private function checkLibrary(library:String)
@@ -147,9 +145,9 @@ class LoadingState extends MusicBeatState
 		return Paths.inst(PlayState.SONG.metadata.song);
 	}
 
-	private static function getVocalPath()
+	private static function getVocalPath(?char:String = "")
 	{
-		return Paths.voices(PlayState.SONG.metadata.song);
+		return Paths.voices(PlayState.SONG.metadata.song, char);
 	}
 
 	inline public static function loadAndSwitchState(target:FlxState, stopMusic = false)
