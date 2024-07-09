@@ -6,20 +6,20 @@ class CoolUtil
 {
 	public static function coolTextFile(path:String):Null<Array<String>>
 	{
-		var daList:Array<String> = [];
+		var text:Array<String> = [];
 		try
 		{
-			daList = Assets.getText(path).trim().split('\n');
+			text = Assets.getText(path).trim().split('\n');
 		}
 		catch (e)
 		{
 			return null;
 		}
 
-		for (i in 0...daList.length)
-			daList[i] = daList[i].trim();
+		for (i in 0...text.length)
+			text[i] = text[i].trim();
 
-		return daList;
+		return text;
 	}
 
 	public static function numberArray(max:Int, ?min = 0):Array<Int>

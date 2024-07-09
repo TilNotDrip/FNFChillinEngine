@@ -353,10 +353,10 @@ class FreeplayState extends MusicBeatState
 		}
 
 		/*albumRoll = new AlbumRoll();
-				 albumRoll.albumId = null;
-				 add(albumRoll);
+			albumRoll.albumId = null;
+			add(albumRoll);
 
-				 albumRoll.applyExitMovers(exitMovers); */
+			albumRoll.applyExitMovers(exitMovers); */
 
 		var overhangStuff:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 64, FlxColor.BLACK);
 		overhangStuff.y -= overhangStuff.height;
@@ -1259,13 +1259,13 @@ class FreeplayState extends MusicBeatState
 	 * @return The MainMenuState with the FreeplayState as a substate.
 	 */
 	/*public static function build(?params:FreeplayStateParams, ?stickers:StickerSubState):MusicBeatState
-		  {
-			 var result = new MainMenuState();
+		{
+					 var result = new MainMenuState();
 
-			 result.openSubState(new FreeplayState(params, stickers));
-			 result.persistentUpdate = false;
-			 result.persistentDraw = true;
-			 return result;
+					 result.openSubState(new FreeplayState(params, stickers));
+					 result.persistentUpdate = false;
+					 result.persistentDraw = true;
+					 return result;
 	}*/
 }
 
@@ -1387,7 +1387,7 @@ class DifficultySprite extends FlxSprite
 		{
 			this.frames = Paths.getSparrowAtlas('freeplay/freeplay${diffId.formatToPath()}');
 			this.animation.addByPrefix('idle', 'idle0', 24, true);
-			if (ChillSettings.get('flashingLights', DISPLAY))
+			if (ChillSettings.get('flashingLights'))
 				this.animation.play('idle');
 		}
 		else

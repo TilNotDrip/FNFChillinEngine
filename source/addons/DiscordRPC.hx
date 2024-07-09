@@ -36,7 +36,7 @@ class DiscordRPC
 
 	public static function initialize()
 	{
-		if (!ChillSettings.get('discordRPC', OTHER))
+		if (!ChillSettings.get('discordRPC'))
 			return;
 
 		var handlers:DiscordEventHandlers = DiscordEventHandlers.create();
@@ -67,7 +67,7 @@ class DiscordRPC
 
 	public static function clearValues()
 	{
-		if (!ChillSettings.get('discordRPC', OTHER))
+		if (!ChillSettings.get('discordRPC'))
 			return;
 
 		state = null;
@@ -94,7 +94,7 @@ class DiscordRPC
 
 	public static function updatePresence()
 	{
-		if (ChillSettings.get('discordRPC', OTHER))
+		if (ChillSettings.get('discordRPC'))
 			Discord.UpdatePresence(cpp.RawConstPointer.addressOf(presence));
 	}
 

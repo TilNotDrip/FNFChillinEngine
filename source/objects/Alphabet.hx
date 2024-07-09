@@ -195,8 +195,7 @@ class AtlasChar extends FlxSprite
 	{
 		if (this.char != value)
 		{
-			var prefix = getAnimPrefix(value);
-			animation.addByPrefix('anim', prefix, 24);
+			animation.addByPrefix('anim', value, 24);
 			if (animation.exists('anim'))
 			{
 				animation.play('anim');
@@ -209,37 +208,6 @@ class AtlasChar extends FlxSprite
 		}
 
 		return this.char = value;
-	}
-
-	function getAnimPrefix(char:String)
-	{
-		return switch (char)
-		{
-			case '&': return '-andpersand-';
-			case "😠": '-angry faic-'; // TODO: Do multi-flag characters work?
-			case "'": '-apostraphie-';
-			case "\\": '-back slash-';
-			case ",": '-comma-';
-			case '-': '-dash-';
-			case '↓': '-down arrow-'; // U+2193
-			case "”": '-end quote-'; // U+0022
-			case "!": '-exclamation point-'; // U+0021
-			case "/": '-forward slash-'; // U+002F
-			case '>': '-greater than-'; // U+003E
-			case '♥': '-heart-'; // U+2665
-			case '♡': '-heart-';
-			case '←': '-left arrow-'; // U+2190
-			case '<': '-less than-'; // U+003C
-			case "*": '-multiply x-';
-			case '.': '-period-'; // U+002E
-			case "?": '-question mark-';
-			case '→': '-right arrow-'; // U+2192
-			case "“": '-start quote-';
-			case '↑': '-up arrow-'; // U+2191
-
-			// Default to getting the character itself.
-			default: char;
-		}
 	}
 }
 

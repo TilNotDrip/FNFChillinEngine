@@ -293,7 +293,7 @@ class PlayState extends MusicBeatState
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
 
-		if (ChillSettings.get('downScroll', GAMEPLAY))
+		if (ChillSettings.get('downScroll'))
 			strumLine.y = FlxG.height - 150;
 
 		strumLine.scrollFactor.set();
@@ -303,7 +303,7 @@ class PlayState extends MusicBeatState
 		generateStaticArrows('Opponent');
 		generateStaticArrows('Player');
 
-		if (ChillSettings.get('noteSplashes', GAMEPLAY))
+		if (ChillSettings.get('noteSplashes'))
 		{
 			playerSplashes = new FlxTypedGroup<NoteSplash>(51);
 			opponentSplashes = new FlxTypedGroup<NoteSplash>(51);
@@ -360,7 +360,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
 
-		if (ChillSettings.get('downScroll', GAMEPLAY))
+		if (ChillSettings.get('downScroll'))
 			healthBarBG.y = FlxG.height * 0.1;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
@@ -369,7 +369,7 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		add(healthBar);
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (ChillSettings.get('hudType') == 'Complex')
 		{
 			songTxt = new FlxText(-5, 5, FlxG.width, "", 20);
 			songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -417,13 +417,13 @@ class PlayState extends MusicBeatState
 		lyricText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(lyricText);
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (ChillSettings.get('hudType') == 'Complex')
 		{
 			healthOppTxt.color = iconP2.curHealthBarColor;
 			healthPlayerTxt.color = iconP1.curHealthBarColor;
 		}
 
-		if (ChillSettings.get('noteSplashes', GAMEPLAY))
+		if (ChillSettings.get('noteSplashes'))
 		{
 			playerSplashes.cameras = [camHUD];
 			opponentSplashes.cameras = [camHUD];
@@ -441,7 +441,7 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (ChillSettings.get('hudType') == 'Complex')
 		{
 			songTxt.cameras = [camHUD];
 			ratingCounterTxt.cameras = [camHUD];
@@ -462,13 +462,8 @@ class PlayState extends MusicBeatState
 			funnyScript.runFunction('createPost');
 			#end */
 
-		if (!seenCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
-		{
-			if (curStage.startCallback != null)
-				curStage.startCallback();
-			else
-				startCountdown();
-		}
+		if (curStage.startCallback != null)
+			curStage.startCallback();
 		else
 			startCountdown();
 	}
@@ -752,7 +747,7 @@ class PlayState extends MusicBeatState
 
 		arrows.screenCenter(X);
 
-		if (!ChillSettings.get('middleScroll', GAMEPLAY))
+		if (!ChillSettings.get('middleScroll'))
 		{
 			if (strumID == 'Player')
 				arrows.x += (FlxG.width / 4);
@@ -771,6 +766,8 @@ class PlayState extends MusicBeatState
 
 		for (i in 0...arrows.notes)
 			arrows.pressNote[i].rgb = dummyNote.returnColors(i);
+
+		arrows.offsetThingy();
 
 		if (strumID == 'Player')
 			playerStrums = arrows;
@@ -933,9 +930,9 @@ class PlayState extends MusicBeatState
 
 		lyricText.updateHitbox();
 		lyricText.screenCenter(X);
-		lyricText.y = healthBarBG.y - ((100 - lyricText.height) * ((ChillSettings.get('downScroll', GAMEPLAY)) ? -1 : 1));
+		lyricText.y = healthBarBG.y - ((100 - lyricText.height) * ((ChillSettings.get('downScroll')) ? -1 : 1));
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (ChillSettings.get('hudType') == 'Complex')
 			songTxt.text = '['
 				+ FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)
 				+ ' / '
@@ -972,7 +969,7 @@ class PlayState extends MusicBeatState
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
-		if (ChillSettings.get('devMode', OTHER) && !isEnding)
+		if (ChillSettings.get('devMode') && !isEnding)
 		{
 			if (FlxG.keys.justPressed.SEVEN)
 				FlxG.sound.play(Paths.sound('cancelMenu')); // sorry fellas!
@@ -998,9 +995,15 @@ class PlayState extends MusicBeatState
 			}
 
 			if (FlxG.keys.justPressed.PAGEUP)
+			{
+				Conductor.songPosition += 10000;
 				changeSection(-1);
+			}
 			if (FlxG.keys.justPressed.PAGEDOWN)
+			{
+				Conductor.songPosition += 10000;
 				changeSection(1);
+			}
 
 			if (FlxG.keys.justPressed.L)
 				botplayDad = !botplayDad;
@@ -1119,8 +1122,8 @@ class PlayState extends MusicBeatState
 		{
 			var whatStrum:Strums = (daNote.mustPress) ? playerStrums : opponentStrums;
 
-			if ((ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
-				|| (!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
+			if ((ChillSettings.get('downScroll') && daNote.y < -daNote.height)
+				|| (!ChillSettings.get('downScroll') && daNote.y > FlxG.height))
 			{
 				daNote.active = false;
 				daNote.visible = false;
@@ -1138,7 +1141,7 @@ class PlayState extends MusicBeatState
 
 			var strumLineMid = whatStrum.y + OldNote.swagWidth / 2;
 
-			if (ChillSettings.get('downScroll', GAMEPLAY))
+			if (ChillSettings.get('downScroll'))
 			{
 				daNote.y = (whatStrum.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.metadata.speed, 2)));
 
@@ -1259,7 +1262,7 @@ class PlayState extends MusicBeatState
 
 	public function camZoom(gameCamZoom:Float = 0.015, camHudZoom:Float = 0.03)
 	{
-		if (ChillSettings.get('camZoom', GAMEPLAY))
+		if (ChillSettings.get('camZoom'))
 		{
 			camGAME.zoom += gameCamZoom;
 			camHUD.zoom += camHudZoom;
@@ -1453,7 +1456,7 @@ class PlayState extends MusicBeatState
 
 	public function changeHealthText()
 	{
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (ChillSettings.get('hudType') == 'Complex')
 		{
 			var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
 			var healthOpp:Dynamic = FlxMath.roundDecimal((maxHealth * 50) - (health * 50), 2);
@@ -1465,7 +1468,7 @@ class PlayState extends MusicBeatState
 
 	public function changeJudgementText()
 	{
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (ChillSettings.get('hudType') == 'Complex')
 		{
 			var sickTxt = '[Sicks: $sicks]';
 			var goodTxt = '[Goods: $goods]';
@@ -1483,8 +1486,11 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
 		healthBar.updateFilledBar();
 
-		healthOppTxt.color = iconP2.curHealthBarColor;
-		healthPlayerTxt.color = iconP1.curHealthBarColor;
+		if (ChillSettings.get('hudType') == 'Complex')
+		{
+			healthOppTxt.color = iconP2.curHealthBarColor;
+			healthPlayerTxt.color = iconP1.curHealthBarColor;
+		}
 
 		#if DISCORD
 		DiscordRPC.smallImageKey = 'icon-${iconP2.char}';
@@ -1508,7 +1514,7 @@ class PlayState extends MusicBeatState
 
 		calculateAccuracy();
 
-		if (daRating == 'sick' && ChillSettings.get('noteSplashes', GAMEPLAY))
+		if (daRating == 'sick' && ChillSettings.get('noteSplashes'))
 		{
 			var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
 			noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, boyfriend.isPixel);
@@ -1721,7 +1727,7 @@ class PlayState extends MusicBeatState
 
 			var notesInDirection:Array<Note> = notesByDirection[input];
 
-			if (!ChillSettings.get('ghostTapping', GAMEPLAY) && notesInDirection.length == 0)
+			if (!ChillSettings.get('ghostTapping') && notesInDirection.length == 0)
 			{
 				// Pressed a wrong key with no notes nearby.
 				// Perform a ghost miss (anti-spam).
@@ -1730,7 +1736,7 @@ class PlayState extends MusicBeatState
 				// Play the strumline animation.
 				playerStrums.playNoteAnim(input, 'pressed', true);
 			}
-			else if (!ChillSettings.get('ghostTapping', GAMEPLAY) && notesInRange.length > 0 && notesInDirection.length == 0)
+			else if (!ChillSettings.get('ghostTapping') && notesInRange.length > 0 && notesInDirection.length == 0)
 			{
 				// Pressed a wrong key with no notes nearby AND with notes in a different direction available.
 				// Perform a ghost miss (anti-spam).
@@ -1883,8 +1889,8 @@ class PlayState extends MusicBeatState
 
 				if (daNote.wasHit)
 				{
-					if ((!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
-						|| (ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
+					if ((!ChillSettings.get('downScroll') && daNote.y < -daNote.height)
+						|| (ChillSettings.get('downScroll') && daNote.y > FlxG.height))
 					{
 						daNote.kill();
 					}
@@ -1986,7 +1992,7 @@ class PlayState extends MusicBeatState
 							opponentNoteHit(coolNote);
 					}
 				}
-				else if (!ChillSettings.get('ghostTapping', GAMEPLAY))
+				else if (!ChillSettings.get('ghostTapping'))
 					ghostHit(holdArray.indexOf(true));
 			}
 
@@ -2120,7 +2126,7 @@ class PlayState extends MusicBeatState
 				if (!opponentStrums.visible)
 					return;
 
-				if (ChillSettings.get('noteSplashes', GAMEPLAY))
+				if (ChillSettings.get('noteSplashes'))
 				{
 					var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
 					noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, dad.isPixel);

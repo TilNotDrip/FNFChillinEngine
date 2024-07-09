@@ -64,12 +64,12 @@ class HScript
 
 		_interp.execute(_parser.parseString(script, path));
 
-		var daClass:Dynamic = variables.get(name);
+		var moddedClass:Dynamic = variables.get(name);
 
 		variables.set('STOP', StopFunction);
 
-		if (daClass.create != null)
-			daClass.create();
+		if (moddedClass.create != null)
+			moddedClass.create();
 	}
 
 	static function resolveImport(importyy:String)

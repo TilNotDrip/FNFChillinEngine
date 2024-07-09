@@ -46,7 +46,7 @@ class FPS extends TextField
 			+ "\nVersion: "
 			+ Application.current.meta.get('version');
 		multiline = true;
-		width += 100;
+		width += 300;
 
 		cacheCount = 0;
 		currentTime = 0;

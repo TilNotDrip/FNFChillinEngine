@@ -223,7 +223,7 @@ class TitleState extends MusicBeatState
 				idleBoppers.remove(i);
 			}
 
-			if (ChillSettings.get('flashingLights', DISPLAY))
+			if (ChillSettings.get('flashingLights'))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
@@ -318,7 +318,7 @@ class TitleState extends MusicBeatState
 			Conductor.songPosition = 0;
 		});
 
-		if (ChillSettings.get('flashingLights', DISPLAY))
+		if (ChillSettings.get('flashingLights'))
 			FlxG.camera.flash(FlxColor.WHITE, 1);
 	}
 
@@ -522,7 +522,7 @@ class TitleState extends MusicBeatState
 		{
 			remove(titleSprites);
 
-			if (ChillSettings.get('flashingLights', DISPLAY))
+			if (ChillSettings.get('flashingLights'))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 
 			remove(credGroup);

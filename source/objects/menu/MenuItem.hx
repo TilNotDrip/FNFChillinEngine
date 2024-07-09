@@ -26,7 +26,7 @@ class MenuItem extends FlxSprite
 		FlxTransitionableState.skipNextTransIn = false;
 		FlxTransitionableState.skipNextTransOut = false;
 
-		if (ChillSettings.get('flashingLights', DISPLAY))
+		if (ChillSettings.get('flashingLights'))
 			FlxFlicker.flicker(this, 1, 0.06, false, false);
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)

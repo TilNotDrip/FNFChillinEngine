@@ -8,7 +8,6 @@ class Option extends FlxSpriteGroup
 {
 	public var description:String;
 	public var varName:String;
-	public var category:OptionType;
 	public var type:OptionVarType;
 	public var value:Dynamic;
 
@@ -27,14 +26,13 @@ class Option extends FlxSpriteGroup
 	private var selection:Alphabet;
 	private var number:Alphabet;
 
-	public function new(name:String, description:String, varName:String, category:OptionType, type:OptionVarType)
+	public function new(name:String, description:String, varName:String, type:OptionVarType)
 	{
 		this.description = description;
 		this.varName = varName;
-		this.category = category;
 		this.type = type;
 
-		value = ChillSettings.get(varName, category);
+		value = ChillSettings.get(varName);
 
 		super(x, y);
 
@@ -47,7 +45,8 @@ class Option extends FlxSpriteGroup
 				checkbox = new Checkbox();
 				checkbox.sprTracker = optionTxt;
 				checkbox.sprOffsetX = 50;
-				checkbox.check(ChillSettings.get(varName, category));
+				checkbox.check(ChillSettings.get(varName));
+				checkbox.animation.finish();
 				add(checkbox);
 
 			case SLIDER:
@@ -80,7 +79,7 @@ class Option extends FlxSpriteGroup
 	public function press()
 	{
 		value = !value;
-		ChillSettings.set(varName, category, value);
+		ChillSettings.set(varName, value);
 
 		checkbox.check(value);
 
@@ -92,16 +91,16 @@ class Option extends FlxSpriteGroup
 	{
 		if (type == NUMBER)
 		{
-			var newValue:Dynamic = change + ChillSettings.get(varName, category);
+			var newValue:Dynamic = change + ChillSettings.get(varName);
 
 			if (maximumValue <= newValue || minimumValue <= newValue)
-				ChillSettings.set(varName, category, newValue);
+				ChillSettings.set(varName, newValue);
 
-			number.text = '< ' + ChillSettings.get(varName, category) + ' >';
+			number.text = '< ' + ChillSettings.get(varName) + ' >';
 		}
 		else if (type == SELECTION)
 		{
-			var curSelectedNum:Int = selections.indexOf(ChillSettings.get(varName, category));
+			var curSelectedNum:Int = selections.indexOf(ChillSettings.get(varName));
 
 			curSelectedNum += change;
 
@@ -111,8 +110,8 @@ class Option extends FlxSpriteGroup
 			if (curSelectedNum >= selections.length)
 				curSelectedNum = 0;
 
-			ChillSettings.set(varName, category, selections[curSelectedNum]);
-			selection.text = '< ' + ChillSettings.get(varName, category) + ' >';
+			ChillSettings.set(varName, selections[curSelectedNum]);
+			selection.text = '< ' + ChillSettings.get(varName) + ' >';
 		}
 
 		if (onChange != null)

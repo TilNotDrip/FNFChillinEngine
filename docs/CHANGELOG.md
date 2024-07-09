@@ -20,8 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BF Old Icon Easter Egg now has a Pixel variant
 - Ending Screen
 - More characters in the alphabet (Sprite not the actual alphabet)
-- Events
-- Botplay
 
 ### Changed
 
@@ -36,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Options Rework
 - Assets folder more organized
 - Score Text goes red on note miss
-- Jsons get pretty printed on save by itself (Man that was easier than I thought)
 - Philly changed to Philly Nice
 
 ### Removed

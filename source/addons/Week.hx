@@ -12,13 +12,13 @@ class Week
 	@:noCompletion
 	private static function get_weeks():Array<Week>
 	{
-		var daWeekThing:Array<Week> = [];
+		var weeks:Array<Week> = [];
 
 		for (weekFile in CoolUtil.coolTextFile(Paths.file('weeks/weekList.txt', TEXT)))
-			daWeekThing.push(new Week(Paths.file('weeks/$weekFile.json', TEXT)));
+			weeks.push(new Week(Paths.file('weeks/$weekFile.json', TEXT)));
 
 		// Test
-		if (ChillSettings.get('devMode', OTHER))
+		if (ChillSettings.get('devMode'))
 		{
 			var idk:Week = new Week();
 			idk.name = 'Test';
@@ -34,10 +34,10 @@ class Week
 			idk.characters = ['bf', 'bf', 'gf'];
 			idk.motto = '[PLACEHOLDER]';
 			idk.color = 0xffffffff;
-			daWeekThing.push(idk);
+			weeks.push(idk);
 		}
 
-		return daWeekThing;
+		return weeks;
 	}
 
 	/**

@@ -133,7 +133,7 @@ class OldNote extends FlxSprite
 		{
 			alpha = 0.6;
 
-			if (ChillSettings.get('downScroll', GAMEPLAY))
+			if (ChillSettings.get('downScroll'))
 				angle = 180;
 
 			animation.play('holdend');

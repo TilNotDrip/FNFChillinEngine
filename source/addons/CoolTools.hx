@@ -45,12 +45,12 @@ class CoolTools
 
 	public static function keyValues<K, T>(map:Map<K, T>):Array<K>
 	{
-		var daArray:Array<K> = [];
+		var returnArray:Array<K> = [];
 
 		for (value in map.keys())
-			daArray.push(value);
+			returnArray.push(value);
 
-		return daArray;
+		return returnArray;
 	}
 
 	public static function getLastInArray<T>(array:Array<T>):T
