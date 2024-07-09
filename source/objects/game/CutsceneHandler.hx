@@ -7,6 +7,7 @@ import hxvlc.flixel.FlxVideoSprite;
 #end
 import haxe.ds.Map;
 
+// :(
 class CutsceneHandler extends MusicBeatSubstate
 {
 	public var callback:FlxSignal = new FlxSignal();
