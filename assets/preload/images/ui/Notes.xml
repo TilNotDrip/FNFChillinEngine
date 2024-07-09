@@ -2,10 +2,10 @@
 <TextureAtlas imagePath="Notes.png">
 	<!-- Created with Adobe Animate version 24.0.0.305 -->
 	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="down confirm0000" x="0" y="0" width="236" height="233"/>
-	<SubTexture name="down confirm0001" x="236" y="0" width="236" height="233"/>
-	<SubTexture name="down confirm0002" x="472" y="0" width="214" height="211" frameX="-11" frameY="-11" frameWidth="236" frameHeight="233"/>
-	<SubTexture name="down confirm0003" x="472" y="0" width="214" height="211" frameX="-11" frameY="-11" frameWidth="236" frameHeight="233"/>
+	<SubTexture name="down confirm0000" x="0" y="0" width="236" height="232"/>
+	<SubTexture name="down confirm0001" x="236" y="0" width="236" height="232"/>
+	<SubTexture name="down confirm0002" x="472" y="0" width="214" height="211" frameX="-11" frameY="-10" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="down confirm0003" x="472" y="0" width="214" height="211" frameX="-11" frameY="-10" frameWidth="236" frameHeight="232"/>
 	<SubTexture name="down press0000" x="686" y="0" width="144" height="141" frameX="-5" frameY="-4" frameWidth="153" frameHeight="150"/>
 	<SubTexture name="down press0001" x="686" y="0" width="144" height="141" frameX="-5" frameY="-4" frameWidth="153" frameHeight="150"/>
 	<SubTexture name="down press0002" x="830" y="0" width="153" height="150"/>
