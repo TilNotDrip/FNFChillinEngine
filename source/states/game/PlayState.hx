@@ -864,6 +864,8 @@ class PlayState extends MusicBeatState
 		if (_exiting)
 			return;
 
+		trace('Resyncing Vocals...');
+
 		for (song in vocals)
 			song.pause();
 
@@ -916,15 +918,13 @@ class PlayState extends MusicBeatState
 				songTime += FlxG.game.ticks - previousFrameTime;
 				previousFrameTime = FlxG.game.ticks;
 
-				/*if (Conductor.lastSongPos != Conductor.songPosition)
-					{
-						songTime = (songTime + Conductor.songPosition) / 2;
-						Conductor.lastSongPos = Conductor.songPosition;
-				}*/
+				for (song in vocals)
+				{
+					if (FlxG.sound.music != null && Math.abs(song.time - (Conductor.songPosition + Conductor.offset)) > 200)
+						resyncVocals();
+				}
 			}
 		}
-
-		// curStage.update(elapsed);
 
 		super.update(elapsed);
 

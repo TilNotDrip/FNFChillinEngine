@@ -3,7 +3,7 @@
     "motto": "Spooky Month",
     "characters": ["spooky", "bf", "gf"],
     "color": "223344",
-    "songs": 
+    "songs":
     [
         {
             "song": "Spookeez",
@@ -19,7 +19,7 @@
         },
         {
             "song": "Monster",
-            "icon": "spooky",
+            "icon": "monster",
             "difficulties": ["Easy", "Normal", "Hard"],
             "explicit": false
         }
