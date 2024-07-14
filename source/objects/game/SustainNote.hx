@@ -30,12 +30,10 @@ class SustainNote extends FlxSprite
 
 		daSprite = new BitmapData(49, Std.int(daCalculatedHeight) + 64, true, 0x0);
 
-		if (daCalculatedHeight == 0)
+		if (daCalculatedHeight > 0)
 		{
 			for (susNote in 0...Std.int(daCalculatedHeight))
-			{
 				daSprite.draw(holdSprite, new openfl.geom.Matrix(1, 0, 0, 1, 0, susNote), null, null, null, antialiasing);
-			}
 		}
 
 		daSprite.draw(endSprite, new openfl.geom.Matrix(1, 0, 0, 1, 0, Std.int(daCalculatedHeight)), null, null, null, antialiasing);

@@ -13,9 +13,6 @@ class Paths
 
 	private static var imageCache:Map<String, FlxGraphic> = new Map();
 	private static var clearingCache:Bool = false;
-
-	private static final excludePaths:Array<String> = ['shared:assets/shared/images/transitionSwag', 'assets/images/soundtray'];
-
 	public static function clearImageCache()
 	{
 		clearingCache = true;

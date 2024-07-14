@@ -5,6 +5,8 @@ import shaders.RGBShader;
 
 class Note extends FlxSprite
 {
+	public static final NOTE_WIDTH:Float = 160 * 0.7;
+
 	public static final NOTE_COLORS:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
@@ -32,15 +34,20 @@ class Note extends FlxSprite
 	private var rgbShader:RGBShader = new RGBShader();
 	private var curTexture:Null<String> = null;
 
+	public var mayHit:Bool = false;
+	public var wasHit:Bool = false;
+
 	public function new(data:SwagNote, isPixel:Bool)
 	{
 		this.data = data;
 		this.isPixel = isPixel;
 
+		super();
+
+		setNoteTypeValues(data.type);
+
 		if (data.length != null && data.length > 1)
 			generateSustain(data.length);
-
-		super();
 	}
 
 	public function setNoteTypeValues(name:String)
@@ -56,26 +63,16 @@ class Note extends FlxSprite
 				animToPlay += '-alt';
 		}
 
-		reloadNoteTexture();
+		reloadNoteTexture(texture);
 	}
 
 	public function generateSustain(length:Float)
 	{
 		sustain = new SustainNote();
 		sustain.generateSustain(length, PlayState.SONG.metadata.speed);
+		sustain.alpha = 0.6;
 		sustain.head = this;
 		sustain.shader = rgbShader.shader;
-	}
-
-	override public function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		if (sustain != null)
-		{
-			sustain.x = x + ((width - sustain.width) / 2);
-			sustain.y = y + (Conductor.stepCrochet * (0.45 * FlxMath.roundDecimal(PlayState.SONG.metadata.speed, 2)));
-		}
 	}
 
 	public function reloadNoteTexture(?path:String = 'Notes')
@@ -100,20 +97,24 @@ class Note extends FlxSprite
 			antialiasing = false;
 			updateHitbox();
 
-			rgbShader.rgb = NOTE_COLORS[data.direction];
+			rgbShader.rgb = NOTE_COLORS_PIXEL[data.direction];
 		}
 		else
 		{
 			frames = Paths.getSparrowAtlas('ui/' + path);
 
-			animation.addByPrefix('scroll', (cast(data.direction, Direction)).toString() + ' static');
+			trace(data.direction);
+			trace((cast(data.direction, Direction)).toString().toLowerCase());
+			animation.addByPrefix('scroll', (cast(data.direction, Direction)).toString().toLowerCase() + ' static');
 
 			setGraphicSize(Std.int(width * 0.7));
 			antialiasing = FlxSprite.defaultAntialiasing;
 			updateHitbox();
 
-			rgbShader.rgb = NOTE_COLORS_PIXEL[data.direction];
+			rgbShader.rgb = NOTE_COLORS[data.direction];
 		}
+
+		animation.play('scroll');
 
 		shader = rgbShader.shader;
 	}
@@ -126,5 +127,10 @@ class Note extends FlxSprite
 			reloadNoteTexture(curTexture);
 
 		return isPixel;
+	}
+
+	public function returnColors():Array<FlxColor>
+	{
+		return rgbShader.rgb;
 	}
 }

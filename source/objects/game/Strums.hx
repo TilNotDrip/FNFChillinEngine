@@ -7,8 +7,6 @@ class Strums extends FlxSpriteGroup
 {
 	public var notes:Int;
 
-	private var noteArray:Array<String> = ['left', 'down', 'up', 'right'];
-
 	public var staticNotes:RGBShader = new RGBShader();
 
 	// lmao idk how to do this correctly
@@ -16,8 +14,7 @@ class Strums extends FlxSpriteGroup
 
 	private var staticNoteColors:Array<FlxColor>;
 
-	@:allow(objects.game.NoteGroup)
-	private var isPixel:Bool = false;
+	public var isPixel:Bool = false;
 
 	public var strumID:String;
 
@@ -30,7 +27,7 @@ class Strums extends FlxSpriteGroup
 
 		for (note in 0...notes)
 		{
-			var newNote:FlxSprite = new FlxSprite(OldNote.swagWidth * note);
+			var newNote:FlxSprite = new FlxSprite(Note.NOTE_WIDTH * note);
 
 			if (isPixel)
 			{
@@ -123,11 +120,11 @@ class Strums extends FlxSpriteGroup
 
 	override private function get_width()
 	{
-		return OldNote.swagWidth * 4;
+		return Note.NOTE_WIDTH * 4;
 	}
 
 	override private function get_height()
 	{
-		return OldNote.swagWidth;
+		return Note.NOTE_WIDTH;
 	}
 }
