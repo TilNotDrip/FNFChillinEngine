@@ -12,12 +12,12 @@ class Flixel extends BaseSubState
 		DiscordRPC.state = 'Flixel';
 		#end
 
-		var autoPause:Option = new Option('Auto Pause', 'Whether to freeze the game is unfocused.', 'autoPause', FLIXEL, CHECKBOX);
+		var autoPause:Option = new Option('Auto Pause', 'Whether to freeze the game is unfocused.', 'autoPause', CHECKBOX);
 		autoPause.onChange = autopausing;
 		addOption(autoPause);
 
 		#if FLX_MOUSE
-		var systemCursor:Option = new Option('System Cursor', 'Whether to use your systems default cursor or not.', 'systemCursor', FLIXEL, CHECKBOX);
+		var systemCursor:Option = new Option('System Cursor', 'Whether to use your systems default cursor or not.', 'systemCursor', CHECKBOX);
 		systemCursor.onChange = changeCursor;
 		addOption(systemCursor);
 		#end
@@ -26,10 +26,10 @@ class Flixel extends BaseSubState
 	}
 
 	private function autopausing()
-		FlxG.autoPause = ChillSettings.get('autoPause', FLIXEL);
+		FlxG.autoPause = ChillSettings.get('autoPause');
 
 	#if FLX_MOUSE
 	private function changeCursor()
-		FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor', FLIXEL);
+		FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor');
 	#end
 }

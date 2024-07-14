@@ -2,9 +2,9 @@
 
 ## Big Changes
 
- - [ ] Full Options Menu Rework (This includes saving)
+ - [ ] Full Options Menu Rework
  - [ ] Credits Menu
- - [ ] Modding API (using hscript-plus)
+ - [ ] Modding Support
  - [x] Title Screen Softcoded
  - [ ] Controller Support
  - [ ] Lyrics
@@ -50,7 +50,7 @@
  - [ ] BF doesn't ascend when he's opponent
  - [ ] add skip cutscene key
  - [x] Daddy Dearest extended Left Pose
- - [ ] Seperate Death Sprites from Boyfriend's Spritesheet
+ - [x] Seperate Death Sprites from Boyfriend's Spritesheet
  - [ ] Color Blindness Filter
  - [ ] Seperate Senpai Angry and Senpai Sprites
 
@@ -83,12 +83,12 @@
  - [ ] Opponent Custom Colours
  - [x] Ghost Tapping
  - [x] Downscroll
- - [ ] Middlescroll
+ - [x] Middlescroll
  - [x] Camera Zoom
  - [x] Note Splashes
  - [x] Cutscenes
  - [ ] Easter Eggs (Optional but said EE's are BF Old Icon, Gitaroo Pause and Old Game Over)
- - [ ] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
+ - [x] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
 
 
 ## Flixel (or we can put this under **Other** as well)
@@ -113,5 +113,10 @@
  - [ ] Playtest
 
 # Chillin' Engine - Mod Support Todo List
- - [ ] idk
+ - [ ] Metadata
+ - [ ] Asset Replacing System
+ - [ ] Merge Data System (so u can add onto the intro text or just replace it entirely)
+ - [ ] Dependency System
+ - [ ] Mods Menu
+ - [ ] Scripting (with HScript-EX)
  - [ ] Custom Settings

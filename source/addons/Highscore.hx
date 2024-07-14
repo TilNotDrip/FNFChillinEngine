@@ -44,11 +44,7 @@ class Highscore
 
 	public static function formatSong(song:String, diff:String):String
 	{
-		var daSong:String = song;
-
-		daSong += '-' + diff;
-
-		return daSong.formatToPath();
+		return song.formatToPath() + '-' + diff.formatToPath();
 	}
 
 	public static function getScore(song:String, diff:String):Int

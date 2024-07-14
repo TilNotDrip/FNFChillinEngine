@@ -11,7 +11,7 @@
 ## In-Game:
 
 ### UI / Backend / Songs n stuff like that
- - [ ] Sustain Note Splashes
+ - [x] Sustain Note Splashes
  - [ ] Restart Song Transition
  - [x] Seperate Voices File (`Voices.ogg` => `Voices-dad`, `Voices-bf`)
  - [ ] Score lerping
@@ -48,7 +48,7 @@
 
 ### Medium Changes
  - [ ] Screenshot
- - [ ] Sticker Transition
+ - [x] Sticker Transition
  - [x] Custom Soundtray
 
 ### Small Changes

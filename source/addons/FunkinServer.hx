@@ -65,12 +65,12 @@ class FunkinServer
 		{
 			try
 			{
-				var daSocket:WebSocket = server.accept();
+				var websocket:WebSocket = server.accept();
 
-				if (daSocket != null)
+				if (websocket != null)
 				{
-					listeningSockets.push(daSocket);
-					daSocket.onmessageString = onMessage;
+					listeningSockets.push(websocket);
+					websocket.onmessageString = onMessage;
 				}
 
 				for (socketyy in listeningSockets)

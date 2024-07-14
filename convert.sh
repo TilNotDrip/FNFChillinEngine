@@ -7,7 +7,7 @@ input_dir="assets"
 find "$input_dir" -type f -name "*.ogg" | while IFS= read -r file; do
     if [ -f "$file" ]; then
         output_file="${file%.ogg}.mp3"
-        
+
         echo "Converting $file to $output_file"
         ffmpeg -i "$file" "$output_file" -hide_banner -loglevel error -y < /dev/null
     fi

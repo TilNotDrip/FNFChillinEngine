@@ -127,18 +127,6 @@ class StageBackend extends FlxBasic
 		insert(PlayState.game.members.indexOf(playerGroup), object);
 	}
 
-	// Other Functions
-	public function endingStuff()
-	{
-		if (endCallback != null && !PlayState.seenEndCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
-		{
-			endCallback();
-			PlayState.seenEndCutscene = true;
-		}
-		else
-			return PlayState.game.endSong();
-	}
-
 	public function endingVideo() {}
 
 	// Functions for getting/setting PlayState / MusicBeatState vars

@@ -3,7 +3,7 @@
     "motto": "RED SNOW",
     "characters": ["parents-christmas", "bf", "gf"],
     "color": "A0D1FF",
-    "songs": 
+    "songs":
     [
         {
             "song": "Cocoa",
@@ -19,7 +19,7 @@
         },
         {
             "song": "Winter Horrorland",
-            "icon": "parents",
+            "icon": "monster",
             "difficulties": ["Easy", "Normal", "Hard"],
             "explicit": false
         }

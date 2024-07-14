@@ -66,10 +66,10 @@ class Paths
 	public static function getPath(file:String, type:AssetType, library:Null<String>)
 	{
 		#if MOD_SUPPORT
-		for (daFile in ModLoader.modFile(file))
+		for (modfile in ModLoader.modFile(file))
 		{
-			if (OpenFlAssets.exists(daFile, type))
-				return daFile;
+			if (OpenFlAssets.exists(modfile, type))
+				return modfile;
 		}
 		#end
 
@@ -162,34 +162,34 @@ class Paths
 	{
 		var path = getPath('images/$key.png', IMAGE, library);
 
-		var daReturn:FlxGraphic = null;
+		var graphic:FlxGraphic = null;
 
 		if (false /*imageCache.exists(path)*/)
 		{
-			daReturn = imageCache.get(path);
+			graphic = imageCache.get(path);
 
-			if (daReturn == null || daReturn.bitmap == null)
+			if (graphic == null || graphic.bitmap == null)
 			{
 				trace('Image was loaded from cache, but it doesn\'t exist! Retrying function... ($path)');
 				imageCache.remove(path);
-				daReturn = image(key, library);
+				graphic = image(key, library);
 			}
 		}
 		else
 		{
 			try
 			{
-				daReturn = FlxGraphic.fromAssetKey(path, false, path, true /*false*/);
+				graphic = FlxGraphic.fromAssetKey(path, false, path, true /*false*/);
 			}
 
-			if (daReturn != null)
-				imageCache.set(path, daReturn);
+			if (graphic != null)
+				imageCache.set(path, graphic);
 		}
 
-		if (daReturn == null)
-			trace('Image does\' t exist! ($path)');
+		if (graphic == null)
+			trace('Image doesn\'t exist! ($path)');
 
-		return daReturn;
+		return graphic;
 	}
 
 	inline public static function font(key:String)

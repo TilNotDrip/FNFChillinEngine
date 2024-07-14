@@ -6,53 +6,20 @@ class ChillSettings
 {
 	private static var chillSettings:FlxSave;
 
-	private static var displaySettings:Map<String, Dynamic> = new Map();
-	private static var gameplaySettings:Map<String, Dynamic> = new Map();
-	private static var flixelSettings:Map<String, Dynamic> = new Map();
-	private static var otherSettings:Map<String, Dynamic> = new Map();
+	private static var options:Map<String, Dynamic> = new Map();
 
-	public static function get(option:String, category:OptionType):Dynamic
+	public static function get(option:String):Dynamic
 	{
-		var returnThing:Dynamic;
-
-		switch (category)
-		{
-			case DISPLAY:
-				returnThing = displaySettings.get(option);
-			case GAMEPLAY:
-				returnThing = gameplaySettings.get(option);
-			case FLIXEL:
-				returnThing = flixelSettings.get(option);
-			case OTHER:
-				returnThing = otherSettings.get(option);
-		}
-
-		return returnThing;
+		return options.get(option);
 	}
 
-	public static function set(option:String, category:OptionType, value:Dynamic)
+	public static function set(option:String, value:Dynamic)
 	{
-		switch (category)
-		{
-			case DISPLAY:
-				displaySettings.set(option, value);
-				chillSettings.data.displaySettings = displaySettings;
-
-			case GAMEPLAY:
-				gameplaySettings.set(option, value);
-				chillSettings.data.gameplaySettings = gameplaySettings;
-
-			case FLIXEL:
-				flixelSettings.set(option, value);
-				chillSettings.data.flixelSettings = flixelSettings;
-
-			case OTHER:
-				otherSettings.set(option, value);
-				chillSettings.data.otherSettings = otherSettings;
-		}
+		options.set(option, value);
+		chillSettings.data.options = options;
 
 		chillSettings.flush();
-		trace('Set Option ${category}/${option} to ${value}!');
+		trace('Set Option ${option} to ${value}!');
 	}
 
 	public static function loadSettings()
@@ -60,26 +27,23 @@ class ChillSettings
 		chillSettings = new FlxSave();
 		chillSettings.bind('settings', CoolUtil.getSavePath());
 
-		displaySettings = chillSettings.data.displaySettings;
-		gameplaySettings = chillSettings.data.gameplaySettings;
-		flixelSettings = chillSettings.data.flixelSettings;
-		otherSettings = chillSettings.data.otherSettings;
+		options = chillSettings.data.options;
 
-		checkNulls();
+		setDefaults();
 
-		FlxG.updateFramerate = ChillSettings.get('fps', DISPLAY);
-		FlxG.drawFramerate = ChillSettings.get('fps', DISPLAY);
+		FlxG.updateFramerate = ChillSettings.get('fps');
+		FlxG.drawFramerate = ChillSettings.get('fps');
 
 		if (Main.fpsCounter != null)
-			Main.fpsCounter.visible = ChillSettings.get('fpsCounter', DISPLAY);
+			Main.fpsCounter.visible = ChillSettings.get('fpsCounter');
 
-		FlxG.fullscreen = ChillSettings.get('fullscreen', DISPLAY);
+		FlxG.fullscreen = ChillSettings.get('fullscreen');
 
-		FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing', DISPLAY);
+		FlxSprite.defaultAntialiasing = ChillSettings.get('antialiasing');
 
-		FlxG.autoPause = ChillSettings.get('autoPause', FLIXEL);
+		FlxG.autoPause = ChillSettings.get('autoPause');
 		#if FLX_MOUSE
-		FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor', FLIXEL);
+		FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor');
 		#end
 
 		// I know I might be adding audio things but if even if I dont minus well
@@ -90,80 +54,61 @@ class ChillSettings
 			FlxG.sound.muted = FlxG.save.data.mute;
 	}
 
-	private static function checkNulls()
+	private static function setDefaults():Void
 	{
-		if (displaySettings == null)
-			displaySettings = new Map<String, Dynamic>();
-		if (gameplaySettings == null)
-			gameplaySettings = new Map<String, Dynamic>();
-		if (flixelSettings == null)
-			flixelSettings = new Map<String, Dynamic>();
-		if (otherSettings == null)
-			otherSettings = new Map<String, Dynamic>();
+		if (options == null)
+			options = new Map<String, Dynamic>();
 
-		if (chillSettings.data.displaySettings == null)
-			chillSettings.data.displaySettings = new Map<String, Dynamic>();
+		if (chillSettings.data.options == null)
+			chillSettings.data.options = new Map<String, Dynamic>();
 
-		if (chillSettings.data.displaySettings.get('fps') == null)
-			set('fps', DISPLAY, 60);
-		if (chillSettings.data.displaySettings.get('fpsCounter') == null)
-			set('fpsCounter', DISPLAY, true);
-		if (chillSettings.data.displaySettings.get('fullscreen') == null)
-			set('fullscreen', DISPLAY, false);
-		if (chillSettings.data.displaySettings.get('antialiasing') == null)
-			set('antialiasing', DISPLAY, true);
-		if (chillSettings.data.displaySettings.get('flashingLights') == null)
-			set('flashingLights', DISPLAY, true);
+		// Display Settings
+		if (chillSettings.data.options.get('fps') == null)
+			set('fps', 60);
+		if (chillSettings.data.options.get('fpsCounter') == null)
+			set('fpsCounter', true);
+		if (chillSettings.data.options.get('fullscreen') == null)
+			set('fullscreen', false);
+		if (chillSettings.data.options.get('antialiasing') == null)
+			set('antialiasing', true);
+		if (chillSettings.data.options.get('flashingLights') == null)
+			set('flashingLights', true);
 
-		if (chillSettings.data.gameplaySettings == null)
-			chillSettings.data.gameplaySettings = new Map<String, Dynamic>();
+		// Gameplay Settings
+		if (chillSettings.data.options.get('camZoom') == null)
+			set('camZoom', true);
+		if (chillSettings.data.options.get('ghostTapping') == null)
+			set('ghostTapping', true);
+		if (chillSettings.data.options.get('hudType') == null)
+			set('hudType', 'Simple');
+		if (chillSettings.data.options.get('downScroll') == null)
+			set('downScroll', false);
+		if (chillSettings.data.options.get('middleScroll') == null)
+			set('middleScroll', false);
+		if (chillSettings.data.options.get('noteSplashes') == null)
+			set('noteSplashes', true);
+		if (chillSettings.data.options.get('cutscenes') == null)
+			set('cutscenes', true);
 
-		if (chillSettings.data.gameplaySettings.get('camZoom') == null)
-			set('camZoom', GAMEPLAY, true);
-		if (chillSettings.data.gameplaySettings.get('ghostTapping') == null)
-			set('ghostTapping', GAMEPLAY, true);
-		if (chillSettings.data.gameplaySettings.get('hudType') == null)
-			set('hudType', GAMEPLAY, 'Score / Rating Counter / Health');
-		if (chillSettings.data.gameplaySettings.get('downScroll') == null)
-			set('downScroll', GAMEPLAY, false);
-		if (chillSettings.data.gameplaySettings.get('middleScroll') == null)
-			set('middleScroll', GAMEPLAY, false);
-		if (chillSettings.data.gameplaySettings.get('noteSplashes') == null)
-			set('noteSplashes', GAMEPLAY, true);
-		if (chillSettings.data.gameplaySettings.get('cutscenes') == null)
-			set('cutscenes', GAMEPLAY, true);
-
-		if (chillSettings.data.flixelSettings == null)
-			chillSettings.data.flixelSettings = new Map<String, Dynamic>();
-
-		if (chillSettings.data.flixelSettings.get('autoPause') == null)
-			set('autoPause', FLIXEL, false);
+		// Flixel Settings
+		if (chillSettings.data.options.get('autoPause') == null)
+			set('autoPause', false);
 		#if FLX_MOUSE
-		if (chillSettings.data.flixelSettings.get('systemCursor') == null)
-			set('systemCursor', FLIXEL, true);
+		if (chillSettings.data.options.get('systemCursor') == null)
+			set('systemCursor', true);
 		#end
 
-		if (chillSettings.data.otherSettings == null)
-			chillSettings.data.otherSettings = new Map<String, Dynamic>();
-
+		// Other Settings
 		#if DISCORD
-		if (chillSettings.data.otherSettings.get('discordRPC') == null)
-			set('discordRPC', OTHER, true);
+		if (chillSettings.data.options.get('discordRPC') == null)
+			set('discordRPC', true);
 		#end
 		#if MOD_SUPPORT
-		if (chillSettings.data.otherSettings.get('safeMode') == null)
-			set('safeMode', OTHER, false);
+		if (chillSettings.data.options.get('safeMode') == null)
+			set('safeMode', false);
 		#end
 
-		if (chillSettings.data.otherSettings.get('devMode') == null)
-			set('devMode', OTHER, false);
+		if (chillSettings.data.options.get('devMode') == null)
+			set('devMode', false);
 	}
-}
-
-enum abstract OptionType(String)
-{
-	var DISPLAY = 'display';
-	var GAMEPLAY = 'gameplay';
-	var FLIXEL = 'flixel';
-	var OTHER = 'other';
 }

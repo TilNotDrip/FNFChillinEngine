@@ -74,7 +74,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		if (controls.BACK)
 			despawn();
 
-		if (ChillSettings.get('devMode', OTHER) && FlxG.keys.justPressed.EIGHT)
+		if (ChillSettings.get('devMode') && FlxG.keys.justPressed.EIGHT)
 			FlxG.switchState(new AnimationDebug(deathChar.curCharacter, true));
 
 		if (deathChar.animation.curAnim.name == 'firstDeath')
