@@ -91,6 +91,7 @@ class TitleState extends MusicBeatState
 
 		#if MOD_SUPPORT
 		HScript.init();
+		Module.init();
 		#end
 
 		if (introText == null)

@@ -26,7 +26,7 @@
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
 	<define name="DISCORD" if="desktop cpp"/>
-	<!--define name="MOD_SUPPORT" /-->
+	<define name="MOD_SUPPORT"/>
 	<define name="VIDEOS" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->

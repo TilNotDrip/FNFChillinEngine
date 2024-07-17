@@ -1,99 +1,79 @@
 package modding;
 
-import hscript.*;
 #if sys
-import sys.FileSystem;
 import sys.io.File;
+import sys.FileSystem;
 #end
+
+import hscript.AbstractScriptClass;
+import hscript.InterpEx;
+import hscript.ParserEx;
 
 class HScript
 {
-	public static var variables(get, null):Map<String, Dynamic>;
+	private static var interp:InterpEx = null;
 
-	static function get_variables()
-		return _interp.variables;
-
-	static var _parser:Parser;
-	static var _interp:Interp;
-
-	static var scriptsLoaded:Map<String, Dynamic> = new Map();
+	private static var loadedScripts:Array<AbstractScriptClass> = [];
 
 	public static function init()
 	{
-		_parser = new Parser();
-		_parser.allowTypes = true;
+		interp = new InterpEx();
 
-		_interp = new Interp();
-		// _interp.setResolveImportFunction(resolveImport);
-
-		addGeneralScripts();
+		loadScripts();
 	}
 
-	/**
-	 * Adds all scripts in scripts to the mod manager.
-	 */
-	public static function addGeneralScripts()
+	private static function loadScripts()
 	{
-		for (path in ModLoader.modFile('scripts/'))
+		var scriptsFound:Array<String> = [];
+
+		var currentDirectories:Array<String> = ['assets'];
+        while(currentDirectories.length > 0)
+        {
+			var curDirectory:String = currentDirectories.shift();
+            for(path in FileSystem.readDirectory(curDirectory))
+            {
+				var fullPath:String = curDirectory + '/' + path;
+                if(path.endsWith('.hx'))
+                    scriptsFound.push(fullPath);
+                else if(FileSystem.isDirectory(fullPath))
+                    currentDirectories.push(fullPath);
+            }
+        }
+
+		for(path in scriptsFound)
 		{
-			var letsHope:Array<String> = [];
+			var parsedScript:String = File.getContent(path);
 
-			try
-				letsHope = FileSystem.readDirectory(path);
+			var parser:ParserEx = new ParserEx();
+			
+        	var module:Array<hscript.Expr.ModuleDecl> = parser.parseModule(parsedScript);
+        	interp.registerModule(module);
 
-			if (letsHope == null)
-				letsHope = [];
-
-			for (file in letsHope)
+			var pkg:Array<String> = null;
+			var classesToLoad:Array<String> = [];
+			
+			for(moduleThing in module)
 			{
-				if ((path + file).endsWith('.hx'))
-					addScript(path + file);
+				switch (moduleThing) 
+				{
+					case DPackage(path):
+						pkg = path;
+					case DClass(c):
+						classesToLoad.push(((pkg != null) ? (pkg.join(".") + ".") : '') + c.name);
+					case DImport(oke, ok):
+					case DTypedef(ok):
+				}
 			}
+
+			for(classs in classesToLoad)
+				loadedScripts.push(interp.createScriptClassInstance(classs));
 		}
 	}
 
-	/**
-	 * Adds a singular script to the manager.
-	 * @param path
-	 */
-	public static function addScript(path:String)
+	public static function listScriptsClasses(superClass:Dynamic)
 	{
-		var name:String = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.hx'));
-
-		var script:String = File.getContent(path);
-
-		_interp.execute(_parser.parseString(script, path));
-
-		var moddedClass:Dynamic = variables.get(name);
-
-		variables.set('STOP', StopFunction);
-
-		if (moddedClass.create != null)
-			moddedClass.create();
-	}
-
-	static function resolveImport(importyy:String)
-	{
-		for (script in scriptsLoaded.keys())
-		{
-			if (script.substring(script.lastIndexOf('.') + 1) == importyy)
-				return scriptsLoaded.get(script);
-		}
-
-		return Type.resolveClass(importyy);
-	}
-
-	public static function runForAllScripts(func:(String, Dynamic) -> Void)
-	{
-		for (script in scriptsLoaded.keys())
-			func(script, scriptsLoaded.get(script));
-	}
-}
-
-class StopFunction // gotta do smth so it isnt empty
-{
-	function doShit()
-	{
-		return false;
+		return loadedScripts.filter(function(script:AbstractScriptClass) {
+			return Std.isOfType(script.superClass, superClass);
+		});
 	}
 }

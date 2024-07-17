@@ -15,7 +15,7 @@ class Paths
 	private static var clearingCache:Bool = false;
 	public static function clearImageCache()
 	{
-		clearingCache = true;
+		/*clearingCache = true;
 
 		var imageArray:Array<String> = imageCache.keyValues();
 
@@ -52,7 +52,7 @@ class Paths
 
 		System.gc();
 
-		clearingCache = false;
+		clearingCache = false;*/
 
 		/*while(imageArray.length != 0)
 			Sys.sleep(0.01); */
@@ -65,13 +65,13 @@ class Paths
 
 	public static function getPath(file:String, type:AssetType, library:Null<String>)
 	{
-		#if MOD_SUPPORT
+		/*#if MOD_SUPPORT
 		for (modfile in ModLoader.modFile(file))
 		{
 			if (OpenFlAssets.exists(modfile, type))
 				return modfile;
 		}
-		#end
+		#end*/
 
 		if (library != null)
 		{

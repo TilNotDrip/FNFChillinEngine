@@ -14,7 +14,7 @@ enum abstract Direction(Int) from Int to Int
 
 	public function toString():String
 	{
-		return toStringMap.get(this).toLowerCase();
+		return toStringMap.get(this);
 	}
 
 	public function toColor():String
