@@ -1,7 +1,7 @@
 package states.game;
 
-import addons.Section.SwagSection;
-import addons.Song.SwagSong;
+import utils.Section.SwagSection;
+import utils.Song.SwagSong;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.addons.effects.FlxTrail;

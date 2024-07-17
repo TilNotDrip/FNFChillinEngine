@@ -53,7 +53,7 @@ class SchoolEvil extends StageBackend
 		red.scrollFactor.set();
 
 		var senpaiEvil:FlxSprite = new FlxSprite();
-		senpaiEvil.frames = Paths.getSparrowAtlas('weeb/senpaiCrazy');
+		senpaiEvil.frames = Paths.content.sparrowAtlas('weeb/senpaiCrazy');
 		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion instance 1', 24, false);
 		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * PlayState.daPixelZoom));
 		senpaiEvil.antialiasing = false;
@@ -78,7 +78,7 @@ class SchoolEvil extends StageBackend
 					else
 					{
 						senpaiEvil.animation.play('idle');
-						FlxG.sound.play(Paths.sound('Senpai_Dies'), 1, false, null, true, function()
+						FlxG.sound.play(Paths.location.sound('Senpai_Dies'), 1, false, null, true, function()
 						{
 							remove(senpaiEvil);
 							remove(red);

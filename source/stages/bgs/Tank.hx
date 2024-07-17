@@ -145,21 +145,21 @@ class Tank extends StageBackend
 
 	private function ughIntro()
 	{
-		#if VIDEOS
+		#if FUNKIN_VIDEOS
 		game.playVideo('ughCutscene');
 		#end
 	}
 
 	private function gunsIntro()
 	{
-		#if VIDEOS
+		#if FUNKIN_VIDEOS
 		game.playVideo('gunsCutscene');
 		#end
 	}
 
 	private function stressIntro()
 	{
-		#if VIDEOS
+		#if FUNKIN_VIDEOS
 		game.playVideo('stressCutscene');
 		#end
 	}

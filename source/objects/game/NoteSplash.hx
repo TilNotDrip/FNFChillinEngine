@@ -42,7 +42,7 @@ class NoteSplash extends FlxSprite
 	{
 		if (pixel)
 		{
-			loadGraphic(Paths.image('pixelui/Splashes'), true, 48, 48);
+			loadGraphic(Paths.content.image('pixelui/Splashes'), true, 48, 48);
 
 			animation.add('splash-0', [0, 1, 2, 3], 24, false);
 			animation.add('splash-1', [4, 5, 6, 7], 24, false);
@@ -54,7 +54,7 @@ class NoteSplash extends FlxSprite
 		}
 		else
 		{
-			frames = Paths.getSparrowAtlas('ui/Splashes');
+			frames = Paths.content.sparrowAtlas('ui/Splashes');
 
 			animation.addByPrefix('splash-0', 'note impact 1', 24, false);
 			animation.addByPrefix('splash-1', 'note impact 2', 24, false);

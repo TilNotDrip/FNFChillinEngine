@@ -16,7 +16,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 	override function create()
 	{
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.state = 'Controls';
 		#end
 

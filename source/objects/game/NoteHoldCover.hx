@@ -29,7 +29,7 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 	{
 		glowFrames = null;
 
-		var atlas:FlxFramesCollection = Paths.getSparrowAtlas('ui/sustainCovers');
+		var atlas:FlxFramesCollection = Paths.content.sparrowAtlas('ui/sustainCovers');
 		atlas.parent.persist = true;
 
 		glowFrames = atlas;

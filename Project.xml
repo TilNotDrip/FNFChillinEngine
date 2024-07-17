@@ -25,9 +25,9 @@
 
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
-	<define name="DISCORD" if="desktop cpp"/>
-	<define name="MOD_SUPPORT"/>
-	<define name="VIDEOS" />
+	<define name="FUNKIN_DISCORD_RPC" if="desktop cpp"/>
+	<define name="FUNKIN_MOD_SUPPORT" if="desktop" />
+	<define name="FUNKIN_VIDEOS" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -105,10 +105,10 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxanimate" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
-	<haxelib name="hxdiscord_rpc" if="DISCORD" />
-	<section if="cpp"> <haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> </section>
-	<haxelib name="hscript-ex" if="MOD_SUPPORT"/>
-	<haxelib name="hscript" if="MOD_SUPPORT"/>
+	<haxelib name="hxdiscord_rpc" if="FUNKIN_DISCORD_RPC" />
+	<section if="cpp"> <haxelib name="hxvlc" if="FUNKIN_VIDEOS" unless="!desktop || !mobile" /> </section>
+	<haxelib name="hscript-ex" if="FUNKIN_MOD_SUPPORT"/>
+	<haxelib name="hscript" if="FUNKIN_MOD_SUPPORT"/>
 	<haxelib name="haxe-ws" />
 
 	<haxedev set='webgl' />

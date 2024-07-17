@@ -20,7 +20,7 @@ class EndSubState extends MusicBeatSubstate
 
 		Application.current.window.title += ' [ENDING]';
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Ending]';
 		PlayState.game.setRpcTimestamps(false);
 		#end
@@ -38,7 +38,7 @@ class EndSubState extends MusicBeatSubstate
 
 		bfCheeringYouOn = new FlxSprite();
 		bfCheeringYouOn.animation = new FunkinAnimationController(bfCheeringYouOn);
-		bfCheeringYouOn.frames = Paths.getSparrowAtlas('endScreen/bf');
+		bfCheeringYouOn.frames = Paths.content.sparrowAtlas('endScreen/bf');
 		bfCheeringYouOn.animation.addByPrefix('yippee', 'yayy0', 24, false);
 		bfCheeringYouOn.animation.addByPrefix('yippee-loop', 'yayy loop', 24, true);
 		bfCheeringYouOn.animation.play('yippee', true);
@@ -68,7 +68,7 @@ class EndSubState extends MusicBeatSubstate
 		healthBar.createFilledBar(0xFF000000, 0xFFFFFFFF);
 		add(healthBar);
 
-		ratingSpr = new FlxSprite().loadGraphic(Paths.image("ui/" + daRating));
+		ratingSpr = new FlxSprite().loadGraphic(Paths.content.image("ui/" + daRating));
 		ratingSpr.updateHitbox();
 		ratingSpr.screenCenter();
 		ratingSpr.y += 100;

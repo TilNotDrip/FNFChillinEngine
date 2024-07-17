@@ -22,7 +22,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		Application.current.window.title += ' [Game Over]';
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Game Over]';
 		DiscordRPC.state = 'Deaths: ' + PlayState.deathCounter;
 		PlayState.game.setRpcTimestamps(false);
@@ -57,7 +57,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			startVol = 0.2;
 		}
 
-		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
+		FlxG.sound.play(Paths.location.sound('fnf_loss_sfx' + stageSuffix));
 		Conductor.bpm = 100;
 	}
 
@@ -88,7 +88,7 @@ class GameOverSubstate extends MusicBeatSubstate
 				{
 					playingDeathSound = true;
 
-					FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
+					FlxG.sound.play(Paths.location.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
 					{
 						if (!isEnding)
 							FlxG.sound.music.fadeIn(4, 0.2, 1);
@@ -98,7 +98,7 @@ class GameOverSubstate extends MusicBeatSubstate
 				deathChar.startedDeath = true;
 
 				if (!isEnding)
-					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), startVol);
+					FlxG.sound.playMusic(Paths.location.music('gameOver' + stageSuffix), startVol);
 			}
 		}
 
@@ -114,7 +114,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			deathChar.playAnim('deathConfirm', true);
 
 			FlxG.sound.music.stop();
-			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
+			FlxG.sound.play(Paths.location.music('gameOverEnd' + stageSuffix));
 
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{

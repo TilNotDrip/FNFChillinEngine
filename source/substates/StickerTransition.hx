@@ -25,7 +25,6 @@ class StickerTransition extends Sprite
 
 		stickerGroup.generateStickers().add(function()
 		{
-			trace('finished generating!');
 			FlxG.switchState(targetState);
 			targetState.persistentUpdate = false;
 
@@ -34,7 +33,6 @@ class StickerTransition extends Sprite
 				FlxG.addChildBelowMouse(stickerGroup);
 				stickerGroup.removeStickers().add(function()
 				{
-					trace('finished removing!');
 					targetState.persistentUpdate = true;
 					FlxG.removeChild(stickerGroup);
 				});
@@ -50,7 +48,6 @@ class StickerTransition extends Sprite
 		super();
 
 		sounds = getSounds();
-		trace('got sounds!');
 	}
 
 	public function generateStickers():FlxSignal
@@ -62,8 +59,6 @@ class StickerTransition extends Sprite
 			stickers.set(stickerSets, stickerInfo.getStickers(stickerSets));
 		}
 
-		trace('got sticker json!');
-
 		var xPos:Float = -100;
 		var yPos:Float = -100;
 		while (xPos <= FlxG.width)
@@ -71,8 +66,7 @@ class StickerTransition extends Sprite
 			var stickerSet:String = FlxG.random.getObject(stickers.keyValues());
 			var sticker:String = FlxG.random.getObject(stickers.get(stickerSet));
 
-			var stickyBitmap:BitmapData = Assets.getBitmapData(Paths.getPath('images/transitionSwag/' + stickerInfo.name + '/' + sticker + '.png', IMAGE,
-				null));
+			var stickyBitmap:BitmapData = Assets.getBitmapData(Paths.location.image('transitionSwag/' + stickerInfo.name + '/' + sticker));
 			var sticky:BetterBitmap = new BetterBitmap(stickyBitmap);
 			addChild(sticky);
 
@@ -91,11 +85,7 @@ class StickerTransition extends Sprite
 
 			sticky.rotation = FlxG.random.int(-60, 70);
 			sticky.visible = false;
-
-			trace('added sprite! [$xPos, $yPos]');
 		}
-
-		trace('generated sprites!');
 
 		FlxG.random.shuffle(__children);
 
@@ -110,7 +100,7 @@ class StickerTransition extends Sprite
 			{
 				sticker.visible = true;
 				var daSound:String = FlxG.random.getObject(sounds);
-				FlxG.sound.play(Paths.sound(daSound));
+				FlxG.sound.play(Paths.location.sound(daSound));
 
 				var frameTimer:Int = FlxG.random.int(0, 2);
 
@@ -153,9 +143,7 @@ class StickerTransition extends Sprite
 			{
 				sticker.visible = false;
 				var daSound:String = FlxG.random.getObject(sounds);
-				FlxG.sound.play(Paths.sound(daSound));
-
-				trace('removed sprite and played sound!');
+				FlxG.sound.play(Paths.location.sound(daSound));
 
 				if (ind == __children.length - 1)
 					finishedSignal.dispatch();
@@ -197,8 +185,6 @@ class StickerTransition extends Sprite
 				}
 				soundSelections.push(i);
 			}
-
-			trace(soundSelections);
 		}
 
 		soundSelection = FlxG.random.getObject(soundSelections);
@@ -303,7 +289,7 @@ class StickerInfo
 
 	public function new(stickerSet:String):Void
 	{
-		var path = Paths.file('images/transitionSwag/' + stickerSet + '/stickers.json');
+		var path = Paths.location.json('images/transitionSwag/' + stickerSet + '/stickers');
 		var json = Json.parse(Assets.getText(path));
 
 		// doin this dipshit nonsense cuz i dunno how to deal with casting a json object with

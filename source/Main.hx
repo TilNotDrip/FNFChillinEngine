@@ -71,13 +71,19 @@ class Main extends Sprite
 
 		addChild(funkinGame);
 
+		#if FUNKIN_MOD_SUPPORT
+		ModHandler.initializeMods();
+		HScript.init();
+		Module.init();
+		#end
+
 		/*titleBar = new FunkinWindowBar();
 			addChild(titleBar); */
 
 		initGame();
 
 		#if !mobile
-		fpsCounter = new FPS(10, 32 + 3, 0xFFFFFF);
+		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
 	}
@@ -100,7 +106,7 @@ class Main extends Sprite
 		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];
 
-		// FlxG.scaleMode = new flixel.system.scaleModes.StageSizeScaleMode();
+		FlxG.scaleMode = new flixel.system.scaleModes.FixedScaleAdjustSizeScaleMode();
 
 		/*FlxG.signals.postUpdate.add(function() {
 			FlxG.game.y = 32;
@@ -108,17 +114,7 @@ class Main extends Sprite
 
 		// Lib.application.window.borderless = true;
 
-		Lib.application.window.onResize.add(function(width:Int, height:Int)
-		{
-			// titleBar.reloadWindowBar(width);
-
-			@:privateAccess
-			FlxG.game.resizeGame(width, height);
-
-			trace('Game resized!');
-		}, false, 99);
-
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.initialize();
 		#end
 	}

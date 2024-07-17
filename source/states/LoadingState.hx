@@ -35,7 +35,7 @@ class LoadingState extends MusicBeatState
 	{
 		changeWindowName('Loading...');
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Loading...';
 		#end
 
@@ -43,7 +43,7 @@ class LoadingState extends MusicBeatState
 		add(bg);
 
 		funkay = new FlxSprite();
-		funkay.loadGraphic(Paths.image('menuUI/funkay'));
+		funkay.loadGraphic(Paths.content.image('menuUI/funkay'));
 		funkay.setGraphicSize(0, FlxG.height);
 		funkay.updateHitbox();
 		add(funkay);
@@ -75,7 +75,7 @@ class LoadingState extends MusicBeatState
 
 	private function checkLoadSong(path:String)
 	{
-		if(!Assets.exists(path, SOUND))
+		if (!Assets.exists(path, SOUND))
 			return;
 
 		var callback = callbacks.add("song:" + path);
@@ -142,12 +142,12 @@ class LoadingState extends MusicBeatState
 
 	private static function getSongPath()
 	{
-		return Paths.inst(PlayState.SONG.metadata.song);
+		return Paths.location.inst(PlayState.SONG.metadata.song);
 	}
 
 	private static function getVocalPath(?char:String = "")
 	{
-		return Paths.voices(PlayState.SONG.metadata.song, char);
+		return Paths.location.voices(PlayState.SONG.metadata.song, char);
 	}
 
 	inline public static function loadAndSwitchState(target:FlxState, stopMusic = false)

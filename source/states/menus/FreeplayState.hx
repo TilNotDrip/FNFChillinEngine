@@ -1,6 +1,6 @@
 package states.menus;
 
-import addons.Week;
+import utils.Week;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxAngle;
 import shaders.*;
@@ -128,11 +128,11 @@ class FreeplayState extends MusicBeatState
 
 		changeWindowName('Freeplay');
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Freeplay';
 		#end
 
-		randomSong = new FlxSound().loadEmbedded(Paths.music('freeplayRandom'), true);
+		randomSong = new FlxSound().loadEmbedded(Paths.location.music('freeplayRandom'), true);
 		FlxG.sound.list.add(randomSong);
 		randomSong.stop();
 
@@ -145,7 +145,7 @@ class FreeplayState extends MusicBeatState
 			stickerSubState.degenStickers();
 		}
 
-		#if discord_rpc
+		#if FUNKIN_DISCORD_RPC_rpc
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence('In the Menus', null);
 		#end
@@ -157,7 +157,7 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		if (FlxG.sound.music != null)
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
 
 		// Add a null entry that represents the RANDOM option
 		// songs.push(null);
@@ -189,12 +189,7 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		trace(FlxG.width);
-		trace(FlxG.camera.zoom);
-		trace(FlxG.camera.initialZoom);
-		trace(FlxCamera.defaultZoom);
-
-		var pinkBack:FlxSprite = new FlxSprite(Paths.image('freeplay/pinkBack'));
+		var pinkBack:FlxSprite = new FlxSprite(Paths.content.image('freeplay/pinkBack'));
 		pinkBack.color = 0xFFFFD4E9; // sets it to pink!
 		pinkBack.x -= pinkBack.width;
 
@@ -300,7 +295,7 @@ class FreeplayState extends MusicBeatState
 		dj.visible = true;
 		dj.alpha = 1;
 
-		var bgDad:FlxSprite = new FlxSprite(pinkBack.width * 0.75, 0).loadGraphic(Paths.image('freeplay/freeplayBGdad'));
+		var bgDad:FlxSprite = new FlxSprite(pinkBack.width * 0.75, 0).loadGraphic(Paths.content.image('freeplay/freeplayBGdad'));
 		bgDad.setGraphicSize(0, FlxG.height);
 		bgDad.updateHitbox();
 		bgDad.shader = new AngleMask();
@@ -386,7 +381,7 @@ class FreeplayState extends MusicBeatState
 		add(ostName);
 
 		var fnfHighscoreSpr:FlxSprite = new FlxSprite(860, 70);
-		fnfHighscoreSpr.frames = Paths.getSparrowAtlas('freeplay/highscore');
+		fnfHighscoreSpr.frames = Paths.content.sparrowAtlas('freeplay/highscore');
 		fnfHighscoreSpr.animation.addByPrefix('highscore', 'highscore small instance 1', 24, false);
 		fnfHighscoreSpr.visible = false;
 		fnfHighscoreSpr.setGraphicSize(0, Std.int(fnfHighscoreSpr.height * 1));
@@ -403,7 +398,7 @@ class FreeplayState extends MusicBeatState
 		fp.visible = false;
 		add(fp);
 
-		var clearBoxSprite:FlxSprite = new FlxSprite(1165, 65).loadGraphic(Paths.image('freeplay/clearBox'));
+		var clearBoxSprite:FlxSprite = new FlxSprite(1165, 65).loadGraphic(Paths.content.image('freeplay/clearBox'));
 		clearBoxSprite.visible = false;
 		add(clearBoxSprite);
 
@@ -895,7 +890,7 @@ class FreeplayState extends MusicBeatState
 			FlxTimer.globalManager.clear();
 			dj.onIntroDone.removeAll();
 
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.location.sound('cancelMenu'));
 
 			var longestTimer:Float = 0;
 
@@ -1065,8 +1060,7 @@ class FreeplayState extends MusicBeatState
 				continue;
 			if (song.song != actualSongTho)
 			{
-				trace('trying to remove: ' + song.song);
-				// openfl.Assets.cache.clear(Paths.inst(song.songName));
+				// openfl.Assets.cache.clear(Paths.location.inst(song.songName));
 			}
 		}
 	}
@@ -1084,16 +1078,12 @@ class FreeplayState extends MusicBeatState
 			return cap.alive && cap.songData != null;
 		});
 
-		trace('Available songs: ${availableSongCapsules.map(function(cap) {
-	   return cap.songData.song;
-	 })}');
-
 		if (availableSongCapsules.length == 0)
 		{
 			trace('No songs available!');
 			busy = false;
 			letterSort.inputEnabled = true;
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.location.sound('cancelMenu'));
 			return;
 		}
 
@@ -1113,7 +1103,7 @@ class FreeplayState extends MusicBeatState
 		letterSort.inputEnabled = false;
 
 		// Visual and audio effects.
-		FlxG.sound.play(Paths.sound('confirmMenu'));
+		FlxG.sound.play(Paths.location.sound('confirmMenu'));
 		dj.confirm();
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -1161,7 +1151,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0):Void
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.location.sound('scrollMenu'), 0.4);
 
 		var prevSelected:Int = curSelected;
 
@@ -1283,7 +1273,7 @@ class DifficultySelector extends FlxSprite
 
 		this.controls = controls;
 
-		frames = Paths.getSparrowAtlas('freeplay/freeplaySelector');
+		frames = Paths.content.sparrowAtlas('freeplay/freeplaySelector');
 		animation.addByPrefix('shine', 'arrow pointer loop', 24);
 		animation.play('shine');
 
@@ -1383,16 +1373,16 @@ class DifficultySprite extends FlxSprite
 
 		difficultyId = diffId;
 
-		if (Paths.exists('images/freeplay/freeplay${diffId.formatToPath()}.xml', TEXT))
+		if (Paths.location.exists('images/freeplay/freeplay${diffId.formatToPath()}.xml', null, TEXT))
 		{
-			this.frames = Paths.getSparrowAtlas('freeplay/freeplay${diffId.formatToPath()}');
+			this.frames = Paths.content.sparrowAtlas('freeplay/freeplay${diffId.formatToPath()}');
 			this.animation.addByPrefix('idle', 'idle0', 24, true);
 			if (ChillSettings.get('flashingLights'))
 				this.animation.play('idle');
 		}
 		else
 		{
-			this.loadGraphic(Paths.image('freeplay/freeplay' + diffId.formatToPath()));
+			this.loadGraphic(Paths.content.image('freeplay/freeplay' + diffId.formatToPath()));
 		}
 	}
 }
@@ -1416,7 +1406,7 @@ class LetterSort extends FlxTypedSpriteGroup<FlxSprite>
 	{
 		super(x, y);
 
-		leftArrow = new FlxSprite(-20, 15).loadGraphic(Paths.image("freeplay/miniArrow"));
+		leftArrow = new FlxSprite(-20, 15).loadGraphic(Paths.content.image("freeplay/miniArrow"));
 		// leftArrow.animation.play("arrow");
 		leftArrow.flipX = true;
 		add(leftArrow);
@@ -1442,7 +1432,7 @@ class LetterSort extends FlxTypedSpriteGroup<FlxSprite>
 			if (i == 4)
 				continue;
 
-			var sep:FlxSprite = new FlxSprite((i * 80) + 60, 20).loadGraphic(Paths.image("freeplay/seperator"));
+			var sep:FlxSprite = new FlxSprite((i * 80) + 60, 20).loadGraphic(Paths.content.image("freeplay/seperator"));
 			// sep.animation.play("seperator");
 			sep.color = letter.color.getDarkened(darkness);
 			add(sep);
@@ -1450,7 +1440,7 @@ class LetterSort extends FlxTypedSpriteGroup<FlxSprite>
 			grpSeperators.push(sep);
 		}
 
-		rightArrow = new FlxSprite(380, 15).loadGraphic(Paths.image("freeplay/miniArrow"));
+		rightArrow = new FlxSprite(380, 15).loadGraphic(Paths.content.image("freeplay/miniArrow"));
 
 		// rightArrow.animation.play("arrow");
 		add(rightArrow);
@@ -1581,7 +1571,7 @@ class FreeplayLetter extends flxanimate.FlxAnimate
 
 	public function new(x:Float, y:Float, ?letterInd:Int)
 	{
-		super(x, y, Paths.atlas("freeplay/sortedLetters", 'preload'));
+		super(x, y, Paths.location.atlas("freeplay/sortedLetters", 'preload'));
 
 		// this is used for the regex
 		// /^[OR].*/gi doesn't work for showing the song Pico, so now it's

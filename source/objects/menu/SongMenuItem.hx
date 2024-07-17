@@ -24,7 +24,7 @@ class SongMenuItem extends FlxSpriteGroup
 	 * Modify this by calling `init()`
 	 * If `null`, assume this SongMenuItem is for the "Random Song" option.
 	 */
-	public var songData(default, null):Null<addons.Week.SongData> = null;
+	public var songData(default, null):Null<utils.Week.SongData> = null;
 
 	public var selected(default, set):Bool;
 
@@ -53,7 +53,7 @@ class SongMenuItem extends FlxSpriteGroup
 		super(x, y);
 
 		capsule = new FlxSprite();
-		capsule.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule');
+		capsule.frames = Paths.content.sparrowAtlas('freeplay/freeplayCapsule');
 		capsule.animation.addByPrefix('selected', 'mp3 capsule w backing0', 24);
 		capsule.animation.addByPrefix('unselected', 'mp3 capsule w backing NOT SELECTED', 24);
 		// capsule.animation
@@ -65,7 +65,7 @@ class SongMenuItem extends FlxSpriteGroup
 		var rank:String = FlxG.random.getObject(ranks);
 
 		ranking = new FlxSprite(capsule.width * 0.84, 30);
-		// ranking.loadGraphic(Paths.image('freeplay/ranks/' + rank));
+		// ranking.loadGraphic(Paths.content.image('freeplay/ranks/' + rank));
 		// ranking.scale.x = ranking.scale.y = realScaled;
 		// ranking.alpha = 0.75;
 		// ranking.visible = false;
@@ -81,7 +81,7 @@ class SongMenuItem extends FlxSpriteGroup
 
 		grayscaleShader = new Grayscale(1);
 
-		// diffRatingSprite = new FlxSprite(145, 90).loadGraphic(Paths.image('freeplay/diffRatings/diff00'));
+		// diffRatingSprite = new FlxSprite(145, 90).loadGraphic(Paths.content.image('freeplay/diffRatings/diff00'));
 		// diffRatingSprite.shader = grayscaleShader;
 		// diffRatingSprite.origin.set(capsule.origin.x - diffRatingSprite.x, capsule.origin.y - diffRatingSprite.y);
 		// TODO: Readd once ratings are fully implemented
@@ -104,7 +104,7 @@ class SongMenuItem extends FlxSpriteGroup
 		grpHide.add(pixelIcon);
 
 		explicitIcon = new FlxSprite(0, 47);
-		explicitIcon.loadGraphic(Paths.image('freeplay/explicit'));
+		explicitIcon.loadGraphic(Paths.content.image('freeplay/explicit'));
 		explicitIcon.x = capsule.width - explicitIcon.width - 95;
 		explicitIcon.scale.x = explicitIcon.scale.y = 2;
 		explicitIcon.antialiasing = false;
@@ -113,7 +113,7 @@ class SongMenuItem extends FlxSpriteGroup
 		grpHide.add(explicitIcon);
 
 		favIcon = new FlxSprite(400, 40);
-		favIcon.frames = Paths.getSparrowAtlas('freeplay/favHeart');
+		favIcon.frames = Paths.content.sparrowAtlas('freeplay/favHeart');
 		favIcon.animation.addByPrefix('fav', 'favorite heart', 24, false);
 		favIcon.animation.play('fav');
 		favIcon.setGraphicSize(50, 50);
@@ -127,7 +127,7 @@ class SongMenuItem extends FlxSpriteGroup
 	function updateDifficultyRating(newRating:Int):Void
 	{
 		var ratingPadded:String = newRating < 10 ? '0$newRating' : '$newRating';
-		// diffRatingSprite.loadGraphic(Paths.image('freeplay/diffRatings/diff${ratingPadded}'));
+		// diffRatingSprite.loadGraphic(Paths.content.image('freeplay/diffRatings/diff${ratingPadded}'));
 		// diffRatingSprite.visible = false;
 	}
 
@@ -170,7 +170,7 @@ class SongMenuItem extends FlxSpriteGroup
 		updateSelected();
 	}
 
-	public function init(?x:Float, ?y:Float, songData:Null<addons.Week.SongData>):Void
+	public function init(?x:Float, ?y:Float, songData:Null<utils.Week.SongData>):Void
 	{
 		if (x != null)
 			this.x = x;
@@ -217,13 +217,13 @@ class SongMenuItem extends FlxSpriteGroup
 				charPath += '${char}pixel';
 		}
 
-		if (!Paths.exists('images/$charPath.png', IMAGE))
+		if (!Paths.location.exists('images/$charPath.png', null, IMAGE))
 		{
 			trace('[WARN] Character ${char} has no freeplay icon.');
 			return;
 		}
 
-		pixelIcon.loadGraphic(Paths.image(charPath));
+		pixelIcon.loadGraphic(Paths.content.image(charPath));
 		pixelIcon.scale.x = pixelIcon.scale.y = 2;
 
 		switch (char)

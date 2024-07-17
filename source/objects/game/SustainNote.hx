@@ -17,8 +17,8 @@ class SustainNote extends FlxSprite
 	{
 		var daSprite:BitmapData = null;
 
-		var holdSprite:BitmapData = openfl.utils.Assets.getBitmapData(Paths.getPath('images/ui/notes/hold.png', IMAGE, null));
-		var endSprite:BitmapData = openfl.utils.Assets.getBitmapData(Paths.getPath('images/ui/notes/end.png', IMAGE, null));
+		var holdSprite:BitmapData = openfl.utils.Assets.getBitmapData(Paths.location.image('ui/notes/hold'));
+		var endSprite:BitmapData = openfl.utils.Assets.getBitmapData(Paths.location.image('ui/notes/end'));
 
 		var daCalculatedLength:Float = length / Conductor.stepCrochet;
 		var daCalculatedHeight:Float = (44 * Math.floor(daCalculatedLength) - 1) * Conductor.stepCrochet / 100 * 1.5 * speed;

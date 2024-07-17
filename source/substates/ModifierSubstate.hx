@@ -1,7 +1,7 @@
 package substates;
 
 import objects.menu.MenuAlphabet;
-import addons.Modifiers;
+import utils.Modifiers;
 import objects.menu.Checkbox;
 
 class ModifierSubstate extends MusicBeatSubstate
@@ -53,6 +53,7 @@ class ModifierSubstate extends MusicBeatSubstate
 			grpMenuShit.add(songText);
 
 			var checkbox:Checkbox = new Checkbox();
+			checkbox.check(Modifiers.hasModifierOn(daModifiers[i].nameID));
 			checkbox.sprTracker = songText;
 			checkbox.sprOffsetX = 50;
 			checkbox.ID = i;
@@ -89,7 +90,7 @@ class ModifierSubstate extends MusicBeatSubstate
 
 	private function changeSelection(change:Int = 0):Void
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.location.sound('scrollMenu'), 0.4);
 
 		curSelected += change;
 

@@ -4,88 +4,101 @@ import objects.game.Note;
 
 class Module
 {
-    private static var normalModules:Array<Module> = [];
-    private static var scriptedModules:Array<hscript.AbstractScriptClass> = [];
+	private static var normalModules:Array<Module> = [];
+	private static var scriptedModules:Array<hscript.AbstractScriptClass> = [];
 
-    public static function reloadModules()
-    {
-        scriptedModules = HScript.listScriptsClasses(Module);
+	public static function reloadModules()
+	{
+		scriptedModules = HScript.listScriptsClasses(Module);
 
-        // put normal module code here
-    }
+		// put normal module code here
+	}
 
-    private static var initialized:Bool = false;
-    public static function init()
-    {
-        if(initialized)
-            return;
+	private static var initialized:Bool = false;
 
-        reloadModules();
+	public static function init()
+	{
+		if (initialized)
+			return;
 
-        FlxG.signals.postStateSwitch.add(function() {
-            callFunction('create');
-        });
+		reloadModules();
 
-        FlxG.signals.postUpdate.add(function() {
-            callFunction('update', [FlxG.elapsed]);
-        });
+		FlxG.signals.postStateSwitch.add(function()
+		{
+			callFunction('create');
+		});
 
-        Conductor.stepSignal.add(function() {
-            callFunction('stepHit');
-        });
+		FlxG.signals.postUpdate.add(function()
+		{
+			callFunction('update', [FlxG.elapsed]);
+		});
 
-        Conductor.beatSignal.add(function() {
-            callFunction('beatHit');
-        });
+		Conductor.stepSignal.add(function()
+		{
+			callFunction('stepHit');
+		});
 
-        Conductor.beatSignal.add(function() {
-            callFunction('sectionHit');
-        });
+		Conductor.beatSignal.add(function()
+		{
+			callFunction('beatHit');
+		});
 
-        initialized = true;
-    }
+		Conductor.beatSignal.add(function()
+		{
+			callFunction('sectionHit');
+		});
 
-    public static function callFunction(name:String, ?args:Array<Dynamic>):Array<Dynamic>
-    {
-        if(args == null)
-            args = [];
+		initialized = true;
+	}
 
-        var returnArray:Array<Dynamic> = [];
-        
-        for(i in normalModules)
-            returnArray.push(Reflect.callMethod(i, Reflect.field(i, name), args));
+	public static function callFunction(name:String, ?args:Array<Dynamic>):Array<Dynamic>
+	{
+		if (args == null)
+			args = [];
 
-        for(i in scriptedModules)
-            returnArray.push(i.callFunction(name, args));
+		var returnArray:Array<Dynamic> = [];
 
-        return returnArray;
-    }
+		for (i in normalModules)
+			returnArray.push(Reflect.callMethod(i, Reflect.field(i, name), args));
 
+		for (i in scriptedModules)
+			returnArray.push(i.callFunction(name, args));
 
-    public var id:String;
+		return returnArray;
+	}
 
-    public function new(id:String)
-    {
-        this.id = id;
-    }
+	public var id:String;
 
-    public function create() {}
-    public function update(elapsed:Float) {}
+	public function new(id:String)
+	{
+		this.id = id;
+	}
 
-    public function stepHit() {}
-    public function beatHit() {}
-    public function sectionHit() {}
+	public function create() {}
 
-    public function pauseGame() {}
-    public function resumeGame() {}
+	public function update(elapsed:Float) {}
 
-    public function startCountdown() {}
-    public function startSong() {}
-    public function endSong() {}
+	public function stepHit() {}
 
-    public function gameOver() {}
+	public function beatHit() {}
 
-    public function goodNoteHit(note:Note) {}
-    public function opponentNoteHit(note:Note) {}
-    public function noteMiss(note:Note) {}
+	public function sectionHit() {}
+
+	public function pauseGame() {}
+
+	public function resumeGame() {}
+
+	public function startCountdown() {}
+
+	public function startSong() {}
+
+	public function endSong() {}
+
+	public function gameOver() {}
+
+	public function goodNoteHit(note:Note) {}
+
+	public function opponentNoteHit(note:Note) {}
+
+	public function noteMiss(note:Note) {}
 }

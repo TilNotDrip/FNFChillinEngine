@@ -29,7 +29,7 @@ class DJBoyfriend extends FlxAnimate
 
 	public function new(x:Float, y:Float)
 	{
-		super(x, y, Paths.atlas("freeplay/freeplay-boyfriend", "preload"));
+		super(x, y, Paths.location.atlas("freeplay/freeplay-boyfriend"));
 
 		animOffsets = new Map<String, Array<Dynamic>>();
 
@@ -40,7 +40,7 @@ class DJBoyfriend extends FlxAnimate
 				case "Boyfriend DJ watchin tv OG":
 					if (frame == 80)
 					{
-						FlxG.sound.play(Paths.sound('remote_click'));
+						FlxG.sound.play(Paths.location.sound('remote_click'));
 					}
 					if (frame == 85)
 					{
@@ -184,12 +184,9 @@ class DJBoyfriend extends FlxAnimate
 				trace('Finished intro');
 				currentState = Idle;
 				onIntroDone.dispatch();
-			case "Boyfriend DJ":
-			// trace('Finished idle');
+
 			case "bf dj afk":
-				trace('Finished spook');
 				currentState = Idle;
-			case "Boyfriend DJ confirm":
 
 			case "Boyfriend DJ watchin tv OG":
 				var frame:Int = FlxG.random.bool(33) ? 112 : 166;
@@ -198,12 +195,9 @@ class DJBoyfriend extends FlxAnimate
 				if (FlxG.random.bool(5))
 				{
 					frame = 60;
-					// boyfriend switches channel code?
 					runTvLogic();
 				}
-				trace('Replay idle: ${frame}');
 				anim.play("Boyfriend DJ watchin tv OG", true, false, frame);
-				// trace('Finished confirm');
 		}
 	}
 
@@ -243,7 +237,7 @@ class DJBoyfriend extends FlxAnimate
 		if (cartoonSnd == null)
 		{
 			// tv is OFF, but getting turned on
-			FlxG.sound.play(Paths.sound('tv_on'), 1.0, false, null, true, function()
+			FlxG.sound.play(Paths.location.sound('tv_on'), 1.0, false, null, true, function()
 			{
 				loadCartoon();
 			});
@@ -251,7 +245,7 @@ class DJBoyfriend extends FlxAnimate
 		else
 		{
 			// plays it smidge after the click
-			FlxG.sound.play(Paths.sound('channel_switch'), 1.0, false, null, true, function()
+			FlxG.sound.play(Paths.location.sound('channel_switch'), 1.0, false, null, true, function()
 			{
 				cartoonSnd.destroy();
 				loadCartoon();
@@ -263,7 +257,7 @@ class DJBoyfriend extends FlxAnimate
 
 	function loadCartoon()
 	{
-		cartoonSnd = FlxG.sound.load(Paths.sound(getRandomFlashToon()), 1.0, false, null, true, true, function()
+		cartoonSnd = FlxG.sound.load(Paths.location.sound(getRandomFlashToon()), 1.0, false, null, true, true, function()
 		{
 			anim.play("Boyfriend DJ watchin tv OG", true, false, 60);
 		});

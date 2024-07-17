@@ -34,7 +34,7 @@ class AnimationDebug extends MusicBeatState
 	{
 		changeWindowName('Animation Debug - ' + daAnim);
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Animation Debug';
 		DiscordRPC.state = daAnim;
 		#end

@@ -119,12 +119,12 @@ class Option extends FlxSpriteGroup
 	}
 }
 
-enum abstract OptionVarType(Int)
+enum abstract OptionVarType(String)
 {
-	var CHECKBOX = 0;
-	var SLIDER = 1;
-	var SELECTION = 2;
-	var NUMBER = 3;
+	var CHECKBOX = "checkbox";
+	var SLIDER = "slider";
+	var SELECTION = "selection";
+	var NUMBER = "number";
 }
 
 // I dont wanna add this to todo but I wanna add this

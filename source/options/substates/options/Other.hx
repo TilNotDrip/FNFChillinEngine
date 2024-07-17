@@ -8,17 +8,17 @@ class Other extends BaseSubState
 {
 	override public function create()
 	{
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.state = 'Other';
 		#end
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		var discordRPC:Option = new Option('Discord Rich Presence', 'Displays this game on your Discord Profile.', 'discordRPC', CHECKBOX);
 		discordRPC.onChange = discordRPCChange;
 		addOption(discordRPC);
 		#end
 
-		#if MOD_SUPPORT
+		#if FUNKIN_MOD_SUPPORT
 		var safeMode:Option = new Option('Safe Mode', 'Prevents mods from doing harmful stuff to your computer.', 'safeMode', CHECKBOX);
 		addOption(safeMode);
 		#end
@@ -29,7 +29,7 @@ class Other extends BaseSubState
 		super.create();
 	}
 
-	#if DISCORD
+	#if FUNKIN_DISCORD_RPC
 	private function discordRPCChange()
 	{
 		if (ChillSettings.get('discordRPC'))

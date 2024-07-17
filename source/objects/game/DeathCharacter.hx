@@ -1,5 +1,6 @@
 package objects.game;
 
+@:deprecated('DeathCharacter will be soon replaced for character.jsons')
 class DeathCharacter extends FlxSprite
 {
 	public var curCharacter:String = 'bf-dead';
@@ -21,19 +22,19 @@ class DeathCharacter extends FlxSprite
 		switch (curCharacter)
 		{
 			case 'bf-dead':
-				frames = Paths.getSparrowAtlas('characters/BF_Dead');
+				frames = Paths.content.sparrowAtlas('characters/BF_Dead');
 
 				quickAnimDeathAdd(['BF dies', 'BF Dead Loop', 'BF Dead confirm']);
 
 			case 'bf-pixel-dead':
-				frames = Paths.getSparrowAtlas('characters/bfPixelsDEAD');
+				frames = Paths.content.sparrowAtlas('characters/bfPixelsDEAD');
 
 				quickAnimDeathAdd(['BF Dies pixel', 'Retry Loop', 'RETRY CONFIRM']);
 
 				isPixel = true;
 
 			case 'bf-holding-gf-dead':
-				frames = Paths.getSparrowAtlas('characters/bfHoldingGF-DEAD');
+				frames = Paths.content.sparrowAtlas('characters/bfHoldingGF-DEAD');
 
 				quickAnimDeathAdd(['BF Dies with GF', 'BF Dead with GF Loop', 'RETRY confirm holding gf']);
 		}
@@ -79,7 +80,7 @@ class DeathCharacter extends FlxSprite
 
 	private function loadOffsetFile(offsetCharacter:String)
 	{
-		var daFile:Array<String> = CoolUtil.coolTextFile(Paths.file("images/characters/" + offsetCharacter + "Offsets.txt", TEXT));
+		var daFile:Array<String> = CoolUtil.coolTextFile(Paths.location.txt("images/characters/" + offsetCharacter + "Offsets"));
 
 		for (i in daFile)
 		{

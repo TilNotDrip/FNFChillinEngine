@@ -1,0 +1,26 @@
+{
+    "id": "crushernotdrip-examplemetadata",
+	"name": "Example Metadata",
+	"description": "This is an example of a mod metadata.",
+	"credits": [
+        {
+            "name": "CrusherNotDrip",
+            "description": "Made this.",
+            "url": "https://twitter.com/CrusherNotDrip"
+        }
+    ],
+	"dependencies": [
+        {
+            "id": "another-mod-id-here",
+            "version": "another-mod-version-here"
+        }
+    ],
+    "optional_dependencies": [
+        {
+            "id": "another-mod-id-here",
+            "version": "another-mod-version-here"
+        }
+    ],
+	"api_version": "0.1.0",
+	"version": "0.1.0"
+}

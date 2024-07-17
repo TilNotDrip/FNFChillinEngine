@@ -8,7 +8,7 @@ class Gameplay extends BaseSubState
 {
 	override public function create()
 	{
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.state = 'Gameplay';
 		#end
 

@@ -16,7 +16,7 @@ class Limo extends StageBackend
 		zoom = 0.90;
 
 		var skyOverlay:OverlayBlend = new OverlayBlend();
-		var sunOverlay:FlxSprite = new FlxSprite().loadGraphic(Paths.image('limo/limoOverlay'));
+		var sunOverlay:FlxSprite = new FlxSprite().loadGraphic(Paths.content.image('limo/limoOverlay'));
 		sunOverlay.setGraphicSize(Std.int(sunOverlay.width * 2));
 		sunOverlay.updateHitbox();
 		skyOverlay.funnyShit.input = sunOverlay.pixels;
@@ -55,7 +55,7 @@ class Limo extends StageBackend
 
 		if (FlxG.random.bool(0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)) // finger slipped
 		{
-			var sunOverlay:FlxSprite = new FlxSprite(-398, -304).loadGraphic(Paths.image('limo/limoOverlay'));
+			var sunOverlay:FlxSprite = new FlxSprite(-398, -304).loadGraphic(Paths.content.image('limo/limoOverlay'));
 			sunOverlay.setGraphicSize(Std.int(sunOverlay.width * 0.76));
 			sunOverlay.updateHitbox();
 			sunOverlay.alpha = 0.465;
@@ -83,7 +83,7 @@ class Limo extends StageBackend
 
 	private function fastCarDrive()
 	{
-		FlxG.sound.play(Paths.soundRandom('carPass', 0, 1), 0.7);
+		FlxG.sound.play(Paths.location.sound('carPass' + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;

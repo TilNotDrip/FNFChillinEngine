@@ -29,7 +29,7 @@ class DialogueSubState extends MusicBeatSubstate
 		add(background);
 
 		bubble = new FlxSprite(0, 300);
-		bubble.frames = Paths.getSparrowAtlas('dialogue/bubble');
+		bubble.frames = Paths.content.sparrowAtlas('dialogue/bubble');
 		bubble.animation.addByPrefix('normal', 'speech bubble normal', 24, true);
 		bubble.animation.addByPrefix('normal-intro', 'speech bubble normal', 24, false);
 		bubble.animation.addByPrefix('angry', 'AHH speech bubble', 24, true);

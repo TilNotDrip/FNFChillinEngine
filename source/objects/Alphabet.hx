@@ -223,7 +223,7 @@ private class AtlasFontData
 	public function new(name:AtlasFont)
 	{
 		var fontName:String = name;
-		atlas = Paths.getSparrowAtlas('fonts/${fontName.toLowerCase()}');
+		atlas = Paths.content.sparrowAtlas('fonts/${fontName.toLowerCase()}');
 		if (atlas == null)
 		{
 			FlxG.log.warn('Could not find font atlas for font "${fontName}".');

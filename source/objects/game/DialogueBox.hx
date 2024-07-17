@@ -36,10 +36,10 @@ class DialogueBox extends FlxSpriteGroup
 		switch (PlayState.SONG.metadata.song.formatToPath())
 		{
 			case 'senpai':
-				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
+				FlxG.sound.playMusic(Paths.location.music('Lunchbox'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 			case 'thorns':
-				FlxG.sound.playMusic(Paths.music('LunchboxScary'), 0);
+				FlxG.sound.playMusic(Paths.location.music('LunchboxScary'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 
@@ -61,12 +61,12 @@ class DialogueBox extends FlxSpriteGroup
 			{
 				case 'roses':
 					portraitLeft = new FlxSprite(-20, 45);
-					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiMadPortrait');
+					portraitLeft.frames = Paths.content.sparrowAtlas('weeb/senpaiMadPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
 
 				default:
 					portraitLeft = new FlxSprite(-20, 40);
-					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiPortrait');
+					portraitLeft.frames = Paths.content.sparrowAtlas('weeb/senpaiPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter instance', 24, false);
 			};
 
@@ -78,7 +78,7 @@ class DialogueBox extends FlxSpriteGroup
 			add(portraitLeft);
 
 			portraitRight = new FlxSprite(0, 40);
-			portraitRight.frames = Paths.getSparrowAtlas('weeb/bfPortrait');
+			portraitRight.frames = Paths.content.sparrowAtlas('weeb/bfPortrait');
 			portraitRight.animation.addByPrefix('enter', 'Boyfriend portrait enter instance', 24, false);
 			portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));
 			portraitRight.antialiasing = false;
@@ -96,24 +96,24 @@ class DialogueBox extends FlxSpriteGroup
 		{
 			case 'senpai':
 				hasDialog = true;
-				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-pixel');
+				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-pixel');
 				box.animation.addByPrefix('normalOpen', 'Text Box Appear instance 1', 24, false);
 				box.animation.addByIndices('normal', 'Text Box Appear instance 1', [4], "", 24);
 			case 'roses':
 				hasDialog = true;
-				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
+				FlxG.sound.play(Paths.location.sound('ANGRY_TEXT_BOX'));
 
-				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-mad');
+				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-mad');
 				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
 				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH instance 1', [4], "", 24);
 
 			case 'thorns':
 				hasDialog = true;
-				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-evil');
+				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-evil');
 				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn instance 1', 24, false);
 				box.animation.addByIndices('normal', 'Spirit Textbox spawn instance 1', [11], "", 24);
 
-				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.image('weeb/spiritFaceForward'));
+				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.content.image('weeb/spiritFaceForward'));
 				face.setGraphicSize(Std.int(face.width * 6));
 				face.antialiasing = false;
 				add(face);
@@ -135,7 +135,7 @@ class DialogueBox extends FlxSpriteGroup
 		if (portraitLeft != null)
 			portraitLeft.screenCenter(X);
 
-		handSelect = new FlxSprite(1042, 590).loadGraphic(Paths.image('pixelui/hand_textbox'));
+		handSelect = new FlxSprite(1042, 590).loadGraphic(Paths.content.image('pixelui/hand_textbox'));
 		handSelect.setGraphicSize(Std.int(handSelect.width * PlayState.daPixelZoom * 0.9));
 		handSelect.antialiasing = false;
 		handSelect.updateHitbox();
@@ -150,7 +150,7 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue = new FlxTypeText(240, 500, Std.int(FlxG.width * 0.6), "", 32);
 		swagDialogue.font = 'Pixel Arial 11 Bold';
 		swagDialogue.color = 0xFF3F2021;
-		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pixelText'), 0.6)];
+		swagDialogue.sounds = [FlxG.sound.load(Paths.location.sound('pixelText'), 0.6)];
 		add(swagDialogue);
 	}
 
@@ -186,7 +186,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (controls.ACCEPT && dialogueEnded)
 		{
-			FlxG.sound.play(Paths.sound('clickText'), 0.8);
+			FlxG.sound.play(Paths.location.sound('clickText'), 0.8);
 
 			if (dialogueList[1] == null && dialogueList[0] != null)
 			{

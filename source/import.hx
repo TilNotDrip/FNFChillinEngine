@@ -15,11 +15,13 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 // Stuff from Chillin' Engine/Base Friday Night Funkin' itself
-import addons.*;
-import addons.Controls;
-import addons.CoolUtil;
-#if MOD_SUPPORT
-import modding.*;
+#if FUNKIN_DISCORD_RPC
+import api.DiscordRPC;
+#end
+#if FUNKIN_MOD_SUPPORT
+import modding.HScript;
+import modding.ModHandler;
+import modding.Module;
 #end
 import objects.*;
 import options.ChillSettings;
@@ -29,7 +31,12 @@ import states.menus.StoryMenuState;
 import states.menus.FreeplayState;
 import states.menus.MainMenuState;
 import states.LoadingState;
+import structures.ModStructures;
+import utils.*;
+import utils.Controls;
+import utils.CoolUtil;
+import utils.paths.Paths;
 
 // Using
 using StringTools;
-using addons.CoolTools;
+using utils.CoolTools;

@@ -99,11 +99,11 @@ class ChillSettings
 		#end
 
 		// Other Settings
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		if (chillSettings.data.options.get('discordRPC') == null)
 			set('discordRPC', true);
 		#end
-		#if MOD_SUPPORT
+		#if FUNKIN_MOD_SUPPORT
 		if (chillSettings.data.options.get('safeMode') == null)
 			set('safeMode', false);
 		#end

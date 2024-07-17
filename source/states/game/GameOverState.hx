@@ -23,7 +23,7 @@ class GameOverState extends MusicBeatState
 	{
 		Application.current.window.title += ' [Secret Game Over]';
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Game Over (Secret)]';
 		DiscordRPC.state = 'Deaths: ' + PlayState.deathCounter;
 		#end
@@ -36,12 +36,12 @@ class GameOverState extends MusicBeatState
 			stageSuffix = '-pixel';
 
 		var loser:FlxSprite = new FlxSprite(100, 100);
-		loser.frames = Paths.getSparrowAtlas('gameOver/lose');
+		loser.frames = Paths.content.sparrowAtlas('gameOver/lose');
 		loser.animation.addByPrefix('lose', 'lose...', 24, false);
 		loser.animation.play('lose');
 		add(loser);
 
-		var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.image('gameOver/restart'));
+		var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.content.image('gameOver/restart'));
 		restart.setGraphicSize(Std.int(restart.width * 0.6));
 		restart.updateHitbox();
 		restart.alpha = 0;
@@ -59,7 +59,7 @@ class GameOverState extends MusicBeatState
 		Conductor.bpm = 100;
 
 		if (FlxG.sound.music != null)
-			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), startVol);
+			FlxG.sound.playMusic(Paths.location.music('gameOver' + stageSuffix), startVol);
 
 		super.create();
 	}
@@ -82,7 +82,7 @@ class GameOverState extends MusicBeatState
 			{
 				playingDeathSound = true;
 
-				FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
+				FlxG.sound.play(Paths.location.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
 				{
 					FlxG.sound.music.fadeIn(4, 0.2, 1);
 				});
@@ -98,7 +98,7 @@ class GameOverState extends MusicBeatState
 		FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween)
 		{
 			FlxG.sound.music.stop();
-			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
+			FlxG.sound.play(Paths.location.music('gameOverEnd' + stageSuffix));
 			LoadingState.loadAndSwitchState(new PlayState());
 		});
 	}

@@ -12,11 +12,11 @@ class Strums extends FlxSpriteGroup
 	// lmao idk how to do this correctly
 	public var pressNote:Array<RGBShader> = [new RGBShader(), new RGBShader(), new RGBShader(), new RGBShader()];
 
-	private var staticNoteColors:Array<FlxColor>;
-
 	public var isPixel:Bool = false;
 
 	public var strumID:String;
+
+	var staticNoteColors:Array<FlxColor>;
 
 	public function new(strumID:String, x:Float, y:Float, notes:Int, isPixel:Bool)
 	{
@@ -31,15 +31,15 @@ class Strums extends FlxSpriteGroup
 
 			if (isPixel)
 			{
-				newNote.loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
+				newNote.loadGraphic(Paths.content.image('pixelui/Notes'), true, 17, 17);
 
 				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 				newNote.updateHitbox();
 				newNote.antialiasing = false;
 
 				newNote.animation.add('static', [0 + note]);
-				newNote.animation.add('pressed', [4 + note, 8 + note], 12, false);
-				newNote.animation.add('confirm', [12 + note, 16 + note], 24, false);
+				newNote.animation.add('pressed', [0 + note, 4 + note], 12, false);
+				newNote.animation.add('confirm', [8 + note, 12 + note], 24, false);
 
 				staticNotes.rgb = [0xFFA2BAC8, 0xFFFFF5FC, 0xFF404047];
 			}
@@ -47,7 +47,7 @@ class Strums extends FlxSpriteGroup
 			{
 				var directions:Array<String> = ['left', 'down', 'up', 'right'];
 
-				newNote.frames = Paths.getSparrowAtlas('ui/Notes');
+				newNote.frames = Paths.content.sparrowAtlas('ui/Notes');
 				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
 				newNote.animation.addByPrefix('static', directions[note] + ' static');

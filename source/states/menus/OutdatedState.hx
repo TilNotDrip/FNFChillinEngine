@@ -12,7 +12,7 @@ class OutdatedState extends MusicBeatState
 	{
 		changeWindowName('Outdated!');
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Outdated Screen';
 		#end
 
@@ -60,7 +60,7 @@ class OutdatedState extends MusicBeatState
 					var fullCommand:String = 'color a && '
 						+ 'title Downloading Chillin Engine Update... [DO NOT CLOSE] && '
 						+
-						'curl -L https://github.com/TilNotDrip/FNFChillinEngine/releases/download/${newVersion}/${gameEdition}.zip -O ${pathToGame}/release.zip && '
+						'curl -L https://github.com/${Constants.GITHUB_REPO_AUTHOR}/${Constants.GITHUB_REPO_NAME}/releases/download/${newVersion}/${gameEdition}.zip -O ${pathToGame}/release.zip && '
 						+ 'powershell -command ""Expand-Archive -Force \'${pathToGame}/release.zip\' \'${pathToGame}/release\'"" && '
 						+ 'title Installing Chillin Engine Update... [DO NOT CLOSE] && '
 						+ 'move /Y \'${pathToGame}/release/*\' \'${pathToGame}\' && '
@@ -75,7 +75,7 @@ class OutdatedState extends MusicBeatState
 					Sys.exit(0);
 
 				case 'Update Manually':
-					CoolUtil.openURL('https://github.com/TilNotDrip/FNFChillinEngine/releases');
+					CoolUtil.openURL('https://github.com/${Constants.GITHUB_REPO_AUTHOR}/${Constants.GITHUB_REPO_NAME}/releases');
 					FlxG.switchState(new TitleState());
 
 				case 'Exit':

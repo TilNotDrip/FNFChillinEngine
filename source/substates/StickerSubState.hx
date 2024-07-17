@@ -6,7 +6,7 @@ import haxe.Json;
 import lime.utils.Assets;
 import flixel.FlxSprite;
 // import flxtyped group
-import addons.MusicBeatSubstate;
+import utils.MusicBeatSubstate;
 import states.menus.StoryMenuState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxTimer;
@@ -77,8 +77,6 @@ class StickerSubState extends MusicBeatSubstate
 			soundSelections.push(i);
 		}
 
-		trace(soundSelections);
-
 		soundSelection = FlxG.random.getObject(soundSelections);
 
 		var filterFunc = function(a:String)
@@ -92,8 +90,6 @@ class StickerSubState extends MusicBeatSubstate
 			sounds[i] = sounds[i].replace('assets/shared/sounds/', '');
 			sounds[i] = sounds[i].substring(0, sounds[i].lastIndexOf('.'));
 		}
-
-		trace(sounds);
 
 		grpStickers = new FlxTypedGroup<StickerSprite>();
 		add(grpStickers);
@@ -131,7 +127,7 @@ class StickerSubState extends MusicBeatSubstate
 			{
 				sticker.visible = false;
 				var daSound:String = FlxG.random.getObject(sounds);
-				FlxG.sound.play(Paths.sound(daSound));
+				FlxG.sound.play(Paths.location.sound(daSound));
 
 				if (grpStickers == null || ind == grpStickers.members.length - 1)
 				{
@@ -224,7 +220,7 @@ class StickerSubState extends MusicBeatSubstate
 
 				sticker.visible = true;
 				var daSound:String = FlxG.random.getObject(sounds);
-				FlxG.sound.play(Paths.sound(daSound));
+				FlxG.sound.play(Paths.location.sound(daSound));
 
 				var frameTimer:Int = FlxG.random.int(0, 2);
 
@@ -288,11 +284,6 @@ class StickerSubState extends MusicBeatSubstate
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-
-		// if (FlxG.keys.justPressed.ANY)
-		// {
-		//   regenStickers();
-		// }
 	}
 
 	var switchingState:Bool = false;
@@ -319,7 +310,7 @@ class StickerSprite extends FlxSprite
 	public function new(x:Float, y:Float, stickerSet:String, stickerName:String):Void
 	{
 		super(x, y);
-		loadGraphic(Paths.image('transitionSwag/' + stickerSet + '/' + stickerName));
+		loadGraphic(Paths.content.image('transitionSwag/' + stickerSet + '/' + stickerName));
 		updateHitbox();
 		scrollFactor.set();
 	}
@@ -333,7 +324,7 @@ class StickerSprite extends FlxSprite
 
 	public function new(stickerSet:String):Void
 	{
-		var path = Paths.file('images/transitionSwag/' + stickerSet + '/stickers.json');
+		var path = Paths.getPath('images/transitionSwag/' + stickerSet + '/stickers.json');
 		var json = Json.parse(Assets.getText(path));
 
 		// doin this dipshit nonsense cuz i dunno how to deal with casting a json object with

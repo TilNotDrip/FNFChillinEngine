@@ -1,6 +1,6 @@
 package objects.game;
 
-import addons.Song.SwagNote;
+import utils.Song.SwagNote;
 import shaders.RGBShader;
 
 class Note extends FlxSprite
@@ -70,7 +70,6 @@ class Note extends FlxSprite
 	{
 		sustain = new SustainNote();
 		sustain.generateSustain(length, PlayState.SONG.metadata.speed);
-		sustain.alpha = 0.6;
 		sustain.head = this;
 		sustain.shader = rgbShader.shader;
 	}
@@ -81,13 +80,13 @@ class Note extends FlxSprite
 
 		if (isPixel)
 		{
-			loadGraphic(Paths.image('pixelui/' + path), true, 17, 17);
+			loadGraphic(Paths.content.image('pixelui/' + path), true, 17, 17);
 
-			animation.add('scroll', [[4, 5, 6, 7][data.direction]]);
+			animation.add('scroll', [[0, 1, 2, 3][data.direction]]);
 
 			/*if (isSustainNote)
 				{
-					loadGraphic(Paths.image('pixelui/' + path + 'ENDS'), true, 7, 6);
+					loadGraphic(Paths.content.image('pixelui/' + path + 'ENDS'), true, 7, 6);
 
 					animation.add('hold', [0]);
 					animation.add('holdend', [1]);
@@ -101,10 +100,8 @@ class Note extends FlxSprite
 		}
 		else
 		{
-			frames = Paths.getSparrowAtlas('ui/' + path);
+			frames = Paths.content.sparrowAtlas('ui/' + path);
 
-			trace(data.direction);
-			trace((cast(data.direction, Direction)).toString().toLowerCase());
 			animation.addByPrefix('scroll', (cast(data.direction, Direction)).toString().toLowerCase() + ' static');
 
 			setGraphicSize(Std.int(width * 0.7));

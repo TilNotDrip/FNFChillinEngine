@@ -37,7 +37,7 @@ class BaseSubState extends MusicBeatSubstate
 		{
 			OptionsState.optionItems.visible = true;
 
-			#if DISCORD
+			#if FUNKIN_DISCORD_RPC
 			DiscordRPC.state = null;
 			#end
 

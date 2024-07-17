@@ -44,13 +44,13 @@ class CutsceneHandler extends MusicBeatSubstate
 
 	public function startVideo(path:String)
 	{
-		#if VIDEOS
+		#if FUNKIN_VIDEOS
 		videoCutscene = true;
 
 		#if hxvlc
 		var video:FlxVideoSprite = new FlxVideoSprite();
 		video.bitmap.onEndReached.add(callback.dispatch);
-		video.load(Paths.video(path));
+		video.load(Paths.location.video(path));
 		video.play();
 		video.setGraphicSize(0, FlxG.height);
 		video.updateHitbox();
@@ -63,7 +63,7 @@ class CutsceneHandler extends MusicBeatSubstate
 			video.bitmap.dispose();
 		});
 		#else
-		var video:FlxVideo = new FlxVideo(Paths.video(path));
+		var video:FlxVideo = new FlxVideo(Paths.location.video(path));
 		video.finishCallback = callback.dispatch;
 		video.setGraphicSize(0, FlxG.height);
 		video.updateHitbox();

@@ -11,7 +11,7 @@ class Strumline extends FlxGroup
 
 	// Very Important
 	public var strumID:String;
-	
+
 	// Metadata
 	public var isPixel:Bool;
 	public var speed:Float;
@@ -41,13 +41,13 @@ class Strumline extends FlxGroup
 		strums = new FlxSpriteGroup();
 		add(strums);
 
-		for(note in 0...noteAmount)
+		for (note in 0...noteAmount)
 		{
 			var newNote:FlxSprite = new FlxSprite(Note.NOTE_WIDTH * note);
 
-			if(isPixel)
+			if (isPixel)
 			{
-				newNote.loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
+				newNote.loadGraphic(Paths.content.image('pixelui/Notes'), true, 17, 17);
 
 				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 				newNote.updateHitbox();
@@ -60,7 +60,7 @@ class Strumline extends FlxGroup
 			else
 			{
 				var direction:String = cast(note, Direction).toString().toLowerCase();
-				newNote.frames = Paths.getSparrowAtlas('ui/Notes');
+				newNote.frames = Paths.content.sparrowAtlas('ui/Notes');
 				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
 				newNote.animation.addByPrefix('static', direction + ' static');
@@ -88,7 +88,7 @@ class Strumline extends FlxGroup
 		}
 	}
 
-	function set_x(value:Float):Float 
+	function set_x(value:Float):Float
 	{
 		strums.x = value;
 		return value;

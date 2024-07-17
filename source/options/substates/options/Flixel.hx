@@ -8,7 +8,7 @@ class Flixel extends BaseSubState
 {
 	override public function create()
 	{
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.state = 'Flixel';
 		#end
 

@@ -81,21 +81,12 @@ class TitleState extends MusicBeatState
 	{
 		changeWindowName('Title Screen');
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Title Screen';
-		DiscordRPC.partyId = 'yes';
-		DiscordRPC.partySize = 1;
-		DiscordRPC.partyMax = 2;
-		DiscordRPC.joinSecret = 'abc';
-		#end
-
-		#if MOD_SUPPORT
-		HScript.init();
-		Module.init();
 		#end
 
 		if (introText == null)
-			introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
+			introText = cast Json.parse(Assets.getText(Paths.location.json('data/title')).trim());
 
 		startedIntro = false;
 
@@ -129,7 +120,7 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing)
 		{
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			FlxG.sound.playMusic(Paths.location.music('freakyMenu'), 0);
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
@@ -165,7 +156,7 @@ class TitleState extends MusicBeatState
 
 	private function getIntroTextShit():Array<String>
 	{
-		var fullText:String = Assets.getText(Paths.txt(introText.introText.path));
+		var fullText:String = Assets.getText(Paths.location.txt('data/' + introText.introText.path));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -227,7 +218,7 @@ class TitleState extends MusicBeatState
 			if (ChillSettings.get('flashingLights'))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 
-			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			FlxG.sound.play(Paths.location.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
 
@@ -250,27 +241,6 @@ class TitleState extends MusicBeatState
 
 			windowMoving = true;
 		}
-
-		/*if(FlxG.keys.justPressed.T)
-			{
-				FunkinServer.hostServer('0.0.0.0', 8000);
-
-				FunkinServer.onEvent.add(function(event) {
-					trace('event! ' + event.event + ', ' + event.params);
-					FunkinServer.addEvent('testing', ['callback event', 'from server']);
-				});
-			}
-
-			if(FlxG.keys.justPressed.U)
-			{
-				FunkinServer.joinServer('127.0.0.1', 8000);
-
-				FunkinServer.onEvent.add(function(event) {
-					trace('event! ' + event.event + ', ' + event.params);
-				});
-
-				FunkinServer.addEvent('testing', ['initial event', 'from client']);
-		}*/
 
 		if (!easterEggActive && skippedIntro)
 			checkEasterCode();
@@ -311,10 +281,10 @@ class TitleState extends MusicBeatState
 
 	private function startEasterEgg()
 	{
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7, false, null, true, function()
+		FlxG.sound.play(Paths.location.sound('confirmMenu'), 0.7, false, null, true, function()
 		{
 			easterEggActive = true;
-			FlxG.sound.playMusic(Paths.music('girlfriendsRingtone'));
+			FlxG.sound.playMusic(Paths.location.music('girlfriendsRingtone'));
 			Conductor.bpm = 190;
 			Conductor.songPosition = 0;
 		});
@@ -461,9 +431,9 @@ class TitleState extends MusicBeatState
 			var daSprite:FlxSprite = new FlxSprite(jsonSpr.pos[0], jsonSpr.pos[1]);
 
 			if (jsonSpr.animations == null)
-				daSprite.loadGraphic(Paths.image(jsonSpr.path));
+				daSprite.loadGraphic(Paths.content.image(jsonSpr.path));
 			else
-				daSprite.frames = Paths.getSparrowAtlas(jsonSpr.path);
+				daSprite.frames = Paths.content.sparrowAtlas(jsonSpr.path);
 
 			if (jsonSpr.animations != null)
 			{

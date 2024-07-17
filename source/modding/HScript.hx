@@ -1,13 +1,12 @@
 package modding;
 
+import hscript.AbstractScriptClass;
+import hscript.InterpEx;
+import hscript.ParserEx;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
 #end
-
-import hscript.AbstractScriptClass;
-import hscript.InterpEx;
-import hscript.ParserEx;
 
 class HScript
 {
@@ -27,34 +26,42 @@ class HScript
 		var scriptsFound:Array<String> = [];
 
 		var currentDirectories:Array<String> = ['assets'];
-        while(currentDirectories.length > 0)
-        {
-			var curDirectory:String = currentDirectories.shift();
-            for(path in FileSystem.readDirectory(curDirectory))
-            {
-				var fullPath:String = curDirectory + '/' + path;
-                if(path.endsWith('.hx'))
-                    scriptsFound.push(fullPath);
-                else if(FileSystem.isDirectory(fullPath))
-                    currentDirectories.push(fullPath);
-            }
-        }
 
-		for(path in scriptsFound)
+		for (mod in ModHandler.loadedMods)
+		{
+			currentDirectories.push('${Constants.MODS_FOLDER}/${mod.folder}');
+		}
+
+		while (currentDirectories.length > 0)
+		{
+			var curDirectory:String = currentDirectories.shift();
+			for (path in FileSystem.readDirectory(curDirectory))
+			{
+				var fullPath:String = curDirectory + '/' + path;
+				if (path.endsWith('.hx'))
+					scriptsFound.push(fullPath);
+				else if (FileSystem.isDirectory(fullPath))
+					currentDirectories.push(fullPath);
+			}
+		}
+
+		trace(scriptsFound);
+
+		for (path in scriptsFound)
 		{
 			var parsedScript:String = File.getContent(path);
 
 			var parser:ParserEx = new ParserEx();
-			
-        	var module:Array<hscript.Expr.ModuleDecl> = parser.parseModule(parsedScript);
-        	interp.registerModule(module);
+
+			var module:Array<hscript.Expr.ModuleDecl> = parser.parseModule(parsedScript);
+			interp.registerModule(module);
 
 			var pkg:Array<String> = null;
 			var classesToLoad:Array<String> = [];
-			
-			for(moduleThing in module)
+
+			for (moduleThing in module)
 			{
-				switch (moduleThing) 
+				switch (moduleThing)
 				{
 					case DPackage(path):
 						pkg = path;
@@ -65,14 +72,15 @@ class HScript
 				}
 			}
 
-			for(classs in classesToLoad)
+			for (classs in classesToLoad)
 				loadedScripts.push(interp.createScriptClassInstance(classs));
 		}
 	}
 
 	public static function listScriptsClasses(superClass:Dynamic)
 	{
-		return loadedScripts.filter(function(script:AbstractScriptClass) {
+		return loadedScripts.filter(function(script:AbstractScriptClass)
+		{
 			return Std.isOfType(script.superClass, superClass);
 		});
 	}

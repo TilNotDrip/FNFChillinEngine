@@ -27,7 +27,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		Application.current.window.title += ' [Paused]';
 
-		#if DISCORD
+		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Paused]';
 		PlayState.game.setRpcTimestamps(false);
 		#end
@@ -36,7 +36,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		menuItems = pauseOG;
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+		pauseMusic = new FlxSound().loadEmbedded(Paths.location.music('breakfast'), true, true);
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
@@ -50,27 +50,27 @@ class PauseSubState extends MusicBeatSubstate
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.metadata.song;
 		levelInfo.scrollFactor.set();
-		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
+		levelInfo.setFormat(Paths.location.font("vcr.ttf"), 32);
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
 		levelDifficulty.text += PlayState.difficulty;
 		levelDifficulty.scrollFactor.set();
-		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
+		levelDifficulty.setFormat(Paths.location.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
 		var deathCounter:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
 		deathCounter.text = "Deaths: " + PlayState.deathCounter;
 		deathCounter.scrollFactor.set();
-		deathCounter.setFormat(Paths.font('vcr.ttf'), 32);
+		deathCounter.setFormat(Paths.location.font('vcr.ttf'), 32);
 		deathCounter.updateHitbox();
 		add(deathCounter);
 
 		practiceText = new FlxText(20, 15 + 64 + 32, 0, "PRACTICE MODE", 32);
 		practiceText.scrollFactor.set();
-		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
+		practiceText.setFormat(Paths.location.font('vcr.ttf'), 32);
 		practiceText.updateHitbox();
 		practiceText.x = FlxG.width - (practiceText.width + 20);
 		practiceText.visible = PlayState.practiceMode;
@@ -78,7 +78,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		botplayText = new FlxText(20, 15 + 64 + 64, 0, "BOTPLAY", 32);
 		botplayText.scrollFactor.set();
-		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
+		botplayText.setFormat(Paths.location.font('vcr.ttf'), 32);
 		botplayText.updateHitbox();
 		botplayText.x = FlxG.width - (botplayText.width + 20);
 		botplayText.visible = PlayState.botplay;
@@ -238,7 +238,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	private function changeSelection(change:Int = 0):Void
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.location.sound('scrollMenu'), 0.4);
 
 		curSelected += change;
 
