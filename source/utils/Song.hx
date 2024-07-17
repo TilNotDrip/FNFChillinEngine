@@ -347,7 +347,7 @@ class Song
 		var rawJson:Null<String> = null;
 		try
 		{
-			rawJson = Assets.getText(Paths.location.json('data/' + path)).trim();
+			rawJson = Assets.getText(Paths.location.json('data/charts/' + path)).trim();
 
 			while (!rawJson.endsWith("}"))
 				rawJson = rawJson.substr(0, rawJson.length - 1);

@@ -20,7 +20,7 @@ class SongEvent
 
 		try
 		{
-			rawJson = Assets.getText(Paths.location.json('data/' + folder.formatToPath() + '/events')).trim();
+			rawJson = Assets.getText(Paths.location.json('data/charts/' + folder.formatToPath() + '/events')).trim();
 		}
 		catch (e)
 		{

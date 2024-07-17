@@ -3,3 +3,6 @@
 .haxelib/
 export/
 .DS_STORE
+
+# CrusherNotDrip Self Ignores
+extras_ignore
