@@ -14,8 +14,8 @@ class Week
 	{
 		var weeks:Array<Week> = [];
 
-		for (weekFile in CoolUtil.coolTextFile(Paths.location.txt('data/weeks/weekList', 'preload')))
-			weeks.push(new Week(Paths.location.json('weeks/$weekFile', 'preload')));
+		for (weekFile in CoolUtil.coolTextFile(Paths.location.txt('data/weeks/weekList')))
+			weeks.push(new Week(Paths.location.json('data/weeks/$weekFile')));
 
 		// Test
 		if (ChillSettings.get('devMode'))

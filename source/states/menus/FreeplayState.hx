@@ -1571,7 +1571,7 @@ class FreeplayLetter extends flxanimate.FlxAnimate
 
 	public function new(x:Float, y:Float, ?letterInd:Int)
 	{
-		super(x, y, Paths.location.atlas("freeplay/sortedLetters", 'preload'));
+		super(x, y, Paths.location.atlas("freeplay/sortedLetters"));
 
 		// this is used for the regex
 		// /^[OR].*/gi doesn't work for showing the song Pico, so now it's
