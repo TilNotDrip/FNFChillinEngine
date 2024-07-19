@@ -53,7 +53,7 @@ class PathLocation
 
 	public function video(key:String, includeModdedFiles:Bool = true):String
 	{
-		return get('videos/$key.${Constants.EXT_VIDEO}', 'preload', BINARY, includeModdedFiles);
+		return get('$key.${Constants.EXT_VIDEO}', 'videos', BINARY, includeModdedFiles);
 	}
 
 	public function voices(key:String, suffix:String = '', includeModdedFiles:Bool = true):String
