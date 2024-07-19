@@ -51,6 +51,21 @@ class Constants
 	public static final EXT_CHART = "fnfc";
 
 	/**
+	 * The file extension used when loading data files.
+	 */
+	public static final EXT_DATA = "json";
+
+	/**
+	 * The file extension used when loading image files.
+	 */
+	public static final EXT_IMAGE = "png";
+
+	/**
+	 * The file extension used when loading scripts.
+	 */
+	public static final EXT_SCRIPT = "hx";
+
+	/**
 	 * The file extension used when loading audio files.
 	 */
 	public static final EXT_SOUND = #if web "mp3" #else "ogg" #end;
@@ -59,14 +74,4 @@ class Constants
 	 * The file extension used when loading video files.
 	 */
 	public static final EXT_VIDEO = "mp4";
-
-	/**
-	 * The file extension used when loading image files.
-	 */
-	public static final EXT_IMAGE = "png";
-
-	/**
-	 * The file extension used when loading data files.
-	 */
-	public static final EXT_DATA = "json";
 }

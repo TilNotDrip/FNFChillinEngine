@@ -38,7 +38,7 @@ class HScript
 			for (path in FileSystem.readDirectory(curDirectory))
 			{
 				var fullPath:String = curDirectory + '/' + path;
-				if (path.endsWith('.hx'))
+				if (path.endsWith('.${Constants.EXT_SCRIPT}'))
 					scriptsFound.push(fullPath);
 				else if (FileSystem.isDirectory(fullPath))
 					currentDirectories.push(fullPath);
