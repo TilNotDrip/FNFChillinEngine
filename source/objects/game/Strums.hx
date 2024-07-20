@@ -31,7 +31,7 @@ class Strums extends FlxSpriteGroup
 
 			if (isPixel)
 			{
-				newNote.loadGraphic(Paths.content.image('pixelui/Notes'), true, 17, 17);
+				newNote.loadGraphic(Paths.content.image('pixelui/notes/strums'), true, 17, 17);
 
 				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 				newNote.updateHitbox();
@@ -47,7 +47,7 @@ class Strums extends FlxSpriteGroup
 			{
 				var directions:Array<String> = ['left', 'down', 'up', 'right'];
 
-				newNote.frames = Paths.content.sparrowAtlas('ui/Notes');
+				newNote.frames = Paths.content.sparrowAtlas('ui/notes/strums');
 				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
 				newNote.animation.addByPrefix('static', directions[note] + ' static');

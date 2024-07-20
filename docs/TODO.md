@@ -31,7 +31,8 @@
  - [ ] RGB Pallete for Notes + Note Splashes
  - [ ] Opponents have their own note colors (make it an option?)
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
- - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.) <!-- no -Til -->
+ - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.) <!-- no -Til --> <!-- Just so u know i will never forgive u -CrusherNotDrip-->
+ - [ ] Automatically Switch Output devices to stop the game from stopping the stop stop
 
 ## Small Changes
 
@@ -53,6 +54,7 @@
  - [x] Seperate Death Sprites from Boyfriend's Spritesheet
  - [ ] Color Blindness Filter
  - [ ] Seperate Senpai Angry and Senpai Sprites
+ - [ ] `source/` -> `src/funkin` (EXCLUDING `Main.hx`)
 
 # Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 
@@ -63,8 +65,11 @@
 
 ## Audio (THIS WHOLE SECTION IS OPTIONAL BUT WOULD BE KINDA COOL)
  - [ ] Master Volume (Hitting - and + basically in game)
+ - [ ] Output Device
  - [ ] Sound Effects
- - [ ] Game Music (Music in PlayState)
+ - [ ] PlayState Inst Volume
+ - [ ] PlayState BF Volume
+ - [ ] PlayState Dad Volume
  - [ ] Menu Music (Menus and Pause Music)
  - [ ] Cutscenes (Week 5, 6 & 7)
 
@@ -113,7 +118,7 @@
  - [ ] Playtest
 
 # Chillin' Engine - Mod Support Todo List
- - [ ] Metadata
+ - [x] Metadata
  - [ ] Asset Replacing System
  - [ ] Merge Data System (so u can add onto the intro text or just replace it entirely)
  - [ ] Dependency System

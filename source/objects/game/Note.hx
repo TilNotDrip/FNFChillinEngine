@@ -55,7 +55,7 @@ class Note extends FlxSprite
 		animToPlay = "sing" + (cast(data.direction, Direction)).toString();
 		lowPriority = false;
 
-		var texture:String = 'Notes';
+		var texture:String = 'arrows';
 
 		switch (name)
 		{
@@ -74,13 +74,14 @@ class Note extends FlxSprite
 		sustain.shader = rgbShader.shader;
 	}
 
-	public function reloadNoteTexture(?path:String = 'Notes')
+	public function reloadNoteTexture(?path:String = 'arrows')
 	{
-		curTexture = path;
+		if (!Paths.location.exists('ui/notes/' + path))
+			path = 'strums';
 
 		if (isPixel)
 		{
-			loadGraphic(Paths.content.image('pixelui/' + path), true, 17, 17);
+			loadGraphic(Paths.content.image('pixelui/notes/' + path), true, 17, 17);
 
 			animation.add('scroll', [[0, 1, 2, 3][data.direction]]);
 
@@ -100,7 +101,7 @@ class Note extends FlxSprite
 		}
 		else
 		{
-			frames = Paths.content.sparrowAtlas('ui/' + path);
+			frames = Paths.content.sparrowAtlas('ui/notes/' + path);
 
 			animation.addByPrefix('scroll', (cast(data.direction, Direction)).toString().toLowerCase() + ' static');
 

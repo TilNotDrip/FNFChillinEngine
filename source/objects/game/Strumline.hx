@@ -47,7 +47,7 @@ class Strumline extends FlxGroup
 
 			if (isPixel)
 			{
-				newNote.loadGraphic(Paths.content.image('pixelui/Notes'), true, 17, 17);
+				newNote.loadGraphic(Paths.content.image('pixelui/notes/strums'), true, 17, 17);
 
 				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 				newNote.updateHitbox();
@@ -60,7 +60,7 @@ class Strumline extends FlxGroup
 			else
 			{
 				var direction:String = cast(note, Direction).toString().toLowerCase();
-				newNote.frames = Paths.content.sparrowAtlas('ui/Notes');
+				newNote.frames = Paths.content.sparrowAtlas('ui/notes/strums');
 				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
 				newNote.animation.addByPrefix('static', direction + ' static');
