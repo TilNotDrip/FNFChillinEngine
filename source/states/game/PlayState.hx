@@ -1110,10 +1110,10 @@ class PlayState extends MusicBeatState
 			if (daNote.data.time <= Conductor.songPosition && !daNote.wasHit)
 			{
 				if (daNote.data.strum == 'Opponent' && botplayDad)
-					opponentNoteHit(daNote);
+					noteHit(daNote, false);
 
 				if (daNote.data.strum == 'Player' && botplay)
-					goodNoteHit(daNote);
+					noteHit(daNote, true);
 			}
 
 			if (daNote.data.time + Scoring.PBOT1_MISS_THRESHOLD <= Conductor.songPosition && !daNote.wasHit)
@@ -1663,7 +1663,7 @@ class PlayState extends MusicBeatState
 				if (targetNote == null)
 					continue;
 
-				goodNoteHit(targetNote);
+				noteHit(targetNote, true);
 
 				notesInDirection.remove(targetNote);
 			}
@@ -1939,17 +1939,23 @@ class PlayState extends MusicBeatState
 		boyfriend.playAnim(note.animToPlay + 'miss', true);
 	}
 
-	public function goodNoteHit(note:Note):Void
+	public function noteHit(note:Note, wasPlayer:Bool):Void
 	{
 		changeScoreText();
 
-		if (!note.wasHit)
+		var character:Character = (wasPlayer) ? boyfriend : dad;
+		var strums:Strums = (wasPlayer) ? playerStrums : opponentStrums;
+
+		if (note.wasHit)
+			return;
+
+		note.wasHit = true;
+
+		for (song in vocals)
+			song.volume = 1;
+
+		if (wasPlayer)
 		{
-			note.wasHit = true;
-
-			for (song in vocals)
-				song.volume = 1;
-
 			combo += 1;
 			popUpScore(note);
 
@@ -1957,68 +1963,34 @@ class PlayState extends MusicBeatState
 				health += 0.023;
 			else
 				health += 0.004;
-
-			boyfriend.playAnim(note.animToPlay, true);
-
-			playerStrums.pressNote[note.data.direction].rgb = note.returnColors();
-
-			note.kill();
-
-			if (note.sustain != null)
-				currentHoldNotes.push(note);
-
-			if (playerStrums.getNote(note.data.direction).animation.curAnim.name != 'confirm')
-				playerStrums.playNoteAnim(note.data.direction, 'confirm', true);
-
-			boyfriend.holdTimer = 0;
-
-			Module.callFunction('goodNoteHit', [note]);
 		}
-	}
 
-	public function opponentNoteHit(daNote:Note):Void
-	{
-		changeScoreText();
+		character.playAnim(note.animToPlay, true);
 
-		if (!daNote.wasHit)
+		if (strums.visible)
 		{
-			daNote.wasHit = true;
-
-			if (!botplayDad)
-			{
-				if (daNote.data.direction >= 0)
-					health -= 0.023;
-				else
-					health -= 0.004;
-			}
-
-			dad.playAnim(daNote.animToPlay, true);
-
-			daNote.kill();
-
-			for (song in vocals)
-				song.volume = 1;
-
-			if (!opponentStrums.visible)
-				return;
-
-			if (ChillSettings.get('noteSplashes'))
+			if (ChillSettings.get('noteSplashes') && !wasPlayer)
 			{
 				var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
-				noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.data.direction, dad.isPixel);
-				noteSplashOpponent.setColors(daNote.returnColors());
+				noteSplashOpponent.setupNoteSplash(note.x, note.y, note.data.direction, character.isPixel);
+				noteSplashOpponent.setColors(note.returnColors());
 				opponentSplashes.add(noteSplashOpponent);
 			}
 
-			opponentStrums.pressNote[daNote.data.direction].rgb = daNote.returnColors();
+			strums.pressNote[note.data.direction].rgb = note.returnColors();
 
-			if (opponentStrums.getNote(daNote.data.direction).animation.curAnim.name != 'confirm')
-				opponentStrums.playNoteAnim(daNote.data.direction, 'confirm');
-
-			dad.holdTimer = 0;
-
-			Module.callFunction('opponentNoteHit', [daNote]);
+			if (strums.getNote(note.data.direction).animation.curAnim.name != 'confirm')
+				strums.playNoteAnim(note.data.direction, 'confirm', true);
 		}
+
+		note.kill();
+
+		if (note.sustain != null)
+			currentHoldNotes.push(note);
+
+		character.holdTimer = 0;
+
+		Module.callFunction('noteHit', [note, wasPlayer]);
 	}
 
 	private function calculateAccuracy()

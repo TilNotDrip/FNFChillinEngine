@@ -96,9 +96,7 @@ class Module
 
 	public function gameOver() {}
 
-	public function goodNoteHit(note:Note) {}
-
-	public function opponentNoteHit(note:Note) {}
+	public function noteHit(note:Note, wasPlayer:Bool) {}
 
 	public function noteMiss(note:Note) {}
 }
