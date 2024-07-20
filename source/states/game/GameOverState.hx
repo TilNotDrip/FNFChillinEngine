@@ -24,7 +24,7 @@ class GameOverState extends MusicBeatState
 		Application.current.window.title += ' [Secret Game Over]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Game Over (Secret)]';
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Game Over (Secret)]';
 		DiscordRPC.state = 'Deaths: ' + PlayState.deathCounter;
 		#end
 
@@ -50,7 +50,7 @@ class GameOverState extends MusicBeatState
 		FlxTween.tween(restart, {alpha: 1}, 1, {ease: FlxEase.quartInOut});
 		FlxTween.tween(restart, {y: restart.y + 40}, 7, {ease: FlxEase.quartInOut, type: PINGPONG});
 
-		if (PlayState.game.dad.curCharacter == 'tankman')
+		if (PlayState.instance.dad.curCharacter == 'tankman')
 		{
 			randomGameover = FlxG.random.int(1, 25);
 			startVol = 0.2;
@@ -76,7 +76,7 @@ class GameOverState extends MusicBeatState
 		if (controls.BACK)
 			despawn();
 
-		if (PlayState.game.dad.curCharacter == 'tankman')
+		if (PlayState.instance.dad.curCharacter == 'tankman')
 		{
 			if (!playingDeathSound)
 			{

@@ -32,7 +32,7 @@ class StageBackend extends FlxBasic
 		return daStage;
 	}
 
-	private var game:PlayState = PlayState.game;
+	private var game:PlayState = PlayState.instance;
 
 	public var name:String = 'unknown';
 
@@ -47,7 +47,7 @@ class StageBackend extends FlxBasic
 	// PlayState / MusicBeatState Variables
 	private var camGAME(get, never):FlxCamera;
 	private var camHUD(get, never):FlxCamera;
-	private var camDIALOGUE(get, never):FlxCamera;
+	private var camOTHER(get, never):FlxCamera;
 
 	private var inCutscene(get, set):Bool;
 
@@ -81,7 +81,7 @@ class StageBackend extends FlxBasic
 	public function createPost() {}
 
 	private function startCountdown()
-		return PlayState.game.startCountdown();
+		return PlayState.instance.startCountdown();
 
 	override public function update(elapsed:Float) {}
 
@@ -97,80 +97,80 @@ class StageBackend extends FlxBasic
 	private function add(object:FlxBasic)
 	{
 		members.push(object);
-		PlayState.game.add(object);
+		PlayState.instance.add(object);
 	}
 
 	private function remove(object:FlxBasic)
 	{
 		members.push(object);
-		PlayState.game.remove(object);
+		PlayState.instance.remove(object);
 	}
 
 	private function insert(position:Int, object:FlxBasic)
 	{
 		members.push(object);
-		PlayState.game.insert(position, object);
+		PlayState.instance.insert(position, object);
 	}
 
 	private function addBehindGF(object:FlxBasic)
 	{
-		insert(PlayState.game.members.indexOf(gfGroup), object);
+		insert(PlayState.instance.members.indexOf(gfGroup), object);
 	}
 
 	private function addBehindOpponent(object:FlxBasic)
 	{
-		insert(PlayState.game.members.indexOf(opponentGroup), object);
+		insert(PlayState.instance.members.indexOf(opponentGroup), object);
 	}
 
 	private function addBehindPlayer(object:FlxBasic)
 	{
-		insert(PlayState.game.members.indexOf(playerGroup), object);
+		insert(PlayState.instance.members.indexOf(playerGroup), object);
 	}
 
 	public function endingVideo() {}
 
 	// Functions for getting/setting PlayState / MusicBeatState vars
 	inline private function get_camGAME():FlxCamera
-		return PlayState.game.camGAME;
+		return PlayState.instance.camGAME;
 
 	inline private function get_camHUD():FlxCamera
-		return PlayState.game.camHUD;
+		return PlayState.instance.camHUD;
 
-	inline private function get_camDIALOGUE():FlxCamera
-		return PlayState.game.camDIALOGUE;
+	inline private function get_camOTHER():FlxCamera
+		return PlayState.instance.camOTHER;
 
 	inline private function get_inCutscene():Bool
-		return PlayState.game.inCutscene;
+		return PlayState.instance.inCutscene;
 
 	inline private function set_inCutscene(value:Bool)
 	{
-		PlayState.game.inCutscene = value;
+		PlayState.instance.inCutscene = value;
 		return value;
 	}
 
 	inline private function get_dialogue():Array<String>
-		return PlayState.game.dialogue;
+		return PlayState.instance.dialogue;
 
 	inline private function get_gf():Character
-		return PlayState.game.gf;
+		return PlayState.instance.gf;
 
 	inline private function get_opponent():Character
-		return PlayState.game.dad;
+		return PlayState.instance.dad;
 
 	inline private function get_player():Character
-		return PlayState.game.boyfriend;
+		return PlayState.instance.boyfriend;
 
 	inline private function get_gfGroup():FlxTypedSpriteGroup<Character>
-		return PlayState.game.gfGroup;
+		return PlayState.instance.gfGroup;
 
 	inline private function get_opponentGroup():FlxTypedSpriteGroup<Character>
-		return PlayState.game.dadGroup;
+		return PlayState.instance.dadGroup;
 
 	inline private function get_playerGroup():FlxTypedSpriteGroup<Character>
-		return PlayState.game.boyfriendGroup;
+		return PlayState.instance.boyfriendGroup;
 
 	inline private function get_camFollow():FlxObject
-		return PlayState.game.camFollow;
+		return PlayState.instance.camFollow;
 
 	override public function set_visible(value:Bool)
 	{

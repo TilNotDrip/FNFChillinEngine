@@ -21,8 +21,8 @@ class EndSubState extends MusicBeatSubstate
 		Application.current.window.title += ' [ENDING]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Ending]';
-		PlayState.game.setRpcTimestamps(false);
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Ending]';
+		PlayState.instance.setRpcTimestamps(false);
 		#end
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFFFFFFF);
@@ -49,11 +49,11 @@ class EndSubState extends MusicBeatSubstate
 
 		var daRating:String = 'sick';
 
-		if (PlayState.game.songAccuracy < 25)
+		if (PlayState.instance.songAccuracy < 25)
 			daRating = 'shit';
-		else if (PlayState.game.songAccuracy > 25 && PlayState.game.songAccuracy < 50)
+		else if (PlayState.instance.songAccuracy > 25 && PlayState.instance.songAccuracy < 50)
 			daRating = 'bad';
-		else if (PlayState.game.songAccuracy > 50 && PlayState.game.songAccuracy < 75)
+		else if (PlayState.instance.songAccuracy > 50 && PlayState.instance.songAccuracy < 75)
 			daRating = 'good';
 
 		healthBarBG = new FlxSprite().makeGraphic(600, 20, FlxColor.BLACK);
@@ -84,7 +84,7 @@ class EndSubState extends MusicBeatSubstate
 				tmr.reset(0.001);
 		});
 
-		FlxTween.tween(this, {daAccuracy: PlayState.game.songAccuracy}, 2.5);
+		FlxTween.tween(this, {daAccuracy: PlayState.instance.songAccuracy}, 2.5);
 	}
 
 	private function showRating()
@@ -106,10 +106,10 @@ class EndSubState extends MusicBeatSubstate
 		{
 			hitEnd = true;
 
-			if (PlayState.game.curStage.endCallback != null)
-				PlayState.game.curStage.endCallback();
+			if (PlayState.instance.curStage.endCallback != null)
+				PlayState.instance.curStage.endCallback();
 			else
-				PlayState.game.endSong();
+				PlayState.instance.endSong();
 		}
 	}
 }

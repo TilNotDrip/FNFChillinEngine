@@ -16,8 +16,13 @@ class FPS extends TextField
 	**/
 	public var currentFPS(default, null):Float;
 
-	public var currentMEM(default, null):String;
-	public var currentState(default, null):String;
+	public var currentMEM(get, null):String;
+
+	public var currentMEMPeak(get, null):String;
+
+	public var currentState(get, null):String;
+
+	public var memPeak(default, null):Float;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
@@ -31,20 +36,12 @@ class FPS extends TextField
 		this.y = y;
 
 		currentFPS = 0;
-		currentMEM = "0";
-		currentState = "";
+		memPeak = 0;
 
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
-		text = "FPS: "
-			+ currentFPS
-			+ "\nMEM: "
-			+ currentMEM
-			+ "\nState: "
-			+ currentState
-			+ "\nVersion: "
-			+ Application.current.meta.get('version');
+		text = '';
 		multiline = true;
 		width += 300;
 
@@ -64,21 +61,33 @@ class FPS extends TextField
 		var currentCount = times.length;
 
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
-		currentState = Type.getClassName(Type.getClass(FlxG.state));
+
+		if (System.totalMemory >= memPeak)
+			memPeak = System.totalMemory;
 
 		if (currentCount != cacheCount)
 		{
-			text = "FPS: "
-				+ currentFPS
-				+ "\nMEM: "
-				+ currentMEM
-				+ "\nSTATE: "
-				+ currentState
-				+ "\nVERSION: "
-				+ Application.current.meta.get('version');
+			text = 'FPS: ${currentFPS}'
+				+ '\nMEM: ${currentMEM} / ${currentMEMPeak}'
+				+ ((ChillSettings.get('devMode')) ? '\nSTATE: ${currentState}' : '')
+				+ '\nVERSION: ${Application.current.meta.get('version')}';
 		}
 
 		cacheCount = currentCount;
+	}
+
+	function get_currentMEM():String
+	{
+		return FlxStringUtil.formatBytes(System.totalMemory, 2);
+	}
+
+	function get_currentMEMPeak():String
+	{
+		return FlxStringUtil.formatBytes(memPeak, 2);
+	}
+
+	function get_currentState():String
+	{
+		return Type.getClassName(Type.getClass(FlxG.state));
 	}
 }

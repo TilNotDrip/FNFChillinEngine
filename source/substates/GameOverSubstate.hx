@@ -23,9 +23,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		Application.current.window.title += ' [Game Over]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Game Over]';
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Game Over]';
 		DiscordRPC.state = 'Deaths: ' + PlayState.deathCounter;
-		PlayState.game.setRpcTimestamps(false);
+		PlayState.instance.setRpcTimestamps(false);
 		#end
 
 		this.bf = bf;
@@ -51,7 +51,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		camera.scroll.set();
 		camera.target = null;
 
-		if (PlayState.game.dad.curCharacter == 'tankman')
+		if (PlayState.instance.dad.curCharacter == 'tankman')
 		{
 			randomGameover = FlxG.random.int(1, 25);
 			startVol = 0.2;
@@ -84,7 +84,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 			if (deathChar.animation.curAnim.finished)
 			{
-				if (PlayState.game.dad.curCharacter == 'tankman' && !playingDeathSound)
+				if (PlayState.instance.dad.curCharacter == 'tankman' && !playingDeathSound)
 				{
 					playingDeathSound = true;
 
@@ -118,7 +118,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
-				PlayState.game.camGAME.fade(FlxColor.BLACK, 2, false, function()
+				PlayState.instance.camGAME.fade(FlxColor.BLACK, 2, false, function()
 				{
 					LoadingState.loadAndSwitchState(new PlayState());
 				});

@@ -28,8 +28,8 @@ class PauseSubState extends MusicBeatSubstate
 		Application.current.window.title += ' [Paused]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Paused]';
-		PlayState.game.setRpcTimestamps(false);
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Paused]';
+		PlayState.instance.setRpcTimestamps(false);
 		#end
 
 		super();
@@ -165,7 +165,7 @@ class PauseSubState extends MusicBeatSubstate
 					openDifficultyMenu();
 
 				case "Restart Song":
-					PlayState.game.restartSong();
+					PlayState.instance.restartSong();
 					close();
 
 				case "Exit to menu":
@@ -175,12 +175,7 @@ class PauseSubState extends MusicBeatSubstate
 
 					var toSwitchTo:flixel.FlxState = null;
 
-					if (PlayState.isStoryMode)
-						toSwitchTo = new StoryMenuState();
-					else
-						toSwitchTo = new FreeplayState();
-
-					StickerTransition.switchState(toSwitchTo);
+					PlayState.instance.returnToMenu();
 			}
 
 			if (difficultyChoices.contains(daSelected))
@@ -227,11 +222,7 @@ class PauseSubState extends MusicBeatSubstate
 	override public function destroy()
 	{
 		pauseMusic.destroy();
-		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ')
-			+ PlayState.SONG.metadata.song
-			+ ' ('
-			+ PlayState.difficulty
-			+ ')');
+		changeWindowName('${PlayState.instance.getLastMenuText()} - ${PlayState.SONG.metadata.song} (${PlayState.difficulty})');
 
 		super.destroy();
 	}

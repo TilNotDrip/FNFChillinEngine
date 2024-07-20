@@ -39,7 +39,7 @@ class SchoolEvil extends StageBackend
 		var doof:DialogueBox = new DialogueBox(false, game.dialogue);
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
-		doof.cameras = [camDIALOGUE];
+		doof.cameras = [camOTHER];
 
 		schoolIntro(doof);
 	}

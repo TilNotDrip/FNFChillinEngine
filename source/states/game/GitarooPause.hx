@@ -17,7 +17,7 @@ class GitarooPause extends MusicBeatState
 		Application.current.window.title += ' [Secret Paused]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Paused (Secret)]';
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Paused (Secret)]';
 		#end
 
 		if (FlxG.sound.music != null)

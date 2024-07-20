@@ -79,7 +79,7 @@ class Mall extends StageBackend
 		FlxG.sound.play(Paths.location.sound('Lights_Shut_off'), function()
 		{
 			PlayState.seenEndCutscene = true;
-			PlayState.game.endSong();
+			PlayState.instance.endSong();
 		});
 	}
 }

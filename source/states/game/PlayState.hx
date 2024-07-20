@@ -105,7 +105,7 @@ class PlayState extends MusicBeatState
 
 	public var camGAME:FlxCamera;
 	public var camHUD:FlxCamera;
-	public var camDIALOGUE:FlxCamera;
+	public var camOTHER:FlxCamera;
 
 	public var dialogue:Array<String> = [];
 
@@ -142,7 +142,7 @@ class PlayState extends MusicBeatState
 
 	public var curStage:StageBackend = null;
 
-	public static var game:PlayState;
+	public static var instance:PlayState;
 
 	override public function create()
 	{
@@ -151,18 +151,18 @@ class PlayState extends MusicBeatState
 		if (SONG == null)
 			SONG = Song.autoSelectJson('test', 'normal');
 
-		game = this;
+		instance = this;
 
 		for (event in SONG.events)
 		{
 			songEvents.push(event);
 		}
 
-		changeWindowName((!isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + SONG.metadata.song + ' (' + difficulty + ')');
+		changeWindowName('${getLastMenuText()} - ${SONG.metadata.song} (${difficulty})');
 
 		#if FUNKIN_DISCORD_RPC
 		rpcDetailsText = SONG.metadata.song;
-		rpcStateText = '[$difficulty] [Week: ${storyWeek?.name ?? 'null'}] ' + (!isStoryMode ? '[Freeplay]' : '[Story Mode]');
+		rpcStateText = '[$difficulty] [Week: ${storyWeek?.name ?? 'null'}] [${getLastMenuText()}]';
 		#end
 
 		#if FUNKIN_DISCORD_RPC
@@ -190,12 +190,12 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
-		camDIALOGUE = new FlxCamera();
-		camDIALOGUE.bgColor.alpha = 0;
+		camOTHER = new FlxCamera();
+		camOTHER.bgColor.alpha = 0;
 
 		FlxG.cameras.add(camGAME, true);
 		FlxG.cameras.add(camHUD, false);
-		FlxG.cameras.add(camDIALOGUE, false);
+		FlxG.cameras.add(camOTHER, false);
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -1279,8 +1279,8 @@ class PlayState extends MusicBeatState
 
 		if (isStoryMode)
 			finishSongStory();
-		else
-			FlxG.switchState(new FreeplayState());
+
+		returnToMenu();
 	}
 
 	public function finishSongStory()
@@ -1303,8 +1303,6 @@ class PlayState extends MusicBeatState
 			transOut = FlxTransitionableState.defaultTransOut;
 
 			curSongIndex = 0;
-
-			FlxG.switchState(new StoryMenuState());
 
 			storyWeek.lockMetadata.locked = false;
 
@@ -2307,5 +2305,15 @@ class PlayState extends MusicBeatState
 				camGAME.scroll.y = (!isPixel) ? value : (Math.round(value / (6 * 2)) * (6 * 2));
 			}, camGAME.scroll.y, followPos.y);
 		}
+	}
+
+	public function returnToMenu():Void
+	{
+		StickerTransition.switchState((isStoryMode) ? new StoryMenuState() : new FreeplayState());
+	}
+
+	public function getLastMenuText():String
+	{
+		return (isStoryMode) ? 'Story Mode' : 'Freeplay';
 	}
 }

@@ -34,13 +34,13 @@ class HealthIcon extends TrackedSprite
 
 	public function swapOldIcon():Void
 	{
-		if (FlxG.state != PlayState.game)
+		if (FlxG.state != PlayState.instance)
 			return;
 
 		isOldIcon = !isOldIcon;
 
 		if (isOldIcon)
-			(PlayState.game.boyfriend.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
+			(PlayState.instance.boyfriend.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
 		else
 			changeIcon(PlayState.SONG.metadata.player);
 	}
@@ -76,16 +76,16 @@ class HealthIcon extends TrackedSprite
 
 	public function updatePosition()
 	{
-		if (FlxG.state != PlayState.game)
+		if (FlxG.state != PlayState.instance)
 			return;
 
-		if (this == PlayState.game.iconP1)
-			x = PlayState.game.healthBar.x
-				+ (PlayState.game.healthBar.width * (FlxMath.remapToRange(PlayState.game.healthBar.value, 0, 2, 100, 0) * 0.01) - POSITION_OFFSET);
+		if (this == PlayState.instance.iconP1)
+			x = PlayState.instance.healthBar.x
+				+ (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01) - POSITION_OFFSET);
 
-		if (this == PlayState.game.iconP2)
-			x = PlayState.game.healthBar.x
-				+ PlayState.game.healthBar.width * (FlxMath.remapToRange(PlayState.game.healthBar.value, 0, 2, 100, 0) * 0.01)
+		if (this == PlayState.instance.iconP2)
+			x = PlayState.instance.healthBar.x
+				+ PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)
 				- (width - HealthIcon.POSITION_OFFSET);
 	}
 
