@@ -1,21 +1,22 @@
-package utils;
+package data;
 
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxSave;
 
 class PlayerSettings
 {
-	private static var controlsSave:FlxSave;
 	public static var numPlayers(default, null) = 0;
 	public static var players(default, null):Array<PlayerSettings> = [];
+
+	public static var controlSettings:Array<Map<String, Array<Array<Int>>>> = [];
+
+	static var controlsSave:FlxSave;
 
 	public var id(default, null):Int;
 
 	public var controls(default, null):Controls;
 
-	public static var controlSettings:Array<Map<String, Array<Array<Int>>>> = [];
-
-	private function new(id:Int, gamepad:FlxGamepad)
+	function new(id:Int, gamepad:FlxGamepad):Void
 	{
 		this.id = id;
 		this.controls = new Controls(getControls(id), gamepad);

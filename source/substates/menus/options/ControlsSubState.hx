@@ -1,9 +1,9 @@
-package options.substates.options;
+package substates.menus.options;
 
 import flixel.effects.FlxFlicker;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.input.keyboard.FlxKey;
-import options.states.OptionsState;
+import states.menus.OptionsState;
 
 class ControlsSubState extends MusicBeatSubstate
 {

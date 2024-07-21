@@ -1,12 +1,11 @@
-package substates;
+package substates.game;
 
 import objects.menu.MenuAlphabet;
+import utils.Song;
 
 class PauseSubState extends MusicBeatSubstate
 {
-	private var grpMenuShit:FlxTypedGroup<MenuAlphabet>;
-
-	private var pauseOG:Array<String> = [
+	var pauseOG:Array<String> = [
 		'Resume',
 		'Restart Song',
 		'Change Difficulty',
@@ -15,13 +14,15 @@ class PauseSubState extends MusicBeatSubstate
 		'Exit to menu'
 	];
 
-	private var menuItems:Array<String> = [];
-	private var curSelected:Int = 0;
+	var grpMenuShit:FlxTypedGroup<MenuAlphabet>;
 
-	private var pauseMusic:FlxSound;
+	var menuItems:Array<String> = [];
+	var curSelected:Int = 0;
 
-	private var practiceText:FlxText;
-	private var botplayText:FlxText;
+	var pauseMusic:FlxSound;
+
+	var practiceText:FlxText;
+	var botplayText:FlxText;
 
 	public function new(x:Float, y:Float)
 	{

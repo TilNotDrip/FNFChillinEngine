@@ -1,8 +1,9 @@
 package objects.game;
 
-import utils.SongEvent.SwagEvent;
 import flixel.math.FlxPoint;
 import flixel.util.FlxSort;
+import utils.FunkinAnimationController;
+import utils.SongEvent.SwagEvent;
 
 class Character extends FlxSprite
 {

@@ -1,4 +1,4 @@
-package utils;
+package states;
 
 import flixel.addons.ui.FlxUIState;
 

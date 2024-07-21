@@ -1,9 +1,7 @@
-package options.substates;
+package substates.menus.options;
 
-import flixel.FlxCamera;
-import flixel.FlxObject;
-import options.objects.Option;
-import options.states.OptionsState;
+import objects.menu.Option;
+import states.menus.OptionsState;
 
 /**
  * The base structure for an options substate.
@@ -12,11 +10,9 @@ import options.states.OptionsState;
  */
 class BaseSubState extends MusicBeatSubstate
 {
-	public static var parent:OptionsState;
+	var curSelected:Int = 0;
 
-	private static var curSelected:Int = 0;
-
-	private var options:Array<Option> = [];
+	var options:Array<Option> = [];
 
 	override public function create():Void
 	{
@@ -35,6 +31,8 @@ class BaseSubState extends MusicBeatSubstate
 	{
 		if (controls.BACK)
 		{
+			ChillSettings.optionsSave.flush();
+
 			OptionsState.optionItems.visible = true;
 
 			#if FUNKIN_DISCORD_RPC

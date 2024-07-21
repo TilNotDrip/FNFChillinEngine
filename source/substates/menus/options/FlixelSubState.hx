@@ -1,12 +1,11 @@
-package options.substates.options;
+package substates.menus.options;
 
 import display.FPS;
 import openfl.Lib;
-import options.objects.Option;
 
-class Flixel extends BaseSubState
+class FlixelSubState extends BaseSubState
 {
-	override public function create()
+	override public function create():Void
 	{
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.state = 'Flixel';
@@ -25,11 +24,11 @@ class Flixel extends BaseSubState
 		super.create();
 	}
 
-	private function autopausing()
+	function autopausing():Void
 		FlxG.autoPause = ChillSettings.get('autoPause');
 
 	#if FLX_MOUSE
-	private function changeCursor()
+	function changeCursor():Void
 		FlxG.mouse.useSystemCursor = ChillSettings.get('systemCursor');
 	#end
 }

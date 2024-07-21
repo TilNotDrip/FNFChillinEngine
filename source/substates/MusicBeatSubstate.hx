@@ -1,4 +1,4 @@
-package utils;
+package substates;
 
 class MusicBeatSubstate extends FlxSubState
 {
@@ -7,15 +7,15 @@ class MusicBeatSubstate extends FlxSubState
 		super();
 	}
 
-	private var curStep:Int = 0;
-	private var curBeat:Int = 0;
-	private var curSection:Int = 0;
-	private var controls(get, never):Controls;
+	var curStep:Int = 0;
+	var curBeat:Int = 0;
+	var curSection:Int = 0;
+	var controls(get, never):Controls;
 
-	inline private function get_controls():Controls
+	inline function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
-	override public function create()
+	override public function create():Void
 	{
 		Conductor.stepSignal.add(stepHit);
 		Conductor.beatSignal.add(beatHit);
@@ -30,10 +30,10 @@ class MusicBeatSubstate extends FlxSubState
 
 	public function sectionHit():Void {}
 
-	public function changeWindowName(windowName:String = '')
+	public function changeWindowName(windowName:String = ''):Void
 		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
 
-	override public function destroy()
+	override public function destroy():Void
 	{
 		Conductor.stepSignal.remove(stepHit);
 		Conductor.beatSignal.remove(beatHit);

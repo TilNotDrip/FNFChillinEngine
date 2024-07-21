@@ -1,4 +1,4 @@
-package substates;
+package substates.game;
 
 import flixel.FlxCamera;
 

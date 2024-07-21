@@ -5,6 +5,9 @@ import flixel.tweens.misc.ColorTween;
 import objects.menu.MenuCharacter;
 import objects.menu.WeekItem;
 import openfl.Assets;
+import utils.Song;
+import utils.SongEvent;
+import utils.Week;
 
 class StoryMenuState extends MusicBeatState
 {

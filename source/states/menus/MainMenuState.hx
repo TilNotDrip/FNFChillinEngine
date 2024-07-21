@@ -1,6 +1,5 @@
 package states.menus;
 
-import options.states.OptionsState;
 import flixel.FlxObject;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;

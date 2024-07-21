@@ -1,8 +1,6 @@
-package options.objects;
+package objects.menu;
 
 import flixel.group.FlxSpriteGroup;
-import objects.menu.Checkbox;
-import objects.menu.MenuAlphabet;
 
 class Option extends FlxSpriteGroup
 {

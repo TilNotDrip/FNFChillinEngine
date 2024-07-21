@@ -1,10 +1,6 @@
-package options.substates.options;
+package substates.menus.options;
 
-import display.FPS;
-import openfl.Lib;
-import options.objects.Option;
-
-class Other extends BaseSubState
+class OtherSubState extends BaseSubState
 {
 	override public function create()
 	{
@@ -30,12 +26,9 @@ class Other extends BaseSubState
 	}
 
 	#if FUNKIN_DISCORD_RPC
-	private function discordRPCChange()
+	function discordRPCChange():Void
 	{
-		if (ChillSettings.get('discordRPC'))
-			DiscordRPC.initialize();
-		else
-			DiscordRPC.shutdown();
+		(ChillSettings.get('discordRPC')) ? DiscordRPC.initialize() : DiscordRPC.shutdown();
 	}
 	#end
 }

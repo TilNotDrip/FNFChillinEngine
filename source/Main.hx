@@ -20,7 +20,7 @@ import openfl.events.Event;
 #end
 class Main extends Sprite
 {
-	private var game = {
+	var game = {
 		width: 1280,
 		height: 720,
 		state: states.menus.TitleState,
@@ -36,7 +36,7 @@ class Main extends Sprite
 		Lib.current.addChild(new Main());
 	}
 
-	public function new()
+	public function new():Void
 	{
 		super();
 
@@ -46,7 +46,7 @@ class Main extends Sprite
 			addEventListener(Event.ADDED_TO_STAGE, init);
 	}
 
-	private function init(?E:Event):Void
+	function init(?E:Event):Void
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 			removeEventListener(Event.ADDED_TO_STAGE, init);
@@ -54,14 +54,14 @@ class Main extends Sprite
 		setupGame();
 	}
 
-	private var overlay:Sprite;
+	var overlay:Sprite;
 
 	// TODO: run shutdown -r -t 0 to test out safe mode
 	public static var fpsCounter:FPS;
 
 	// public static var titleBar:FunkinWindowBar;
 
-	private function setupGame():Void
+	function setupGame():Void
 	{
 		var funkinGame:FlxGame = new FlxGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen);
 
@@ -88,14 +88,14 @@ class Main extends Sprite
 		#end
 	}
 
-	private function initSaves()
+	function initSaves():Void
 	{
 		ChillSettings.loadSettings();
 		PlayerSettings.init();
 		Highscore.load();
 	}
 
-	private function initGame()
+	function initGame():Void
 	{
 		#if (cpp && windows)
 		// This disables the "Report to Microsoft" popup when the game stops responding.
@@ -119,9 +119,9 @@ class Main extends Sprite
 		#end
 	}
 
-	private static var curDate = Date.now();
+	static var curDate = Date.now();
 
-	private static function get_aprilFools():Bool
+	static function get_aprilFools():Bool
 	{
 		return (curDate.getDate() == 1 && curDate.getMonth() == 4);
 	}

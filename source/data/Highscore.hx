@@ -1,11 +1,12 @@
-package utils;
+package data;
 
 import flixel.util.FlxSave;
 
 class Highscore
 {
-	private static var saveScores:FlxSave;
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
+
+	static var saveScores:FlxSave;
 
 	public static function load():Void
 	{

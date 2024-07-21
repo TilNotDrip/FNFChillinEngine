@@ -1,9 +1,10 @@
-package substates;
+package substates.game;
 
 import flixel.ui.FlxBar;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import stages.StageBackend;
+import utils.FunkinAnimationController;
 
 class EndSubState extends MusicBeatSubstate
 {

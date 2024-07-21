@@ -1,8 +1,6 @@
-package options.substates.options;
+package substates.menus.options;
 
-import options.objects.Option;
-
-class Display extends BaseSubState
+class DisplaySubState extends BaseSubState
 {
 	override public function create()
 	{

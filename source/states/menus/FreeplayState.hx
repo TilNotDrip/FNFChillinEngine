@@ -1,5 +1,6 @@
 package states.menus;
 
+import utils.SongEvent;
 import utils.Week;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxAngle;
@@ -15,10 +16,12 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import objects.menu.FreeplayScore;
 import flixel.math.FlxPoint;
 import objects.Alphabet as AtlasText;
-import substates.StickerSubState;
+import substates.menus.StickerSubState;
 import objects.menu.BGScrollingText;
 import openfl.utils.Assets;
-import substates.ModifierSubstate;
+import substates.menus.ModifierSubstate;
+import utils.Song;
+import utils.SongEvent;
 
 /**
  * Parameters used to initialize the FreeplayState.

@@ -1,4 +1,3 @@
-// HEY!! Before adding something here, if you use the modding api, add it to the list in HScript.hx!
 // Stuff from Haxelibs
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -18,23 +17,30 @@ import lime.app.Application;
 #if FUNKIN_DISCORD_RPC
 import api.DiscordRPC;
 #end
+import data.ChillSettings;
+import data.Highscore;
+import data.PlayerSettings;
 #if FUNKIN_MOD_SUPPORT
 import modding.HScript;
 import modding.ModHandler;
 #end
-import modding.Module; // im going to use this for some other things
+import modding.Module;
 import objects.*;
-import options.ChillSettings;
 import states.game.GameBackend;
 import states.game.PlayState;
-import states.menus.StoryMenuState;
 import states.menus.FreeplayState;
+import states.menus.StoryMenuState;
 import states.menus.MainMenuState;
 import states.LoadingState;
+import states.MusicBeatState;
+import substates.menus.StickerSubState;
+import substates.MusicBeatSubstate;
 import structures.ModStructures;
-import utils.*;
+import utils.Conductor;
+import utils.Constants;
 import utils.Controls;
 import utils.CoolUtil;
+import utils.LerpTween;
 import utils.paths.Paths;
 
 // Using

@@ -1,7 +1,8 @@
 package objects.game;
 
-import utils.Song.SwagNote;
 import shaders.RGBShader;
+import utils.Song.SwagNote;
+import utils.Direction;
 
 class Note extends FlxSprite
 {

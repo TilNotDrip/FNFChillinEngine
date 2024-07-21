@@ -1,12 +1,10 @@
-package substates;
+package substates.menus;
 
-import substates.StickerTransition.StickerInfo;
 import flixel.FlxSprite;
 import haxe.Json;
 import lime.utils.Assets;
 import flixel.FlxSprite;
 // import flxtyped group
-import utils.MusicBeatSubstate;
 import states.menus.StoryMenuState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxTimer;
@@ -22,6 +20,7 @@ import openfl.geom.Matrix;
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import flixel.FlxState;
+import substates.menus.StickerTransition.StickerInfo;
 
 using Lambda;
 using StringTools;

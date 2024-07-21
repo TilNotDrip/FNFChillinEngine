@@ -3,9 +3,6 @@ package states.game;
 import openfl.events.KeyboardEvent;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.addons.text.FlxTypeText;
-import utils.Section.SwagSection;
-import utils.SongEvent.SwagEvent;
-import utils.Song;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.addons.effects.FlxTrail;
@@ -23,7 +20,17 @@ import objects.game.Note;
 import objects.game.*;
 import stages.StageBackend;
 import states.tools.*;
-import substates.*;
+import substates.game.EndSubState;
+import substates.game.GameOverSubstate;
+import substates.game.PauseSubState;
+import substates.menus.StickerTransition;
+import utils.Modifiers;
+import utils.Section.SwagSection;
+import utils.SongEvent.SwagEvent;
+import utils.Scoring;
+import utils.Song;
+import utils.SongEvent;
+import utils.Week;
 
 class PlayState extends MusicBeatState
 {

@@ -1,4 +1,4 @@
-package substates;
+package substates.menus;
 
 import openfl.geom.Rectangle;
 import flixel.math.FlxPoint;

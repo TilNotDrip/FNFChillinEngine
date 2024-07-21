@@ -1,15 +1,18 @@
-package options.states;
+package states.menus;
 
-import options.substates.BaseSubState;
-import options.substates.options.*;
+import substates.menus.options.ControlsSubState;
+import substates.menus.options.DisplaySubState;
+import substates.menus.options.GameplaySubState;
+import substates.menus.options.FlixelSubState;
+import substates.menus.options.OtherSubState;
 
 class OptionsState extends MusicBeatState
 {
-	private var optionsList:Array<String> = ['Controls', 'Display', 'Gameplay', 'Flixel', 'Other'];
-
-	private static var curSelected:Int = 0;
-
 	public static var optionItems:FlxTypedGroup<Alphabet>;
+
+	static var curSelected:Int = 0;
+
+	var optionsList:Array<String> = ['Controls', 'Display', 'Gameplay', 'Flixel', 'Other'];
 
 	override public function create()
 	{
@@ -18,8 +21,6 @@ class OptionsState extends MusicBeatState
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Options Menu';
 		#end
-
-		FlxG.cameras.reset(new SwagCamera());
 
 		quickMakeBG();
 
@@ -92,13 +93,13 @@ class OptionsState extends MusicBeatState
 			case 'controls':
 				openSubState(new ControlsSubState());
 			case 'display':
-				openSubState(new Display());
+				openSubState(new DisplaySubState());
 			case 'gameplay':
-				openSubState(new Gameplay());
+				openSubState(new GameplaySubState());
 			case 'flixel':
-				openSubState(new Flixel());
+				openSubState(new FlixelSubState());
 			case 'other':
-				openSubState(new Other());
+				openSubState(new OtherSubState());
 		}
 	}
 }

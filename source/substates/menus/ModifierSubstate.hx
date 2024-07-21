@@ -1,8 +1,8 @@
-package substates;
+package substates.menus;
 
+import objects.menu.Checkbox;
 import objects.menu.MenuAlphabet;
 import utils.Modifiers;
-import objects.menu.Checkbox;
 
 class ModifierSubstate extends MusicBeatSubstate
 {
