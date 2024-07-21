@@ -4,9 +4,7 @@ class ChartingState extends MusicBeatState
 {
 	override function create():Void
 	{
-		var bg:FlxSprite = new FlxSprite(Paths.content.image('menuUI/menuBG'));
-		bg.screenCenter();
-		add(bg);
+		quickMakeBG();
 
 		super.create();
 	}

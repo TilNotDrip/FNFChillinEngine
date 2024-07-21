@@ -15,7 +15,7 @@ class Week
 		var weeks:Array<Week> = [];
 
 		for (weekFile in CoolUtil.coolTextFile(Paths.location.txt('data/weeks/weekList')))
-			weeks.push(new Week(Paths.location.json('data/weeks/$weekFile')));
+			weeks.push(new Week(weekFile));
 
 		// Test
 		if (ChillSettings.get('devMode'))
@@ -104,7 +104,7 @@ class Week
 	{
 		if (path != null)
 		{
-			var json:WeekJSON = cast Json.parse(Assets.getText(path).trim());
+			var json:WeekJSON = cast Json.parse(Paths.content.json('data/weeks/$path'));
 
 			weekJson = {file: path.split('/').getLastInArray().replace('.json', ''), json: json};
 

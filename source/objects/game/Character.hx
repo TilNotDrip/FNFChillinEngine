@@ -530,8 +530,6 @@ class Character extends FlxSprite
 		}
 	}
 
-	// private var playingEndAnim:Bool = false;
-
 	override public function update(elapsed:Float)
 	{
 		if (animation.curAnim.name.startsWith('sing'))

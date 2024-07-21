@@ -289,8 +289,7 @@ class StickerInfo
 
 	public function new(stickerSet:String):Void
 	{
-		var path = Paths.location.json('images/transitionSwag/' + stickerSet + '/stickers');
-		var json = Json.parse(Assets.getText(path));
+		var json:Dynamic = Json.parse(Paths.content.json('images/transitionSwag/' + stickerSet + '/stickers'));
 
 		// doin this dipshit nonsense cuz i dunno how to deal with casting a json object with
 		// a dash in its name (sticker-packs)

@@ -1,6 +1,7 @@
 package utils.paths;
 
 import flixel.graphics.FlxGraphic;
+import haxe.Json;
 import openfl.Assets;
 import openfl.display.BitmapData;
 import openfl.utils.AssetType;
@@ -66,6 +67,12 @@ class PathContent
 			trace('Image doesn\'t exist! ($path)');
 
 		return graphic;
+	}
+
+	// TODO: rename this function and make an actual json function return an actual fucking jssonnnn
+	public function json(key:String, ?library:String):String
+	{
+		return getText('$key.${Constants.EXT_DATA}', library);
 	}
 
 	public function sparrowAtlas(key:String, ?library:String):FlxAtlasFrames

@@ -9,7 +9,7 @@ class MusicBeatState extends FlxUIState
 	inline private function get_controls():Controls
 		return PlayerSettings.players[0].controls;
 
-	public function new()
+	public function new():Void
 	{
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.clearValues();
@@ -22,7 +22,7 @@ class MusicBeatState extends FlxUIState
 		super();
 	}
 
-	override public function create()
+	override public function create():Void
 	{
 		Conductor.stepSignal.add(stepHit);
 		Conductor.beatSignal.add(beatHit);
@@ -37,12 +37,22 @@ class MusicBeatState extends FlxUIState
 
 	public function sectionHit():Void {}
 
-	public function changeWindowName(windowName:String = '')
-		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
-
-	override public function destroy()
+	override public function destroy():Void
 	{
 		Conductor.destroy();
 		super.destroy();
+	}
+
+	public function changeWindowName(windowName:String = ''):Void
+		Application.current.window.title = Application.current.meta.get('name') + (windowName == '' ? '' : ' - ') + windowName;
+
+	public function quickMakeBG():FlxSprite
+	{
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.image('menuUI/menuBG'));
+		bg.color = 0xFFFDE871;
+		bg.scrollFactor.set();
+		bg.screenCenter();
+		add(bg);
+		return bg;
 	}
 }

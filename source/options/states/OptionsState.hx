@@ -21,12 +21,7 @@ class OptionsState extends MusicBeatState
 
 		FlxG.cameras.reset(new SwagCamera());
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.image('menuUI/menuBG'));
-		bg.setGraphicSize(Std.int(bg.width * 1.1));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.scrollFactor.set();
-		add(bg);
+		quickMakeBG();
 
 		optionItems = new FlxTypedGroup<Alphabet>();
 		add(optionItems);

@@ -97,9 +97,7 @@ class GitCreditsState extends MusicBeatState
 
 		contribGet.request();
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.image('menuUI/menuBG'));
-		bg.screenCenter();
-		add(bg);
+		quickMakeBG();
 
 		description = new Alphabet(0, 0, '', DEFAULT);
 		description.updateHitbox();

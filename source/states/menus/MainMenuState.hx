@@ -11,16 +11,16 @@ class MainMenuState extends MusicBeatState
 {
 	public static var funkinVer:String = '0.4.1' #if debug + ' (Prototype)' #end;
 
-	private var magenta:FlxSprite;
+	static var curSelected:Int = 0;
 
 	var itemNames:Array<String> = ['storymode', 'freeplay', 'credits', 'merch', 'options'];
 	private var menuItems:FlxTypedGroup<MenuItem>;
 
-	private static var curSelected:Int = 0;
+	var selected:Bool = false;
 
-	private var selected:Bool = false;
+	var magenta:FlxSprite = null;
 
-	private var camFollow:FlxObject;
+	var camFollow:FlxObject;
 
 	override public function create()
 	{
@@ -38,26 +38,26 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(Paths.content.image('menuUI/menuBG'));
+		var bg:FlxSprite = quickMakeBG();
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.17;
 		bg.setGraphicSize(Std.int(bg.width * 1.2));
 		bg.updateHitbox();
 		bg.screenCenter();
-		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(bg.x, bg.y).loadGraphic(Paths.content.image('menuUI/menuDesat'));
-		magenta.scrollFactor.set(bg.scrollFactor.x, bg.scrollFactor.y);
-		magenta.setGraphicSize(bg.width);
-		magenta.updateHitbox();
-		magenta.color = 0xFFFD719B;
-		magenta.visible = false;
-
 		if (ChillSettings.get('flashingLights'))
+		{
+			magenta = new FlxSprite(bg.x, bg.y).loadGraphic(Paths.content.image('menuUI/menuBG'));
+			magenta.scrollFactor.set(bg.scrollFactor.x, bg.scrollFactor.y);
+			magenta.setGraphicSize(bg.width);
+			magenta.updateHitbox();
+			magenta.color = 0xFFFD719B;
+			magenta.visible = false;
 			add(magenta);
+		}
 
 		menuItems = new FlxTypedGroup<MenuItem>();
 		add(menuItems);

@@ -345,9 +345,10 @@ class Song
 	private static function getSongFile(path:String):Null<String>
 	{
 		var rawJson:Null<String> = null;
+
 		try
 		{
-			rawJson = Assets.getText(Paths.location.json('data/charts/' + path)).trim();
+			rawJson = Paths.content.json('data/charts/' + path);
 
 			while (!rawJson.endsWith("}"))
 				rawJson = rawJson.substr(0, rawJson.length - 1);

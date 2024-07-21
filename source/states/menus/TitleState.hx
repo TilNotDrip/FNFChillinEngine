@@ -86,7 +86,7 @@ class TitleState extends MusicBeatState
 		#end
 
 		if (introText == null)
-			introText = cast Json.parse(Assets.getText(Paths.location.json('data/title')).trim());
+			introText = cast Json.parse(Paths.content.json('data/title'));
 
 		startedIntro = false;
 
