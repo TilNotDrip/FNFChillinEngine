@@ -63,7 +63,7 @@ class BaseSubState extends MusicBeatSubstate
 			}
 		}
 
-		if (FlxG.keys.anyJustReleased([A, LEFT]) || FlxG.keys.anyJustReleased([D, RIGHT]))
+		if (controls.UI_LEFT_R || controls.UI_RIGHT_R)
 			holdTimer = 0;
 
 		if (controls.ACCEPT)
