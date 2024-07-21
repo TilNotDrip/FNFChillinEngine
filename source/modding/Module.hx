@@ -43,7 +43,7 @@ class Module
 			callFunction('beatHit');
 		});
 
-		Conductor.beatSignal.add(function()
+		Conductor.sectionSignal.add(function()
 		{
 			callFunction('sectionHit');
 		});

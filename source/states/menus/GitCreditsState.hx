@@ -80,8 +80,8 @@ class GitCreditsState extends MusicBeatState
 				peopleArray.push(songText);
 				iconArray.push(icon);
 
-				this.add(songText);
-				this.add(icon);
+				add(songText);
+				add(icon);
 			}
 		}
 

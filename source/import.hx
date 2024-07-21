@@ -21,8 +21,8 @@ import api.DiscordRPC;
 #if FUNKIN_MOD_SUPPORT
 import modding.HScript;
 import modding.ModHandler;
-import modding.Module;
 #end
+import modding.Module; // im going to use this for some other things
 import objects.*;
 import options.ChillSettings;
 import states.game.GameBackend;
