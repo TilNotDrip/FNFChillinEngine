@@ -27,6 +27,8 @@ class BaseSubState extends MusicBeatSubstate
 		changeItem();
 	}
 
+	var holdTimer:Float = 0;
+
 	override public function update(elapsed:Float):Void
 	{
 		if (controls.BACK)
@@ -48,11 +50,21 @@ class BaseSubState extends MusicBeatSubstate
 		if (controls.UI_DOWN_P)
 			changeItem(1);
 
-		if (controls.UI_LEFT_P)
-			changeOptionValue(-1);
+		if (controls.UI_LEFT || controls.UI_RIGHT)
+		{
+			holdTimer += elapsed;
 
-		if (controls.UI_RIGHT_P)
-			changeOptionValue(1);
+			if (controls.UI_LEFT_P || controls.UI_RIGHT_P || holdTimer > 0.5)
+			{
+				if (controls.UI_LEFT)
+					changeOptionValue(-1);
+				else if (controls.UI_RIGHT)
+					changeOptionValue(1);
+			}
+		}
+
+		if (FlxG.keys.anyJustReleased([A, LEFT]) || FlxG.keys.anyJustReleased([D, RIGHT]))
+			holdTimer = 0;
 
 		if (controls.ACCEPT)
 		{
@@ -90,12 +102,20 @@ class BaseSubState extends MusicBeatSubstate
 	{
 		if (options[curSelected].type == NUMBER)
 		{
+			// Crusher why divide with the big numbers?
+			// Gimmie option with numbers in it that i can test OTHER THAN FPS THEN WE'LL TALK
+
+			var timer:Float = holdTimer / 500;
+
+			if (options[curSelected].numType == Int)
+				timer = Math.round(holdTimer / 1000);
+
 			var multiplier:Float = 1;
 
 			if (options[curSelected].numType == Float)
 				multiplier = 0.1;
 
-			options[curSelected].changeValue(change * multiplier);
+			options[curSelected].changeValue((change * multiplier) + ((change <= 0) ? -timer : timer));
 		}
 		else if (options[curSelected].type == SELECTION)
 			options[curSelected].changeValue(change);

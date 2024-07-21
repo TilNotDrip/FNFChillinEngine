@@ -91,7 +91,7 @@ class Option extends FlxSpriteGroup
 		{
 			var newValue:Dynamic = change + ChillSettings.get(varName);
 
-			if (maximumValue <= newValue || minimumValue <= newValue)
+			if (maximumValue >= newValue && minimumValue <= newValue)
 				ChillSettings.set(varName, newValue);
 
 			number.text = '< ' + ChillSettings.get(varName) + ' >';
