@@ -22,8 +22,6 @@ class Note extends FlxSprite
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]
 	];
 
-	public var strums:Strums;
-
 	public var data:SwagNote;
 	public var sustain(default, null):SustainNote = null;
 

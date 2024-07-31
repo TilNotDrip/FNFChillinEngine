@@ -7,6 +7,7 @@ import shaders.RGBShader;
 class SustainNote extends FlxSprite
 {
 	public var head:Note;
+	public var cover:NoteHoldCover;
 
 	public function new()
 	{

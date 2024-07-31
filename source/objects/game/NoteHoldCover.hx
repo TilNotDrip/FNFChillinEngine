@@ -13,9 +13,6 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 	var glow:FlxSprite;
 	var sparks:FlxSprite;
 
-	public var state:NoteHoldCoverState = START;
-	public var direction:Null<Int> = null;
-
 	public var rgbShader:RGBShader = new RGBShader();
 
 	public function new()
@@ -64,19 +61,16 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 
 	public function playStart():Void
 	{
-		state = START;
 		glow.animation.play('holdCoverStart');
 	}
 
 	public function playContinue():Void
 	{
-		state = START;
 		glow.animation.play('holdCover');
 	}
 
 	public function playEnd():Void
 	{
-		state = END;
 		glow.animation.play('holdCoverEnd');
 	}
 
@@ -85,15 +79,12 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 		super.kill();
 
 		visible = false;
-		direction = null;
 
 		if (glow != null)
 			glow.visible = false;
 
 		if (sparks != null)
 			sparks.visible = false;
-
-		state = NONE;
 	}
 
 	public override function revive():Void
@@ -102,14 +93,11 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 
 		visible = true;
 		alpha = 1.0;
-		direction = null;
 
 		if (glow != null)
 			glow.visible = true;
 		if (sparks != null)
 			sparks.visible = true;
-
-		state = NONE;
 	}
 
 	public function onAnimationFinished(animationName:String):Void
@@ -131,12 +119,4 @@ class NoteHoldCover extends FlxTypedSpriteGroup<FlxSprite>
 		rgbShader.rgb = colors;
 		shader = rgbShader.shader;
 	}
-}
-
-enum abstract NoteHoldCoverState(Int)
-{
-	var START = 1;
-	var END = 0;
-
-	var NONE = 2;
 }

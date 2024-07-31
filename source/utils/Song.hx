@@ -58,14 +58,23 @@ typedef LegacySwagSong =
 
 class Song
 {
+	private static var chartCache:Map<String, Map<String, SwagSong>> = new Map();
+
 	public static function autoSelectJson(song:String, difficulty:String):SwagSong
 	{
 		var daSong:SwagSong = null;
 
+		var cacheByDifficulty:Map<String, SwagSong> = chartCache.get(song);
+		if(cacheByDifficulty != null)
+		{
+			var daSongg:SwagSong = cacheByDifficulty.get(difficulty);
+
+			if(daSongg != null)
+				return daSongg;
+		}
+
 		if (getSongFile('$song/$song-chart') != null)
 			daSong = convertFromVSlice(song, difficulty);
-
-		trace('${daSong != null}fully passed vslice check!');
 
 		var daSongString:String = getSongFile('$song/$difficulty');
 
@@ -78,12 +87,16 @@ class Song
 		if (daSong == null && daSongString.contains('"sectionNotes":')) // shitty, but it works
 			daSong = upgradeJson(song, difficulty);
 
-		trace('${daSong != null}fully passed old chart check!');
-
 		if (daSong == null)
 			daSong = loadFromJson(song, difficulty);
 
-		trace('${daSong != null}fully passed new chart check!');
+		trace('saving to cache...');
+
+		if(cacheByDifficulty == null)
+			cacheByDifficulty = new Map();
+
+		cacheByDifficulty.set(difficulty, daSong);
+		chartCache.set(song, cacheByDifficulty);
 
 		return daSong;
 	}
@@ -356,7 +369,6 @@ class Song
 		catch (e)
 		{
 			trace('Error loading Song!\nDetails: ' + e);
-			FlxG.log.error('Error loading Song!\nDetails: ' + e);
 			rawJson = null;
 		}
 

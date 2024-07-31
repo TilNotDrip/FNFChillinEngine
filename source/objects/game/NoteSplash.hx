@@ -6,14 +6,14 @@ class NoteSplash extends FlxSprite
 {
 	public var rgbShader:RGBShader = new RGBShader();
 
-	public function new(x:Float, y:Float, noteData:Int = 0):Void
+	public function new(x:Float, y:Float):Void
 	{
 		super(x, y);
 
-		setupNoteSplash(x, y, noteData);
+		setupNoteSplash(x, y);
 	}
 
-	public function setupNoteSplash(x:Float, y:Float, noteData:Int = 0, isPixel:Bool = false)
+	public function setupNoteSplash(x:Float, y:Float, isPixel:Bool = false)
 	{
 		if (isPixel)
 			setPosition(x + 142, y + 143);
