@@ -113,6 +113,7 @@
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
+	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 	<haxedef name="FLX_RECORD" />
