@@ -54,7 +54,7 @@ class DiscordRPC
 				#end
 				Discord.RunCallbacks();
 
-				Sys.sleep(0.001);
+				Sys.sleep(2);
 			}
 		});
 	}
