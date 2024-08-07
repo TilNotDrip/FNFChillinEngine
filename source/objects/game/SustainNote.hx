@@ -44,4 +44,12 @@ class SustainNote extends FlxSprite
 		setGraphicSize(Std.int(width * 0.7));
 		updateHitbox();
 	}
+
+	override public function kill():Void
+	{
+		if(cover != null)
+			cover.playEnd();
+		
+		super.kill();
+	}
 }

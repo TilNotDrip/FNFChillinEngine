@@ -147,12 +147,12 @@ class PathLocation
 
 	inline function getLibraryPathForce(key:String, library:String):String
 	{
-		return '$library:assets/$library/$key';
+		return '$library:${Constants.ASSETS_FOLDER}/$library/$key';
 	}
 
 	inline function getPreloadPath(key:String):String
 	{
-		return 'assets/$key';
+		return '${Constants.ASSETS_FOLDER}/$key';
 	}
 
 	#if FUNKIN_MOD_SUPPORT

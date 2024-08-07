@@ -236,15 +236,15 @@ class Strumline extends FlxGroup
 			else
 				daNote.y = daNote.head.y + (Conductor.stepCrochet * (0.45 * FlxMath.roundDecimal(speed, 2)));
 
-			if (((ChillSettings.get('downScroll') && daNote.y < -daNote.height)
-				|| (!ChillSettings.get('downScroll') && daNote.y > FlxG.height))
-				&& daNote.alive /* && !daNote.wasHit*/)
-				daNote.kill();
-
-			if (((ChillSettings.get('downScroll') && daNote.y + Note.NOTE_WIDTH < FlxG.height)
+			if (((ChillSettings.get('downScroll') && daNote.y + daNote.height < FlxG.height)
 				|| (!ChillSettings.get('downScroll') && daNote.y > 0))
 				&& !daNote.alive /* && !daNote.wasHit*/)
 				daNote.revive();
+
+			if (((ChillSettings.get('downScroll') && daNote.y >= strumLineMid)
+				|| (!ChillSettings.get('downScroll') && daNote.y + daNote.height<= strumLineMid))
+				&& daNote.alive /* && !daNote.wasHit*/)
+				daNote.kill();
 		});
 
 		holdNotes.forEachAlive(function(daNote:SustainNote)
@@ -261,17 +261,11 @@ class Strumline extends FlxGroup
 
 					holdCover.x = strums.x;
     				holdCover.x += Note.NOTE_WIDTH * daNote.head.data.direction;
-    				holdCover.x += Note.NOTE_WIDTH / 2;
-    				holdCover.x -= holdCover.width / 2;
-    				holdCover.x += 12; // Manual tweaking because fuck.
+					holdCover.x += 106.25;
 
 					holdCover.y = strums.y;
-    				holdCover.y += -0.275 * Note.NOTE_WIDTH;
-    				holdCover.y += Note.NOTE_WIDTH / 2;
-    				holdCover.y += -96; // Manual tweaking because fuck.
+					holdCover.y += 100;
 				}
-				else if(Conductor.songPosition >= daNote.head.data.time + daNote.head.data.length)
-					daNote.cover.playEnd();
 
 				if (daNote.y + daNote.offset.y * daNote.scale.y <= strumLineMid)
 				{
@@ -295,12 +289,17 @@ class Strumline extends FlxGroup
 
 			if(confirmTimer[i] >= 0.1)
 			{
-				strum.animation.play('static', true);
-
-				if(!isPixel)
-					strumsRGB[i].rgb = STATIC_COLORS;
+				/*if(isHeldDown[i])
+					strum.animation.play('pressed', true);
 				else
-					strumsRGB[i].rgb = STATIC_COLORS_PIXEL;
+				{*/
+					strum.animation.play('static', true);
+
+					if(!isPixel)
+						strumsRGB[i].rgb = STATIC_COLORS;
+					else
+						strumsRGB[i].rgb = STATIC_COLORS_PIXEL;
+				// }
 				
 			}
 		}

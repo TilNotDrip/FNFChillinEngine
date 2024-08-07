@@ -78,7 +78,7 @@
         {
             "name": "hxvlc",
             "type": "haxelib",
-            "version": null
+            "version": "1.5.3"
         }
     ]
 }

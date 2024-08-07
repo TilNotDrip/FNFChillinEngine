@@ -13,9 +13,19 @@ class Constants
 	public static final API_VERSION:String = '0.1.0';
 
 	/**
+	 * LOCATION DATA
+	 */
+	// ==============================
+
+	/**
 	 * The folder where mods should be loaded from.
 	 */
 	public static final MODS_FOLDER:String = 'mods';
+
+	/**
+	 * The folder where game assets should be loaded from.
+	 */
+	public static final ASSETS_FOLDER:String = 'assets';
 
 	/**
 	 * URL DATA
