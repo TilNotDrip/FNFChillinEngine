@@ -1,0 +1,31 @@
+{
+    "image": "characters/Person",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Idle",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": true,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "healthIcon": "face",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Person",
+        "isPlayer": false
+    }
+}

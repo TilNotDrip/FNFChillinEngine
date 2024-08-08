@@ -121,7 +121,7 @@ class Note extends FlxSprite
 		{
 			alpha = 0.6;
 
-			if (ChillSettings.get('downScroll', GAMEPLAY))
+			if (FunkinOptions.get('downScroll'))
 				angle = 180;
 
 			x += width / 2;

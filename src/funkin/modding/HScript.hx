@@ -55,7 +55,7 @@ class HScript extends SScript
 		}
 	}
 
-	public function runLocalFunction(name:String, ?args:Null<Array<Dynamic>> = null):TeaCall
+	public function runLocalFunction(name:String, ?args:Null<Array<Dynamic>> = null):Tea
 	{
 		if (!initializeThing) // stupid fix
 		{
@@ -69,13 +69,13 @@ class HScript extends SScript
 		return call(name, args);
 	}
 
-	public static function runFunction(name:String, ?args:Array<Dynamic> = null):Array<TeaCall>
+	public static function runFunction(name:String, ?args:Array<Dynamic> = null):Array<Tea>
 	{
-		var returnArray:Array<TeaCall> = [];
+		var returnArray:Array<Tea> = [];
 
 		for (script in initializedScripts)
 		{
-			var daCall:TeaCall = script.runLocalFunction(name, args);
+			var daCall:Tea = script.runLocalFunction(name, args);
 
 			if (!daCall.succeeded && !daCall.exceptions.toString().contains('does not exist'))
 				trace('Exceptions for $name in ${script.scriptFile}: ' + daCall.exceptions);

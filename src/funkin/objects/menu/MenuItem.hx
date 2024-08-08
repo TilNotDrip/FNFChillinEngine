@@ -26,7 +26,7 @@ class MenuItem extends FlxSprite
 		FlxTransitionableState.skipNextTransIn = false;
 		FlxTransitionableState.skipNextTransOut = false;
 
-		if (ChillSettings.get('flashingLights', DISPLAY))
+		if (FunkinOptions.get('flashingLights'))
 			FlxFlicker.flicker(this, 1, 0.06, false, false);
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -35,13 +35,16 @@ class MenuItem extends FlxSprite
 			{
 				case 'story-mode':
 					FlxG.switchState(new StoryMenuState());
+
 				case 'freeplay':
 					FlxG.switchState(new FreeplayState());
+
 				case 'donate':
 					CoolUtil.openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game/');
 					FlxG.resetState();
+
 				case 'options':
-					FlxG.switchState(new funkin.options.states.OptionsState());
+					FlxG.switchState(new funkin.states.menus.OptionsState());
 			}
 		});
 	}

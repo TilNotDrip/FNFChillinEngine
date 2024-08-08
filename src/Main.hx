@@ -60,15 +60,18 @@ class Main extends Sprite
 		initGame();
 	}
 
-	function initGame()
+	function initGame():Void
 	{
-		ChillSettings.loadSettings();
+		FunkinOptions.loadSettings();
 		PlayerSettings.init();
 		Highscore.load();
 
 		FlxG.debugger.setLayout(MICRO);
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = [ZERO];
+
+		// Unfortunately we dont have Angry Birds in Chillin' Engine so we can disable this
+		FlxG.fixedTimestep = false;
 
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.initialize();
@@ -79,13 +82,6 @@ class Main extends Sprite
 
 	static function get_aprilFools():Bool
 	{
-		var isToday:Bool;
-
-		if (curDate.getDate() == 1 && curDate.getMonth() == 4)
-			isToday = true;
-		else
-			isToday = false;
-
-		return isToday;
+		return (curDate.getDate() == 1 && curDate.getMonth() == 4);
 	}
 }

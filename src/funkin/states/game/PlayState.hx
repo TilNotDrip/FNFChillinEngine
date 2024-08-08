@@ -269,14 +269,14 @@ class PlayState extends MusicBeatState
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
 
-		if (ChillSettings.get('downScroll', GAMEPLAY))
+		if (FunkinOptions.get('downScroll'))
 			strumLine.y = FlxG.height - 150;
 
 		strumLine.scrollFactor.set();
 		strumLineNotes = new FlxTypedGroup<Strums>();
 		add(strumLineNotes);
 
-		if (ChillSettings.get('noteSplashes', GAMEPLAY))
+		if (FunkinOptions.get('noteSplashes'))
 		{
 			playerSplashes = new FlxTypedGroup<NoteSplash>(51);
 			opponentSplashes = new FlxTypedGroup<NoteSplash>(51);
@@ -319,7 +319,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
 
-		if (ChillSettings.get('downScroll', GAMEPLAY))
+		if (FunkinOptions.get('downScroll'))
 			healthBarBG.y = FlxG.height * 0.1;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
@@ -328,7 +328,7 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		add(healthBar);
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (FunkinOptions.get('hudType') == 'Advanced')
 		{
 			songTxt = new FlxText(-5, 5, FlxG.width, "", 20);
 			songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -376,13 +376,13 @@ class PlayState extends MusicBeatState
 		lyricText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(lyricText);
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (FunkinOptions.get('hudType') == 'Complex')
 		{
 			healthOppTxt.color = iconP2.curHealthBarColor;
 			healthPlayerTxt.color = iconP1.curHealthBarColor;
 		}
 
-		if (ChillSettings.get('noteSplashes', GAMEPLAY))
+		if (FunkinOptions.get('noteSplashes'))
 		{
 			playerSplashes.cameras = [camHUD];
 			opponentSplashes.cameras = [camHUD];
@@ -395,7 +395,7 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (FunkinOptions.get('hudType') == 'Complex')
 		{
 			songTxt.cameras = [camHUD];
 			ratingCounterTxt.cameras = [camHUD];
@@ -414,7 +414,7 @@ class PlayState extends MusicBeatState
 
 		// HScript.runFunction('createPost');
 
-		if (!seenCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
+		if (!seenCutscene && FunkinOptions.get('cutscenes'))
 		{
 			if (StageBackend.stage.startCallback != null)
 				StageBackend.stage.startCallback();
@@ -684,7 +684,7 @@ class PlayState extends MusicBeatState
 
 		arrows.x = ((FlxG.width / 2) * player) + ((FlxG.width / 2 - arrows.width) / 2);
 
-		if (ChillSettings.get('middleScroll', GAMEPLAY))
+		if (FunkinOptions.get('middleScroll'))
 			arrows.screenCenter(X);
 
 		var dummyNotes:Array<Note> = [];
@@ -704,7 +704,7 @@ class PlayState extends MusicBeatState
 		{
 			opponentStrums = arrows;
 
-			if (ChillSettings.get('middleScroll', GAMEPLAY))
+			if (FunkinOptions.get('middleScroll'))
 				arrows.visible = false;
 
 			opponentStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
@@ -855,9 +855,9 @@ class PlayState extends MusicBeatState
 
 		lyricText.updateHitbox();
 		lyricText.screenCenter(X);
-		lyricText.y = healthBarBG.y - ((100 - lyricText.height) * ((ChillSettings.get('downScroll', GAMEPLAY)) ? -1 : 1));
+		lyricText.y = healthBarBG.y - ((100 - lyricText.height) * ((FunkinOptions.get('downScroll')) ? -1 : 1));
 
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (FunkinOptions.get('hudType') == 'Advanced')
 			songTxt.text = '['
 				+ FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)
 				+ ' / '
@@ -899,7 +899,7 @@ class PlayState extends MusicBeatState
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
-		if (ChillSettings.get('devMode', OTHER))
+		if (FunkinOptions.get('devMode'))
 		{
 			if (FlxG.keys.justPressed.SEVEN && !isEnding)
 				FlxG.switchState(new ChartingState());
@@ -1029,8 +1029,8 @@ class PlayState extends MusicBeatState
 
 				daNote.visible = whatStrum.visible;
 
-				if ((ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
-					|| (!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
+				if ((FunkinOptions.get('downScroll') && daNote.y < -daNote.height)
+					|| (!FunkinOptions.get('downScroll') && daNote.y > FlxG.height))
 				{
 					daNote.active = false;
 					daNote.visible = false;
@@ -1043,7 +1043,7 @@ class PlayState extends MusicBeatState
 
 				var strumLineMid = whatStrum.y + Note.swagWidth / 2;
 
-				if (ChillSettings.get('downScroll', GAMEPLAY))
+				if (FunkinOptions.get('downScroll'))
 				{
 					daNote.y = (whatStrum.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
 
@@ -1095,8 +1095,8 @@ class PlayState extends MusicBeatState
 
 				if (daNote.isSustainNote && daNote.wasGoodHit)
 				{
-					if ((!ChillSettings.get('downScroll', GAMEPLAY) && daNote.y < -daNote.height)
-						|| (ChillSettings.get('downScroll', GAMEPLAY) && daNote.y > FlxG.height))
+					if ((!FunkinOptions.get('downScroll') && daNote.y < -daNote.height)
+						|| (FunkinOptions.get('downScroll') && daNote.y > FlxG.height))
 					{
 						daNote.active = false;
 						daNote.visible = false;
@@ -1192,7 +1192,7 @@ class PlayState extends MusicBeatState
 
 	public function camZoom(gameCamZoom:Float = 0.015, camHudZoom:Float = 0.03)
 	{
-		if (ChillSettings.get('camZoom', GAMEPLAY))
+		if (FunkinOptions.get('camZoom'))
 		{
 			camGAME.zoom += gameCamZoom;
 			camHUD.zoom += camHudZoom;
@@ -1334,7 +1334,7 @@ class PlayState extends MusicBeatState
 
 	public function changeHealthText()
 	{
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (FunkinOptions.get('hudType') == 'Advanced')
 		{
 			var healthPlayer:Dynamic = FlxMath.roundDecimal(health * 50, 2);
 			var healthOpp:Dynamic = FlxMath.roundDecimal((maxHealth * 50) - (health * 50), 2);
@@ -1346,7 +1346,7 @@ class PlayState extends MusicBeatState
 
 	public function changeJudgementText()
 	{
-		if (ChillSettings.get('hudType', GAMEPLAY) == 'Score / Rating Counter / Health')
+		if (FunkinOptions.get('hudType') == 'Advanced')
 		{
 			var sickTxt = '[Sicks: $sicks]';
 			var goodTxt = '[Goods: $goods]';
@@ -1417,7 +1417,7 @@ class PlayState extends MusicBeatState
 		{
 			sicks++;
 
-			if (ChillSettings.get('noteSplashes', GAMEPLAY))
+			if (FunkinOptions.get('noteSplashes'))
 			{
 				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
 				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, boyfriend.isPixel);
@@ -1676,7 +1676,7 @@ class PlayState extends MusicBeatState
 						goodNoteHit(coolNote);
 				}
 			}
-			else if (!ChillSettings.get('ghostTapping', GAMEPLAY))
+			else if (!FunkinOptions.get('ghostTapping'))
 				ghostHit();
 		}
 
@@ -1792,7 +1792,7 @@ class PlayState extends MusicBeatState
 						opponentNoteHit(coolNote);
 				}
 			}
-			else if (!ChillSettings.get('ghostTapping', GAMEPLAY))
+			else if (!FunkinOptions.get('ghostTapping'))
 				ghostHit();
 		}
 
@@ -1937,7 +1937,7 @@ class PlayState extends MusicBeatState
 
 			opponentStrums.playNoteAnim(daNote.noteData, 'confirm', true);
 
-			if (!daNote.isSustainNote && ChillSettings.get('noteSplashes', GAMEPLAY))
+			if (!daNote.isSustainNote && FunkinOptions.get('noteSplashes'))
 			{
 				var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
 				noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData, dad.isPixel);

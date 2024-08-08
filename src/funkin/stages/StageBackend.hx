@@ -103,7 +103,7 @@ class StageBackend extends FlxBasic
 	// Other Functions
 	public function endingStuff()
 	{
-		if (endCallback != null && !PlayState.seenEndCutscene && ChillSettings.get('cutscenes', GAMEPLAY))
+		if (endCallback != null && !PlayState.seenEndCutscene && FunkinOptions.get('cutscenes'))
 		{
 			endCallback();
 			PlayState.seenEndCutscene = true;
