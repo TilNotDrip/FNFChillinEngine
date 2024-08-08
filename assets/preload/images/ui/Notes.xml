@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas imagePath="Notes.png">
-	<!-- Created with Adobe Animate version 23.0.0.407 -->
+	<!-- Created with Adobe Animate version 24.0.3.19 -->
 	<!-- http://www.adobe.com/products/animate.html -->
 	<SubTexture name="down confirm0000" x="5" y="5" width="236" height="233"/>
 	<SubTexture name="down confirm0001" x="5" y="5" width="236" height="233"/>
