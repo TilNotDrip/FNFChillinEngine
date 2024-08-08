@@ -376,12 +376,6 @@ class PlayState extends MusicBeatState
 		lyricText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(lyricText);
 
-		if (FunkinOptions.get('hudType') == 'Complex')
-		{
-			healthOppTxt.color = iconP2.curHealthBarColor;
-			healthPlayerTxt.color = iconP1.curHealthBarColor;
-		}
-
 		if (FunkinOptions.get('noteSplashes'))
 		{
 			playerSplashes.cameras = [camHUD];
@@ -1364,8 +1358,11 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(iconP2.curHealthBarColor, iconP1.curHealthBarColor);
 		healthBar.updateFilledBar();
 
-		healthOppTxt.color = iconP2.curHealthBarColor;
-		healthPlayerTxt.color = iconP1.curHealthBarColor;
+		if (FunkinOptions.get('hudType') == 'Advanced')
+		{
+			healthOppTxt.color = iconP2.curHealthBarColor;
+			healthPlayerTxt.color = iconP1.curHealthBarColor;
+		}
 
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.smallImageKey = 'icon-${iconP2.char}';
