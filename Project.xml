@@ -2,7 +2,9 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin'; Chillin' Engine" file="ChillinEngine" packageName="com.chillinengine.tilnotdrip" package="com.chillinengine.tilnotdrip" main="Main" version="0.0.1-ALPHA" company="TilNotDrip" />
+	<app title="Friday Night Funkin'; Chillin' Engine" file="ChillinEngine"
+		packageName="com.chillinengine.tilnotdrip" package="com.chillinengine.tilnotdrip"
+		main="Main" version="0.1.0" company="TilNotDrip" />
 
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 	<app preloader="flixel.system.FlxPreloader" />
@@ -11,16 +13,18 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
-	<window if="html5"   resizable="true" />
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
-	<window if="mobile"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
-	<window if="switch"  orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
+	<window if="html5" resizable="true" />
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false" />
+	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0"
+		resizable="false" />
+	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0"
+		resizable="true" />
 
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
-	<section if="cpp"> <define name="DISCORD" if="desktop"/> </section>
-	<define name="MOD_SUPPORT" />
-	<define name="VIDEOS" />
+	<define name="FUNKIN_DISCORD_RPC" if="desktop cpp" />
+	<define name="FUNKIN_MOD_SUPPORT" />
+	<define name="FUNKIN_VIDEOS" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -28,79 +32,75 @@
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
-	<define name="PRELOAD_ALL"    unless="web" />
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
+	<define name="PRELOAD_ALL" unless="web" />
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
 
 	<section if="PRELOAD_ALL">
-		<library name="songs" 	 preload="true" />
-		<library name="shared"   preload="true" />
-		<library name="week2"    preload="true" />
-		<library name="week3"    preload="true" />
-		<library name="week4"    preload="true" />
-		<library name="week5"    preload="true" />
-		<library name="week6"    preload="true" />
-		<library name="week7"    preload="true" />
-		<library name="videos"	 preload="true" />
+		<library name="songs" preload="true" />
+		<library name="shared" preload="true" />
+		<library name="week2" preload="true" />
+		<library name="week3" preload="true" />
+		<library name="week4" preload="true" />
+		<library name="week5" preload="true" />
+		<library name="week6" preload="true" />
+		<library name="week7" preload="true" />
+		<library name="videos" preload="true" />
 	</section>
 
 	<section if="NO_PRELOAD_ALL">
-		<library name="songs"    preload="false" />
-		<library name="shared"   preload="false" />
-		<library name="week2"    preload="false" />
-		<library name="week3"    preload="false" />
-		<library name="week4"    preload="false" />
-		<library name="week5"    preload="false" />
-		<library name="week6"    preload="false" />
-		<library name="week7"    preload="false" />
-		<library name="videos"	 preload="false" />
+		<library name="songs" preload="false" />
+		<library name="shared" preload="false" />
+		<library name="week2" preload="false" />
+		<library name="week3" preload="false" />
+		<library name="week4" preload="false" />
+		<library name="week5" preload="false" />
+		<library name="week6" preload="false" />
+		<library name="week7" preload="false" />
+		<library name="videos" preload="false" />
 	</section>
 
-	<assets path="assets/fonts"    embed='true'/>
-	<assets path="assets/preload"  rename="assets" 	  exclude="*.ogg" if="web"/>
-	<assets path="assets/preload"  rename="assets" 	  exclude="*.mp3" unless="web"/>
-	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
-	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
-	<assets path="assets/shared"   library="shared"   exclude="*.ogg" if="web"/>
-	<assets path="assets/shared"   library="shared"   exclude="*.mp3" unless="web"/>
-	<assets path="assets/videos"   library="videos" />
-	<assets path="assets/week2"    library="week2"    exclude="*.ogg" if="web"/>
-	<assets path="assets/week2"    library="week2"    exclude="*.mp3" unless="web"/>
-	<assets path="assets/week3"    library="week3"	  exclude="*.ogg" if="web"/>
-	<assets path="assets/week3"    library="week3"	  exclude="*.mp3" unless="web"/>
-	<assets path="assets/week4"    library="week4"	  exclude="*.ogg" if="web"/>
-	<assets path="assets/week4"    library="week4"	  exclude="*.mp3" unless="web"/>
-	<assets path="assets/week5"    library="week5"	  exclude="*.ogg" if="web"/>
-	<assets path="assets/week5"    library="week5"	  exclude="*.mp3" unless="web"/>
-	<assets path="assets/week6"    library="week6"    exclude="*.ogg" if="web"/>
-	<assets path="assets/week6"    library="week6"    exclude="*.mp3" unless="web"/>
-	<assets path="assets/week7"    library="week7"    exclude="*.ogg" if="web"/>
-	<assets path="assets/week7"    library="week7"    exclude="*.mp3" unless="web"/>
-	<assets path="docs/CHANGELOG.md" rename='changelog.txt'/>
-	<assets path="example_mods"    rename="mods" />
+	<assets path="assets/fonts" embed='true' />
+	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web" />
+	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web" />
+	<assets path="assets/songs" library="songs" exclude="*.ogg" if="web" />
+	<assets path="assets/songs" library="songs" exclude="*.mp3" unless="web" />
+	<assets path="assets/shared" library="shared" exclude="*.ogg" if="web" />
+	<assets path="assets/shared" library="shared" exclude="*.mp3" unless="web" />
+	<assets path="assets/videos" library="videos" />
+	<assets path="assets/week2" library="week2" exclude="*.ogg" if="web" />
+	<assets path="assets/week2" library="week2" exclude="*.mp3" unless="web" />
+	<assets path="assets/week3" library="week3" exclude="*.ogg" if="web" />
+	<assets path="assets/week3" library="week3" exclude="*.mp3" unless="web" />
+	<assets path="assets/week4" library="week4" exclude="*.ogg" if="web" />
+	<assets path="assets/week4" library="week4" exclude="*.mp3" unless="web" />
+	<assets path="assets/week5" library="week5" exclude="*.ogg" if="web" />
+	<assets path="assets/week5" library="week5" exclude="*.mp3" unless="web" />
+	<assets path="assets/week6" library="week6" exclude="*.ogg" if="web" />
+	<assets path="assets/week6" library="week6" exclude="*.mp3" unless="web" />
+	<assets path="assets/week7" library="week7" exclude="*.ogg" if="web" />
+	<assets path="assets/week7" library="week7" exclude="*.mp3" unless="web" />
+	<assets path="docs/CHANGELOG.md" rename='changelog.txt' />
+	<assets path="example_mods" rename="mods" />
 
-	<classpath name="source" />
+	<classpath name="src" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="flxanimate" unless="html5"/>
+	<haxelib name="flxanimate" unless="html5" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
-	<haxelib name="hxdiscord_rpc" if="DISCORD" />
-	
-	<section if="cpp"> 
-		<haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" /> 
+	<haxelib name="hxdiscord_rpc" if="FUNKIN_DISCORD_RPC" />
+
+	<section if="FUNKIN_VIDEOS">
+		<haxelib name="hxvlc" if="desktop cpp || mobile cpp" />
 	</section>
 
-	<haxelib name="SScript" if="MOD_SUPPORT"/>
+	<haxelib name="SScript" if="FUNKIN_MOD_SUPPORT" />
 	<haxedev set='webgl' />
 
 	<haxelib name="texter" />
-
-	<section if="cpp">
-		<haxelib name="hxvlc" if="VIDEOS" unless="!desktop || !mobile" />
-	</section>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -112,9 +112,9 @@
 
 	<!-- _________________________________ Icons _______________________________ -->
 
-	<icon path="extras/appicons/icon16.png" size='16'/>
-	<icon path="extras/appicons/icon32.png" size='32'/>
-	<icon path="extras/appicons/icon64.png" size='64'/>
+	<icon path="extras/appicons/icon16.png" size='16' />
+	<icon path="extras/appicons/icon32.png" size='32' />
+	<icon path="extras/appicons/icon64.png" size='64' />
 	<icon path="extras/appicons/iconOG.png" />
 
 	<!-- _________________________________ Custom _______________________________ -->
