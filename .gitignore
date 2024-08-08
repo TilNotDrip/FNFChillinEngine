@@ -1,3 +1,12 @@
-export/
+.github/
 .vscode/
+.haxelib/
+export/
 .DS_STORE
+
+# Developer Self Ignores
+*_ignore/
+
+# Adobe Animate
+RECOVER_*
+!RECOVER_RECOVER_RECOVER_*
