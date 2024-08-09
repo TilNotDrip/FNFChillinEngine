@@ -12,7 +12,7 @@ class GameplaySubState extends BaseOptionsSubState
 		addOption(camZoom);
 
 		var hudType:Option = new Option('Hud Type', '', 'hudType', SELECTION);
-		hudType.selections = ['Simple', 'Complex'];
+		hudType.selections = ['Simple', 'Advanced'];
 		addOption(hudType);
 
 		var ghostTapping:Option = new Option('Ghost Tapping', '', 'ghostTapping', CHECKBOX);

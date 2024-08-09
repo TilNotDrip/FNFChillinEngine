@@ -26,6 +26,7 @@ import funkin.substates.*;
 class PlayState extends MusicBeatState
 {
 	public static var curStage:String = '';
+	
 	public static var SONG:SwagSong;
 	public static var songEvents:Array<SwagEvent>;
 	public static var isStoryMode:Bool = false;
@@ -226,6 +227,8 @@ class PlayState extends MusicBeatState
 				new SchoolEvil();
 			case 'tank':
 				new Tank();
+			case 'streets':
+				new Streets();
 		}
 
 		// HScript.runFunction('create');
@@ -389,7 +392,7 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 
-		if (FunkinOptions.get('hudType') == 'Complex')
+		if (FunkinOptions.get('hudType') == 'Advanced')
 		{
 			songTxt.cameras = [camHUD];
 			ratingCounterTxt.cameras = [camHUD];
@@ -446,13 +449,13 @@ class PlayState extends MusicBeatState
 		// HScript.runFunction('endingVideo');
 
 		startCountdown();
-		if (generatedMusic && SONG.notes[curSection] != null)
+		/*if (generatedMusic && SONG.notes[curSection] != null)
 		{
 			if (SONG.notes[curSection].mustHitSection)
 				cameraMovement(boyfriend);
 			else
 				cameraMovement(dad);
-		}
+		}*/
 	}
 
 	var startTimer:FlxTimer = new FlxTimer();
@@ -479,7 +482,7 @@ class PlayState extends MusicBeatState
 
 		startTimer.start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			cameraMovement((SONG.notes[0].mustHitSection) ? boyfriend : dad);
+			cameraMovement(dad);
 
 			for (char in [dad, gf, boyfriend])
 			{
@@ -1553,32 +1556,29 @@ class PlayState extends MusicBeatState
 
 	public function cameraMovement(char:Character)
 	{
-		if (char == dad)
+		if (!char.isPlayer)
 		{
-			if (camFollow.x != dad.getMidpoint().x + 150)
+			if (camFollow.x != char.getMidpoint().x + 150)
 			{
-				camFollow.setPosition(dad.getMidpoint().x + (150 + dad.cameraOffsets.x), dad.getMidpoint().y - (100 + dad.cameraOffsets.y));
+				camFollow.setPosition(char.getMidpoint().x + (150 + char.cameraOffsets.x), char.getMidpoint().y - (100 + char.cameraOffsets.y));
 
-				if (dad.curCharacter == 'mom')
+				if (char.curCharacter == 'mom')
 					vocals.volume = 1;
 
-				switch (dad.curCharacter)
+				switch (char.curCharacter)
 				{
 					case 'senpai' | 'senpai-angry':
-						camFollow.y = dad.getMidpoint().y - 430;
-						camFollow.x = dad.getMidpoint().x - 100;
+						camFollow.y = char.getMidpoint().y - 430;
+						camFollow.x = char.getMidpoint().x - 100;
 				}
-
-				StageBackend.stage.cameraMovement(dad);
-				// HScript.runFunction('cameraMovement', [dad]);
+				
 			}
 		}
-		else if (char == boyfriend)
-		{
-			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-			StageBackend.stage.cameraMovement(boyfriend);
-			// HScript.runFunction('cameraMovement', [boyfriend]);
-		}
+		else
+			camFollow.setPosition(char.getMidpoint().x - (100 - char.cameraOffsets.x), char.getMidpoint().y - (100 + char.cameraOffsets.y));
+
+		StageBackend.stage.cameraMovement(char);
+		// HScript.runFunction('cameraMovement', [char]);
 
 		if (SONG.song.formatToPath() == 'tutorial')
 			tweenCam(char != boyfriend);

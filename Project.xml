@@ -44,6 +44,7 @@
 		<library name="week5" preload="true" />
 		<library name="week6" preload="true" />
 		<library name="week7" preload="true" />
+		<library name="weekend1" preload="true" />
 		<library name="videos" preload="true" />
 	</section>
 
@@ -56,6 +57,7 @@
 		<library name="week5" preload="false" />
 		<library name="week6" preload="false" />
 		<library name="week7" preload="false" />
+		<library name="weekend1" preload="false" />
 		<library name="videos" preload="false" />
 	</section>
 
@@ -79,6 +81,8 @@
 	<assets path="assets/week6" library="week6" exclude="*.mp3" unless="web" />
 	<assets path="assets/week7" library="week7" exclude="*.ogg" if="web" />
 	<assets path="assets/week7" library="week7" exclude="*.mp3" unless="web" />
+	<assets path="assets/weekend1" library="weekend1" exclude="*.ogg" if="web" />
+	<assets path="assets/weekend1" library="weekend1" exclude="*.mp3" unless="web" />
 	<assets path="docs/CHANGELOG.md" rename='changelog.txt' />
 	<assets path="example_mods" rename="mods" />
 

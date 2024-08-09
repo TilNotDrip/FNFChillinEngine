@@ -275,6 +275,8 @@ class LoadingState extends MusicBeatState
 				dir = 'week6';
 			case 'tank':
 				dir = 'week7';
+			case 'streets':
+				dir = 'weekend1';
 		}
 
 		return dir;
