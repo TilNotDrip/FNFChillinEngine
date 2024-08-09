@@ -3,7 +3,6 @@
 ## Big Changes
 
  - [ ] Full Options Menu Rework (This includes saving)
- - [ ] News Menu?? (like fnf news, engine news, etc)
  - [ ] Credits Menu
  - [ ] Ending Screen
  - [ ] Modding API (using SScript)
