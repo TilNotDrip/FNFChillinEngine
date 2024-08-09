@@ -23,7 +23,7 @@
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
 	<define name="FUNKIN_DISCORD_RPC" if="desktop cpp" />
-	<define name="FUNKIN_MOD_SUPPORT" />
+	<!-- define name="FUNKIN_MOD_SUPPORT" /-->
 	<define name="FUNKIN_VIDEOS" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
