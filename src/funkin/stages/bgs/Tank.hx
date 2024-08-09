@@ -181,12 +181,10 @@ class Tank extends StageBackend
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/ughIntro');
-		tankCutscene.anim.addBySymbol('wellWellWell', 'TANK TALK 1 P1', 24, false);
-		tankCutscene.anim.addBySymbol('killYou', 'TANK TALK 1 P2', 24, false);
-		bfTankCutsceneLayer.add(tankCutscene);
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/ughIntro'));
+		/*bfTankCutsceneLayer.*/add(tankCutscene);
 
-		tankCutscene.anim.play('wellWellWell');
+		tankCutscene.anim.play('TANK TALK 1 P1');
 
 		FlxG.camera.zoom *= 1.2;
 		camFollow.y += 100;
@@ -218,7 +216,7 @@ class Tank extends StageBackend
 				FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.5, {ease: FlxEase.quadInOut});
 				eduardoAhh.loadEmbedded(Paths.sound('killYou'));
 				eduardoAhh.play(true);
-				tankCutscene.anim.play('killYou');
+				tankCutscene.anim.play('TANK TALK 1 P2');
 				new FlxTimer().start(6.1, function(swagasdga:FlxTimer)
 				{
 					FlxTween.tween(camGAME, {zoom: zoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
@@ -262,7 +260,7 @@ class Tank extends StageBackend
 		});
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/gunsIntro');
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/gunsIntro'));
 		tankCutscene.anim.addBySymbol('open fire', 'TANK TALK 2', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
 
@@ -326,12 +324,10 @@ class Tank extends StageBackend
 		gfTankmen.animation.play('loop');
 		gfCutsceneLayer.add(gfTankmen);
 
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, 'assets/week7/images/cutsceneStuff/stressIntro');
-		tankCutscene.anim.addBySymbol('god damn', 'TANK TALK 3 P1 UNCUT', 24, false);
-		tankCutscene.anim.addBySymbol('pico reference', 'TANK TALK 3 P2 UNCUT', 24, false);
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/stressIntro'));
 		bfTankCutsceneLayer.add(tankCutscene);
 
-		tankCutscene.anim.play('god damn');
+		tankCutscene.anim.play('TANK TALK 3 P1 UNCUT');
 
 		camFollow.setPosition(gfGroup.x + 350, gfGroup.y + 560);
 		camGAME.focusOn(camFollow.getPosition());
@@ -341,7 +337,7 @@ class Tank extends StageBackend
 		var fakeBF:Character = new Character(player.x, player.y, 'bf', true);
 		bfTankCutsceneLayer.add(fakeBF);
 
-		/*var picoCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.getLibraryPath('images/cutscenceStuff/goPicoYeahYeah', 'week7'));
+		/*var picoCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.atlas('cutsceneStuff/goPicoYeahYeah'));
 			picoCutscene.anim.addBySymbol('holy', 'pico go wild', 24, false);
 			picoCutscene.anim.addBySymbol('loop', 'idle', 24, true);
 			gfCutsceneLayer.add(picoCutscene);
@@ -414,7 +410,7 @@ class Tank extends StageBackend
 
 				new FlxTimer().start(2.3, function(gayLol:FlxTimer)
 				{
-					tankCutscene.anim.play('pico reference');
+					tankCutscene.anim.play('TANK TALK 3 P2 UNCUT');
 				});
 			});
 
