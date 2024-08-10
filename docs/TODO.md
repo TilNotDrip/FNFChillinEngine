@@ -33,6 +33,7 @@
  - [ ] Opponents have their own note colors
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
  - [ ] Seperate Song Sections and Song Data from each other (Like in the songs config.json it will have the player opponent stage gf n stuff in there.)
+ - [ ] Crash Handler
 
 ## Small Changes
 
