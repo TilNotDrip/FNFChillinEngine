@@ -1,5 +1,6 @@
 package funkin.modding;
 
+#if FUNKIN_MOD_SUPPORT
 import openfl.Assets;
 #if sys
 import sys.FileSystem;
@@ -125,3 +126,4 @@ enum abstract HScriptFunctions(Int)
 	var STOP = 0;
 	var CONTINUE = 1;
 }
+#end

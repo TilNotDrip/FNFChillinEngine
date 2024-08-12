@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        // Haxe
+        "nadako.vshaxe",
+        "vshaxe.haxe-checkstyle",
+        "vshaxe.hxcpp-debugger",
+        "openfl.lime-vscode-extension",
+        "wiggin77.codedox",
+
+        // Formatters
+        "esbenp.prettier-vscode",
+        "redhat.vscode-xml"
+    ]
+}

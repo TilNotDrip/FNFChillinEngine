@@ -1,7 +1,9 @@
-.github/
-.vscode/
-.haxelib/
-export/
+.github/*
+.vscode/*
+.haxelib/*
+export/*
+
+# File's that aren't needed (or even made by us)
 .DS_STORE
 
 # Developer Self Ignores
@@ -9,4 +11,13 @@ export/
 
 # Adobe Animate
 RECOVER_*
+
+# Should be kept.
+## VS Code Configuration
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# Yea Sunday Night Chillin'
 !RECOVER_RECOVER_RECOVER_*

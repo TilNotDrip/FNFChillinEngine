@@ -1,0 +1,27 @@
+{
+    "[haxe]": {
+        // Automatically keep Haxe files formatted.
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "never"
+        },
+        "editor.defaultFormatter": "nadako.vshaxe",
+        "editor.tabSize": 4
+    },
+
+    // Automatically enforce Linux style line endings.
+    "files.eol": "\n",
+
+    // Fix file associations for HScript.
+    "files.associations": {
+        "*.hxp": "haxe",
+        "*.hscript": "haxe",
+        "*.haxe": "haxe",
+        "*.hxs": "haxe",
+        "*.hxc": "haxe"
+    },
+    "projectManager.git.baseFolders": [
+        "./"
+    ]
+}

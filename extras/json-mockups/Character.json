@@ -1,4 +1,5 @@
 {
+    "version": "0.1.0",
     "image": "characters/Person",
     "animations": [
         {
@@ -20,6 +21,7 @@
     "gameplay": {
         "position": [0, 0],
         "camera_position": [0, 0],
+        "singTime": 4.0,
         "healthIcon": "face",
         "ui": "funkin"
     },
@@ -27,5 +29,12 @@
     "editor": {
         "displayName": "Person",
         "isPlayer": false
-    }
+    },
+
+    "positioning": {
+        "x": "center", // Left, Center, Right
+        "y": "bottom" // Top, Center, Bottom
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
 }

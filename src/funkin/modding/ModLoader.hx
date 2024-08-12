@@ -1,5 +1,6 @@
 package funkin.modding;
 
+#if FUNKIN_MOD_SUPPORT
 #if sys
 import sys.FileSystem;
 #end
@@ -26,3 +27,4 @@ class ModLoader
 		return ['mods/$path'];
 	}
 }
+#end

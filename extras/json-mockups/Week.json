@@ -1,0 +1,62 @@
+{
+    "version": "0.1.0",
+    "songs": [
+        {
+            "name": "Song 1", // Song Name
+            "difficulties": ["Easy", "Normal", "Hard"], // Difficulties that the song supports. Also the difficulties in freeplay menu.
+            "explicit": false, // Game doesn't shows an explicit tag, that's it.
+            "visible": true, // Shown at all times.
+
+            "freeplay": {
+                "color": "F9CF51", // Freeplay Color.
+                "icon": "face", // Icon shown in Freeplay.
+                "type": "normal" // Old Freeplay Menu
+            }
+        },
+        {
+            "name": "Song 2", // Song Name
+            "difficulties": ["Easy", "Normal", "Hard"], // Difficulties that the song supports. Also the difficulties in freeplay menu.
+            "explicit": false, // Game doesn't shows an explicit tag, that's it.
+            "visible": true, // Shown at all times.
+
+            "freeplay": {
+                "color": "F9CF51", // Freeplay Color.
+                "icon": "face", // Icon shown in Freeplay.
+                "type": "normal" // Old Freeplay Menu
+            }
+        },
+        {
+            "name": "Song 3", // Song Name
+            "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"], // Difficulties that the song supports. Also the difficulties in freeplay menu.
+            "explicit": true, // Game shows an explicit tag, that's it.
+            "visible": false, // Hidden until beaten in Story Mode like Blazin'
+
+            "freeplay": {
+                "color": "F9CF51", // Freeplay Color.
+                "icon": "face", // Icon shown in Freeplay.
+                "type": "pixel" // New Freeplay Menu.
+            }
+        }
+    ],
+
+    "story": {
+        "difficulties": ["Easy", "Normal", "Hard", "Erect", "Nightmare"], // Game only loads Song 3 if selected Erect or Nightmare.
+        "characters": [
+            {
+                // TODO: Make Menu Character Structure here.
+            }
+        ],
+        "color": "F9CF51", // Story Mode Color.
+        "motto": "Unknown", // Story Mode Text that shows up when hovered.
+        "name": "Week Mockup" // Display Name.
+    },
+
+    "locked": {
+        "defaultLocked": true, // The week will be locked if the requirements are met if true. We should add a fallback if its false and the mod creator decides to make it true later on.
+        "unlockSong": "Song 4", // Can leave empty. Unlocks Week if Song 4 is beaten.
+        "unlockWeek": "week0", // Can leave empty. Unlocks Week if Week 0 is beaten.
+        "visible": true // The week will be shown and locked if true.
+    },
+
+    "generatedBy": "CrusherNotDrip (Manual)"
+}
