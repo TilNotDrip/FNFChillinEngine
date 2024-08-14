@@ -24,7 +24,7 @@
         },
         {
             "props": {
-                "excludeNames": ["new", "toString"],
+                "excludeNames": ["new", "toString", "main"],
                 "fieldType": "BOTH",
                 "ignoreOverride": true,
                 "modifier": "PUBLIC",

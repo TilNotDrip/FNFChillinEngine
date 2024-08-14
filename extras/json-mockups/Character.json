@@ -21,7 +21,9 @@
     "gameplay": {
         "position": [0, 0],
         "camera_position": [0, 0],
+        "danceEvery": 2.0,
         "singTime": 4.0,
+        "deathChar": "Character-dead",
         "healthIcon": "face",
         "ui": "funkin"
     },
@@ -32,8 +34,8 @@
     },
 
     "positioning": {
-        "x": "center", // Left, Center, Right
-        "y": "bottom" // Top, Center, Bottom
+        "x": "center",
+        "y": "bottom"
     },
 
     "generatedBy": "CrusherNotDrip (Manually)"

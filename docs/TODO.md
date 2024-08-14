@@ -43,6 +43,8 @@
  - [ ] Story Menu Softcoded (Week Data and the character positions go inside that data too)
  - [ ] Multisparrow support for characters.
  - [ ] Crash Handler
+ - [ ] Caching System
+ - [ ] Christmas UI for Week 5
 
 ## Small Changes
  - [x] Tutorial Voices are in its own `Voices.ogg` file
@@ -117,6 +119,6 @@
 
 # Chillin' Engine - Mod Support Todo List
  - [ ] Asset Merging / Replacing System
- - [ ] Custom Settings
+ - [ ] Custom Options
  - [ ] Global Scripts (scripts that run thru the whole game regardless of what state your in.)
  - [ ] Mods Menu
