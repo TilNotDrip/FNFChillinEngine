@@ -6,7 +6,7 @@ class Checkbox extends FlxSprite
 	{
 		super(x, y);
 
-		frames = Paths.getSparrowAtlas('menuUI/checkbox');
+		frames = Paths.content.sparrowAtlas('menuUI/checkbox');
 		animation.addByIndices('idle', 'Unselect', [13, 13], '', 24, true);
 		animation.addByIndices('idle selected', 'Press', [13, 13], '', 24, true);
 		animation.addByPrefix('checked', 'Press', 24, false);

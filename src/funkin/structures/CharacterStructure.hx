@@ -8,7 +8,7 @@ typedef CharacterStructure =
 	 * The version that this character format is on.
 	 * @default Current Character Version
 	 */
-	@:default(funkin.util.constants.VersionConstants.CHARACTER_VERSION)
+	@:default(funkin.util.Constants.VERSION_CHARACTER)
 	var version:Version;
 
 	/**

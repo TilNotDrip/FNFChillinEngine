@@ -13,7 +13,7 @@ class MenuItem extends FlxSprite
 
 		super(null, y);
 
-		frames = Paths.getSparrowAtlas('menuUI/items/' + name);
+		frames = Paths.content.sparrowAtlas('menuUI/items/' + name);
 		animation.addByPrefix('idle', name + ' idle', 24);
 		animation.addByPrefix('selected', name + ' selected', 24);
 		scrollFactor.set(0, 0.17);

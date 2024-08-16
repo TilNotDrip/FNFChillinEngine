@@ -34,7 +34,7 @@ class Strums extends FlxSpriteGroup
 			switch (ui)
 			{
 				case 'funkin-pixel':
-					newNote.loadGraphic(Paths.image('ui/pixel/Notes'), true, 17, 17);
+					newNote.loadGraphic(Paths.content.imageGraphic('ui/pixel/Notes'), true, 17, 17);
 
 					newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 					newNote.updateHitbox();
@@ -49,7 +49,7 @@ class Strums extends FlxSpriteGroup
 				default:
 					var directions:Array<String> = ['left', 'down', 'up', 'right'];
 
-					newNote.frames = Paths.getSparrowAtlas('ui/funkin/Notes');
+					newNote.frames = Paths.content.sparrowAtlas('ui/funkin/Notes');
 					newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
 					newNote.animation.addByPrefix('static', directions[note] + ' static');

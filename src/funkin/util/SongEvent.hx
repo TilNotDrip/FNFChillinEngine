@@ -16,11 +16,11 @@ class SongEvent
 
 	public static function loadFromJson(folder:String):Array<SwagEvent>
 	{
-		var rawJson = null;
+		var rawJson:String = null;
 
 		try
 		{
-			rawJson = Assets.getText(Paths.json('data/${folder.formatToPath()}/events')).trim();
+			rawJson = Assets.getText(Paths.location.json('data/${folder.formatToPath()}/events')).trim();
 		}
 		catch (e)
 		{

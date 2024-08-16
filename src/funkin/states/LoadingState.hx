@@ -43,7 +43,7 @@ class LoadingState extends MusicBeatState
 		add(bg);
 
 		funkay = new FlxSprite();
-		funkay.loadGraphic(Paths.image('menuUI/funkay'));
+		funkay.loadGraphic(Paths.content.imageGraphic('menuUI/funkay'));
 		funkay.setGraphicSize(0, FlxG.height);
 		funkay.updateHitbox();
 		add(funkay);
@@ -141,12 +141,12 @@ class LoadingState extends MusicBeatState
 
 	static function getSongPath()
 	{
-		return Paths.inst(PlayState.SONG.song);
+		return Paths.location.inst(PlayState.SONG.song);
 	}
 
 	static function getVocalPath()
 	{
-		return Paths.voices(PlayState.SONG.song);
+		return Paths.location.voices(PlayState.SONG.song);
 	}
 
 	inline public static function loadAndSwitchState(target:FlxState, stopMusic = false)
@@ -156,7 +156,7 @@ class LoadingState extends MusicBeatState
 
 	static function getNextState(target:FlxState, stopMusic = false):FlxState
 	{
-		Paths.setCurrentLevel(directory);
+		Paths.location.currentLevel = directory;
 		#if NO_PRELOAD_ALL
 		var loaded = isSoundLoaded(getSongPath())
 			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()))
@@ -255,31 +255,32 @@ class LoadingState extends MusicBeatState
 
 	static function get_directory():String
 	{
-		var dir:String = '';
-
-		switch (PlayState.SONG.stage)
+		return switch (PlayState?.SONG?.stage)
 		{
 			case 'spooky':
-				dir = 'week2';
-			case 'philly':
-				dir = 'week3';
-			case 'limo':
-				dir = 'week4';
-			case 'mall':
-				dir = 'week5';
-			case 'mallEvil':
-				dir = 'week5';
-			case 'school':
-				dir = 'week6';
-			case 'schoolEvil':
-				dir = 'week6';
-			case 'tank':
-				dir = 'week7';
-			case 'streets':
-				dir = 'weekend1';
-		}
+				'week2';
 
-		return dir;
+			case 'philly':
+				'week3';
+
+			case 'limo':
+				'week4';
+
+			case 'mall' | 'mallEvil':
+				'week5';
+
+			case 'school' | 'schoolEvil':
+				'week6';
+
+			case 'tank':
+				'week7';
+
+			case 'streets':
+				'weekend1';
+
+			default:
+				'shared';
+		};
 	}
 }
 

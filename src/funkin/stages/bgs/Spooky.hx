@@ -17,7 +17,7 @@ class Spooky extends StageBackend
 
 	function lightningStrikeShit():Void
 	{
-		FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
+		FlxG.sound.play(Paths.location.sound('thunder_' + FlxG.random.int(1, 2)));
 
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);

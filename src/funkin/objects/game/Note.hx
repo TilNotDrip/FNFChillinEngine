@@ -57,14 +57,14 @@ class Note extends FlxSprite
 			case 'funkin-pixel':
 				if (isSustainNote)
 				{
-					loadGraphic(Paths.image('ui/pixel/NotesENDS'), true, 7, 6);
+					loadGraphic(Paths.content.imageGraphic('ui/pixel/NotesENDS'), true, 7, 6);
 
 					animation.add('hold', [0]);
 					animation.add('holdend', [1]);
 				}
 				else
 				{
-					loadGraphic(Paths.image('ui/pixel/Notes'), true, 17, 17);
+					loadGraphic(Paths.content.imageGraphic('ui/pixel/Notes'), true, 17, 17);
 
 					animation.add('purpleScroll', [0]);
 					animation.add('blueScroll', [1]);
@@ -81,7 +81,7 @@ class Note extends FlxSprite
 				arrowColorsBlue = [0xFF60008D, 0xFF003060, 0xFF003100, 0xFF6C0000];
 
 			default:
-				frames = Paths.getSparrowAtlas('ui/funkin/Notes');
+				frames = Paths.content.sparrowAtlas('ui/funkin/Notes');
 
 				animation.addByPrefix('purpleScroll', 'left static');
 				animation.addByPrefix('blueScroll', 'down static');

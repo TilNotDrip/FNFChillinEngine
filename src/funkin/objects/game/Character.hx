@@ -59,14 +59,13 @@ class Character extends FlxSprite
 	{
 		var assetChar:String = character;
 
-		if (!Paths.exists('data/characters/$assetChar.json', null, TEXT))
+		if (!Paths.location.exists(Paths.location.json('data/characters/$assetChar'), TEXT))
 		{
 			curCharacter = 'bf';
 			assetChar = 'bf';
 		}
 
-		var characterParser = new JsonParser<CharacterStructure>();
-		characterData = cast characterParser.fromJson(Assets.getText(Paths.json('data/characters/$assetChar')));
+		characterData = cast new JsonParser<CharacterStructure>().fromJson(Assets.getText(Paths.location.json('data/characters/$assetChar')));
 
 		if (characterData != null)
 		{
@@ -74,7 +73,7 @@ class Character extends FlxSprite
 				if (!VersionUtil.validateVersion(characterData.version, funkin.util.constants.VersionConstants.CHARACTER_VERSION_RULE))
 					return; */
 
-			frames = Paths.getSparrowAtlas(characterData.image);
+			frames = Paths.content.sparrowAtlas(characterData.image);
 
 			for (anim in characterData.animations)
 			{

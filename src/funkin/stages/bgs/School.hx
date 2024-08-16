@@ -100,7 +100,7 @@ class School extends StageBackend
 		if (curSong.formatToPath() == 'roses')
 		{
 			remove(black);
-			FlxG.sound.play(Paths.sound('ANGRY'));
+			FlxG.sound.play(Paths.location.sound('ANGRY'));
 		}
 
 		new FlxTimer().start(0.3, function(tmr:FlxTimer)

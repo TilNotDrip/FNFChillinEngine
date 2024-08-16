@@ -153,13 +153,13 @@ class Tank extends StageBackend
 		}
 	}
 
-	#if (VIDEOS && !hxvlc)
+	#if (FUNKIN_VIDEOS && !hxvlc)
 	var blackShit:FlxSprite;
 	#end
 
 	function ughIntro()
 	{
-		#if (VIDEOS && !hxvlc)
+		#if (FUNKIN_VIDEOS && !hxvlc)
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		add(blackShit);
 
@@ -177,11 +177,11 @@ class Tank extends StageBackend
 		camFollow.x += 100;
 		camFollow.y += 100;
 
-		FlxG.sound.playMusic(Paths.music('DISTORTO'), 0);
+		FlxG.sound.playMusic(Paths.location.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/ughIntro'));
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.location.atlas('cutsceneStuff/ughIntro'));
 		/*bfTankCutsceneLayer.*/ add(tankCutscene);
 
 		tankCutscene.anim.play('TANK TALK 1 P1');
@@ -191,7 +191,7 @@ class Tank extends StageBackend
 
 		camGAME.zoom *= 1.2;
 
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('wellWellWell'));
+		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.location.sound('wellWellWell'));
 		eduardoAhh.play(true);
 
 		cameraMovement(opponent);
@@ -204,7 +204,7 @@ class Tank extends StageBackend
 			new FlxTimer().start(1.5, function(bep:FlxTimer)
 			{
 				player.playAnim('singUP');
-				FlxG.sound.play(Paths.sound('bfBeep'), function()
+				FlxG.sound.play(Paths.location.sound('bfBeep'), function()
 				{
 					player.playAnim('idle');
 				});
@@ -214,7 +214,7 @@ class Tank extends StageBackend
 			{
 				camFollow.setPosition(opponent.getMidpoint().x + 10, opponent.getMidpoint().y - 70);
 				FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.5, {ease: FlxEase.quadInOut});
-				eduardoAhh.loadEmbedded(Paths.sound('killYou'));
+				eduardoAhh.loadEmbedded(Paths.location.sound('killYou'));
 				eduardoAhh.play(true);
 				tankCutscene.anim.play('TANK TALK 1 P2');
 				new FlxTimer().start(6.1, function(swagasdga:FlxTimer)
@@ -246,7 +246,7 @@ class Tank extends StageBackend
 		#else
 		inCutscene = true;
 
-		FlxG.sound.playMusic(Paths.music('DISTORTO'), 0);
+		FlxG.sound.playMusic(Paths.location.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		cameraMovement(opponent);
@@ -260,13 +260,13 @@ class Tank extends StageBackend
 		});
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/gunsIntro'));
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.location.atlas('cutsceneStuff/gunsIntro'));
 		tankCutscene.anim.addBySymbol('open fire', 'TANK TALK 2', 24, false);
 		bfTankCutsceneLayer.add(tankCutscene);
 
 		tankCutscene.anim.play('open fire');
 
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.sound('tankSong2'));
+		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.location.sound('tankSong2'));
 		eduardoAhh.play(true);
 
 		new FlxTimer().start(4.1, function(ugly:FlxTimer)
@@ -319,12 +319,12 @@ class Tank extends StageBackend
 		gf.visible = false;
 
 		var gfTankmen:FlxSprite = new FlxSprite(210, 70);
-		gfTankmen.frames = Paths.getSparrowAtlas('characters/gfTankmen');
+		gfTankmen.frames = Paths.content.sparrowAtlas('characters/gfTankmen');
 		gfTankmen.animation.addByPrefix('loop', 'GF Dancing at Gunpoint', 24, true);
 		gfTankmen.animation.play('loop');
 		gfCutsceneLayer.add(gfTankmen);
 
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/stressIntro'));
+		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.location.atlas('cutsceneStuff/stressIntro'));
 		bfTankCutsceneLayer.add(tankCutscene);
 
 		tankCutscene.anim.play('TANK TALK 3 P1 UNCUT');
@@ -343,7 +343,7 @@ class Tank extends StageBackend
 			gfCutsceneLayer.add(picoCutscene);
 			picoCutscene.visible = false; */
 
-		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.sound('stressCutscene'));
+		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.location.sound('stressCutscene'));
 
 		cutsceneAudio.play(true);
 

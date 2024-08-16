@@ -1,5 +1,7 @@
 package funkin.states.tools;
 
+import funkin.util.Song;
+import funkin.util.SongEvent;
 import funkin.util.SongEvent.SwagEvent;
 import funkin.util.Conductor.BPMChangeEvent;
 import funkin.util.Section.SwagSection;
@@ -107,7 +109,7 @@ class ChartingState extends MusicBeatState
 
 		curSection = lastSection;
 
-		var actualBG:FlxSprite = new FlxSprite(Paths.image('menuUI/menuDesat'));
+		var actualBG:FlxSprite = new FlxSprite(Paths.content.imageGraphic('menuUI/menuDesat'));
 		actualBG.scale.set(1.2, 1.2);
 		actualBG.updateHitbox();
 		actualBG.screenCenter();
@@ -278,8 +280,8 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/characterList'));
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/stageList'));
+		var characters:Array<String> = CoolUtil.coolTextFile(Paths.location.txt('data/characterList'));
+		var stages:Array<String> = CoolUtil.coolTextFile(Paths.location.txt('data/stageList'));
 
 		var player1DropDown = new FlxUIDropDownMenu(10, loadAutosaveBtn.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
 			function(character:String)
@@ -479,12 +481,12 @@ class ChartingState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		FlxG.sound.playMusic(Paths.inst(daSong), 0.6);
+		FlxG.sound.playMusic(Paths.location.inst(daSong), 0.6);
 
-		vocals = new FlxSound().loadEmbedded(Paths.voices(daSong));
+		vocals = new FlxSound().loadEmbedded(Paths.location.voices(daSong));
 		FlxG.sound.list.add(vocals);
 
-		hitsound = new FlxSound().loadEmbedded(Paths.sound('hitsound'));
+		hitsound = new FlxSound().loadEmbedded(Paths.location.sound('hitsound'));
 		FlxG.sound.list.add(hitsound);
 
 		FlxG.sound.music.pause();
@@ -1066,7 +1068,7 @@ class ChartingState extends MusicBeatState
 				&& i.strumTime <= sectionStartTime() + (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps))
 			{
 				var event:FlxSprite = new FlxSprite(-GRID_SIZE);
-				event.loadGraphic(Paths.image('charting/event'));
+				event.loadGraphic(Paths.content.imageGraphic('charting/event'));
 				event.y = Math.floor(getYfromStrum((i.strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps)));
 				curRenderedEvents.add(event);
 				spriteToEvent.set(event, i);

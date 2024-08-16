@@ -3,7 +3,6 @@ package funkin.display;
 import flixel.util.FlxStringUtil;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import openfl.system.System;
 
 /**
 	The FPS class provides an easy-to-use monitor to display
@@ -56,7 +55,7 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		currentMEM = FlxStringUtil.formatBytes(System.totalMemory, 2);
+		currentMEM = FlxStringUtil.formatBytes(cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE), 2);
 
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 

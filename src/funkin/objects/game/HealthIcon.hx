@@ -54,7 +54,7 @@ class HealthIcon extends TrackedSprite
 		{
 			if (animation.getByName(newChar) == null)
 			{
-				loadGraphic(Paths.image('icons/' + newChar), true, 150, 150);
+				loadGraphic(Paths.content.imageGraphic('icons/' + newChar), true, 150, 150);
 				animation.add(newChar, [0, 1], 0, false, isPlayer);
 			}
 			animation.play(newChar);

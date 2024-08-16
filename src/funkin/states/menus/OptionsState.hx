@@ -25,7 +25,7 @@ class OptionsState extends MusicBeatState
 
 		FlxG.cameras.reset(new SwagCamera());
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuUI/menuBG'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('menuUI/menuBG'));
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();
 		bg.screenCenter();
@@ -61,7 +61,7 @@ class OptionsState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.location.sound('cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -89,7 +89,7 @@ class OptionsState extends MusicBeatState
 				option.alpha = 0.6;
 		});
 
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.location.sound('scrollMenu'), 0.4);
 	}
 
 	function openMenu(option:String)

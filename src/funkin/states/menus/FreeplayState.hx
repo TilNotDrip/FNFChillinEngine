@@ -1,5 +1,8 @@
 package funkin.states.menus;
 
+import funkin.util.SongEvent;
+import funkin.util.Song;
+import funkin.util.Week;
 import flixel.tweens.misc.ColorTween;
 import funkin.objects.game.HealthIcon;
 
@@ -38,9 +41,9 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menuUI/menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('menuUI/menuDesat'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -68,7 +71,7 @@ class FreeplayState extends MusicBeatState
 				if (week.songs[i][1] == true)
 				{
 					var explicit:TrackedSprite = new TrackedSprite();
-					explicit.frames = Paths.getSparrowAtlas('freeplayMenu/explicit');
+					explicit.frames = Paths.content.sparrowAtlas('freeplayMenu/explicit');
 					explicit.animation.addByPrefix('idle', 'Idle', 24, true);
 					explicit.animation.play('idle');
 					explicit.sprOffsetY + 70;
@@ -82,7 +85,7 @@ class FreeplayState extends MusicBeatState
 		add(explicitSpr);
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText.setFormat(Paths.location.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0x99000000);
 		scoreBG.antialiasing = false;
@@ -132,7 +135,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.location.sound('cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -172,13 +175,11 @@ class FreeplayState extends MusicBeatState
 
 		diffText.text = "< " + daDiff.toUpperCase() + " >";
 		positionHighscore();
-
-		// HScript.runFunction('changeDifficulty', [curDifficulty]);
 	}
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.location.sound('scrollMenu'), 0.4);
 
 		curSelected += change;
 
@@ -224,8 +225,6 @@ class FreeplayState extends MusicBeatState
 			if (item.targetY == 0)
 				item.alpha = 1;
 		}
-
-		// HScript.runFunction('changeSelection', [curSelected]);
 	}
 
 	function positionHighscore()
