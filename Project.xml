@@ -98,11 +98,10 @@
 	<section if="FUNKIN_VIDEOS"><haxelib name="hxvlc" if="desktop cpp || mobile cpp" /></section>
 	<haxelib name="json2object" />
 	<haxelib name="SScript" if="FUNKIN_MOD_SUPPORT" />
+	<haxelib name="texter" />
 	<haxelib name="thx.core" />
 	<haxelib name="thx.semver" />
 	<haxedev set='webgl' />
-
-	<haxelib name="texter" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

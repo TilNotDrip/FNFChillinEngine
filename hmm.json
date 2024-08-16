@@ -2,17 +2,13 @@
     "dependencies": [
         {
             "name": "lime",
-            "type": "git",
-            "dir": null,
-            "ref": "872ff6db2f2d27c0243d4ff76802121ded550dd7",
-            "url": "https://github.com/FunkinCrew/lime"
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "openfl",
-            "type": "git",
-            "dir": null,
-            "ref": "228c1b5063911e2ad75cef6e3168ef0a4b9f9134",
-            "url": "https://github.com/FunkinCrew/openfl"
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "flixel",
@@ -21,43 +17,19 @@
         },
         {
             "name": "flixel-addons",
-            "type": "git",
-            "dir": null,
-            "ref": "a523c3b56622f0640933944171efed46929e360e",
-            "url": "https://github.com/FunkinCrew/flixel-addons"
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "flixel-ui",
-            "type": "git",
-            "dir": null,
-            "ref": "master",
-            "url": "https://github.com/TilNotDrip/flixel-ui"
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "flxanimate",
             "type": "git",
             "dir": null,
             "url": "https://github.com/TilNotDrip/flxanimate/"
-        },
-        {
-            "name": "format",
-            "type": "haxelib",
-            "version": null
-        },
-        {
-            "name": "haxe-ws",
-            "type": "haxelib",
-            "version": null
-        },
-        {
-            "name": "hscript",
-            "type": "haxelib",
-            "version": null
-        },
-        {
-            "name": "hscript-ex",
-            "type": "haxelib",
-            "version": null
         },
         {
             "name": "hxcpp-debug-server",
@@ -70,14 +42,29 @@
             "version": null
         },
         {
-            "name": "hxp",
+            "name": "hxvlc",
+            "type": "haxelib",
+            "version": "1.6.2"
+        },
+        {
+            "name": "json2object",
             "type": "haxelib",
             "version": null
         },
         {
-            "name": "hxvlc",
+            "name": "texter",
             "type": "haxelib",
-            "version": "1.5.3"
+            "version": null
+        },
+        {
+            "name": "thx.core",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "thx.semver",
+            "type": "haxelib",
+            "version": null
         }
     ]
 }
