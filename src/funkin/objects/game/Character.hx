@@ -65,7 +65,7 @@ class Character extends FlxSprite
 			assetChar = 'bf';
 		}
 
-		characterData = cast new JsonParser<CharacterStructure>().fromJson(Assets.getText(Paths.location.json('data/characters/$assetChar')));
+		characterData = cast new JsonParser<CharacterStructure>().fromJson(Paths.content.jsonText('data/characters/$assetChar'));
 
 		if (characterData != null)
 		{

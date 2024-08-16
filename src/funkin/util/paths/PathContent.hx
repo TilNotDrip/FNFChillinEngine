@@ -105,6 +105,16 @@ class PathContent
 	}
 
 	/**
+	 * @param key Json File name.
+	 * @param library Library the json is in.
+	 * @return A JSON turned into a string from the text asset in Paths.location.json
+	 */
+	public function jsonText(key:String, ?library:String):String
+	{
+		return Assets.getText(Paths.location.json(key, library));
+	}
+
+	/**
 	 * @param key Xml File name.
 	 * @param library Library the xml is in.
 	 * @return A Parsed XML Document from the text asset in Paths.location.xml
