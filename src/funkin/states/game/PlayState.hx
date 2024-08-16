@@ -226,8 +226,6 @@ class PlayState extends MusicBeatState
 				new Streets();
 		}
 
-		// HScript.runFunction('create');
-
 		ui = StageBackend.stage.ui;
 
 		gfGroup = new FlxTypedSpriteGroup<Character>();
@@ -418,8 +416,6 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.createPost();
 
-		// HScript.runFunction('createPost');
-
 		if (!seenCutscene && FunkinOptions.get('cutscenes'))
 		{
 			if (StageBackend.stage.startCallback != null)
@@ -455,7 +451,6 @@ class PlayState extends MusicBeatState
 	function videoCallback()
 	{
 		StageBackend.stage.endingVideo();
-		// HScript.runFunction('endingVideo');
 
 		startCountdown();
 	}
@@ -467,11 +462,6 @@ class PlayState extends MusicBeatState
 	{
 		seenCutscene = true;
 		inCutscene = false;
-
-		// var daFunction:Array<Dynamic> = HScript.runFunction('startCountdown');
-
-		// if (daFunction.contains(HScript.StopFunction))
-		//	return;
 
 		startedCountdown = true;
 
@@ -570,8 +560,6 @@ class PlayState extends MusicBeatState
 		{
 			endSong();
 		};
-
-		// HScript.runFunction('startSong');
 	}
 
 	public function generateSong():Void
@@ -858,8 +846,6 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
-
-		// HScript.runFunction('update', [elapsed]);
 
 		super.update(elapsed);
 
@@ -1218,11 +1204,6 @@ class PlayState extends MusicBeatState
 
 	public function endSong()
 	{
-		/*var daFunction:Array<Dynamic> = HScript.runFunction('endSong');
-
-			if (daFunction.contains(HScript.StopFunction))
-				return; */
-
 		if (endScreen)
 		{
 			openSubState(new EndSubState());
@@ -1238,8 +1219,6 @@ class PlayState extends MusicBeatState
 		deathCounter = 0;
 
 		isEnding = true;
-
-		// HScript.destroyAllScripts();
 
 		if (!practiceMode && !botplay)
 			FunkinHighscore.saveScore(SONG.song, songScore, difficulty);
@@ -1565,7 +1544,6 @@ class PlayState extends MusicBeatState
 			camFollow.setPosition(char.getMidpoint().x - (100 - char.cameraPosition[0]), char.getMidpoint().y - (100 + char.cameraPosition[1]));
 
 		StageBackend.stage.cameraMovement(char);
-		// HScript.runFunction('cameraMovement', [char]);
 
 		if (SONG.song.formatToPath() == 'tutorial')
 			tweenCam(char != boyfriend);
@@ -1876,8 +1854,6 @@ class PlayState extends MusicBeatState
 				notes.remove(note, true);
 				note.destroy();
 			}
-
-			// HScript.runFunction('goodNoteHit', [note]);
 		}
 	}
 
@@ -1928,8 +1904,6 @@ class PlayState extends MusicBeatState
 				noteSplashOpponent.setColors(daNote.returnColors(daNote.noteData));
 				opponentSplashes.add(noteSplashOpponent);
 			}
-
-			// HScript.runFunction('opponentNoteHit', [daNote]);
 		}
 	}
 
@@ -1950,8 +1924,6 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curStep = curStep;
 		StageBackend.stage.stepHit();
-
-		// HScript.runFunction('stepHit');
 	}
 
 	override public function beatHit()
@@ -1972,8 +1944,6 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curBeat = curBeat;
 		StageBackend.stage.beatHit();
-
-		// HScript.runFunction('beatHit');
 	}
 
 	override public function sectionHit()
@@ -2001,8 +1971,6 @@ class PlayState extends MusicBeatState
 
 		StageBackend.stage.curSection = curSection;
 		StageBackend.stage.sectionHit();
-
-		// HScript.runFunction('sectionHit');
 	}
 
 	public function addCharacterToList(name:String, type:String)

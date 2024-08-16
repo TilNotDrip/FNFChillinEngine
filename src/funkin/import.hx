@@ -1,4 +1,3 @@
-// HEY!! Before adding something here, if you use the modding api, add it to the list in HScript.hx!
 #if !macro
 // Stuff from Haxelibs
 import flixel.FlxG;
@@ -22,9 +21,6 @@ import funkin.api.DiscordRPC;
 import funkin.data.FunkinControls;
 import funkin.data.FunkinHighscore;
 import funkin.data.FunkinOptions;
-#if FUNKIN_MOD_SUPPORT
-import funkin.modding.*;
-#end
 import funkin.objects.*;
 import funkin.states.game.PlayState;
 import funkin.states.menus.StoryMenuState;

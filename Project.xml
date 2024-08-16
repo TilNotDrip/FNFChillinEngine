@@ -11,7 +11,7 @@
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
-	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
+	<window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="false" />
 	<window if="html5" resizable="true" />
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false" />
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0"
@@ -97,7 +97,6 @@
 	<haxelib name="hxdiscord_rpc" if="FUNKIN_DISCORD_RPC" />
 	<section if="FUNKIN_VIDEOS"><haxelib name="hxvlc" if="desktop cpp || mobile cpp" /></section>
 	<haxelib name="json2object" />
-	<haxelib name="SScript" if="FUNKIN_MOD_SUPPORT" />
 	<haxelib name="texter" />
 	<haxelib name="thx.core" />
 	<haxelib name="thx.semver" />

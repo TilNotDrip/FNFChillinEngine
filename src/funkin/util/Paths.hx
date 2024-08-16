@@ -124,14 +124,6 @@ class Paths
 
 	public static function getPath(file:String, type:AssetType, ?library:Null<String>)
 	{
-		#if FUNKIN_MOD_SUPPORT
-		for (daFile in ModLoader.modFile(file))
-		{
-			if (OpenFlAssets.exists(daFile, type))
-				return daFile;
-		}
-		#end
-
 		if (library != null)
 			return getLibraryPath(file, library);
 
