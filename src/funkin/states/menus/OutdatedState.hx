@@ -48,6 +48,7 @@ class OutdatedState extends MusicBeatState
 		{
 			switch (daOptions[curSelected])
 			{
+				#if windows
 				case 'Update Automatically':
 					var pathToGame:String = Sys.programPath().replace('ChillinEngine.exe', '').replace('\\', '/');
 					var gameEdition:String = 'Windows';
@@ -73,6 +74,7 @@ class OutdatedState extends MusicBeatState
 
 					new sys.io.Process('start', ['cmd', '/k "$fullCommand"'], true);
 					Sys.exit(0);
+				#end
 
 				case 'Update Manually':
 					CoolUtil.openURL('https://github.com/TechnikTil/FNFChillinEngine/releases');
