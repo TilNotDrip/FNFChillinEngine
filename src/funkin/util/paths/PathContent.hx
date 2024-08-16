@@ -13,18 +13,46 @@ class PathContent
 {
 	/**
 	 * The content that doesn't get wiped from a cache clean.
+	 *
+	 * You should only put something here if you use it on a daily basis.
 	 */
 	public var clearCacheExcludeKeys:Array<String> = [
 		'default:assets/images/fonts/bold.png',
 		'default:assets/images/fonts/default.png',
-		'default:assets/images/menuUI/menuBG.png',
-		'default:assets/images/menuUI/menuDesat.png',
+		'default:assets/images/mainmenu/menuBG.png',
+		'default:assets/images/mainmenu/menuDesat.png',
 		'default:assets/music/freakyMenu.${Constants.EXT_SOUND}'
 	];
 
 	var imgGraphicCache:Map<String, FlxGraphic> = new Map();
 
 	public function new() {}
+
+	/**
+	 * Returns and also caches a graphic of a image bitmap.
+	 * @param key Image File name.
+	 * @param library Library the image is in.
+	 * @return A BitampData instance of a image.
+	 */
+	public function imageBitmap(key:String, ?library:String):BitmapData
+	{
+		var bitmap:BitmapData = null;
+		var graphic:FlxGraphic = null;
+		var assetKey:String = Paths.location.image(key, library);
+
+		try
+		{
+			graphic = imageGraphic(key, library);
+			bitmap = graphic.bitmap;
+		}
+		catch (e)
+		{
+			trace('[WARNING]: Bitmap is null! $assetKey');
+			return null;
+		}
+
+		return bitmap;
+	}
 
 	/**
 	 * Returns and also caches a graphic of a image.
@@ -43,15 +71,17 @@ class PathContent
 			try
 			{
 				bitmap = Assets.getBitmapData(assetKey);
-				graphic = FlxGraphic.fromBitmapData(bitmap, false, assetKey);
-				graphic.persist = true;
-				graphic.destroyOnNoUse = false;
-				imgGraphicCache.set(assetKey, graphic);
 			}
 			catch (e)
 			{
+				trace('[WARNING]: Bitmap is null! $assetKey');
 				return null;
 			}
+
+			graphic = FlxGraphic.fromBitmapData(bitmap, false, assetKey);
+			graphic.persist = true;
+			graphic.destroyOnNoUse = false;
+			imgGraphicCache.set(assetKey, graphic);
 		}
 		else
 		{
@@ -95,7 +125,7 @@ class PathContent
 	}
 
 	/**
-	 * Clears the image cache.
+	 * Clears the image cache and runs the system garbage collector.
 	 */
 	public function clearImageCache():Void
 	{

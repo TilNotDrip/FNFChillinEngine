@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(Paths.content.imageGraphic('menuUI/menuBG'));
+		var bg:FlxSprite = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.17;
 		bg.setGraphicSize(Std.int(bg.width * 1.2));
@@ -48,7 +48,7 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(Paths.content.imageGraphic('menuUI/menuDesat'));
+		magenta = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuDesat'));
 		magenta.scrollFactor.x = bg.scrollFactor.x;
 		magenta.scrollFactor.y = bg.scrollFactor.y;
 		magenta.setGraphicSize(Std.int(bg.width));
@@ -103,7 +103,7 @@ class MainMenuState extends MusicBeatState
 		if (controls.ACCEPT && !selected)
 		{
 			selected = true;
-			FlxG.sound.play(Paths.location.sound('confirmMenu'));
+			FlxG.sound.play(Paths.location.sound('mainmenu/confirmMenu'));
 
 			menuItems.forEach(function(item:MenuItem)
 			{
@@ -119,7 +119,7 @@ class MainMenuState extends MusicBeatState
 
 		if (controls.BACK && !selected)
 		{
-			FlxG.sound.play(Paths.location.sound('cancelMenu'));
+			FlxG.sound.play(Paths.location.sound('mainmenu/cancelMenu'));
 			FlxG.switchState(new TitleState());
 		}
 

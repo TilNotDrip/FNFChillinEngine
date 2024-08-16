@@ -15,8 +15,13 @@ class FPS extends TextField
 	 */
 	public var currentFPS(default, null):Float;
 
+	#if cpp
 	public var currentMEM(default, null):String;
+	#end
+
+	#if debug
 	public var currentState(default, null):String;
+	#end
 
 	@:noCompletion var cacheCount:Int;
 	@:noCompletion var currentTime:Float;
@@ -30,8 +35,14 @@ class FPS extends TextField
 		this.y = y;
 
 		currentFPS = 0;
+
+		#if cpp
 		currentMEM = "0";
+		#end
+
+		#if debug
 		currentState = "";
+		#end
 
 		selectable = false;
 		mouseEnabled = false;
@@ -55,17 +66,17 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
+
+		#if cpp
 		currentMEM = FlxStringUtil.formatBytes(cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE), 2);
+		#end
 
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 
 		if (currentCount != cacheCount)
-		{text = "FPS: " + currentFPS + "\nMEM: " + currentMEM
-			#if debug
-			+ "\nSTATE: "
-			+ currentState
-			+ "\nVERSION: "
-			+ Application.current.meta.get('version') #end;
+		{
+			text = 'FPS: $currentFPS' #if cpp + '\nMEM: $currentMEM' #end
+			#if debug + '\nSTATE: $currentState' + '\nVERSION: ${Application.current.meta.get('version')}' #end;
 		}
 		cacheCount = currentCount;
 	}

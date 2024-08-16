@@ -43,7 +43,7 @@ class LoadingState extends MusicBeatState
 		add(bg);
 
 		funkay = new FlxSprite();
-		funkay.loadGraphic(Paths.content.imageGraphic('menuUI/funkay'));
+		funkay.loadGraphic(Paths.content.imageGraphic('mainmenu/funkay'));
 		funkay.setGraphicSize(0, FlxG.height);
 		funkay.updateHitbox();
 		add(funkay);

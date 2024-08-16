@@ -197,7 +197,8 @@ class TitleState extends MusicBeatState
 
 			if (FunkinOptions.get('flashingLights'))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
-			FlxG.sound.play(Paths.location.sound('confirmMenu'), 0.7);
+
+			FlxG.sound.play(Paths.location.sound('mainmenu/confirmMenu'), 0.7);
 
 			transitioning = true;
 

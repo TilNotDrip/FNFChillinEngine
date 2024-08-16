@@ -1,73 +1,73 @@
 {
-    "bpm":102,
-    "sprites":
-    [
+    "bpm": 102,
+    "sprites": [
         {
-            "id":"logo",
-            "pos":[-150, -100],
-            "path":"titleScreen/logoBumpin",
-            "animations":
-            [
+            "id": "logo",
+            "pos": [-150, -100],
+            "path": "title/logoBumpin",
+            "animations": [
                 {
-                    "name":"idle",
-                    "anim":"logo bumpin",
-                    "loop":false,
-                    "fps":24
+                    "name": "idle",
+                    "anim": "logo bumpin",
+                    "loop": false,
+                    "fps": 24
                 }
             ]
         },
         {
-            "id":"gf",
-            "pos":[512, 50.4],
-            "path":"titleScreen/gfDanceTitle",
-            "animations":
-            [
+            "id": "gf",
+            "pos": [512, 50.4],
+            "path": "title/gfDanceTitle",
+            "animations": [
                 {
-                    "name":"danceLeft",
-                    "anim":"gfDance",
-                    "loop":false,
-                    "indices":[30,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
-                    "fps":24
+                    "name": "danceLeft",
+                    "anim": "gfDance",
+                    "loop": false,
+                    "indices": [
+                        30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+                    ],
+                    "fps": 24
                 },
                 {
-                    "name":"danceRight",
-                    "anim":"gfDance",
-                    "loop":false,
-                    "indices":[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
-                    "fps":24
+                    "name": "danceRight",
+                    "anim": "gfDance",
+                    "loop": false,
+                    "indices": [
+                        15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                        29
+                    ],
+                    "fps": 24
                 }
             ]
         },
         {
-            "id":"title",
-            "pos":[100, 576],
-            "path":"titleScreen/titleEnter",
-            "animations":
-            [
+            "id": "title",
+            "pos": [100, 576],
+            "path": "title/titleEnter",
+            "animations": [
                 {
-                    "name":"begin",
-                    "anim":"Press Enter to Begin",
-                    "loop":true,
-                    "fps":24
+                    "name": "begin",
+                    "anim": "Press Enter to Begin",
+                    "loop": true,
+                    "fps": 24
                 },
                 {
-                    "name":"press",
-                    "anim":"ENTER PRESSED",
-                    "loop":true,
-                    "fps":24
+                    "name": "press",
+                    "anim": "ENTER PRESSED",
+                    "loop": true,
+                    "fps": 24
                 }
             ]
         },
         {
-            "id":"ngSpr",
-            "pos":[459, 374.4],
-            "scale":[0.8, 0.8],
-            "path":"titleScreen/newgrounds_logo",
-            "titleSpr":true
+            "id": "ngSpr",
+            "pos": [459, 374.4],
+            "scale": [0.8, 0.8],
+            "path": "title/newgrounds_logo",
+            "titleSpr": true
         }
     ],
-    "titleText":
-    [
+    "titleText": [
         {
             "text": "ninjamuffin99\nphantomArcade\nkawaisprite\nevilsk8er",
             "beat": 1,
@@ -91,19 +91,19 @@
         {
             "text": "In association\nwith\nnewgrounds",
             "beat": 7,
-            "showSprite":"ngSpr",
+            "showSprite": "ngSpr",
             "removeSelected": false
         },
         {
             "text": "In association\nwith\nnewgrounds",
             "beat": 8,
-            "showSprite":"ngSpr",
+            "showSprite": "ngSpr",
             "removeSelected": true
         },
         {
             "text": "Shoutouts Tom Fulp",
             "beat": 9,
-            "useIntroText": true, 
+            "useIntroText": true,
             "removeSelected": false
         },
         {
@@ -139,9 +139,8 @@
             "removeSelected": true
         }
     ],
-    "introText":
-    {
-        "path":"introText",
-        "lines":2
+    "introText": {
+        "path": "introText",
+        "lines": 2
     }
 }

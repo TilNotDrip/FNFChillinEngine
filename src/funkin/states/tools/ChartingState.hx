@@ -109,7 +109,7 @@ class ChartingState extends MusicBeatState
 
 		curSection = lastSection;
 
-		var actualBG:FlxSprite = new FlxSprite(Paths.content.imageGraphic('menuUI/menuDesat'));
+		var actualBG:FlxSprite = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuDesat'));
 		actualBG.scale.set(1.2, 1.2);
 		actualBG.updateHitbox();
 		actualBG.screenCenter();

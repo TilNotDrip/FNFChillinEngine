@@ -7,6 +7,7 @@ import funkin.data.FunkinControls;
 import funkin.data.FunkinHighscore;
 import funkin.data.FunkinOptions;
 import funkin.display.FPS;
+import funkin.display.FunkinSoundTray;
 import funkin.states.menus.TitleState;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -54,27 +55,34 @@ class Main extends Sprite
 
 	function setupGame():Void
 	{
-		addChild(new FlxGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen));
+		var funkinGame:FlxGame = new FlxGame(game.width, game.height, game.state, game.framerate, game.framerate, game.splash, game.fullscreen);
+		initSaves();
+		@:privateAccess
+		funkinGame._customSoundTray = FunkinSoundTray;
+		addChild(funkinGame);
+
+		initGame();
 
 		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
-
-		initGame();
 	}
 
-	function initGame():Void
+	function initSaves():Void
 	{
 		FunkinOptions.initialize();
 		FunkinControls.init();
 		FunkinHighscore.load();
+	}
 
+	function initGame():Void
+	{
 		FlxG.debugger.setLayout(MICRO);
 		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];
 
-		// Unfortunately we dont have Angry Birds in Chillin' Engine so we can disable this
+		// Unfortunately we dont have Angry Birds in Chillin' Engine so we can disable this.
 		FlxG.fixedTimestep = false;
 
 		#if FUNKIN_DISCORD_RPC

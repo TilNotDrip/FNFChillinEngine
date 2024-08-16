@@ -238,7 +238,7 @@ class Tank extends StageBackend
 
 	function gunsIntro()
 	{
-		#if (VIDEOS && !hxvlc)
+		#if (FUNKIN_VIDEOS && !hxvlc)
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		add(blackShit);
 
@@ -307,7 +307,7 @@ class Tank extends StageBackend
 
 	function stressIntro()
 	{
-		#if (VIDEOS && !hxvlc)
+		#if (FUNKIN_VIDEOS && !hxvlc)
 		blackShit = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		add(blackShit);
 
@@ -437,7 +437,7 @@ class Tank extends StageBackend
 		#end
 	}
 
-	#if (VIDEOS && !hxvlc)
+	#if (FUNKIN_VIDEOS && !hxvlc)
 	override public function endingVideo()
 	{
 		remove(blackShit);

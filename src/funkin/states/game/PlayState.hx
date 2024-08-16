@@ -1647,7 +1647,7 @@ class PlayState extends MusicBeatState
 				ghostHit();
 		}
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true) && canIdle))
+		if (boyfriend.holdTimer >= Conductor.stepCrochet * boyfriend.singTime * 0.001 && (!holdArray.contains(true) && canIdle))
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
@@ -1763,7 +1763,7 @@ class PlayState extends MusicBeatState
 				ghostHit();
 		}
 
-		if (dad.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true) && canIdle))
+		if (dad.holdTimer >= Conductor.stepCrochet * dad.singTime * 0.001 && (!holdArray.contains(true) && canIdle))
 		{
 			if (dad.animation.curAnim.name.startsWith('sing') && !dad.animation.curAnim.name.endsWith('miss'))
 			{

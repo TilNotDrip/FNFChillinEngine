@@ -43,7 +43,7 @@ class FreeplayState extends MusicBeatState
 		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
 			FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
 
-		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('menuUI/menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('mainmenu/menuDesat'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -71,7 +71,7 @@ class FreeplayState extends MusicBeatState
 				if (week.songs[i][1] == true)
 				{
 					var explicit:TrackedSprite = new TrackedSprite();
-					explicit.frames = Paths.content.sparrowAtlas('freeplayMenu/explicit');
+					explicit.frames = Paths.content.sparrowAtlas('freeplay/explicit');
 					explicit.animation.addByPrefix('idle', 'Idle', 24, true);
 					explicit.animation.play('idle');
 					explicit.sprOffsetY + 70;
@@ -135,7 +135,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.location.sound('cancelMenu'));
+			FlxG.sound.play(Paths.location.sound('mainmenu/cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -179,7 +179,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.location.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.location.sound('mainmenu/scrollMenu'), 0.4);
 
 		curSelected += change;
 
