@@ -21,6 +21,17 @@ class PathContent
 		'default:assets/images/fonts/default.png',
 		'default:assets/images/mainmenu/menuBG.png',
 		'default:assets/images/mainmenu/menuDesat.png',
+		'default:assets/images/soundtray/bars_1.png', // The entire soundtray won't have an effect mainly because it uses Paths.location like the homosexual it is.
+		'default:assets/images/soundtray/bars_2.png',
+		'default:assets/images/soundtray/bars_3.png',
+		'default:assets/images/soundtray/bars_4.png',
+		'default:assets/images/soundtray/bars_5.png',
+		'default:assets/images/soundtray/bars_6.png',
+		'default:assets/images/soundtray/bars_7.png',
+		'default:assets/images/soundtray/bars_8.png',
+		'default:assets/images/soundtray/bars_9.png',
+		'default:assets/images/soundtray/bars_10.png',
+		'default:assets/images/soundtray/volumebox.png',
 		'default:assets/music/freakyMenu.${Constants.EXT_SOUND}'
 	];
 
