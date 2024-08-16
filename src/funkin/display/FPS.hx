@@ -71,7 +71,9 @@ class FPS extends TextField
 		currentMEM = FlxStringUtil.formatBytes(cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE), 2);
 		#end
 
+		#if debug
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
+		#end
 
 		if (currentCount != cacheCount)
 		{
