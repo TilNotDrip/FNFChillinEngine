@@ -1,0 +1,62 @@
+{
+    "version": "0.1.0",
+    "image": "characters/gfChristmas",
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "GF Dancing Beat",
+            "framerate": 24,
+            "indices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, -9]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "GF Dancing Beat",
+            "framerate": 24,
+            "indices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, -9]
+        },
+        {
+            "name": "sad",
+            "prefix": "gf sad",
+            "framerate": 24,
+            "indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [2, -21]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 1.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "gf",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Girlfriend (Christmas)",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

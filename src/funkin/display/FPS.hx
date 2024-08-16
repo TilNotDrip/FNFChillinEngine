@@ -12,8 +12,8 @@ import openfl.system.System;
 class FPS extends TextField
 {
 	/**
-		The current frame rate, expressed using frames-per-second
-	**/
+	 * The current frame rate, expressed using frames-per-second
+	 */
 	public var currentFPS(default, null):Float;
 
 	public var currentMEM(default, null):String;
@@ -39,7 +39,7 @@ class FPS extends TextField
 		defaultTextFormat = new TextFormat("_sans", 12, color);
 		text = "";
 		multiline = true;
-		width += 100;
+		width += #if debug 350 #else 100 #end;
 
 		cacheCount = 0;
 		currentTime = 0;
@@ -61,17 +61,13 @@ class FPS extends TextField
 		currentState = Type.getClassName(Type.getClass(FlxG.state));
 
 		if (currentCount != cacheCount)
-		{
-			text = "FPS: "
-				+ currentFPS
-				+ "\nMEM: "
-				+ currentMEM
-				+ "\nSTATE: "
-				+ currentState
-				+ "\nVERSION: "
-				+ Application.current.meta.get('version');
+		{text = "FPS: " + currentFPS + "\nMEM: " + currentMEM
+			#if debug
+			+ "\nSTATE: "
+			+ currentState
+			+ "\nVERSION: "
+			+ Application.current.meta.get('version') #end;
 		}
-
 		cacheCount = currentCount;
 	}
 }

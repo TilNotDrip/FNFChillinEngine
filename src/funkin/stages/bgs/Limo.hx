@@ -12,6 +12,8 @@ class Limo extends StageBackend
 
 	override public function create()
 	{
+		BF_POSITION = [1030.0, 230.0];
+
 		zoom = 0.90;
 
 		var skyBG:BGSprite = new BGSprite('limo/limoSunset', -120, -50, 0.1, 0.1);
@@ -41,9 +43,6 @@ class Limo extends StageBackend
 
 		resetFastCar();
 		add(fastCar);
-
-		playerGroup.y -= 220;
-		playerGroup.x += 260;
 	}
 
 	override public function cameraMovement(char:Character)

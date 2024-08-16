@@ -26,8 +26,8 @@ class PauseSubState extends MusicBeatSubstate
 		Application.current.window.title += ' [Paused]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Paused]';
-		PlayState.game.setRpcTimestamps(false);
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Paused]';
+		PlayState.instance.setRpcTimestamps(false);
 		#end
 
 		super();
@@ -215,7 +215,7 @@ class PauseSubState extends MusicBeatSubstate
 		pauseMusic.destroy();
 		changeWindowName((!PlayState.isStoryMode ? 'Freeplay - ' : 'Story Mode - ') + PlayState.SONG.song + ' (' + PlayState.difficulty + ')');
 
-		for (tween in PlayState.game.bopTween)
+		for (tween in PlayState.instance.bopTween)
 			if (tween != null)
 				tween.active = true;
 

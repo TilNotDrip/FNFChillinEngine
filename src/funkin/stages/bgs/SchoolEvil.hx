@@ -9,9 +9,12 @@ class SchoolEvil extends StageBackend
 {
 	override public function create()
 	{
-		pixel = true;
+		GF_POSITION = [580.0, 430.0];
+		BF_POSITION = [950.0, 670.0];
 
-		var bg:BGSprite = new BGSprite('weeb/animatedEvilSchool', 400, 200, 0.8, 0.9, ['background 2 instance 1'], true);
+		ui = 'funkin-pixel';
+
+		var bg:BGSprite = new BGSprite('weeb/animatedEvilSchool', 400, 200, 0.8, 0.9, ['background 2'], true);
 		bg.antialiasing = false;
 		bg.scale.set(6, 6);
 		add(bg);
@@ -21,11 +24,6 @@ class SchoolEvil extends StageBackend
 	{
 		var evilTrail = new FlxTrail(opponent, null, 4, 4, 0.3, 0.069);
 		addBehindOpponent(evilTrail);
-
-		playerGroup.x += 200;
-		playerGroup.y += 220;
-		gfGroup.x += 180;
-		gfGroup.y += 300;
 
 		if (isStoryMode && curSong.formatToPath() == 'thorns')
 			startCallback = spiritCutscene;
@@ -51,7 +49,7 @@ class SchoolEvil extends StageBackend
 
 		var senpaiEvil:FlxSprite = new FlxSprite();
 		senpaiEvil.frames = Paths.getSparrowAtlas('weeb/senpaiCrazy');
-		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion instance 1', 24, false);
+		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion', 24, false);
 		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * PlayState.daPixelZoom));
 		senpaiEvil.antialiasing = false;
 		senpaiEvil.scrollFactor.set();

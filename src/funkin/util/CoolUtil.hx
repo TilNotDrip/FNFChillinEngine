@@ -34,12 +34,21 @@ class CoolUtil
 		return FlxMath.lerp(a, b, camLerpShit(ratio));
 	}
 
-	public static function openURL(link:String)
+	/**
+	 * Opens a url in the user's browser.
+	 * @param url URL to open.
+	 */
+	public static function openURL(url:String):Void
 	{
 		#if linux
-		Sys.command('/usr/bin/xdg-open', [link, "&"]);
+		Sys.command('/usr/bin/xdg-open', [url, "&"]);
 		#else
-		FlxG.openURL(link);
+		FlxG.openURL(url);
 		#end
+	}
+
+	public static function getSavePath():String
+	{
+		return Application.current.meta.get('packageName').split('.')[1];
 	}
 }

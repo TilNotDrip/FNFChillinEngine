@@ -19,44 +19,44 @@ class Strums extends FlxSpriteGroup
 
 	var staticNoteColors:Array<FlxColor>;
 
-	var isPixel:Bool = false;
+	var ui:String = 'funkin';
 
-	public function new(x:Float, y:Float, notes:Int, isPixel:Bool)
+	public function new(x:Float, y:Float, notes:Int, ui:String = 'funkin')
 	{
 		super(x, y);
 		this.notes = notes;
-		this.isPixel = isPixel;
+		this.ui = ui;
 
 		for (note in 0...notes)
 		{
 			var newNote:FlxSprite = new FlxSprite(Note.swagWidth * note);
 
-			if (isPixel)
+			switch (ui)
 			{
-				newNote.loadGraphic(Paths.image('pixelui/Notes'), true, 17, 17);
+				case 'funkin-pixel':
+					newNote.loadGraphic(Paths.image('ui/pixel/Notes'), true, 17, 17);
 
-				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
-				newNote.updateHitbox();
-				newNote.antialiasing = false;
+					newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
+					newNote.updateHitbox();
+					newNote.antialiasing = false;
 
-				newNote.animation.add('static', [0 + note]);
-				newNote.animation.add('pressed', [4 + note, 8 + note], 12, false);
-				newNote.animation.add('confirm', [12 + note, 16 + note], 24, false);
+					newNote.animation.add('static', [0 + note]);
+					newNote.animation.add('pressed', [0 + note, 4 + note], 12, false);
+					newNote.animation.add('confirm', [8 + note, 12 + note], 24, false);
 
-				staticNotes.rgb = [0xFFA2BAC8, 0xFFFFF5FC, 0xFF404047];
-			}
-			else
-			{
-				var directions:Array<String> = ['left', 'down', 'up', 'right'];
+					staticNotes.rgb = [0xFFA2BAC8, 0xFFFFF5FC, 0xFF404047];
 
-				newNote.frames = Paths.getSparrowAtlas('ui/Notes');
-				newNote.setGraphicSize(Std.int(newNote.width * 0.7));
+				default:
+					var directions:Array<String> = ['left', 'down', 'up', 'right'];
 
-				newNote.animation.addByPrefix('static', directions[note] + ' static');
-				newNote.animation.addByPrefix('pressed', directions[note] + ' press', 24, false);
-				newNote.animation.addByPrefix('confirm', directions[note] + ' confirm', 24, false);
+					newNote.frames = Paths.getSparrowAtlas('ui/funkin/Notes');
+					newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
-				staticNotes.rgb = [0xFF87A3AD, 0xFFFFFFFF, 0xFF000000];
+					newNote.animation.addByPrefix('static', directions[note] + ' static');
+					newNote.animation.addByPrefix('pressed', directions[note] + ' press', 24, false);
+					newNote.animation.addByPrefix('confirm', directions[note] + ' confirm', 24, false);
+
+					staticNotes.rgb = [0xFF87A3AD, 0xFFFFFFFF, 0xFF000000];
 			}
 
 			shader = staticNotes.shader;
@@ -101,13 +101,13 @@ class Strums extends FlxSpriteGroup
 				}
 			}
 
-			if (spr.animation.curAnim.name == 'confirm' && !isPixel)
+			if (spr.animation.curAnim.name == 'confirm' && ui == 'funkin')
 			{
 				spr.offset.x += 26;
 				spr.offset.y += 26;
 			}
 
-			if (isPixel)
+			if (ui == 'funkin')
 				spr.scrollFactor.set();
 		}
 	}

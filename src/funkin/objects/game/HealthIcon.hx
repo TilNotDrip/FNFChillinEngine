@@ -3,9 +3,9 @@ package funkin.objects.game;
 class HealthIcon extends TrackedSprite
 {
 	public static var healthBarColors:Map<String, FlxColor> = [
-		'bf' => 0xFF31B0D1, 'bf-old' => 0xFFE9FF48, 'bf-pixel' => 0xFF7BD6F6, 'bf-old-pixel' => 0xFFFFF97A, 'dad' => 0xFFAF66CE, 'face' => 0xFFA1A1A1,
+		'bf' => 0xFF31B0D1, 'bf-old' => 0xFFE9FF48, 'bf-pixel' => 0xFF7BD6F6, 'bf-pixel-old' => 0xFFFFF97A, 'dad' => 0xFFAF66CE, 'face' => 0xFFA1A1A1,
 		'gf' => 0xFFA5004D, 'mom' => 0xFFD8558E, 'monster' => 0xFFF3FF6E, 'parents' => 0xFFAF66CE, 'pico' => 0xFFB7D855, 'senpai' => 0xFFFFAA6F,
-		'spirit' => 0xFFFF3C6E, 'spooky' => 0xFFB4B4B4, 'tankman' => 0xFFE1E1E1
+		'spirit' => 0xFFFF3C6E, 'spooky' => 0xFFB4B4B4, 'tankman' => 0xFFE1E1E1, 'darnell' => 0xFF735EB0
 	];
 
 	public var curHealthBarColor:FlxColor;
@@ -30,22 +30,21 @@ class HealthIcon extends TrackedSprite
 
 	public function swapOldIcon():Void
 	{
-		if (FlxG.state != PlayState.game)
+		if (FlxG.state != PlayState.instance)
 			return;
 
 		isOldIcon = !isOldIcon;
 
 		if (isOldIcon)
-			(PlayState.game.boyfriend.isPixel ? changeIcon('bf-old-pixel') : changeIcon('bf-old'));
+			PlayState.instance.boyfriend.healthIcon += '-old';
 		else
-			changeIcon(PlayState.SONG.player1);
+			PlayState.instance.boyfriend.healthIcon = PlayState.instance.boyfriend.characterData.gameplay.healthIcon;
+
+		changeIcon(PlayState.instance.boyfriend.healthIcon);
 	}
 
 	public function changeIcon(newChar:String):Void
 	{
-		if (newChar != 'bf-pixel' && newChar != 'bf-old' && newChar != 'bf-old-pixel')
-			newChar = newChar.split('-')[0].trim();
-
 		curHealthBarColor = healthBarColors.get(newChar);
 
 		if (['bf-pixel', 'bf-old-pixel', 'senpai', 'spirit'].contains(newChar))

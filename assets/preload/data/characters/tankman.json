@@ -1,0 +1,102 @@
+{
+    "version": "0.1.0",
+    "image": "characters/tankmanCaptain",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Tankman Idle Dance",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Tankman Right Note",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [90, -13]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Tankman DOWN note",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [63, -105]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Tankman UP note",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [48, 54]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Tankman Note Left",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-22, -28]
+        },
+        {
+            "name": "ugh",
+            "prefix": "TANKMAN UGH",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-16, -9]
+        },
+        {
+            "name": "hehPrettyGood",
+            "prefix": "PRETTY GOOD tankman",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-2, 15]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": true,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, -50],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "tankman",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Tankman",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

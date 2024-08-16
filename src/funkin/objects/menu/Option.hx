@@ -45,8 +45,6 @@ class Option extends FlxSpriteGroup
 				checkbox.animation.finish();
 				add(checkbox);
 
-			case SLIDER:
-
 			case SELECTION:
 				selection = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', Default);
 				add(selection);
@@ -54,6 +52,8 @@ class Option extends FlxSpriteGroup
 			case NUMBER:
 				number = new Alphabet(optionTxt.x + optionTxt.width + 50, 0, '< $value >', Default);
 				add(number);
+
+			default:
 		}
 	}
 
@@ -64,13 +64,13 @@ class Option extends FlxSpriteGroup
 			case CHECKBOX:
 				checkbox.setPosition(optionTxt.x + optionTxt.width + 50, optionTxt.y);
 
-			case SLIDER:
-
 			case SELECTION:
 				selection.setPosition((optionTxt.x + optionTxt.width) + 50, optionTxt.y);
 
 			case NUMBER:
 				number.setPosition((optionTxt.x + optionTxt.width) + 50, optionTxt.y);
+
+			default:
 		}
 
 		super.update(elapsed);
@@ -79,6 +79,7 @@ class Option extends FlxSpriteGroup
 	public function press()
 	{
 		value = !value;
+
 		FunkinOptions.set(varName, value);
 
 		checkbox.check(value);
@@ -89,29 +90,31 @@ class Option extends FlxSpriteGroup
 
 	public function changeValue(change:Dynamic)
 	{
-		if (type == NUMBER)
+		switch (type)
 		{
-			var newValue:Dynamic = change + FunkinOptions.get(varName);
+			case NUMBER:
+				var newValue:Dynamic = change + FunkinOptions.get(varName);
 
-			if (maximumValue >= newValue || minimumValue <= newValue)
-				FunkinOptions.set(varName, newValue);
+				if (maximumValue >= newValue && minimumValue <= newValue)
+					FunkinOptions.set(varName, newValue);
 
-			number.text = '< ' + FunkinOptions.get(varName) + ' >';
-		}
-		else if (type == SELECTION)
-		{
-			var curSelectedNum:Int = selections.indexOf(FunkinOptions.get(varName));
+				number.text = '< ' + FunkinOptions.get(varName) + ' >';
 
-			curSelectedNum += change;
+			case SELECTION:
+				var curSelectedNum:Int = selections.indexOf(FunkinOptions.get(varName));
 
-			if (curSelectedNum < 0)
-				curSelectedNum = selections.length - 1;
+				curSelectedNum += change;
 
-			if (curSelectedNum >= selections.length)
-				curSelectedNum = 0;
+				if (curSelectedNum < 0)
+					curSelectedNum = selections.length - 1;
 
-			FunkinOptions.set(varName, selections[curSelectedNum]);
-			selection.text = '< ' + FunkinOptions.get(varName) + ' >';
+				if (curSelectedNum >= selections.length)
+					curSelectedNum = 0;
+
+				FunkinOptions.set(varName, selections[curSelectedNum]);
+				selection.text = '< ' + FunkinOptions.get(varName) + ' >';
+
+			default:
 		}
 
 		if (onChange != null)
@@ -119,52 +122,12 @@ class Option extends FlxSpriteGroup
 	}
 }
 
-enum abstract OptionVarType(Int)
+enum abstract OptionVarType(String)
 {
-	var CHECKBOX = 0;
-	var SLIDER = 1;
-	var SELECTION = 2;
-	var NUMBER = 3;
-}
-
-class Checkbox extends FlxSprite
-{
-	public function new(x:Float, y:Float)
-	{
-		super(x, y);
-
-		frames = Paths.getSparrowAtlas('menuUI/checkbox');
-		animation.addByIndices('idle', 'Unselect', [13, 13], '', 24, true);
-		animation.addByIndices('idle selected', 'Press', [13, 13], '', 24, true);
-		animation.addByPrefix('checked', 'Press', 24, false);
-		animation.addByPrefix('unchecked', 'Unselect', 24, false);
-
-		setGraphicSize(Std.int(width * 0.2));
-		updateHitbox();
-	}
-
-	public function check(value:Bool)
-	{
-		if (value)
-		{
-			animation.play('checked', true);
-			animation.finishCallback = function(anim:String)
-			{
-				animation.play('idle selected', true);
-				animation.finishCallback = null;
-			}
-		}
-		else
-		{
-			animation.play('unchecked', true);
-
-			animation.finishCallback = function(anim:String)
-			{
-				animation.play('idle', true);
-				animation.finishCallback = null;
-			}
-		}
-	}
+	var CHECKBOX = 'checkbox';
+	var SLIDER = 'slider';
+	var SELECTION = 'selection';
+	var NUMBER = 'number';
 }
 
 // I dont wanna add this to todo but I wanna add this

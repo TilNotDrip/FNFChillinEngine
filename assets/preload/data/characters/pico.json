@@ -1,0 +1,82 @@
+{
+    "version": "0.1.0",
+    "image": "characters/Pico_Basic",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Pico Idle Dance",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Pico Note Right0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [61, 2]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Pico Down Note0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-37, -82]
+        },
+        {
+            "name": "singUP",
+            "prefix": "pico Up note0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-32, 28]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Pico Note Left0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [61, 2]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": true,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "pico",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Pico",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

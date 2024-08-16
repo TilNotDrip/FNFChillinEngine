@@ -11,9 +11,11 @@ class Spooky extends StageBackend
 	{
 		halloweenBG = new BGSprite('halloween_bg', -200, -100, 1, 1, ['halloweem bg lightning strike']);
 		add(halloweenBG);
+
+		super.create();
 	}
 
-	function lightningStrikeShit()
+	function lightningStrikeShit():Void
 	{
 		FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
 
@@ -29,9 +31,19 @@ class Spooky extends StageBackend
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
 
+	override public function stepHit():Void
+	{
+		if (curSong.formatToPath() == 'spookeez' && curStep == 188)
+			player.playAnim('cheer', true);
+
+		super.stepHit();
+	}
+
 	override public function beatHit()
 	{
 		if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 			lightningStrikeShit();
+
+		super.beatHit();
 	}
 }

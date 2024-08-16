@@ -11,7 +11,10 @@ class School extends StageBackend
 
 	override public function create()
 	{
-		pixel = true;
+		GF_POSITION = [580.0, 430.0];
+		BF_POSITION = [950.0, 670.0];
+
+		ui = 'funkin-pixel';
 
 		var bgSky = new BGSprite('weeb/weebSky', 0, 0, 0.1, 0.1);
 		bgSky.antialiasing = false;
@@ -70,11 +73,6 @@ class School extends StageBackend
 
 	override public function createPost()
 	{
-		playerGroup.x += 200;
-		playerGroup.y += 220;
-		gfGroup.x += 180;
-		gfGroup.y += 300;
-
 		if (isStoryMode && (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses'))
 			startCallback = senpaiCutscene;
 	}

@@ -1,0 +1,82 @@
+{
+    "version": "0.1.0",
+    "image": "characters/momCar",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Mom Idle0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Mom Left Pose0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [250, -23]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "MOM DOWN POSE0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [20, -160]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Mom Up Pose0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [14, 71]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Mom Pose Left0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [10, -60]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "mom",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Mommy Mearest (Car)",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

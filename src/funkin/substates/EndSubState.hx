@@ -15,13 +15,13 @@ class EndSubState extends MusicBeatSubstate
 		Application.current.window.title += ' [ENDING]';
 
 		#if FUNKIN_DISCORD_RPC
-		DiscordRPC.details = PlayState.game.rpcDetailsText + ' [Ending]';
-		PlayState.game.setRpcTimestamps(false);
+		DiscordRPC.details = PlayState.instance.rpcDetailsText + ' [Ending]';
+		PlayState.instance.setRpcTimestamps(false);
 		#end
 
-		PlayState.game.isEnding = true;
+		PlayState.instance.isEnding = true;
 		FlxG.sound.music.stop();
-		PlayState.game.vocals.stop();
+		PlayState.instance.vocals.stop();
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFFFFFFF);
 		bg.alpha = 0.6;

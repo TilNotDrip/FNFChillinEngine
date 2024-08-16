@@ -1,0 +1,102 @@
+{
+    "version": "0.1.0",
+    "image": "characters/SpookyKids",
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "Idle",
+            "framerate": 24,
+            "indices": [0, 1, 2, 3, 4, 5, 6, 7],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "Idle",
+            "framerate": 24,
+            "indices": [8, 9, 10, 11, 12, 13, 14, 15],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "SingLEFT",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [130, -10]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "SingDOWN",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-50, -130]
+        },
+        {
+            "name": "singUP",
+            "prefix": "SingUP",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-20, 26]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "SingRIGHT",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-130, -14]
+        },
+        {
+            "name": "cheer",
+            "prefix": "Cheer",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 1.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "spooky",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Daddy Dearest",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

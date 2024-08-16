@@ -45,7 +45,7 @@ class Song
 		var rawJson = null;
 		try
 		{
-			rawJson = Assets.getText(Paths.json(folder.formatToPath() + '/' + jsonInput.formatToPath())).trim();
+			rawJson = Assets.getText(Paths.json('data/charts/' + folder.formatToPath() + '/' + jsonInput.formatToPath())).trim();
 		}
 		catch (e)
 		{

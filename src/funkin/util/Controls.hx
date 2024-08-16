@@ -171,7 +171,7 @@ class Controls
 
 		var keyArray:Array<FlxKey> = [];
 
-		for (key in PlayerSettings.getControls(id).get(key)[0])
+		for (key in FunkinControls.getControls(id).get(key)[0])
 			keyArray.push(FlxKey.fromString(key));
 
 		switch (type)
@@ -191,7 +191,7 @@ class Controls
 		{
 			var buttonArray:Array<FlxGamepadInputID> = [];
 
-			for (key in PlayerSettings.getControls(id).get(key)[1])
+			for (key in FunkinControls.getControls(id).get(key)[1])
 				buttonArray.push(FlxGamepadInputID.fromString(key));
 
 			switch (type)

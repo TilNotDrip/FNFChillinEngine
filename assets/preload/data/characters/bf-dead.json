@@ -1,0 +1,62 @@
+{
+    "version": "0.1.0",
+    "image": "characters/BF_Dead",
+    "animations": [
+        {
+            "name": "firstDeath",
+            "prefix": "BF dies",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-37, 11]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "BF Dead Loop",
+            "framerate": 24,
+            "indices": [],
+            "looped": true,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-37, 5]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "BF Dead confirm",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-37, 69]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": true,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "bf",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Boyfriend (Dead)",
+        "isPlayer": true
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

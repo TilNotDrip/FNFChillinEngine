@@ -75,7 +75,7 @@ class TitleState extends MusicBeatState
 		DiscordRPC.details = 'Title Screen';
 		#end
 
-		introText = cast Json.parse(Assets.getText(Paths.json('title')).trim());
+		introText = cast Json.parse(Assets.getText(Paths.json('data/title')).trim());
 
 		startedIntro = false;
 
@@ -141,7 +141,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<String>
 	{
-		var fullText:String = Assets.getText(Paths.txt(introText.introText.path));
+		var fullText:String = Assets.getText(Paths.txt('data/${introText.introText.path}'));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];

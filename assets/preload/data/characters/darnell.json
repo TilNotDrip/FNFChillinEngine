@@ -1,0 +1,182 @@
+{
+    "version": "0.1.0",
+    "image": "characters/darnell",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Idle0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Pose Left0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [1, 0]
+        },
+        {
+            "name": "singLEFT-hold",
+            "prefix": "Left Flame Loop0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [1, 0]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Pose Down0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, -3]
+        },
+        {
+            "name": "singDOWN-hold",
+            "prefix": "Down Flame Loop0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, -3]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Pose Up0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [8, 5]
+        },
+        {
+            "name": "singUP-hold",
+            "prefix": "Up Flame Loop0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [8, 5]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Pose Right0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [4, 3]
+        },
+        {
+            "name": "singRIGHT-hold",
+            "prefix": "Right Flame Loop0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [4, 3]
+        },
+        {
+            "name": "laugh",
+            "prefix": "Laugh0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "laughCutscene",
+            "prefix": "Laugh0",
+            "framerate": 24,
+            "indices": [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "lightCan",
+            "prefix": "Light Can0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [8, 1]
+        },
+        {
+            "name": "kickCan",
+            "prefix": "Kick Up0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [15, 9]
+        },
+        {
+            "name": "kneeCan",
+            "prefix": "Knee Forward0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [7, -1]
+        },
+        {
+            "name": "pissed",
+            "prefix": "Gets Pissed0",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [20, 100],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "darnell",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Darnell",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

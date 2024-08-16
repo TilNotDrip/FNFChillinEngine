@@ -22,6 +22,23 @@ class Tank extends StageBackend
 
 	override public function create()
 	{
+		if (PlayState.SONG.player3 == 'pico-speaker')
+		{
+			GF_POSITION = [400.0, 130.0];
+		}
+
+		GF_POSITION[0] -= 30;
+		GF_POSITION[1] += 10;
+
+		if (PlayState.SONG.player3 != 'pico-speaker')
+		{
+			GF_POSITION[0] -= 170.0;
+			GF_POSITION[1] -= 75.0;
+		}
+
+		DAD_POSITION = [20.0, 160.0];
+		BF_POSITION = [810.0, 450.0];
+
 		zoom = 0.90;
 
 		foregroundSprites = new FlxTypedGroup<BGSprite>();
@@ -49,16 +66,16 @@ class Tank extends StageBackend
 		tankRuins.updateHitbox();
 		add(tankRuins);
 
-		var smokeLeft:BGSprite = new BGSprite('smokeLeft', -200, -100, 0.4, 0.4, ['SmokeBlurLeft instance 1'], true);
+		var smokeLeft:BGSprite = new BGSprite('smokeLeft', -200, -100, 0.4, 0.4, ['SmokeBlurLeft'], true);
 		add(smokeLeft);
 
-		var smokeRight:BGSprite = new BGSprite('smokeRight', 1100, -100, 0.4, 0.4, ['SmokeRight instance 1'], true);
+		var smokeRight:BGSprite = new BGSprite('smokeRight', 1100, -100, 0.4, 0.4, ['SmokeRight'], true);
 		add(smokeRight);
 
-		tankWatchtower = new BGSprite('tankWatchtower', 100, 50, 0.5, 0.5, ['watchtower gradient color instance 1']);
+		tankWatchtower = new BGSprite('tankWatchtower', 100, 50, 0.5, 0.5, ['watchtower gradient color']);
 		add(tankWatchtower);
 
-		tankGround = new BGSprite('tankRolling', 300, 300, 0.5, 0.5, ['BG tank w lighting instance 1'], true);
+		tankGround = new BGSprite('tankRolling', 300, 300, 0.5, 0.5, ['BG tank w lighting'], true);
 		add(tankGround);
 
 		tankmanRun = new FlxTypedGroup<TankmenBG>();
@@ -71,70 +88,53 @@ class Tank extends StageBackend
 
 		moveTank();
 
-		var fgTank0:BGSprite = new BGSprite('tank0', -500, 650, 1.7, 1.5, ['fg tankhead far right instance 1']);
+		var fgTank0:BGSprite = new BGSprite('tank0', -500, 650, 1.7, 1.5, ['fg tankhead far right']);
 		foregroundSprites.add(fgTank0);
 
-		var fgTank1:BGSprite = new BGSprite('tank1', -300, 750, 2, 0.2, ['fg tankhead 5 instance 1']);
+		var fgTank1:BGSprite = new BGSprite('tank1', -300, 750, 2, 0.2, ['fg tankhead 5']);
 		foregroundSprites.add(fgTank1);
 
-		var fgTank2:BGSprite = new BGSprite('tank2', 450, 940, 1.5, 1.5, ['foreground man 3 instance 1']);
+		var fgTank2:BGSprite = new BGSprite('tank2', 450, 940, 1.5, 1.5, ['foreground man 3']);
 		foregroundSprites.add(fgTank2);
 
-		var fgTank4:BGSprite = new BGSprite('tank4', 1300, 900, 1.5, 1.5, ['fg tankman bobbin 3 instance 1']);
+		var fgTank4:BGSprite = new BGSprite('tank4', 1300, 900, 1.5, 1.5, ['fg tankman bobbin 3']);
 		foregroundSprites.add(fgTank4);
 
-		var fgTank5:BGSprite = new BGSprite('tank5', 1620, 700, 1.5, 1.5, ['fg tankhead far right instance 1']);
+		var fgTank5:BGSprite = new BGSprite('tank5', 1620, 700, 1.5, 1.5, ['fg tankhead far right']);
 		foregroundSprites.add(fgTank5);
 
-		var fgTank3:BGSprite = new BGSprite('tank3', 1300, 1200, 3.5, 2.5, ['fg tankhead 4 instance 1']);
+		var fgTank3:BGSprite = new BGSprite('tank3', 1300, 1200, 3.5, 2.5, ['fg tankhead 4']);
 		foregroundSprites.add(fgTank3);
 	}
 
 	override public function createPost()
 	{
-		switch (PlayState.SONG.player3)
+		if (PlayState.SONG.player3 == 'pico-speaker')
 		{
-			case 'pico-speaker':
-				gfGroup.x -= 50;
-				gfGroup.y -= 200;
+			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
+			tempTankman.strumTime = 10;
+			tempTankman.resetShit(20, 600, true);
+			tankmanRun.add(tempTankman);
 
-				var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
-				tempTankman.strumTime = 10;
-				tempTankman.resetShit(20, 600, true);
-				tankmanRun.add(tempTankman);
-
-				for (i in 0...TankmenBG.animationNotes.length)
+			for (i in 0...TankmenBG.animationNotes.length)
+			{
+				if (FlxG.random.bool(16))
 				{
-					if (FlxG.random.bool(16))
-					{
-						var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
-						tankman.strumTime = TankmenBG.animationNotes[i][0];
-						tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
-						tankmanRun.add(tankman);
-					}
+					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
+					tankman.strumTime = TankmenBG.animationNotes[i][0];
+					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankmanRun.add(tankman);
 				}
-		}
-
-		gfGroup.y += 10;
-		gfGroup.x -= 30;
-		playerGroup.x += 40;
-		playerGroup.y += 0;
-		opponentGroup.y += 60;
-		opponentGroup.x -= 80;
-
-		if (PlayState.SONG.player3 != 'pico-speaker')
-		{
-			gfGroup.x -= 170;
-			gfGroup.y -= 75;
+			}
 		}
 
 		if (isStoryMode)
 		{
 			gfCutsceneLayer = new FlxGroup();
-			insert(PlayState.game.members.indexOf(gf) + 1, gfCutsceneLayer);
+			insert(PlayState.instance.members.indexOf(gf) + 1, gfCutsceneLayer);
 
 			bfTankCutsceneLayer = new FlxGroup();
-			insert(PlayState.game.members.indexOf(player) + 1, bfTankCutsceneLayer);
+			insert(PlayState.instance.members.indexOf(player) + 1, bfTankCutsceneLayer);
 		}
 
 		add(foregroundSprites);
@@ -182,7 +182,7 @@ class Tank extends StageBackend
 
 		opponent.visible = false;
 		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.atlas('cutsceneStuff/ughIntro'));
-		/*bfTankCutsceneLayer.*/add(tankCutscene);
+		/*bfTankCutsceneLayer.*/ add(tankCutscene);
 
 		tankCutscene.anim.play('TANK TALK 1 P1');
 

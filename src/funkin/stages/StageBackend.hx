@@ -13,11 +13,15 @@ class StageBackend extends FlxBasic
 {
 	public static var stage:StageBackend;
 
-	var game:PlayState = PlayState.game;
+	var game:PlayState = PlayState.instance;
 
 	// Main Stage Variables
+	public var DAD_POSITION:Array<Float> = [100.0, 100.0];
+	public var GF_POSITION:Array<Float> = [400.0, 130.0];
+	public var BF_POSITION:Array<Float> = [770.0, 450.0];
+
 	public var zoom:Float = 1.05;
-	public var pixel:Bool = false;
+	public var ui:String = 'funkin';
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 
@@ -63,9 +67,7 @@ class StageBackend extends FlxBasic
 	public function createPost() {}
 
 	function startCountdown()
-		return PlayState.game.startCountdown();
-
-	override public function update(elapsed:Float) {}
+		return PlayState.instance.startCountdown();
 
 	public function cameraMovement(char:Character) {}
 
@@ -77,27 +79,27 @@ class StageBackend extends FlxBasic
 
 	// Adding / Removing n stuff
 	function add(object:FlxBasic)
-		PlayState.game.add(object);
+		PlayState.instance.add(object);
 
 	function remove(object:FlxBasic)
-		PlayState.game.remove(object);
+		PlayState.instance.remove(object);
 
 	function insert(position:Int, object:FlxBasic)
-		PlayState.game.insert(position, object);
+		PlayState.instance.insert(position, object);
 
 	function addBehindGF(object:FlxBasic)
 	{
-		insert(PlayState.game.members.indexOf(gfGroup), object);
+		insert(PlayState.instance.members.indexOf(gfGroup), object);
 	}
 
 	function addBehindOpponent(object:FlxBasic)
 	{
-		insert(PlayState.game.members.indexOf(opponentGroup), object);
+		insert(PlayState.instance.members.indexOf(opponentGroup), object);
 	}
 
 	function addBehindPlayer(object:FlxBasic)
 	{
-		insert(PlayState.game.members.indexOf(playerGroup), object);
+		insert(PlayState.instance.members.indexOf(playerGroup), object);
 	}
 
 	// Other Functions
@@ -109,51 +111,51 @@ class StageBackend extends FlxBasic
 			PlayState.seenEndCutscene = true;
 		}
 		else
-			return PlayState.game.endSong();
+			return PlayState.instance.endSong();
 	}
 
 	public function endingVideo() {}
 
 	// Functions for getting/setting PlayState / MusicBeatState vars
 	inline function get_camGAME():FlxCamera
-		return PlayState.game.camGAME;
+		return PlayState.instance.camGAME;
 
 	inline function get_camHUD():FlxCamera
-		return PlayState.game.camHUD;
+		return PlayState.instance.camHUD;
 
 	inline function get_camDIALOGUE():FlxCamera
-		return PlayState.game.camDIALOGUE;
+		return PlayState.instance.camDIALOGUE;
 
 	inline function get_inCutscene():Bool
-		return PlayState.game.inCutscene;
+		return PlayState.instance.inCutscene;
 
 	inline function set_inCutscene(value:Bool)
 	{
-		PlayState.game.inCutscene = value;
+		PlayState.instance.inCutscene = value;
 		return value;
 	}
 
 	inline function get_dialogue():Array<String>
-		return PlayState.game.dialogue;
+		return PlayState.instance.dialogue;
 
 	inline function get_gf():Character
-		return PlayState.game.gf;
+		return PlayState.instance.gf;
 
 	inline function get_opponent():Character
-		return PlayState.game.dad;
+		return PlayState.instance.dad;
 
 	inline function get_player():Character
-		return PlayState.game.boyfriend;
+		return PlayState.instance.boyfriend;
 
 	inline function get_gfGroup():FlxTypedSpriteGroup<Character>
-		return PlayState.game.gfGroup;
+		return PlayState.instance.gfGroup;
 
 	inline function get_opponentGroup():FlxTypedSpriteGroup<Character>
-		return PlayState.game.dadGroup;
+		return PlayState.instance.dadGroup;
 
 	inline function get_playerGroup():FlxTypedSpriteGroup<Character>
-		return PlayState.game.boyfriendGroup;
+		return PlayState.instance.boyfriendGroup;
 
 	inline function get_camFollow():FlxObject
-		return PlayState.game.camFollow;
+		return PlayState.instance.camFollow;
 }

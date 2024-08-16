@@ -166,7 +166,7 @@ class FreeplayState extends MusicBeatState
 
 		var daDiff:String = songs[curSelected].week.difficulties[curDifficulty];
 
-		intendedScore = Highscore.getScore(songs[curSelected].song, daDiff);
+		intendedScore = FunkinHighscore.getScore(songs[curSelected].song, daDiff);
 
 		PlayState.difficulty = songs[curSelected].week.difficulties[curDifficulty];
 
@@ -191,7 +191,7 @@ class FreeplayState extends MusicBeatState
 		if (!songs[curSelected].week.difficulties.contains(songs[curSelected].week.difficulties[curDifficulty]))
 			changeDifficulty();
 
-		intendedScore = Highscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
+		intendedScore = FunkinHighscore.getScore(songs[curSelected].song, songs[curSelected].week.difficulties[curDifficulty]);
 
 		if (colorTween != null)
 			colorTween.cancel();

@@ -7,6 +7,9 @@ class MallEvil extends StageBackend
 {
 	override public function create()
 	{
+		DAD_POSITION = [100.0, 20.0];
+		BF_POSITION = [1090.0, 450.0];
+
 		var bg:BGSprite = new BGSprite('christmas/evilBG', -400, -500, 0.2, 0.2);
 		bg.setGraphicSize(Std.int(bg.width * 0.8));
 		bg.updateHitbox();
@@ -21,9 +24,6 @@ class MallEvil extends StageBackend
 
 	override public function createPost()
 	{
-		playerGroup.x += 320;
-		opponentGroup.y -= 80;
-
 		if (isStoryMode && curSong.formatToPath() == 'winter-horrorland')
 			startCallback = whCutscene;
 	}

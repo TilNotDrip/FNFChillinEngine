@@ -1,0 +1,62 @@
+{
+    "version": "0.1.0",
+    "image": "characters/bfPixelsDEAD",
+    "animations": [
+        {
+            "name": "firstDeath",
+            "prefix": "BF Dies pixel",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [50, 0]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "Retry Loop",
+            "framerate": 24,
+            "indices": [],
+            "looped": true,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [20, -12.5]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "RETRY CONFIRM",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [20, -12.5]
+        }
+    ],
+    "antialiasing": false,
+    "flipX": true,
+    "flipY": false,
+    "scale": [6, 6],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-pixel-dead",
+        "healthIcon": "bf-pixel",
+        "ui": "funkin-pixel"
+    },
+
+    "editor": {
+        "displayName": "Boyfriend (Pixel Dead)",
+        "isPlayer": true
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

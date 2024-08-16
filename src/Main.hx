@@ -1,11 +1,18 @@
 package;
 
+#if FUNKIN_DISCORD_RPC
+import funkin.api.DiscordRPC;
+#end
+import funkin.data.FunkinControls;
+import funkin.data.FunkinHighscore;
+import funkin.data.FunkinOptions;
 import funkin.display.FPS;
+import funkin.states.menus.TitleState;
+import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import funkin.states.menus.TitleState;
 
 class Main extends Sprite
 {
@@ -17,8 +24,6 @@ class Main extends Sprite
 		splash: true,
 		fullscreen: false
 	};
-
-	public static var aprilFools(get, never):Bool;
 
 	public static function main():Void
 	{
@@ -45,7 +50,6 @@ class Main extends Sprite
 
 	var overlay:Sprite;
 
-	// TODO: run shutdown -r -t 0 to test out safe mode
 	public static var fpsCounter:FPS;
 
 	function setupGame():Void
@@ -62,12 +66,12 @@ class Main extends Sprite
 
 	function initGame():Void
 	{
-		FunkinOptions.loadSettings();
-		PlayerSettings.init();
-		Highscore.load();
+		FunkinOptions.initialize();
+		FunkinControls.init();
+		FunkinHighscore.load();
 
 		FlxG.debugger.setLayout(MICRO);
-		FlxG.game.focusLostFramerate = 60;
+		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];
 
 		// Unfortunately we dont have Angry Birds in Chillin' Engine so we can disable this
@@ -76,12 +80,5 @@ class Main extends Sprite
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.initialize();
 		#end
-	}
-
-	static var curDate = Date.now();
-
-	static function get_aprilFools():Bool
-	{
-		return (curDate.getDate() == 1 && curDate.getMonth() == 4);
 	}
 }

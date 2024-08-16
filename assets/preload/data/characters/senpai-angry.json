@@ -1,0 +1,82 @@
+{
+    "version": "0.1.0",
+    "image": "characters/senpai_angry",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Angry Senpai Idle",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Angry Senpai LEFT NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [40, 0]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Angry Senpai DOWN NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [14, 0]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Angry Senpai UP NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [5, 37]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Angry Senpai RIGHT NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        }
+    ],
+    "antialiasing": false,
+    "flipX": false,
+    "flipY": false,
+    "scale": [6, 6],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-pixel-dead",
+        "healthIcon": "senpai",
+        "ui": "funkin-pixel"
+    },
+
+    "editor": {
+        "displayName": "Senpai (Angry)",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

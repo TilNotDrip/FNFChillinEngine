@@ -95,12 +95,11 @@
 	<haxelib name="flxanimate" unless="html5" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="FUNKIN_DISCORD_RPC" />
-
-	<section if="FUNKIN_VIDEOS">
-		<haxelib name="hxvlc" if="desktop cpp || mobile cpp" />
-	</section>
-
+	<section if="FUNKIN_VIDEOS"><haxelib name="hxvlc" if="desktop cpp || mobile cpp" /></section>
+	<haxelib name="json2object" />
 	<haxelib name="SScript" if="FUNKIN_MOD_SUPPORT" />
+	<haxelib name="thx.core" />
+	<haxelib name="thx.semver" />
 	<haxedev set='webgl' />
 
 	<haxelib name="texter" />
@@ -114,6 +113,11 @@
 	<haxedef name="hscriptPos" />
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 	<haxedef name="message.reporting" value="pretty" />
+
+	<!-- _______________________________ Haxeflags _____________________________ -->
+
+	<haxeflag name="-dce no" />
+	<haxeflag name="--macro" value="include('funkin')" />
 
 	<!-- _________________________________ Icons _______________________________ -->
 

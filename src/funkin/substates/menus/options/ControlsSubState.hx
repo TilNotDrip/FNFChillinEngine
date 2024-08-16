@@ -31,7 +31,7 @@ class ControlsSubState extends MusicBeatSubstate
 		rebindNotice = new Alphabet(0, FlxG.height - 150, '', Default);
 		rebindNotice.scrollFactor.set();
 
-		for (controlName in PlayerSettings.getControls(0).keys())
+		for (controlName in FunkinControls.getControls(0).keys())
 			controlOptions.push(controlName);
 
 		add(optionHeader);
@@ -49,6 +49,7 @@ class ControlsSubState extends MusicBeatSubstate
 	{
 		if (controls.BACK && rebindingStage == -1)
 		{
+			FunkinControls.saveControls();
 			OptionsState.optionItems.visible = true;
 			close();
 		}
@@ -65,8 +66,8 @@ class ControlsSubState extends MusicBeatSubstate
 		if (FlxG.keys.justReleased.ANY && rebindingStage != -1 && okAcceptIsOver)
 		{
 			var daKey:FlxKey = FlxG.keys.firstJustReleased();
-			PlayerSettings.getControls(0).get(controlOptions[curSelected])[0].push(daKey.toString());
-			optionControls.text = PlayerSettings.getControls(0).get(controlOptions[curSelected])[0].toString();
+			FunkinControls.getControls(0).get(controlOptions[curSelected])[0].push(daKey.toString());
+			optionControls.text = FunkinControls.getControls(0).get(controlOptions[curSelected])[0].toString();
 			rebindingStage++;
 		}
 
@@ -116,7 +117,7 @@ class ControlsSubState extends MusicBeatSubstate
 			curSelected = 0;
 
 		optionHeader.text = controlOptions[curSelected];
-		optionControls.text = PlayerSettings.getControls(0).get(controlOptions[curSelected])[0].toString();
+		optionControls.text = FunkinControls.getControls(0).get(controlOptions[curSelected])[0].toString();
 
 		optionHeader.updateHitbox();
 		optionHeader.screenCenter();
@@ -137,7 +138,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 		rebindingStage++;
 
-		PlayerSettings.getControls(0).get(controlOptions[curSelected])[0] = [];
+		FunkinControls.getControls(0).get(controlOptions[curSelected])[0] = [];
 
 		rebindNotice.visible = true;
 		okAcceptIsOver = false;

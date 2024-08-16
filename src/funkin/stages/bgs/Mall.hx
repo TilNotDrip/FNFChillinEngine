@@ -11,6 +11,8 @@ class Mall extends StageBackend
 
 	override public function create()
 	{
+		BF_POSITION = [970.0, 450.0];
+
 		zoom = 0.80;
 
 		var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
@@ -44,11 +46,6 @@ class Mall extends StageBackend
 
 		if (isStoryMode && curSong.formatToPath() == 'eggnog')
 			endCallback = lightsOut;
-	}
-
-	override public function createPost()
-	{
-		playerGroup.x += 200;
 	}
 
 	override public function cameraMovement(char:Character)

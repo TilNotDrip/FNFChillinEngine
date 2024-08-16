@@ -1,0 +1,62 @@
+{
+    "version": "0.1.0",
+    "image": "characters/bfHoldingGF-DEAD",
+    "animations": [
+        {
+            "name": "firstDeath",
+            "prefix": "BF Dies with GF",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [37, 14]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "BF Dead with GF Loop",
+            "framerate": 24,
+            "indices": [],
+            "looped": true,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [37, -3]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "RETRY confirm holding gf",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [37, 28]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": true,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-holding-gf-dead",
+        "healthIcon": "bf",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Boyfriend (Holding GF Dead)",
+        "isPlayer": true
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

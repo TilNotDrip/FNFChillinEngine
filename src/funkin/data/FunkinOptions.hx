@@ -11,28 +11,20 @@ import flixel.util.FlxSave;
  */
 class FunkinOptions
 {
-	public static var settings:Map<String, Dynamic> = new Map();
+	public static var options:Map<String, Dynamic> = new Map();
 
-	public static var settingsSave:FlxSave = new FlxSave();
+	public static var optionsSave:FlxSave = new FlxSave();
 
-	public static function get(option:String):Dynamic
+	/**
+	 * Initializes and loads Friday Night Funkin' Options.
+	 */
+	public static function initialize():Void
 	{
-		return settings.get(option);
-	}
+		optionsSave.bind('options', CoolUtil.getSavePath());
 
-	public static function set(option:String, value:Dynamic):Void
-	{
-		settings.set(option, value);
-		trace('Set Option ${option} to ${value}!');
-	}
+		options = optionsSave.data.options;
 
-	public static function loadSettings():Void
-	{
-		settingsSave.bind('settings', CoolTools.getSavePath());
-
-		settings = settingsSave.data.settings;
-
-		setDefault();
+		setDefaultOptions(false);
 
 		FlxG.updateFramerate = get('fps');
 		FlxG.drawFramerate = get('fps');
@@ -58,69 +50,60 @@ class FunkinOptions
 			FlxG.sound.muted = FlxG.save.data.mute;
 	}
 
-	static function setDefault():Void
+	public static function get(option:String):Dynamic
 	{
-		if (settings == null)
-			settings = new Map<String, Dynamic>();
+		return options.get(option);
+	}
 
-		if (settingsSave.data.settings == null)
-			settingsSave.data.settings = new Map<String, Dynamic>();
+	public static function set(option:String, value:Dynamic):Void
+	{
+		options.set(option, value);
+	}
 
-		if (settingsSave.data.settings.get('fps') == null)
-			set('fps', 60);
+	/**
+	 * Sets the default options.
+	 * @param forced Force a reset or just check for null options?
+	 */
+	public static function setDefaultOptions(forced:Bool = false):Void
+	{
+		if (options == null)
+			options = new Map<String, Dynamic>();
 
-		if (settingsSave.data.settings.get('fpsCounter') == null)
-			set('fpsCounter', true);
+		if (optionsSave.data.options == null)
+			optionsSave.data.options = new Map<String, Dynamic>();
 
-		if (settingsSave.data.settings.get('fullscreen') == null)
-			set('fullscreen', false);
-
-		if (settingsSave.data.settings.get('antialiasing') == null)
-			set('antialiasing', true);
-
-		if (settingsSave.data.settings.get('flashingLights') == null)
-			set('flashingLights', true);
-
-		if (settingsSave.data.settings.get('camZoom') == null)
-			set('camZoom', true);
-
-		if (settingsSave.data.settings.get('ghostTapping') == null)
-			set('ghostTapping', true);
-
-		if (settingsSave.data.settings.get('hudType') == null)
-			set('hudType', 'Simple');
-
-		if (settingsSave.data.settings.get('downScroll') == null)
-			set('downScroll', false);
-
-		if (settingsSave.data.settings.get('middleScroll') == null)
-			set('middleScroll', false);
-
-		if (settingsSave.data.settings.get('noteSplashes') == null)
-			set('noteSplashes', true);
-
-		if (settingsSave.data.settings.get('cutscenes') == null)
-			set('cutscenes', true);
-
-		if (settingsSave.data.settings.get('autoPause') == null)
-			set('autoPause', false);
+		setDefaultVariable('fps', Std.int(FlxMath.bound(FlxG.stage.application.window.displayMode.refreshRate, 30, 360)), forced);
+		setDefaultVariable('fpsCounter', true, forced);
+		setDefaultVariable('fullscreen', false, forced);
+		setDefaultVariable('antialiasing', true, forced);
+		setDefaultVariable('flashingLights', true, forced);
+		setDefaultVariable('camZoom', true, forced);
+		setDefaultVariable('ghostTapping', true, forced);
+		setDefaultVariable('hudType', 'Simple', forced);
+		setDefaultVariable('downScroll', false, forced);
+		setDefaultVariable('middleScroll', false, forced);
+		setDefaultVariable('noteSplashes', true, forced);
+		setDefaultVariable('cutscenes', true, forced);
+		setDefaultVariable('autoPause', false, forced);
 
 		#if FLX_MOUSE
-		if (settingsSave.data.settings.get('systemCursor') == null)
-			set('systemCursor', true);
+		setDefaultVariable('systemCursor', true, forced);
 		#end
 
 		#if FUNKIN_DISCORD_RPC
-		if (settingsSave.data.settings.get('discordRPC') == null)
-			set('discordRPC', true);
+		setDefaultVariable('discordRPC', true, forced);
 		#end
 
 		#if FUNKIN_MOD_SUPPORT
-		if (settingsSave.data.settings.get('safeMode') == null)
-			set('safeMode', false);
+		setDefaultVariable('safeMode', false, forced);
 		#end
 
-		if (settingsSave.data.settings.get('devMode') == null)
-			set('devMode', false);
+		setDefaultVariable('devMode', false, forced);
+	}
+
+	static function setDefaultVariable(variable:String, value:Dynamic, forced:Bool = false):Void
+	{
+		if (optionsSave.data.options.get(variable) == null || forced)
+			set(variable, value);
 	}
 }

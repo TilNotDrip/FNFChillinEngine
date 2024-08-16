@@ -76,7 +76,7 @@ class InputFormatter
 
 	static function shortenButtonName(name:String)
 	{
-		return switch (name == null ? "" : name.formatToPath())
+		return switch (name == null ? "" : name.toLowerCase())
 		{
 			case "": "[?]";
 			case dir if (dirReg.match(dir)):
@@ -87,12 +87,12 @@ class InputFormatter
 
 	inline static function titleCaseTrim(str:String, length = 8)
 	{
-		return str.charAt(0).toUpperCase() + str.substr(1, length - 1).formatToPath();
+		return str.charAt(0).toUpperCase() + str.substr(1, length - 1).toLowerCase();
 	}
 
 	inline static function titleCase(str:String)
 	{
-		return str.charAt(0).toUpperCase() + str.substr(1).formatToPath();
+		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 	}
 
 	inline public static function parsePadName(name:String):ControllerName
@@ -156,7 +156,7 @@ enum abstract ControllerName(String) from String to String
 
 	public static function parseName(name:String):ControllerName
 	{
-		name = name.formatToPath().remove("-").remove("_");
+		name = name.toLowerCase().remove("-").remove("_");
 		return if (name.contains("ouya")) OUYA; else if (name.contains("wireless controller")
 			|| name.contains("ps4")) PS4; else if (name.contains("logitech")) LOGI; else if (name.contains("xbox")) XBOX else if (name.contains("xinput"))
 			XINPUT; else if (name.contains("nintendo rvlcnt01tr")

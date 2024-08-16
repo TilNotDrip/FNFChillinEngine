@@ -1,0 +1,122 @@
+{
+    "version": "0.1.0",
+    "image": "characters/bfPixel",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "BF IDLE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "BF LEFT NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "BF DOWN NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singUP",
+            "prefix": "BF UP NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "BF RIGHT NOTE",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "BF LEFT MISS",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "BF DOWN MISS",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "BF UP MISS",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "BF RIGHT MISS",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        }
+    ],
+    "antialiasing": false,
+    "flipX": true,
+    "flipY": false,
+    "scale": [6, 6],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-pixel-dead",
+        "healthIcon": "bf-pixel",
+        "ui": "funkin-pixel"
+    },
+
+    "editor": {
+        "displayName": "Boyfriend (Pixel)",
+        "isPlayer": true
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

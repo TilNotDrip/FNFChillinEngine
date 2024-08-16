@@ -27,7 +27,7 @@ class BaseOptionsSubState extends MusicBeatSubstate
 	{
 		if (controls.BACK)
 		{
-			FunkinOptions.settingsSave.flush();
+			FunkinOptions.optionsSave.flush();
 
 			OptionsState.optionItems.visible = true;
 

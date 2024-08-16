@@ -1,0 +1,82 @@
+{
+    "version": "0.1.0",
+    "image": "characters/monsterChristmas",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "monster idle",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Monster Right note",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-51, 0]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "monster down",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-40, -94]
+        },
+        {
+            "name": "singUP",
+            "prefix": "monster up note",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-20, 50]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Monster left note",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-30, 0]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "monster",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Monster (Christmas)",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

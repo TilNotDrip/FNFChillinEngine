@@ -96,7 +96,7 @@ class OptionsState extends MusicBeatState
 	{
 		optionItems.visible = false;
 
-		switch (option.formatToPath())
+		switch (option.toLowerCase())
 		{
 			case 'controls':
 				openSubState(new ControlsSubState());

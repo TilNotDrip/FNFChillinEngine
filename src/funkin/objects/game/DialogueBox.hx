@@ -27,7 +27,7 @@ class DialogueBox extends FlxSpriteGroup
 	var controls(get, never):Controls;
 
 	inline function get_controls():Controls
-		return PlayerSettings.players[0].controls;
+		return FunkinControls.players[0].controls;
 
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
 	{
@@ -38,6 +38,7 @@ class DialogueBox extends FlxSpriteGroup
 			case 'senpai':
 				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
+
 			case 'thorns':
 				FlxG.sound.playMusic(Paths.music('LunchboxScary'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
@@ -55,14 +56,14 @@ class DialogueBox extends FlxSpriteGroup
 				bgFade.alpha = 0.7;
 		}, 5);
 
-		if (PlayState.isPixel)
+		if (PlayState.ui == 'funkin-pixel')
 		{
 			switch (PlayState.SONG.song.formatToPath())
 			{
 				case 'roses':
 					portraitLeft = new FlxSprite(-20, 45);
 					portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiMadPortrait');
-					portraitLeft.animation.addByPrefix('enter', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
+					portraitLeft.animation.addByPrefix('enter', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
 
 				default:
 					portraitLeft = new FlxSprite(-20, 40);
@@ -97,21 +98,22 @@ class DialogueBox extends FlxSpriteGroup
 			case 'senpai':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-pixel');
-				box.animation.addByPrefix('normalOpen', 'Text Box Appear instance 1', 24, false);
-				box.animation.addByIndices('normal', 'Text Box Appear instance 1', [4], "", 24);
+				box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
+				box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
+
 			case 'roses':
 				hasDialog = true;
 				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
 
 				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-mad');
-				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH instance 1', 24, false);
-				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH instance 1', [4], "", 24);
+				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
+				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH', [4], "", 24);
 
 			case 'thorns':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('pixelui/dialogueBox-evil');
-				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn instance 1', 24, false);
-				box.animation.addByIndices('normal', 'Spirit Textbox spawn instance 1', [11], "", 24);
+				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn', 24, false);
+				box.animation.addByIndices('normal', 'Spirit Textbox spawn', [11], "", 24);
 
 				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.image('weeb/spiritFaceForward'));
 				face.setGraphicSize(Std.int(face.width * 6));
@@ -171,7 +173,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (box.animation.curAnim != null)
 		{
-			if (box.animation.curAnim.name == 'normalOpen' && box.animation.curAnim.finished && PlayState.isPixel)
+			if (box.animation.curAnim.name == 'normalOpen' && box.animation.curAnim.finished && PlayState.ui == 'funkin-pixel')
 			{
 				box.animation.play('normal');
 				dialogueOpened = true;

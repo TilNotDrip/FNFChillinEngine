@@ -1,0 +1,82 @@
+{
+    "version": "0.1.0",
+    "image": "characters/gfCar",
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "GF Dancing Beat Hair blowing CAR",
+            "framerate": 24,
+            "indices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "GF Dancing Beat Hair blowing CAR",
+            "framerate": 24,
+            "indices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "danceLeft-hold",
+            "prefix": "GF Dancing Beat Hair blowing CAR",
+            "framerate": 24,
+            "indices": [10, 11, 12],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "danceRight-hold",
+            "prefix": "GF Dancing Beat Hair blowing CAR",
+            "framerate": 24,
+            "indices": [25, 26, 27],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "duck",
+            "prefix": "GF Duck",
+            "framerate": 24,
+            "indices": [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, -100]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, -200],
+        "danceEvery": 1.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "gf",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Girlfriend (Car)",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

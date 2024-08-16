@@ -34,6 +34,9 @@ class DiscordRPC
 	public static var joinSecret(default, set):String;
 	public static var spectateSecret(default, set):String;
 
+	/**
+	 * Initializes the Discord RPC.
+	 */
 	public static function initialize():Void
 	{
 		if (!FunkinOptions.get('discordRPC'))

@@ -101,7 +101,7 @@ class ChartingState extends MusicBeatState
 			FlxG.mouse.visible = true;
 
 		autoSave = new FlxSave();
-		autoSave.bind('autosaves', CoolTools.getSavePath());
+		autoSave.bind('autosaves', CoolUtil.getSavePath());
 
 		tempBpm = _song.bpm;
 
@@ -278,8 +278,8 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stageList'));
+		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/characterList'));
+		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/stageList'));
 
 		var player1DropDown = new FlxUIDropDownMenu(10, loadAutosaveBtn.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
 			function(character:String)
@@ -1042,7 +1042,7 @@ class ChartingState extends MusicBeatState
 			var daStrumTime = i[0];
 			var daSus = i[2];
 
-			var note:Note = new Note(daStrumTime, daNoteInfo % 4, PlayState.isPixel);
+			var note:Note = new Note(daStrumTime, daNoteInfo % 4, 'funkin');
 			note.inEditor = true;
 			note.sustainLength = daSus;
 			note.setGraphicSize(GRID_SIZE, GRID_SIZE);

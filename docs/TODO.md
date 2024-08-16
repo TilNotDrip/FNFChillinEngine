@@ -30,17 +30,17 @@
  - [ ] Character Editor becomes usable
  - [ ] Fix things with diff in Story Menu
  - [ ] Fix Scaling with Chars in Story Menu
- - [ ] RGB Pallete for Notes + Note Splashes
+ - [x] RGB Pallete for Notes + Note Splashes
  - [ ] Sustain Note Covers (https://twitter.com/FNF_Developers/status/1774200908806525366)
  - [ ] Opponents have their own note colors
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
  - [ ] Seperate Song Sections and Song Data from each other (Like in the songs `songname-metadata.json` it will have the player opponent stage gf n stuff in there and then theres the `songname-chart.json`.)
- - [ ] Character JSONs
+ - [x] Character JSONs
  - [ ] Make Animation Priority (e.g. if one animation priority is 0 but the one trying to play next is 1 then it will play that one but if the next animation trying to play is 0 but the animation being played is 1 then it wont play at all. if one animation priority is 1 and the next one trying to play is 1 then it may rely on forced in the playAnim. idk yet tho)
  - [ ] Health Icon JSONs
  - [ ] Stage JSONs (When we get a modding api.)
+ - [ ] Week JSONs.
  - [ ] Week 7 Cutscenes without a video.
- - [ ] Story Menu Softcoded (Week Data and the character positions go inside that data too)
  - [ ] Multisparrow support for characters.
  - [ ] Crash Handler
  - [ ] Caching System
@@ -95,7 +95,7 @@
  - [x] Note Splashes
  - [x] Cutscenes
  - [ ] Easter Eggs (Optional but said EE's are BF Old Icon, Gitaroo Pause and Old Game Over)
- - [ ] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
+ - [x] ok i dunnow hat to call this either but its the UI stuff witht ext but leaving this disabled keeps only Healthbar and Notes and whatnot
 
 
 ## Flixel (or we can put this under **Other** as well)

@@ -1,0 +1,122 @@
+{
+    "version": "0.1.0",
+    "image": "characters/mom_dad_christmas_assets",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Parent Christmas Idle",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Parent Left Note Dad",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-30, 16]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Parent Down Note Dad",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-31, -29]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Parent Up Note Dad",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-47, 24]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Parent Right Note Dad",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-1, -23]
+        },
+        {
+            "name": "singLEFT-alt",
+            "prefix": "Parent Left Note Mom",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-30, 15]
+        },
+        {
+            "name": "singDOWN-alt",
+            "prefix": "Parent Down Note Mom",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-30, -27]
+        },
+        {
+            "name": "singUP-alt",
+            "prefix": "Parent Up Note Mom",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-47, 24]
+        },
+        {
+            "name": "singRIGHT-alt",
+            "prefix": "Parent Right Note Mom",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-1, -24]
+        }
+    ],
+    "antialiasing": true,
+    "flipX": false,
+    "flipY": false,
+    "scale": [1, 1],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-dead",
+        "healthIcon": "parents",
+        "ui": "funkin"
+    },
+
+    "editor": {
+        "displayName": "Mommy and Daddy (Festive)",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}

@@ -19,7 +19,7 @@ class Week
 		daWeekThing[0].color = 0xff9271fd;
 
 		// Week 1
-		daWeekThing[1] = new Week('week1', [['Bopeebo', false], ['Fresh', false], ['Dad Battle', false]], ['Easy', 'Normal', 'Hard']);
+		daWeekThing[1] = new Week('week1', [['Bopeebo', false], ['Fresh', false], ['DadBattle', false]], ['Easy', 'Normal', 'Hard']);
 		daWeekThing[1].characters = ['dad', 'bf', 'gf'];
 		daWeekThing[1].motto = 'Daddy Dearest';
 		daWeekThing[1].color = 0xff9271fd;
@@ -37,7 +37,7 @@ class Week
 		daWeekThing[3].color = 0xFF941653;
 
 		// Week 4
-		daWeekThing[4] = new Week('week4', [['Satin Panties', false], ['High', false], ['MILF', false]], ['Easy', 'Normal', 'Hard']);
+		daWeekThing[4] = new Week('week4', [['Satin Panties', false], ['High', false], ['M.I.L.F.', false]], ['Easy', 'Normal', 'Hard']);
 		daWeekThing[4].characters = ['mom', 'bf', 'gf'];
 		daWeekThing[4].motto = 'MOMMY MUST MURDER';
 		daWeekThing[4].color = 0xFFfc96d7;
@@ -117,13 +117,13 @@ class Week
 
 		function get_locked():Bool
 		{
-			lockedSave.bind('locks', CoolTools.getSavePath());
+			lockedSave.bind('locks', CoolUtil.getSavePath());
 			return lockedSave.data.lockedWeeks.get(name);
 		}
 
 		function set_locked(value:Bool)
 		{
-			lockedSave.bind('locks', CoolTools.getSavePath());
+			lockedSave.bind('locks', CoolUtil.getSavePath());
 			lockedSave.data.lockedWeeks.set(name, value);
 			lockedSave.flush();
 			return lockedSave.data.lockedWeeks.get(name);
@@ -138,7 +138,7 @@ class Week
 	 * myWeek.motto = 'My Motto Here';
 	 * daWeekThing.push(myWeek);
 	 * ```
-	 * 
+	 *
 	 * @param name Name of the week.
 	 * @param songs Songs inside the week and if its Explicit or not (e.g. [['The Cuss Song', true], ['No Swearing', false]]
 	 * @param difficulties Difficulties avaliable for the week.
@@ -154,7 +154,7 @@ class Week
 			var songySong:SwagSong = Song.loadFromJson(difficulties[0], song[0]);
 			var daIcon:String = songySong.player2;
 
-			if (daIcon != 'bf-pixel' && daIcon != 'bf-old' && daIcon != 'bf-old-pixel')
+			if (daIcon != 'bf-pixel' && daIcon != 'bf-old' && daIcon != 'bf-pixel-old')
 				daIcon = daIcon.split('-')[0].trim();
 
 			icons.push(daIcon);

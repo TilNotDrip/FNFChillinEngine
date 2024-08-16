@@ -1,0 +1,82 @@
+{
+    "version": "0.1.0",
+    "image": "characters/spirit",
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "idle spirit",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-220, -280]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "left",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-200, -280]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "spirit down",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [170, 110]
+        },
+        {
+            "name": "singUP",
+            "prefix": "up",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-220, -240]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "right",
+            "framerate": 24,
+            "indices": [],
+            "looped": false,
+            "flipX": false,
+            "flipY": false,
+            "offsets": [-220, -280]
+        }
+    ],
+    "antialiasing": false,
+    "flipX": false,
+    "flipY": false,
+    "scale": [6, 6],
+
+    "gameplay": {
+        "position": [0, 0],
+        "camera_position": [0, 0],
+        "danceEvery": 2.0,
+        "singTime": 8.0,
+        "deathChar": "bf-pixel-dead",
+        "healthIcon": "spirit",
+        "ui": "funkin-pixel"
+    },
+
+    "editor": {
+        "displayName": "Spirit",
+        "isPlayer": false
+    },
+
+    "positioning": {
+        "x": "left",
+        "y": "top"
+    },
+
+    "generatedBy": "CrusherNotDrip (Manually)"
+}
