@@ -83,7 +83,7 @@ class PathContent
 			}
 			catch (e)
 			{
-				trace('[WARNING]: Bitmap is null! $library:$key');
+				trace('[WARNING]: Bitmap is null! $assetKey');
 				return null;
 			}
 
