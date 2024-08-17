@@ -325,7 +325,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.content.imageGraphic('ui/funkin/healthBar'));
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.content.imageGraphic('gameplay-ui/funkin/healthBar'));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -495,7 +495,11 @@ class PlayState extends MusicBeatState
 			if (ui == 'funkin-pixel')
 				altSuffix = 'pixel';
 
-			var introSprPaths:Array<String> = ['ui/$altSuffix/ready', 'ui/$altSuffix/set', 'ui/$altSuffix/go'];
+			var introSprPaths:Array<String> = [
+				'gameplay-ui/$altSuffix/ready',
+				'gameplay-ui/$altSuffix/set',
+				'gameplay-ui/$altSuffix/go'
+			];
 
 			var altSuffix2:String = "";
 
@@ -1401,10 +1405,10 @@ class PlayState extends MusicBeatState
 		songScore += score;
 		possibleScore += 350;
 
-		var ratingPath:String = "ui/funkin/" + daRating;
+		var ratingPath:String = "gameplay-ui/funkin/" + daRating;
 
 		if (ui == 'funkin-pixel')
-			ratingPath = "ui/pixel/" + daRating;
+			ratingPath = "gameplay-ui/pixel/" + daRating;
 
 		rating.loadGraphic(Paths.content.imageGraphic(ratingPath));
 		rating.x = gfGroup.x + 200 - 40;
@@ -1445,7 +1449,7 @@ class PlayState extends MusicBeatState
 		if (ui == 'funkin-pixel')
 			pixelShitPart1 = 'pixel';
 
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('ui/$pixelShitPart1/combo'));
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$pixelShitPart1/combo'));
 		comboSpr.y = gfGroup.y + 200 + 80;
 		comboSpr.x = gfGroup.x + 200;
 
@@ -1494,7 +1498,7 @@ class PlayState extends MusicBeatState
 
 		for (i in seperatedScore)
 		{
-			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('ui/$pixelShitPart1/num' + Std.int(i)));
+			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$pixelShitPart1/num' + Std.int(i)));
 			numScore.y = comboSpr.y;
 
 			if (ui == 'funkin-pixel')
