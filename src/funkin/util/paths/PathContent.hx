@@ -81,11 +81,11 @@ class PathContent
 		{
 			try
 			{
-				bitmap = Assets.getBitmapData(assetKey);
+				bitmap = imageBitmap(key, library);
 			}
 			catch (e)
 			{
-				trace('[WARNING]: Bitmap is null! $assetKey');
+				trace('[WARNING]: Bitmap is null! $library:$key');
 				return null;
 			}
 
