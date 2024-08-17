@@ -48,13 +48,11 @@ class PathContent
 	public function imageBitmap(key:String, ?library:String):BitmapData
 	{
 		var bitmap:BitmapData = null;
-		var graphic:FlxGraphic = null;
 		var assetKey:String = Paths.location.image(key, library);
 
 		try
 		{
-			graphic = imageGraphic(key, library);
-			bitmap = graphic.bitmap;
+			bitmap = Assets.getBitmapData(assetKey);
 		}
 		catch (e)
 		{
