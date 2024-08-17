@@ -1395,7 +1395,10 @@ class PlayState extends MusicBeatState
 
 			if (FunkinOptions.get('noteSplashes'))
 			{
-				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash);
+				var noteSplashPlayer:NoteSplash = playerSplashes.recycle(NoteSplash, function()
+				{
+					return Type.createInstance(NoteSplash, [0, 0, 0, boyfriend.ui]);
+				});
 				noteSplashPlayer.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
 				noteSplashPlayer.setColors(daNote.returnColors(daNote.noteData));
 				playerSplashes.add(noteSplashPlayer);
@@ -1908,7 +1911,10 @@ class PlayState extends MusicBeatState
 
 			if (!daNote.isSustainNote && FunkinOptions.get('noteSplashes'))
 			{
-				var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash);
+				var noteSplashOpponent:NoteSplash = opponentSplashes.recycle(NoteSplash, function()
+				{
+					return Type.createInstance(NoteSplash, [0, 0, 0, dad.ui]);
+				});
 				noteSplashOpponent.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
 				noteSplashOpponent.setColors(daNote.returnColors(daNote.noteData));
 				opponentSplashes.add(noteSplashOpponent);
