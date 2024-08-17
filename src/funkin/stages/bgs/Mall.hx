@@ -70,7 +70,7 @@ class Mall extends StageBackend
 		blackShit.scrollFactor.set();
 		add(blackShit);
 
-		FlxG.sound.play(Paths.location.sound('Lights_Shut_off'), function()
+		FlxG.sound.play(Paths.content.sound('Lights_Shut_off'), function()
 		{
 			endingStuff();
 		});

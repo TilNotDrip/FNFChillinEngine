@@ -73,7 +73,7 @@ class SchoolEvil extends StageBackend
 					else
 					{
 						senpaiEvil.animation.play('idle');
-						FlxG.sound.play(Paths.location.sound('Senpai_Dies'), 1, false, null, true, function()
+						FlxG.sound.play(Paths.content.sound('Senpai_Dies'), 1, false, null, true, function()
 						{
 							remove(senpaiEvil);
 							remove(red);

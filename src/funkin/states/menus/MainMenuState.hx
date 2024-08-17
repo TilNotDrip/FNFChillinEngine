@@ -33,7 +33,7 @@ class MainMenuState extends MusicBeatState
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		if (!FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
 
 		persistentUpdate = persistentDraw = true;
 
@@ -103,7 +103,7 @@ class MainMenuState extends MusicBeatState
 		if (controls.ACCEPT && !selected)
 		{
 			selected = true;
-			FlxG.sound.play(Paths.location.sound('mainmenu/confirmMenu'));
+			FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'));
 
 			menuItems.forEach(function(item:MenuItem)
 			{
@@ -119,7 +119,7 @@ class MainMenuState extends MusicBeatState
 
 		if (controls.BACK && !selected)
 		{
-			FlxG.sound.play(Paths.location.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
 			FlxG.switchState(new TitleState());
 		}
 

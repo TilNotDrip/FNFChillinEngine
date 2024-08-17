@@ -36,7 +36,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		menuItems = pauseOG;
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.location.music('breakfast'), true, true);
+		pauseMusic = new FlxSound().loadEmbedded(Paths.content.music('breakfast'), true, true);
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
@@ -226,7 +226,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	function changeSelection(change:Int = 0):Void
 	{
-		FlxG.sound.play(Paths.location.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
 
 		curSelected += change;
 

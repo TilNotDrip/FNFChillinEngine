@@ -1,13 +1,16 @@
 package funkin.util.paths;
 
-import openfl.display.BitmapData;
-import openfl.system.System;
+import flixel.graphics.FlxGraphic;
 import haxe.Json;
 import openfl.Assets;
-import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+import openfl.media.Sound;
+import openfl.system.System;
 
 /**
  * A Path class for returning content from locations.
+ *
+ * This class also handles caching for audios and images.
  */
 class PathContent
 {
@@ -15,6 +18,9 @@ class PathContent
 	 * The content that doesn't get wiped from a cache clean.
 	 *
 	 * You should only put something here if you use it on a daily basis.
+	 *
+	 * TODO: Alphabet loves getting fucked on a cache clear if its not in exclude idk why.
+	 * TODO: Sound gets fucked if it's not in exclude mainly music tho.
 	 */
 	public var clearCacheExcludeKeys:Array<String> = [
 		'default:assets/images/fonts/bold.png',
@@ -36,6 +42,7 @@ class PathContent
 	];
 
 	var imgGraphicCache:Map<String, FlxGraphic> = new Map();
+	var audioCache:Map<String, Sound> = new Map();
 
 	public function new() {}
 
@@ -124,13 +131,25 @@ class PathContent
 	}
 
 	/**
-	 * @param key Xml File name.
-	 * @param library Library the xml is in.
-	 * @return A Parsed XML Document from the text asset in Paths.location.xml
+	 * Returns and also caches a music file.
+	 * @param key Music File name.
+	 * @param library Library the music is in.
+	 * @return OpenFL Sound instance of a music audio.
 	 */
-	public function xml(key:String, ?library:String):Xml
+	public function music(key:String, ?library:String):Sound
 	{
-		return Xml.parse(Assets.getText(Paths.location.xml(key, library)));
+		return getAudio(Paths.location.music(key, library));
+	}
+
+	/**
+	 * Returns and also caches a sound file.
+	 * @param key Sound File name.
+	 * @param library Library the sound is in.
+	 * @return OpenFL Sound instance of a sound audio.
+	 */
+	public function sound(key:String, ?library:String):Sound
+	{
+		return getAudio(Paths.location.sound(key, library));
 	}
 
 	/**
@@ -141,6 +160,59 @@ class PathContent
 	public function sparrowAtlas(key:String, ?library:String):FlxAtlasFrames
 	{
 		return FlxAtlasFrames.fromSparrow(imageGraphic(key, library), xml('images/$key', library));
+	}
+
+	/**
+	 * @param key Xml File name.
+	 * @param library Library the xml is in.
+	 * @return A Parsed XML Document from the text asset in Paths.location.xml
+	 */
+	public function xml(key:String, ?library:String):Xml
+	{
+		return Xml.parse(Assets.getText(Paths.location.xml(key, library)));
+	}
+
+	/**
+	 * Adds an OpenFL sound to the audio cache and also returns it.
+	 * @param key The key to cache. (Paths.location.get is not called you have to do it yourself!)
+	 * @return OpenFL Sound instance of a audio.
+	 */
+	public function getAudio(key:String):Sound
+	{
+		if (!audioCache.exists(key))
+		{
+			try
+			{
+				audioCache.set(key, Assets.getSound(key));
+			}
+			catch (e)
+			{
+				trace('[WARNING]: Sound is null! $key');
+				return null;
+			}
+		}
+
+		return audioCache.get(key);
+	}
+
+	/**
+	 * Clears the audio cache.
+	 */
+	public function clearAudioCache():Void
+	{
+		for (audioKey in audioCache.keys())
+		{
+			if (!clearCacheExcludeKeys.contains(audioKey))
+			{
+				Assets.cache.removeSound(audioKey);
+
+				var sound:Sound = audioCache.get(audioKey);
+				audioCache.remove(audioKey);
+				sound.close();
+			}
+		}
+
+		System.gc();
 	}
 
 	/**

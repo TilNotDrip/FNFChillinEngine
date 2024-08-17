@@ -61,7 +61,7 @@ class OptionsState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.location.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -89,7 +89,7 @@ class OptionsState extends MusicBeatState
 				option.alpha = 0.6;
 		});
 
-		FlxG.sound.play(Paths.location.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
 	}
 
 	function openMenu(option:String)

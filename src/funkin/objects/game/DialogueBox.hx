@@ -36,11 +36,11 @@ class DialogueBox extends FlxSpriteGroup
 		switch (PlayState.SONG.song.formatToPath())
 		{
 			case 'senpai':
-				FlxG.sound.playMusic(Paths.location.music('Lunchbox'), 0);
+				FlxG.sound.playMusic(Paths.content.music('Lunchbox'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 
 			case 'thorns':
-				FlxG.sound.playMusic(Paths.location.music('LunchboxScary'), 0);
+				FlxG.sound.playMusic(Paths.content.music('LunchboxScary'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 
@@ -103,7 +103,7 @@ class DialogueBox extends FlxSpriteGroup
 
 			case 'roses':
 				hasDialog = true;
-				FlxG.sound.play(Paths.location.sound('ANGRY_TEXT_BOX'));
+				FlxG.sound.play(Paths.content.sound('ANGRY_TEXT_BOX'));
 
 				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-mad');
 				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
@@ -152,7 +152,7 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue = new FlxTypeText(240, 500, Std.int(FlxG.width * 0.6), "", 32);
 		swagDialogue.font = 'Pixel Arial 11 Bold';
 		swagDialogue.color = 0xFF3F2021;
-		swagDialogue.sounds = [FlxG.sound.load(Paths.location.sound('pixelText'), 0.6)];
+		swagDialogue.sounds = [FlxG.sound.load(Paths.content.sound('pixelText'), 0.6)];
 		add(swagDialogue);
 	}
 
@@ -188,7 +188,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (controls.ACCEPT && dialogueEnded)
 		{
-			FlxG.sound.play(Paths.location.sound('clickText'), 0.8);
+			FlxG.sound.play(Paths.content.sound('clickText'), 0.8);
 
 			if (dialogueList[1] == null && dialogueList[0] != null)
 			{
