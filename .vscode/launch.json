@@ -4,7 +4,7 @@
     [
         {
             // Launch in native/CPP on Windows/OSX/Linux
-            "name": "Lime Build+Debug",
+            "name": "Lime Build + Debug",
             "type": "lime",
             "request": "launch"
         },

@@ -30,9 +30,11 @@
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
-	<set name="BUILD_DIR" value="export/release" unless="debug" />
-	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
+	<set name="ARCH_DIR" value="64-bit" />
+	<set name="ARCH_DIR" value="32-bit" if="32bit" />
+
+	<set name="BUILD_DIR" value="export/${ARCH_DIR}/debug" if="debug" />
+	<set name="BUILD_DIR" value="export/${ARCH_DIR}/release" unless="debug" />
 
 	<assets path="assets/fonts" embed='true' />
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web" />
