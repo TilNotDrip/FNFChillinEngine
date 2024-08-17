@@ -298,11 +298,11 @@ class PlayState extends MusicBeatState
 			add(opponentSplashes);
 
 			// I dont mean to add 2 of the same thing BUT it does double the speed for whatever reason
-			var noteSplashPlayer:NoteSplash = new NoteSplash(100, 100, 0, boyfriend.ui);
+			var noteSplashPlayer:NoteSplash = new NoteSplash(0, 0, 0, boyfriend.ui);
 			noteSplashPlayer.alpha = 0.01;
 			playerSplashes.add(noteSplashPlayer);
 
-			var noteSplashOpponent:NoteSplash = new NoteSplash(100, 100, 0, dad.ui);
+			var noteSplashOpponent:NoteSplash = new NoteSplash(0, 0, 0, dad.ui);
 			noteSplashOpponent.alpha = 0.01;
 			opponentSplashes.add(noteSplashOpponent);
 		}
