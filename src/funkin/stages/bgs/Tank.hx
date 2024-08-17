@@ -177,7 +177,7 @@ class Tank extends StageBackend
 		camFollow.x += 100;
 		camFollow.y += 100;
 
-		FlxG.sound.playMusic(Paths.location.music('DISTORTO'), 0);
+		FlxG.sound.playMusic(Paths.content.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
@@ -191,7 +191,7 @@ class Tank extends StageBackend
 
 		camGAME.zoom *= 1.2;
 
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.location.sound('wellWellWell'));
+		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.content.sound('wellWellWell'));
 		eduardoAhh.play(true);
 
 		cameraMovement(opponent);
@@ -204,7 +204,7 @@ class Tank extends StageBackend
 			new FlxTimer().start(1.5, function(bep:FlxTimer)
 			{
 				player.playAnim('singUP');
-				FlxG.sound.play(Paths.location.sound('bfBeep'), function()
+				FlxG.sound.play(Paths.content.sound('bfBeep'), function()
 				{
 					player.playAnim('idle');
 				});
@@ -214,7 +214,7 @@ class Tank extends StageBackend
 			{
 				camFollow.setPosition(opponent.getMidpoint().x + 10, opponent.getMidpoint().y - 70);
 				FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.5, {ease: FlxEase.quadInOut});
-				eduardoAhh.loadEmbedded(Paths.location.sound('killYou'));
+				eduardoAhh.loadEmbedded(Paths.content.sound('killYou'));
 				eduardoAhh.play(true);
 				tankCutscene.anim.play('TANK TALK 1 P2');
 				new FlxTimer().start(6.1, function(swagasdga:FlxTimer)
@@ -246,7 +246,7 @@ class Tank extends StageBackend
 		#else
 		inCutscene = true;
 
-		FlxG.sound.playMusic(Paths.location.music('DISTORTO'), 0);
+		FlxG.sound.playMusic(Paths.content.music('DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		cameraMovement(opponent);
@@ -266,7 +266,7 @@ class Tank extends StageBackend
 
 		tankCutscene.anim.play('open fire');
 
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.location.sound('tankSong2'));
+		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.content.sound('tankSong2'));
 		eduardoAhh.play(true);
 
 		new FlxTimer().start(4.1, function(ugly:FlxTimer)
@@ -343,7 +343,7 @@ class Tank extends StageBackend
 			gfCutsceneLayer.add(picoCutscene);
 			picoCutscene.visible = false; */
 
-		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.location.sound('stressCutscene'));
+		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.content.sound('stressCutscene'));
 
 		cutsceneAudio.play(true);
 

@@ -151,8 +151,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		FlxG.sound.cache(Paths.location.inst(SONG.song));
-		FlxG.sound.cache(Paths.location.voices(SONG.song));
+		Paths.content.getAudio(Paths.location.inst(SONG.song));
+		Paths.content.getAudio(Paths.location.voices(SONG.song));
 
 		camGAME = new SwagCamera();
 
@@ -516,7 +516,7 @@ class PlayState extends MusicBeatState
 			if (swagCounter > 0)
 				readySetGo(introSprPaths[swagCounter - 1]);
 
-			FlxG.sound.play(Paths.location.sound(introSndPaths[swagCounter]), 0.6);
+			FlxG.sound.play(Paths.content.sound(introSndPaths[swagCounter]), 0.6);
 
 			swagCounter += 1;
 		}, 4);
@@ -557,7 +557,7 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 
 		if (!paused)
-			FlxG.sound.playMusic(Paths.location.inst(SONG.song), 1, false);
+			FlxG.sound.playMusic(Paths.content.getAudio(Paths.location.inst(SONG.song)), 1, false);
 
 		vocals.play();
 
@@ -577,7 +577,7 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(songData.bpm);
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.location.voices(SONG.song));
+			vocals = new FlxSound().loadEmbedded(Paths.content.getAudio(Paths.location.voices(SONG.song)));
 		else
 			vocals = new FlxSound();
 
@@ -1246,7 +1246,7 @@ class PlayState extends MusicBeatState
 
 		if (storyPlaylist.length <= 0)
 		{
-			FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
 
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
@@ -1801,7 +1801,7 @@ class PlayState extends MusicBeatState
 		}
 
 		vocals.volume = 0;
-		FlxG.sound.play(Paths.location.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
+		FlxG.sound.play(Paths.content.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
 	}
 
 	function ghostHit()

@@ -41,7 +41,7 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
 
 		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('mainmenu/menuDesat'));
 		add(bg);
@@ -135,7 +135,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.location.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -179,7 +179,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.location.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
 
 		curSelected += change;
 

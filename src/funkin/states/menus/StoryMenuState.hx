@@ -34,13 +34,14 @@ class StoryMenuState extends MusicBeatState
 
 	override public function create()
 	{
+		Paths.content.clearAudioCache();
+		Paths.content.clearImageCache();
+
 		changeWindowName('Story Menu');
 
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Story Menu';
 		#end
-
-		Paths.content.clearImageCache();
 
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
@@ -48,7 +49,7 @@ class StoryMenuState extends MusicBeatState
 		if (FlxG.sound.music != null)
 		{
 			if (!FlxG.sound.music.playing)
-				FlxG.sound.playMusic(Paths.location.music('freakyMenu'));
+				FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
 		}
 
 		persistentUpdate = persistentDraw = true;
@@ -235,7 +236,7 @@ class StoryMenuState extends MusicBeatState
 
 		if (controls.BACK && !movedBack && !selectedWeek)
 		{
-			FlxG.sound.play(Paths.location.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
 			movedBack = true;
 			FlxG.switchState(new MainMenuState());
 		}
@@ -253,7 +254,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			if (!stopspamming)
 			{
-				FlxG.sound.play(Paths.location.sound('mainmenu/confirmMenu'));
+				FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'));
 
 				if (FunkinOptions.get('flashingLights'))
 					grpWeekText.members[curWeek].startFlashing();
@@ -345,7 +346,7 @@ class StoryMenuState extends MusicBeatState
 			bullShit++;
 		}
 
-		FlxG.sound.play(Paths.location.sound('mainmenu/scrollMenu'));
+		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'));
 
 		updateText();
 	}

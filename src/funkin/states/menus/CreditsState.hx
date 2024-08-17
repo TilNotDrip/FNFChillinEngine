@@ -138,7 +138,7 @@ class CreditsState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.location.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
 
 		curSelected += change;
 

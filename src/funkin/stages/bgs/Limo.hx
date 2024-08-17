@@ -63,7 +63,7 @@ class Limo extends StageBackend
 
 	function fastCarDrive()
 	{
-		FlxG.sound.play(Paths.location.sound('carPass' + FlxG.random.int(0, 1)), 0.7);
+		FlxG.sound.play(Paths.content.sound('carPass' + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;

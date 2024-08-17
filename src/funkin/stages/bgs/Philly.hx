@@ -42,7 +42,7 @@ class Philly extends StageBackend
 		phillyTrain = new BGSprite('philly/train', 2000, 360);
 		add(phillyTrain);
 
-		trainSound = new FlxSound().loadEmbedded(Paths.location.sound('train_passes'));
+		trainSound = new FlxSound().loadEmbedded(Paths.content.sound('train_passes'));
 		FlxG.sound.list.add(trainSound);
 
 		var street:BGSprite = new BGSprite('philly/street', -40, streetBehind.y);

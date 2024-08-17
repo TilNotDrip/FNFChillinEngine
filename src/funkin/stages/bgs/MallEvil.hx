@@ -45,7 +45,7 @@ class MallEvil extends StageBackend
 		new FlxTimer().start(0.1, function(tmr:FlxTimer)
 		{
 			remove(blackScreen);
-			FlxG.sound.play(Paths.location.sound('Lights_Turn_On'));
+			FlxG.sound.play(Paths.content.sound('Lights_Turn_On'));
 			camFollow.y = -2050;
 			camFollow.x += 200;
 			camGAME.focusOn(camFollow.getPosition());

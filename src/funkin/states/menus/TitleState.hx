@@ -69,13 +69,14 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		Paths.content.clearAudioCache();
+		Paths.content.clearImageCache();
+
 		changeWindowName('Title Screen');
 
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.details = 'Title Screen';
 		#end
-
-		Paths.content.clearImageCache();
 
 		introText = cast Paths.content.json('data/title', true);
 
@@ -107,7 +108,7 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing)
 		{
-			FlxG.sound.playMusic(Paths.location.music('freakyMenu'), 0);
+			FlxG.sound.playMusic(Paths.content.music('freakyMenu'), 0);
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
@@ -198,7 +199,7 @@ class TitleState extends MusicBeatState
 			if (FunkinOptions.get('flashingLights'))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 
-			FlxG.sound.play(Paths.location.sound('mainmenu/confirmMenu'), 0.7);
+			FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'), 0.7);
 
 			transitioning = true;
 
