@@ -1,6 +1,5 @@
 package funkin.util.paths;
 
-import lime.tools.AssetType;
 import flixel.graphics.FlxGraphic;
 import haxe.Json;
 import openfl.Assets;
