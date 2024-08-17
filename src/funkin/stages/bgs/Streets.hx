@@ -66,9 +66,8 @@ class Streets extends StageBackend
 		add(spraycanPile);
 
 		playerGroup.setPosition(2151, 1228);
-		playerGroup.x -= 219.5;
+		playerGroup.x -= 219.5 * 2;
 		playerGroup.y -= 785;
-		playerGroup.y += 350;
 
 		opponentGroup.setPosition(900, 1110);
 		opponentGroup.x -= 219.5;

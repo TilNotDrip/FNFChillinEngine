@@ -66,8 +66,13 @@ class ControlsSubState extends MusicBeatSubstate
 		if (FlxG.keys.justReleased.ANY && rebindingStage != -1 && okAcceptIsOver)
 		{
 			var daKey:FlxKey = FlxG.keys.firstJustReleased();
-			FunkinControls.getControls(0).get(controlOptions[curSelected])[0].push(daKey.toString());
-			optionControls.text = FunkinControls.getControls(0).get(controlOptions[curSelected])[0].toString();
+			FunkinControls.getControls(0).get(controlOptions[curSelected])[0].push(daKey);
+
+			var text:String = '';
+			for (key in FunkinControls.getControls(0).get(controlOptions[curSelected])[0])
+				text += cast(key, FlxKey).toString() + ", ";
+			optionControls.text = text;
+
 			rebindingStage++;
 		}
 
@@ -117,7 +122,10 @@ class ControlsSubState extends MusicBeatSubstate
 			curSelected = 0;
 
 		optionHeader.text = controlOptions[curSelected];
-		optionControls.text = FunkinControls.getControls(0).get(controlOptions[curSelected])[0].toString();
+		var text:String = '';
+		for (key in FunkinControls.getControls(0).get(controlOptions[curSelected])[0])
+			text += cast(key, FlxKey).toString() + ", ";
+		optionControls.text = text;
 
 		optionHeader.updateHitbox();
 		optionHeader.screenCenter();

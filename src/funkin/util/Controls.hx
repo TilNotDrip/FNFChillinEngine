@@ -172,7 +172,7 @@ class Controls
 		var keyArray:Array<FlxKey> = [];
 
 		for (key in FunkinControls.getControls(id).get(key)[0])
-			keyArray.push(FlxKey.fromString(key));
+			keyArray.push(key);
 
 		switch (type)
 		{
@@ -192,37 +192,23 @@ class Controls
 			var buttonArray:Array<FlxGamepadInputID> = [];
 
 			for (key in FunkinControls.getControls(id).get(key)[1])
-				buttonArray.push(FlxGamepadInputID.fromString(key));
+				buttonArray.push(key);
 
-			switch (type)
+			try
 			{
-				case 'just':
-					try
-					{
-						checked = controller.anyJustPressed(buttonArray);
-					}
-					catch (e)
-					{
-						FlxG.log.error('Controller Checking failed! Did it disconnect?');
-					}
-				case 'released':
-					try
-					{
-						checked = controller.anyJustReleased(buttonArray);
-					}
-					catch (e)
-					{
-						FlxG.log.error('Controller Checking failed! Did it disconnect?');
-					}
-				default:
-					try
-					{
-						checked = controller.anyPressed(buttonArray);
-					}
-					catch (e)
-					{
-						FlxG.log.error('Controller Checking failed! Did it disconnect?');
-					}
+				checked = switch (type)
+				{
+					case 'just':
+						controller.anyJustPressed(buttonArray);
+					case 'released':
+						controller.anyJustReleased(buttonArray);
+					default:
+						controller.anyPressed(buttonArray);
+				}
+			}
+			catch (e)
+			{
+				FlxG.log.error('Controller Checking failed! Did it disconnect?');
 			}
 		}
 
