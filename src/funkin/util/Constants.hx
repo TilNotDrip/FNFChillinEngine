@@ -49,7 +49,17 @@ class Constants
 	public static final VERSION_CHARACTER:Version = "0.1.0";
 
 	/**
-	 * The version rule that Chillin' Engine supports right now.
+	 * The version rule of characters that Chillin' Engine support right now.
 	 */
 	public static final VERSION_CHARACTER_RULE:VersionRule = "0.1.x";
+
+	/**
+	 * The current chart version that Chillin' Engine is on right now.
+	 */
+	public static final VERSION_CHART:Version = "0.1.0";
+
+	/**
+	 * The version rule of charts that Chillin' Engine support right now.
+	 */
+	public static final VERSION_CHART_RULE:VersionRule = "0.1.x";
 }

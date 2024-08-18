@@ -1,5 +1,6 @@
 package funkin.util;
 
+import funkin.structures.ChartStructures.LegacyChartStructure;
 import funkin.util.Song;
 import flixel.util.FlxSave;
 
@@ -151,7 +152,7 @@ class Week
 
 		for (song in songs)
 		{
-			var songySong:SwagSong = Song.loadFromJson(difficulties[0], song[0]);
+			var songySong:LegacyChartStructure = Song.loadFromJson(difficulties[0], song[0]);
 			var daIcon:String = songySong.player2;
 
 			if (daIcon != 'bf-pixel' && daIcon != 'bf-old' && daIcon != 'bf-pixel-old')

@@ -1,6 +1,6 @@
 package funkin.util;
 
-import funkin.util.Song.SwagSong;
+import funkin.structures.ChartStructures.LegacyChartStructure;
 
 typedef BPMChangeEvent =
 {
@@ -25,7 +25,7 @@ class Conductor
 
 	public function new() {}
 
-	public static function mapBPMChanges(song:SwagSong)
+	public static function mapBPMChanges(song:LegacyChartStructure)
 	{
 		bpmChangeMap = [];
 

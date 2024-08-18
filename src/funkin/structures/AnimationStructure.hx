@@ -25,6 +25,7 @@ typedef AnimationStructure =
 	 * @default None
 	 */
 	@:default([])
+	// @:alias("frameIndices")
 	@:optional
 	var ?indices:Array<Int>;
 

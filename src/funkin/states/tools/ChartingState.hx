@@ -1,11 +1,11 @@
 package funkin.states.tools;
 
+import funkin.structures.ChartStructures.LegacyChartStructure;
+import funkin.structures.ChartStructures.LegacySectionStructure;
 import funkin.util.Song;
 import funkin.util.SongEvent;
 import funkin.util.SongEvent.SwagEvent;
 import funkin.util.Conductor.BPMChangeEvent;
-import funkin.util.Section.SwagSection;
-import funkin.util.Song.SwagSong;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
@@ -55,7 +55,7 @@ class ChartingState extends MusicBeatState
 
 	var gridBG:FlxSprite;
 
-	var _song:SwagSong;
+	var _song:LegacyChartStructure;
 	var _events:Array<SwagEvent>;
 
 	var typingShits:Array<FlxUIInputText> = [];
@@ -1078,7 +1078,7 @@ class ChartingState extends MusicBeatState
 
 	function addSection(lengthInSteps:Int = 16):Void
 	{
-		var sec:SwagSection = {
+		var sec:LegacySectionStructure = {
 			lengthInSteps: lengthInSteps,
 			bpm: _song.bpm,
 			changeBPM: false,

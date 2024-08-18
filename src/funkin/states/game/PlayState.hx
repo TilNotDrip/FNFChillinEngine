@@ -7,9 +7,9 @@ import funkin.util.Song;
 import funkin.util.Week;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.addons.text.FlxTypeText;
-import funkin.util.Section.SwagSection;
+import funkin.structures.ChartStructures.LegacySectionStructure;
 import funkin.util.SongEvent.SwagEvent;
-import funkin.util.Song.SwagSong;
+import funkin.structures.ChartStructures.LegacyChartStructure;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.addons.effects.FlxTrail;
@@ -33,7 +33,7 @@ class PlayState extends MusicBeatState
 	public static var instance:PlayState;
 
 	public static var curStage:String = '';
-	public static var SONG:SwagSong;
+	public static var SONG:LegacyChartStructure;
 	public static var songEvents:Array<SwagEvent>;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Week = null;
@@ -591,7 +591,7 @@ class PlayState extends MusicBeatState
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
-		var noteData:Array<SwagSection>;
+		var noteData:Array<LegacySectionStructure>;
 
 		noteData = songData.notes;
 
