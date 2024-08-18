@@ -157,12 +157,55 @@ class TitleState extends MusicBeatState
 
 	var transitioning:Bool = false;
 
+	var jingleState:Bool = false;
+
+	/**
+	 * 0 is Left, 
+	 * 1 is Down, 
+	 * 2 is Up, 
+	 * 3 is Right
+	 */
+	final JINGLE_CODE:Array<Int> = [0, 3, 0, 3, 2, 1, 2, 1];
+
+	var codeIndex:Int = 0;
+
 	override public function update(elapsed:Float)
 	{
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+		if (FlxG.keys.justPressed.Y)
+		{
+			FlxTween.cancelTweensOf(FlxG.stage.window, ['x', 'y']);
+			FlxTween.tween(FlxG.stage.window, {x: FlxG.stage.window.x + 300}, 1.4, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.35});
+			FlxTween.tween(FlxG.stage.window, {y: FlxG.stage.window.y + 100}, 0.7, {ease: FlxEase.quadInOut, type: PINGPONG});
+		}
+
+		if (FlxG.keys.justPressed.ANY)
+		{
+			var buttonToCode:Array<Bool> = [controls.UI_LEFT_P, controls.UI_DOWN_P, controls.UI_UP_P, controls.UI_RIGHT_P];
+
+			if (buttonToCode.indexOf(true) == JINGLE_CODE[codeIndex])
+				codeIndex++;
+			else
+				codeIndex = 0;
+
+			if (codeIndex >= JINGLE_CODE.length)
+			{
+				jingleState = true;
+				codeIndex = 0;
+
+				FlxG.sound.playMusic(Paths.content.music('girlfriendsRingtone'), 0);
+				FlxG.sound.music.fadeIn(4.0);
+
+				FlxG.camera.flash(FlxColor.WHITE, 1);
+				FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'), 0.7);
+
+				Conductor.changeBPM(160);
+			}
+		}
+
+		var pressedEnter:Bool = controls.ACCEPT;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -171,19 +214,6 @@ class TitleState extends MusicBeatState
 				pressedEnter = true;
 		}
 		#end
-
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-		if (gamepad != null)
-		{
-			if (gamepad.justPressed.START)
-				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
-		}
 
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
@@ -269,6 +299,9 @@ class TitleState extends MusicBeatState
 				else
 					i.animation.play('danceLeft');
 			}
+
+			/*if (jingleState && curBeat % 2 == 0)
+				swagShader.update(0.125); */
 		}
 		else
 		{

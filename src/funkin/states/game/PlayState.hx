@@ -856,6 +856,36 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (SONG.song.formatToPath() == 'test')
+		{
+			var currentBeat:Float = (Conductor.songPosition / 1000) * (Conductor.bpm / 150);
+			dad.y = 100 + 75 * Math.sin((currentBeat) * Math.PI);
+
+			for (i in 0...opponentStrums.notes + playerStrums.notes)
+			{
+				if (i < opponentStrums.notes)
+				{
+					opponentStrums.getNote(i).angle += Math.sin((currentBeat) + i * 50);
+					opponentStrums.getNote(i).updateHitbox();
+				}
+
+				if (i < playerStrums.notes)
+				{
+					playerStrums.getNote(i).angle += Math.sin((currentBeat) + i * 50);
+					playerStrums.getNote(i).updateHitbox();
+				}
+
+				notes.forEachAlive(function(note:Note)
+				{
+					if (!note.isSustainNote)
+					{
+						note.angle = opponentStrums.getNote(note.noteData).angle;
+						note.updateHitbox();
+					}
+				});
+			}
+		}
+
 		super.update(elapsed);
 
 		lyricText.updateHitbox();

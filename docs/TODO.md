@@ -2,7 +2,7 @@
 <!-- TODO: Organize this better, maybe alphabetical order and add Sections to the _Size_ Changes (or add sections and put _Size_ Changes inside the sections for each one. And also a name list e.g. songName == Song being played || player == Boyfriend / Player || user == The person playing this game. -->
 ## Big Changes
  - [ ] Credits Menu (not GitHub Contributors menu :D)
- - [ ] Controller Support
+ - [x] Controller Support
  - [ ] Converter that converts Base FNF things to Chillin ([will be making an application for that and other engines too.](https://github.com/TilNotDrip/Funkin-Converter))
  - [ ] Discord Game SDK (making it a haxelib, dunno if it will be finished tho.)
  - [ ] Erect Remixes
@@ -36,6 +36,7 @@
  - [x] Seperate Saves from Each Other (Like highscores are in its own .sol file in the appdata and settings has its own .sol)
  - [ ] Seperate Song Sections and Song Data from each other (Like in the songs `songname-metadata.json` it will have the player opponent stage gf n stuff in there and then theres the `songname-chart.json`.)
  - [x] Character JSONs
+ - [x] Character JSONs for opponent and player load for the same character (sounds pretty weird cuz idk what to name it)
  - [ ] Make Animation Priority (e.g. if one animation priority is 0 but the one trying to play next is 1 then it will play that one but if the next animation trying to play is 0 but the animation being played is 1 then it wont play at all. if one animation priority is 1 and the next one trying to play is 1 then it may rely on forced in the playAnim. idk yet tho)
  - [ ] Health Icon JSONs
  - [ ] Stage JSONs (When we get a modding api.)
@@ -43,7 +44,7 @@
  - [ ] Week 7 Cutscenes without a video.
  - [ ] Multisparrow support for characters.
  - [ ] Crash Handler
- - [ ] Caching System
+ - [x] Caching System
  - [ ] Christmas UI for Week 5
 
 ## Small Changes
