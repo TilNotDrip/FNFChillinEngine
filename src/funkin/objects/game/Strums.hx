@@ -130,4 +130,9 @@ class Strums extends FlxSpriteGroup
 		});
 		return daSpr;
 	}
+
+	override function get_width():Float
+	{
+		return Note.swagWidth * notes;
+	}
 }

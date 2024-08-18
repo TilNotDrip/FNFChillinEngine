@@ -72,16 +72,9 @@ class LoadingState extends MusicBeatState
 
 	function checkLoadSong(path:String)
 	{
-		if (!Assets.cache.hasSound(path))
-		{
-			var library = Assets.getLibrary("songs");
-			var symbolPath = path.split(":").pop();
-			var callback = callbacks.add("song:" + path);
-			Assets.loadSound(path).onComplete(function(_)
-			{
-				callback();
-			});
-		}
+		var callback = callbacks.add("song:" + path);
+		Paths.content.getAudio(path);
+		callback();
 	}
 
 	function checkLibrary(library:String)
