@@ -50,7 +50,7 @@
             "looped": false,
             "flipX": false,
             "flipY": false,
-            "offsets": [61, 2]
+            "offsets": [-82, -11]
         }
     ],
     "antialiasing": true,
