@@ -65,19 +65,19 @@ class Streets extends StageBackend
 		var spraycanPile:BGSprite = new BGSprite('SpraycanPile', 920, 1045, 1, 1);
 		add(spraycanPile);
 
-		playerGroup.setPosition(2151, 1228);
-		playerGroup.x -= 219.5 * 2;
-		playerGroup.y -= 785;
+		BF_POSITION = [2151, 1228];
+		BF_POSITION[0] -= 219.5;
+		BF_POSITION[1] -= 785;
 
-		opponentGroup.setPosition(900, 1110);
-		opponentGroup.x -= 219.5;
-		opponentGroup.y -= 785;
-		opponentGroup.y += 350;
+		DAD_POSITION = [900, 1110];
+		DAD_POSITION[0] -= 219.5;
+		DAD_POSITION[1] -= 785;
+		DAD_POSITION[1] += 350;
 
-		gfGroup.setPosition(1453, 900);
-		gfGroup.x -= 219.5;
-		gfGroup.y -= 785;
-		gfGroup.y += 350;
+		GF_POSITION = [1453, 900];
+		GF_POSITION[0] -= 219.5;
+		GF_POSITION[1] -= 785;
+		GF_POSITION[1] += 350;
 	}
 
 	override public function update(elapsed:Float)

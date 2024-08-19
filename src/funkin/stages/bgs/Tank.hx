@@ -17,9 +17,6 @@ class Tank extends StageBackend
 	var tankWatchtower:BGSprite;
 	var tankGround:BGSprite;
 
-	var gfCutsceneLayer:FlxGroup;
-	var bfTankCutsceneLayer:FlxGroup;
-
 	override public function create()
 	{
 		if (PlayState.SONG.player3 == 'pico-speaker')
@@ -128,15 +125,6 @@ class Tank extends StageBackend
 			}
 		}
 
-		if (isStoryMode)
-		{
-			gfCutsceneLayer = new FlxGroup();
-			insert(PlayState.instance.members.indexOf(gf) + 1, gfCutsceneLayer);
-
-			bfTankCutsceneLayer = new FlxGroup();
-			insert(PlayState.instance.members.indexOf(player) + 1, bfTankCutsceneLayer);
-		}
-
 		add(foregroundSprites);
 
 		if (isStoryMode)
@@ -172,66 +160,85 @@ class Tank extends StageBackend
 		#else
 		inCutscene = true;
 
-		camGAME.zoom = zoom * 1.2;
+		camGAME.zoom = game.cameraZoom = 0.9 * 1.2;
 
-		camFollow.x += 100;
-		camFollow.y += 100;
+		game.cameraMovement(opponent);
+		camFollow.y += 350;
+		camFollow.x -= 100;
+		camFollow.y -= 100;
+		camGAME.snapToTarget();
 
-		FlxG.sound.playMusic(Paths.content.music('DISTORTO'), 0);
+		FlxG.sound.playMusic(Paths.content.music('cutscene/DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.location.atlas('cutsceneStuff/ughIntro'));
-		/*bfTankCutsceneLayer.*/ add(tankCutscene);
+		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417, opponentGroup.y + 225, Paths.location.atlas('cutscenes/tankman', 'week7'));
+		addBehindOpponent(tankCutsceneObj);
 
-		tankCutscene.anim.play('TANK TALK 1 P1');
+		tankCutsceneObj.anim.play('TANK TALK 1 P1');
 
-		FlxG.camera.zoom *= 1.2;
-		camFollow.y += 100;
-
-		camGAME.zoom *= 1.2;
-
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.content.sound('wellWellWell'));
-		eduardoAhh.play(true);
-
-		cameraMovement(opponent);
-
-		new FlxTimer().start(3, function(tmr:FlxTimer)
+		// This should be the 2nd frame right? According to old code that is when it plays.
+		new FlxTimer().start(1 / 24 * 2, function(camMoveTank1:FlxTimer)
 		{
-			camFollow.setPosition(player.getMidpoint().x, player.getMidpoint().y - 70);
-			FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.27, {ease: FlxEase.quadInOut});
+			FlxG.sound.play(Paths.content.sound("cutscene/wellWellWell"));
+		});
 
-			new FlxTimer().start(1.5, function(bep:FlxTimer)
+		// Move camera to Boyfriend.
+		new FlxTimer().start(3, function(camMoveTank1:FlxTimer)
+		{
+			camFollow.x += 800;
+			camFollow.y += 100;
+		});
+
+		// Make Boyfriend play his Up anim and beep.
+		new FlxTimer().start(4.5, function(bfBeep:FlxTimer)
+		{
+			player.playAnim("singUP");
+
+			var bfBeepSfx:FlxSound = FlxG.sound.play(Paths.content.sound("cutscene/bfBeep", "week7"));
+
+			// Go back to idle once he's done beeping.
+			bfBeepSfx.onComplete = function()
 			{
-				player.playAnim('singUP');
-				FlxG.sound.play(Paths.content.sound('bfBeep'), function()
+				player.playAnim("idle");
+			};
+		});
+
+		new FlxTimer().start(6, function(killYou:FlxTimer)
+		{
+			camFollow.x -= 800;
+			camFollow.y -= 100;
+
+			FlxG.sound.play(Paths.content.sound("cutscene/killYou"));
+			// Play the "Kill You" animation.
+			tankCutsceneObj.anim.play("TANK TALK 1 P2");
+		});
+
+		// Finishing up the cutscene.
+		new FlxTimer().start(12.1, function(endCutscene:FlxTimer)
+		{
+			camFollow.x += 100;
+
+			FlxTween.tween(camGAME, {zoom: zoom}, 0.5, {
+				ease: FlxEase.quadInOut,
+				onUpdate: function(_)
 				{
-					player.playAnim('idle');
-				});
+					game.cameraZoom = camGAME.zoom;
+				}
 			});
 
-			new FlxTimer().start(3, function(swaggy:FlxTimer)
-			{
-				camFollow.setPosition(opponent.getMidpoint().x + 10, opponent.getMidpoint().y - 70);
-				FlxTween.tween(camGAME, {zoom: zoom * 1.2}, 0.5, {ease: FlxEase.quadInOut});
-				eduardoAhh.loadEmbedded(Paths.content.sound('killYou'));
-				eduardoAhh.play(true);
-				tankCutscene.anim.play('TANK TALK 1 P2');
-				new FlxTimer().start(6.1, function(swagasdga:FlxTimer)
-				{
-					FlxTween.tween(camGAME, {zoom: zoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
+			tankCutsceneObj.destroy();
 
-					FlxG.sound.music.fadeOut((Conductor.crochet / 1000) * 5, 0);
+			// The original opponent can come back now.
+			opponent.visible = true;
 
-					new FlxTimer().start((Conductor.crochet / 1000) * 5, function(money:FlxTimer)
-					{
-						opponent.visible = true;
-						bfTankCutsceneLayer.remove(tankCutscene);
-					});
+			// Stop the cutscene music.
+			FlxG.sound.music.stop();
+			FlxG.sound.music.destroy();
 
-					startCountdown();
-				});
-			});
+			// Play the song now.
+			inCutscene = false;
+			startCountdown();
 		});
 		#end
 	}
@@ -246,64 +253,103 @@ class Tank extends StageBackend
 		#else
 		inCutscene = true;
 
-		FlxG.sound.playMusic(Paths.content.music('DISTORTO'), 0);
-		FlxG.sound.music.fadeIn(5, 0, 0.5);
+		PlayState.instance.camHUD.visible = false;
 
-		cameraMovement(opponent);
-
-		FlxTween.tween(camGAME, {zoom: zoom * 1.3}, 4, {
-			ease: FlxEase.quadInOut,
-			onUpdate: function(twn:FlxTween)
+		FlxTween.tween(camGAME, {zoom: 0.9 * 1.3}, 0.4, // 0.9 was the original tank stage zoom in 0.2.8. (Also the one showed in the video)
 			{
-				FlxG.camera.zoom = camGAME.zoom;
-			}
-		});
-
-		opponent.visible = false;
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.location.atlas('cutsceneStuff/gunsIntro'));
-		tankCutscene.anim.addBySymbol('open fire', 'TANK TALK 2', 24, false);
-		bfTankCutsceneLayer.add(tankCutscene);
-
-		tankCutscene.anim.play('open fire');
-
-		var eduardoAhh:FlxSound = FlxG.sound.load(Paths.content.sound('tankSong2'));
-		eduardoAhh.play(true);
-
-		new FlxTimer().start(4.1, function(ugly:FlxTimer)
-		{
-			FlxTween.tween(camGAME, {zoom: zoom * 1.4}, 0.4, {
-				ease: FlxEase.quadOut,
-				onUpdate: function(twn:FlxTween)
+				ease: FlxEase.quadInOut,
+				onUpdate: function(_)
 				{
-					FlxG.camera.zoom = camGAME.zoom;
+					game.cameraZoom = camGAME.zoom;
 				}
 			});
-			FlxTween.tween(camGAME, {zoom: zoom * 1.3}, 0.7, {
+
+		game.cameraMovement(opponent);
+		camFollow.y += 350;
+		camFollow.x -= 100;
+		camGAME.snapToTarget();
+
+		// Make the current opponent invisible for now.
+		opponent.visible = false;
+
+		// Setup Tankman object.
+		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417, opponentGroup.y + 225, Paths.location.atlas('cutscenes/tankman', 'week7'));
+		addBehindOpponent(tankCutsceneObj);
+
+		tankCutsceneObj.anim.play('TANK TALK 2');
+
+		game.cameraMovement(opponent);
+		camFollow.y += 350;
+		camFollow.y -= 100;
+		camFollow.x -= 100;
+		camGAME.snapToTarget();
+
+		FlxG.sound.play(Paths.content.sound("cutscene/tankSong2"));
+
+		// Tankman makes Girlfriend cry.
+		new FlxTimer().start(4.1, function(gfCry:FlxTimer)
+		{
+			FlxTween.tween(camGAME, {zoom: 0.9 * 1.4}, 0.4, {
+				ease: FlxEase.quadOut,
+				onUpdate: function(_)
+				{
+					game.cameraZoom = camGAME.zoom;
+				}
+			});
+
+			FlxTween.tween(camGAME, {zoom: 0.9 * 1.3}, 0.4, {
 				ease: FlxEase.quadInOut,
 				startDelay: 0.45,
-				onUpdate: function(twn:FlxTween)
+				onUpdate: function(_)
 				{
-					FlxG.camera.zoom = camGAME.zoom;
+					game.cameraZoom = camGAME.zoom;
 				}
 			});
 
-			gf.playAnim('sad');
+			gf.playAnim("sad");
+
+			// Just to make sure she cries until the song starts.
+			gf.animation.finishCallback = function(gfCryForever:String)
+			{
+				if (inCutscene)
+					gf.playAnim("sad");
+			};
 		});
 
-		new FlxTimer().start(11, function(tmr:FlxTimer)
+		// Finishing up the cutscene.
+		new FlxTimer().start(11, function(endCutscene:FlxTimer)
 		{
-			FlxG.sound.music.fadeOut((Conductor.crochet / 1000) * 5, 0);
+			camFollow.x += 100;
 
-			FlxTween.tween(camGAME, {zoom: zoom}, (Conductor.crochet * 5) / 1000, {ease: FlxEase.quartIn});
-			startCountdown();
-			new FlxTimer().start((Conductor.crochet * 25) / 1000, function(daTim:FlxTimer)
-			{
-				opponent.visible = true;
-				bfTankCutsceneLayer.remove(tankCutscene);
+			FlxTween.tween(camGAME, {zoom: zoom}, 0.5, {
+				ease: FlxEase.quadInOut,
+				onUpdate: function(_)
+				{
+					game.cameraZoom = camGAME.zoom;
+				}
 			});
+
+			tankCutsceneObj.destroy();
+
+			// The original opponent can come back now.
+			opponent.visible = true;
+
+			// Stop the cutscene music.
+			FlxG.sound.music.stop();
+			FlxG.sound.music.destroy();
+
+			// she doesnt need to cry no more
+			gf.animation.finishCallback = null;
+
+			// Play the song now.
+			inCutscene = false;
+			startCountdown();
 		});
 		#end
 	}
+
+	var fakeBF:Character = null;
+	var fakeGF:Character = null;
 
 	function stressIntro()
 	{
@@ -315,124 +361,177 @@ class Tank extends StageBackend
 		#else
 		inCutscene = true;
 
-		opponent.visible = false;
+		// Hide the HUD Camera and show the Cutscene one. (even if there's nothing in it)
+		camHUD.visible = false;
+
+		// Setup beginning camera positions.
+		camGAME.zoom = game.cameraZoom = 0.9 * 1.15;
+		camFollow.x += 200;
+		camGAME.snapToTarget();
+
+		// Make the characters on stage invisible for now.
 		gf.visible = false;
-
-		var gfTankmen:FlxSprite = new FlxSprite(210, 70);
-		gfTankmen.frames = Paths.content.sparrowAtlas('characters/gfTankmen');
-		gfTankmen.animation.addByPrefix('loop', 'GF Dancing at Gunpoint', 24, true);
-		gfTankmen.animation.play('loop');
-		gfCutsceneLayer.add(gfTankmen);
-
-		var tankCutscene:FlxAnimate = new FlxAnimate(opponentGroup.x + 400, opponentGroup.y + 200, Paths.location.atlas('cutsceneStuff/stressIntro'));
-		bfTankCutsceneLayer.add(tankCutscene);
-
-		tankCutscene.anim.play('TANK TALK 3 P1 UNCUT');
-
-		camFollow.setPosition(gfGroup.x + 350, gfGroup.y + 560);
-		camGAME.focusOn(camFollow.getPosition());
-
+		opponent.visible = false;
 		player.visible = false;
 
-		var fakeBF:Character = new Character(player.x, player.y, 'bf', true);
-		bfTankCutsceneLayer.add(fakeBF);
+		fakeGF = new Character(gfGroup.x, gfGroup.y, 'gf-tankmen', false);
+		fakeGF.dance();
+		fakeGF.animation.finishCallback = (name:String) ->
+		{
+			fakeGF.dance();
+		}
+		add(fakeGF);
 
-		/*var picoCutscene:FlxAnimate = new FlxAnimate(-20, 320, Paths.atlas('cutsceneStuff/goPicoYeahYeah'));
-			picoCutscene.anim.addBySymbol('holy', 'pico go wild', 24, false);
-			picoCutscene.anim.addBySymbol('loop', 'idle', 24, true);
-			gfCutsceneLayer.add(picoCutscene);
-			picoCutscene.visible = false; */
+		var gfCutsceneObj:FlxSprite = new FlxSprite(fakeGF.x - 220, fakeGF.y - 463);
+		gfCutsceneObj.frames = Paths.content.sparrowAtlas("cutscenes/GF_Turn");
+		gfCutsceneObj.animation.addByPrefix("gfTurn", "GF STARTS TO TURN", 24, false);
+		gfCutsceneObj.visible = false;
+		add(gfCutsceneObj);
 
-		var cutsceneAudio:FlxSound = FlxG.sound.load(Paths.content.sound('stressCutscene'));
+		var picoCutsceneObj:FlxAnimate = new FlxAnimate(0, 0, Paths.location.atlas("cutscenes/pico", "week7"));
+		picoCutsceneObj.setPosition(gfGroup.x - 114, gfGroup.y + 119);
+		picoCutsceneObj.visible = false;
+		add(picoCutsceneObj);
 
-		cutsceneAudio.play(true);
+		fakeBF = new Character(playerGroup.x, playerGroup.y, 'bf', true);
+		add(fakeBF);
 
-		camGAME.zoom = zoom * 1.15;
+		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417, opponentGroup.y + 225, Paths.location.atlas("cutscenes/tankman", "week7"));
+		add(tankCutsceneObj);
+
+		tankCutsceneObj.anim.play('TANK TALK 3 P1');
+
+		FlxG.sound.playMusic(Paths.content.music('cutscene/stressCutscene'));
 
 		camFollow.x -= 200;
 
-		new FlxTimer().start(31.5, function(cunt:FlxTimer)
+		new FlxTimer().start(15.1, function(gfTurn:FlxTimer)
 		{
-			camFollow.x += 400;
-			camFollow.y += 150;
-			camGAME.zoom = zoom * 1.4;
-			FlxTween.tween(camGAME, {zoom: camGAME.zoom + 0.1}, 0.5, {
-				ease: FlxEase.elasticOut,
-				onUpdate: function(twn:FlxTween)
+			camFollow.x += 200;
+			camFollow.y -= 170;
+
+			fakeGF.destroy();
+
+			gfCutsceneObj.visible = true;
+			gfCutsceneObj.animation.play("gfTurn");
+
+			gfCutsceneObj.animation.finishCallback = (name:String) ->
+			{
+				picoCutsceneObj.visible = true;
+				picoCutsceneObj.anim.play();
+				gfCutsceneObj.destroy();
+			}
+
+			picoCutsceneObj.anim.onComplete.add(function()
+			{
+				gf.visible = true;
+				picoCutsceneObj.destroy();
+			});
+
+			FlxTween.tween(game, {cameraZoom: camGAME.zoom * 1.3}, 2.1, {
+				ease: FlxEase.quadInOut,
+				onUpdate: function(_)
 				{
-					FlxG.camera.zoom = camGAME.zoom;
+					camGAME.zoom = game.cameraZoom;
 				}
 			});
-			camGAME.focusOn(camFollow.getPosition());
-			player.playAnim('singUPmiss');
-			player.animation.finishCallback = function(animFinish:String)
+		});
+
+		// Pico arrives and kills some tankmen.
+		new FlxTimer().start(17.3, function(picoArrives:FlxTimer)
+		{
+			camGAME.zoom = game.cameraZoom = 0.8;
+
+			fakeBF.destroy();
+
+			player.visible = true;
+			player.playAnim("bfCatch");
+
+			player.animation.finishCallback = function(bfCatch:String)
 			{
-				camFollow.x -= 400;
-				camFollow.y -= 150;
-				camGAME.zoom /= 1.4;
-				camGAME.focusOn(camFollow.getPosition());
+				player.dance();
 
 				player.animation.finishCallback = null;
 			};
 		});
 
-		new FlxTimer().start(15.1, function(tmr:FlxTimer)
+		// Tankman talks to Pico.
+		new FlxTimer().start(19.6, function(lookWhoItIs:FlxTimer)
 		{
-			camFollow.y -= 170;
-			camFollow.x += 200;
-			FlxTween.tween(FlxG.camera, {zoom: camGAME.zoom * 1.3}, 2.1, {
-				ease: FlxEase.quadInOut,
-				onUpdate: function(twn:FlxTween)
+			tankCutsceneObj.anim.play('TANK TALK 3 P2');
+		});
+
+		new FlxTimer().start(20.3, function(lookWhoCamMove:FlxTimer)
+		{
+			camFollow.x -= 80;
+			camFollow.y += 180;
+			camFollow.y += 180;
+			camFollow.x -= 80;
+			camFollow.y += 180;
+			camFollow.x -= 80;
+		});
+
+		// You little cunt.
+		new FlxTimer().start(31.5, function(cunt:FlxTimer)
+		{
+			camFollow.x += 400;
+			camFollow.y = 150;
+			camGAME.zoom = game.cameraZoom = 0.9 * 1.4;
+			camGAME.snapToTarget();
+
+			FlxTween.tween(game, {cameraZoom: camGAME.zoom * 0.1}, 0.5, {
+				ease: FlxEase.elasticOut,
+				onUpdate: function(_)
 				{
-					FlxG.camera.zoom = camGAME.zoom;
+					camGAME.zoom = game.cameraZoom;
 				}
 			});
 
-			new FlxTimer().start(2.2, function(swagTimer:FlxTimer)
+			player.playAnim("singUPmiss");
+
+			// We can see his head cut off during this part so we will hide him until the player is done his miss animation.
+			// PlayState.instance.currentStage.getNamedProp("tankmanAudience3").alpha = 0;
+
+			player.animation.finishCallback = function(bfMiss:String)
 			{
-				camGAME.zoom = 0.8;
-				player.playAnim('bfCatch');
+				player.dance();
 
-				player.visible = true;
-				bfTankCutsceneLayer.remove(fakeBF);
+				camFollow.x -= 400;
+				camFollow.y -= 150;
+				camGAME.zoom = game.cameraZoom /= 1.4;
+				camGAME.snapToTarget();
 
-				player.animation.finishCallback = function(anim:String)
-				{
-					player.playAnim('idle');
-					player.animation.finishCallback = null;
-				};
-
-				new FlxTimer().start(3, function(weedShitBaby:FlxTimer)
-				{
-					camFollow.y += 180;
-					camFollow.x -= 80;
-				});
-
-				new FlxTimer().start(2.3, function(gayLol:FlxTimer)
-				{
-					tankCutscene.anim.play('TANK TALK 3 P2 UNCUT');
-				});
-			});
-
-			/*picoCutscene.alpha = 1;
-				picoCutscene.anim.play('holy');
-				picoCutscene.anim.onComplete = function()
-				{
-					picoCutscene.anim.play('idle');
-					picoCutscene.anim.onComplete = null;
-			};*/
-
-			new FlxTimer().start(20, function(alsoTmr:FlxTimer)
-			{
-				opponent.visible = true;
-				gf.visible = true;
-				bfTankCutsceneLayer.remove(tankCutscene);
 				player.animation.finishCallback = null;
-				startCountdown();
+			};
+		});
 
-				gfCutsceneLayer.remove(gfTankmen);
-				// gfCutsceneLayer.remove(picoCutscene);
+		// Finishing up the cutscene.
+		new FlxTimer().start(35.1, function(endCutscene:FlxTimer)
+		{
+			camFollow.x -= 120;
+			camFollow.y -= 10;
+
+			FlxTween.tween(game, {cameraZoom: zoom}, 0.5, {
+				ease: FlxEase.quadInOut,
+				onUpdate: function(_)
+				{
+					camGAME.zoom = game.cameraZoom;
+				}
 			});
+
+			tankCutsceneObj.destroy();
+
+			// The original opponent can come back now.
+			gf.visible = true;
+			opponent.visible = true;
+
+			// Stop the cutscene music.
+			FlxG.sound.music.stop();
+			FlxG.sound.music.destroy();
+
+			// Play the song now.
+			inCutscene = false;
+			startCountdown();
 		});
 		#end
 	}
@@ -445,7 +544,7 @@ class Tank extends StageBackend
 	}
 	#end
 
-	override public function update(elapsed:Float)
+	override public function update(elapsed:Float):Void
 	{
 		moveTank();
 	}
@@ -469,7 +568,7 @@ class Tank extends StageBackend
 	var tankSpeed:Float = FlxG.random.float(5, 7);
 	var tankX:Float = 400;
 
-	override public function beatHit()
+	override public function beatHit():Void
 	{
 		foregroundSprites.forEach(function(spr:BGSprite)
 		{

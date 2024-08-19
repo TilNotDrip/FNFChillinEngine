@@ -73,7 +73,7 @@ class Character extends FlxSprite
 				if (!VersionUtil.validateVersion(characterData.version, funkin.util.constants.VersionConstants.CHARACTER_VERSION_RULE))
 					return; */
 
-			frames = Paths.content.sparrowAtlas(characterData.image);
+			frames = Paths.content.sparrowAtlas(characterData.image, 'shared');
 
 			for (anim in characterData.animations)
 			{

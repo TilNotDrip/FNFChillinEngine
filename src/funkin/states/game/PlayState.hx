@@ -119,6 +119,9 @@ class PlayState extends MusicBeatState
 	public var songAccuracy:Float = 0;
 
 	public static var daPixelZoom:Float = 6;
+
+	public var cameraZoom:Float = 1.05;
+
 	public static var ui:String = 'funkin';
 
 	public var inCutscene(default, set):Bool = false;
@@ -232,10 +235,11 @@ class PlayState extends MusicBeatState
 		}
 
 		ui = StageBackend.stage.ui;
+		cameraZoom = StageBackend.stage.zoom;
 
-		gfGroup = new FlxTypedSpriteGroup<Character>();
-		dadGroup = new FlxTypedSpriteGroup<Character>();
-		boyfriendGroup = new FlxTypedSpriteGroup<Character>();
+		gfGroup = new FlxTypedSpriteGroup<Character>(StageBackend.stage.GF_POSITION[0], StageBackend.stage.GF_POSITION[1]);
+		dadGroup = new FlxTypedSpriteGroup<Character>(StageBackend.stage.DAD_POSITION[0], StageBackend.stage.DAD_POSITION[1]);
+		boyfriendGroup = new FlxTypedSpriteGroup<Character>(StageBackend.stage.BF_POSITION[0], StageBackend.stage.BF_POSITION[1]);
 
 		addCharacterToList(SONG.player3, 'gf');
 		addCharacterToList(SONG.player2, 'dad');
@@ -245,14 +249,14 @@ class PlayState extends MusicBeatState
 		add(dadGroup);
 		add(boyfriendGroup);
 
-		gf = new Character(StageBackend.stage.GF_POSITION[0], StageBackend.stage.GF_POSITION[1], SONG.player3);
+		gf = new Character(0, 0, SONG.player3);
 		gf.x += gf.characterPosition[0];
 		gf.y += gf.characterPosition[1];
 		gfGroup.scrollFactor.set(0.95, 0.95);
 		gf.dance();
 		gf.animation.finish();
 
-		dad = new Character(StageBackend.stage.DAD_POSITION[0], StageBackend.stage.DAD_POSITION[1], SONG.player2);
+		dad = new Character(0, 0, SONG.player2);
 		dad.x += dad.characterPosition[0];
 		dad.y += dad.characterPosition[1];
 		dad.dance();
@@ -260,7 +264,7 @@ class PlayState extends MusicBeatState
 
 		if (dad.curCharacter == gf.curCharacter)
 		{
-			dad.setPosition(gf.x, gf.y);
+			dadGroup.setPosition(gfGroup.x, gfGroup.y);
 
 			gfGroup.visible = false;
 
@@ -268,7 +272,7 @@ class PlayState extends MusicBeatState
 				tweenCam(true);
 		}
 
-		boyfriend = new Character(StageBackend.stage.BF_POSITION[0], StageBackend.stage.BF_POSITION[1], SONG.player1, true);
+		boyfriend = new Character(0, 0, SONG.player1, true);
 		boyfriend.x += boyfriend.characterPosition[0];
 		boyfriend.y += boyfriend.characterPosition[1];
 		boyfriend.dance();
@@ -320,7 +324,7 @@ class PlayState extends MusicBeatState
 		add(camFollow);
 
 		camGAME.follow(camFollow, LOCKON, 0.04);
-		camGAME.zoom = StageBackend.stage.zoom;
+		camGAME.zoom = cameraZoom;
 		camGAME.focusOn(camFollow.getPosition());
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
@@ -729,7 +733,7 @@ class PlayState extends MusicBeatState
 				ease: FlxEase.elasticInOut,
 				onUpdate: function(twn:FlxTween)
 				{
-					StageBackend.stage.zoom = camGAME.zoom;
+					cameraZoom = camGAME.zoom;
 				}
 			});
 		}
@@ -739,7 +743,7 @@ class PlayState extends MusicBeatState
 				ease: FlxEase.elasticInOut,
 				onUpdate: function(twn:FlxTween)
 				{
-					StageBackend.stage.zoom = camGAME.zoom;
+					cameraZoom = camGAME.zoom;
 				}
 			});
 		}
@@ -981,7 +985,7 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene)
 		{
-			camGAME.zoom = FlxMath.lerp(StageBackend.stage.zoom, camGAME.zoom, 0.95);
+			camGAME.zoom = FlxMath.lerp(cameraZoom, camGAME.zoom, 0.95);
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
 		}
 
