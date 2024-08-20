@@ -19,19 +19,8 @@ class Tank extends StageBackend
 
 	override public function create()
 	{
-		if (PlayState.SONG.player3 == 'pico-speaker')
-		{
-			GF_POSITION = [400.0, 130.0];
-		}
-
-		GF_POSITION[0] -= 30;
-		GF_POSITION[1] += 10;
-
-		if (PlayState.SONG.player3 != 'pico-speaker')
-		{
-			GF_POSITION[0] -= 170.0;
-			GF_POSITION[1] -= 75.0;
-		}
+		GF_POSITION[0] -= 200.0;
+		GF_POSITION[1] -= 74.0;
 
 		DAD_POSITION = [20.0, 160.0];
 		BF_POSITION = [810.0, 450.0];
@@ -163,16 +152,16 @@ class Tank extends StageBackend
 		camGAME.zoom = game.cameraZoom = 0.9 * 1.2;
 
 		game.cameraMovement(opponent);
-		camFollow.y += 350;
 		camFollow.x -= 100;
-		camFollow.y -= 100;
+		// camFollow.y += 100;
 		camGAME.snapToTarget();
 
 		FlxG.sound.playMusic(Paths.content.music('cutscene/DISTORTO'), 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.5);
 
 		opponent.visible = false;
-		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417, opponentGroup.y + 225, Paths.location.atlas('cutscenes/tankman', 'week7'));
+		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417 + opponent.characterPosition[0],
+			opponentGroup.y + 225 + opponent.characterPosition[1], Paths.location.atlas('cutscenes/tankman', 'week7'));
 		addBehindOpponent(tankCutsceneObj);
 
 		tankCutsceneObj.anim.play('TANK TALK 1 P1');
@@ -264,23 +253,18 @@ class Tank extends StageBackend
 				}
 			});
 
-		game.cameraMovement(opponent);
-		camFollow.y += 350;
-		camFollow.x -= 100;
-		camGAME.snapToTarget();
-
 		// Make the current opponent invisible for now.
 		opponent.visible = false;
 
 		// Setup Tankman object.
-		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417, opponentGroup.y + 225, Paths.location.atlas('cutscenes/tankman', 'week7'));
+		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417 + opponent.characterPosition[0],
+			opponentGroup.y + 225 + opponent.characterPosition[1], Paths.location.atlas('cutscenes/tankman', 'week7'));
 		addBehindOpponent(tankCutsceneObj);
 
 		tankCutsceneObj.anim.play('TANK TALK 2');
 
 		game.cameraMovement(opponent);
-		camFollow.y += 350;
-		camFollow.y -= 100;
+		// camFollow.y -= 100;
 		camFollow.x -= 100;
 		camGAME.snapToTarget();
 
@@ -348,9 +332,6 @@ class Tank extends StageBackend
 		#end
 	}
 
-	var fakeBF:Character = null;
-	var fakeGF:Character = null;
-
 	function stressIntro()
 	{
 		#if (FUNKIN_VIDEOS && !hxvlc)
@@ -359,180 +340,7 @@ class Tank extends StageBackend
 
 		game.playVideo('stressCutscene');
 		#else
-		inCutscene = true;
-
-		// Hide the HUD Camera and show the Cutscene one. (even if there's nothing in it)
-		camHUD.visible = false;
-
-		// Setup beginning camera positions.
-		camGAME.zoom = game.cameraZoom = 0.9 * 1.15;
-		camFollow.x += 200;
-		camGAME.snapToTarget();
-
-		// Make the characters on stage invisible for now.
-		gf.visible = false;
-		opponent.visible = false;
-		player.visible = false;
-
-		fakeGF = new Character(gfGroup.x, gfGroup.y, 'gf-tankmen', false);
-		fakeGF.dance();
-		fakeGF.animation.finishCallback = (name:String) ->
-		{
-			fakeGF.dance();
-		}
-		add(fakeGF);
-
-		var gfCutsceneObj:FlxSprite = new FlxSprite(fakeGF.x - 220, fakeGF.y - 463);
-		gfCutsceneObj.frames = Paths.content.sparrowAtlas("cutscenes/GF_Turn");
-		gfCutsceneObj.animation.addByPrefix("gfTurn", "GF STARTS TO TURN", 24, false);
-		gfCutsceneObj.visible = false;
-		add(gfCutsceneObj);
-
-		var picoCutsceneObj:FlxAnimate = new FlxAnimate(0, 0, Paths.location.atlas("cutscenes/pico", "week7"));
-		picoCutsceneObj.setPosition(gfGroup.x - 114, gfGroup.y + 119);
-		picoCutsceneObj.visible = false;
-		add(picoCutsceneObj);
-
-		fakeBF = new Character(playerGroup.x, playerGroup.y, 'bf', true);
-		add(fakeBF);
-
-		var tankCutsceneObj:FlxAnimate = new FlxAnimate(opponentGroup.x + 417, opponentGroup.y + 225, Paths.location.atlas("cutscenes/tankman", "week7"));
-		add(tankCutsceneObj);
-
-		tankCutsceneObj.anim.play('TANK TALK 3 P1');
-
-		FlxG.sound.playMusic(Paths.content.music('cutscene/stressCutscene'));
-
-		camFollow.x -= 200;
-
-		new FlxTimer().start(15.1, function(gfTurn:FlxTimer)
-		{
-			camFollow.x += 200;
-			camFollow.y -= 170;
-
-			fakeGF.destroy();
-
-			gfCutsceneObj.visible = true;
-			gfCutsceneObj.animation.play("gfTurn");
-
-			gfCutsceneObj.animation.finishCallback = (name:String) ->
-			{
-				picoCutsceneObj.visible = true;
-				picoCutsceneObj.anim.play();
-				gfCutsceneObj.destroy();
-			}
-
-			picoCutsceneObj.anim.onComplete.add(function()
-			{
-				gf.visible = true;
-				picoCutsceneObj.destroy();
-			});
-
-			FlxTween.tween(game, {cameraZoom: camGAME.zoom * 1.3}, 2.1, {
-				ease: FlxEase.quadInOut,
-				onUpdate: function(_)
-				{
-					camGAME.zoom = game.cameraZoom;
-				}
-			});
-		});
-
-		// Pico arrives and kills some tankmen.
-		new FlxTimer().start(17.3, function(picoArrives:FlxTimer)
-		{
-			camGAME.zoom = game.cameraZoom = 0.8;
-
-			fakeBF.destroy();
-
-			player.visible = true;
-			player.playAnim("bfCatch");
-
-			player.animation.finishCallback = function(bfCatch:String)
-			{
-				player.dance();
-
-				player.animation.finishCallback = null;
-			};
-		});
-
-		// Tankman talks to Pico.
-		new FlxTimer().start(19.6, function(lookWhoItIs:FlxTimer)
-		{
-			tankCutsceneObj.anim.play('TANK TALK 3 P2');
-		});
-
-		new FlxTimer().start(20.3, function(lookWhoCamMove:FlxTimer)
-		{
-			camFollow.x -= 80;
-			camFollow.y += 180;
-			camFollow.y += 180;
-			camFollow.x -= 80;
-			camFollow.y += 180;
-			camFollow.x -= 80;
-		});
-
-		// You little cunt.
-		new FlxTimer().start(31.5, function(cunt:FlxTimer)
-		{
-			camFollow.x += 400;
-			camFollow.y = 150;
-			camGAME.zoom = game.cameraZoom = 0.9 * 1.4;
-			camGAME.snapToTarget();
-
-			FlxTween.tween(game, {cameraZoom: camGAME.zoom * 0.1}, 0.5, {
-				ease: FlxEase.elasticOut,
-				onUpdate: function(_)
-				{
-					camGAME.zoom = game.cameraZoom;
-				}
-			});
-
-			player.playAnim("singUPmiss");
-
-			// We can see his head cut off during this part so we will hide him until the player is done his miss animation.
-			// PlayState.instance.currentStage.getNamedProp("tankmanAudience3").alpha = 0;
-
-			player.animation.finishCallback = function(bfMiss:String)
-			{
-				player.dance();
-
-				camFollow.x -= 400;
-				camFollow.y -= 150;
-				camGAME.zoom = game.cameraZoom /= 1.4;
-				camGAME.snapToTarget();
-
-				player.animation.finishCallback = null;
-			};
-		});
-
-		// Finishing up the cutscene.
-		new FlxTimer().start(35.1, function(endCutscene:FlxTimer)
-		{
-			camFollow.x -= 120;
-			camFollow.y -= 10;
-
-			FlxTween.tween(game, {cameraZoom: zoom}, 0.5, {
-				ease: FlxEase.quadInOut,
-				onUpdate: function(_)
-				{
-					camGAME.zoom = game.cameraZoom;
-				}
-			});
-
-			tankCutsceneObj.destroy();
-
-			// The original opponent can come back now.
-			gf.visible = true;
-			opponent.visible = true;
-
-			// Stop the cutscene music.
-			FlxG.sound.music.stop();
-			FlxG.sound.music.destroy();
-
-			// Play the song now.
-			inCutscene = false;
-			startCountdown();
-		});
+		startCountdown();
 		#end
 	}
 
@@ -546,20 +354,18 @@ class Tank extends StageBackend
 
 	override public function update(elapsed:Float):Void
 	{
-		moveTank();
+		if (!inCutscene)
+			moveTank();
 	}
 
 	function moveTank():Void
 	{
-		if (!inCutscene)
-		{
-			var daAngleOffset:Float = 1;
-			tankAngle += FlxG.elapsed * tankSpeed;
-			tankGround.angle = tankAngle - 90 + 15;
+		var daAngleOffset:Float = 1;
+		tankAngle += FlxG.elapsed * tankSpeed;
+		tankGround.angle = tankAngle - 90 + 15;
 
-			tankGround.x = tankX + Math.cos(FlxAngle.asRadians((tankAngle * daAngleOffset) + 180)) * 1500;
-			tankGround.y = 1300 + Math.sin(FlxAngle.asRadians((tankAngle * daAngleOffset) + 180)) * 1100;
-		}
+		tankGround.x = tankX + Math.cos(FlxAngle.asRadians((tankAngle * daAngleOffset) + 180)) * 1500;
+		tankGround.y = 1300 + Math.sin(FlxAngle.asRadians((tankAngle * daAngleOffset) + 180)) * 1100;
 	}
 
 	var tankResetShit:Bool = false;

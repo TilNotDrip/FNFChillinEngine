@@ -173,6 +173,27 @@ class PathLocation
 		return false;
 	}
 
+	public function list(path:String = null, ?library:String = 'preload'):Array<String>
+	{
+		var listToFilter:Array<String> = openfl.utils.Assets.list();
+		var listToReturn:Array<String> = [];
+
+		for (file in listToFilter)
+		{
+			var needsToStartWith:String = 'assets/';
+
+			if (library != 'preload')
+				needsToStartWith += library + '/';
+			if (path != null)
+				needsToStartWith += path + '/';
+
+			if (file.startsWith(needsToStartWith))
+				listToReturn.push(returnLibrary(library) + ':' + file);
+		}
+
+		return listToReturn;
+	}
+
 	function getLibraryPath(key:String, ?library:String):String
 	{
 		if (library == 'preload' || library == 'default')
@@ -183,7 +204,7 @@ class PathLocation
 
 	function returnLibrary(library:String):String
 	{
-		if (library == 'preload')
+		if (library == 'preload' || library == null)
 			return 'default';
 
 		return library;

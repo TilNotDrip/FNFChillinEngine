@@ -100,7 +100,7 @@
 
     "gameplay": {
         "position": [0, 0],
-        "camera_position": [0, 0],
+        "camera_position": [50, 290],
         "danceEvery": 2.0,
         "singTime": 8.0,
         "deathChar": "bf-pixel-dead",

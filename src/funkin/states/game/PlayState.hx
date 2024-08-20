@@ -1,5 +1,6 @@
 package funkin.states.game;
 
+import openfl.events.KeyboardEvent;
 import funkin.substates.game.GameOverSubstate;
 import funkin.substates.game.PauseSubState;
 import funkin.substates.game.EndSubState;
@@ -530,6 +531,7 @@ class PlayState extends MusicBeatState
 	{
 		var spr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic(path));
 		spr.scrollFactor.set();
+		spr.cameras = [camHUD];
 
 		if (ui == 'funkin-pixel')
 		{
@@ -1713,116 +1715,116 @@ class PlayState extends MusicBeatState
 
 	public function keyShitOpponent():Void
 	{
-		var canIdle:Bool = true;
+		/*var canIdle:Bool = true;
 
-		var holdArray:Array<Bool> = [controls.NOTE_LEFT, controls.NOTE_DOWN, controls.NOTE_UP, controls.NOTE_RIGHT];
+			var holdArray:Array<Bool> = [controls.NOTE_LEFT, controls.NOTE_DOWN, controls.NOTE_UP, controls.NOTE_RIGHT];
 
-		var pressArray:Array<Bool> = [
-			controls.NOTE_LEFT_P,
-			controls.NOTE_DOWN_P,
-			controls.NOTE_UP_P,
-			controls.NOTE_RIGHT_P
-		];
+			var pressArray:Array<Bool> = [
+				controls.NOTE_LEFT_P,
+				controls.NOTE_DOWN_P,
+				controls.NOTE_UP_P,
+				controls.NOTE_RIGHT_P
+			];
 
-		if (holdArray.contains(true) && generatedMusic)
-		{
-			notes.forEachAlive(function(daNote:Note)
+			if (holdArray.contains(true) && generatedMusic)
 			{
-				if (daNote.isSustainNote && daNote.canBeHit && !daNote.mustPress && holdArray[daNote.noteData])
+				notes.forEachAlive(function(daNote:Note)
 				{
-					opponentNoteHit(daNote);
-					calculateAccuracy();
-				}
-			});
-		}
-
-		if (pressArray.contains(true) && generatedMusic)
-		{
-			dad.holdTimer = 0;
-
-			var possibleNotes:Array<Note> = [];
-			var directionList:Array<Int> = [];
-			var dumbNotes:Array<Note> = [];
-
-			notes.forEachAlive(function(daNote:Note)
-			{
-				if (daNote.canBeHit && !daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit)
-				{
-					if (directionList.contains(daNote.noteData))
+					if (daNote.isSustainNote && daNote.canBeHit && !daNote.mustPress && holdArray[daNote.noteData])
 					{
-						for (coolNote in possibleNotes)
+						opponentNoteHit(daNote);
+						calculateAccuracy();
+					}
+				});
+			}
+
+			if (pressArray.contains(true) && generatedMusic)
+			{
+				dad.holdTimer = 0;
+
+				var possibleNotes:Array<Note> = [];
+				var directionList:Array<Int> = [];
+				var dumbNotes:Array<Note> = [];
+
+				notes.forEachAlive(function(daNote:Note)
+				{
+					if (daNote.canBeHit && !daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit)
+					{
+						if (directionList.contains(daNote.noteData))
 						{
-							if (coolNote.noteData == daNote.noteData && Math.abs(daNote.strumTime - coolNote.strumTime) < 10)
+							for (coolNote in possibleNotes)
 							{
-								dumbNotes.push(daNote);
-								break;
-							}
-							else if (coolNote.noteData == daNote.noteData && daNote.strumTime < coolNote.strumTime)
-							{
-								possibleNotes.remove(coolNote);
-								possibleNotes.push(daNote);
-								break;
+								if (coolNote.noteData == daNote.noteData && Math.abs(daNote.strumTime - coolNote.strumTime) < 10)
+								{
+									dumbNotes.push(daNote);
+									break;
+								}
+								else if (coolNote.noteData == daNote.noteData && daNote.strumTime < coolNote.strumTime)
+								{
+									possibleNotes.remove(coolNote);
+									possibleNotes.push(daNote);
+									break;
+								}
 							}
 						}
+						else
+						{
+							possibleNotes.push(daNote);
+							directionList.push(daNote.noteData);
+						}
 					}
-					else
+				});
+
+				for (note in dumbNotes)
+				{
+					FlxG.log.add("killing dumb ass note at " + note.strumTime);
+					note.kill();
+					notes.remove(note, true);
+					note.destroy();
+				}
+
+				possibleNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
+
+				calculateAccuracy();
+
+				if (perfectMode)
+					opponentNoteHit(possibleNotes[0]);
+				else if (possibleNotes.length > 0)
+				{
+					for (shit in 0...pressArray.length)
 					{
-						possibleNotes.push(daNote);
-						directionList.push(daNote.noteData);
+						if (pressArray[shit] && !directionList.contains(shit))
+							noteMiss(possibleNotes[0]);
+					}
+					for (coolNote in possibleNotes)
+					{
+						if (pressArray[coolNote.noteData])
+							opponentNoteHit(coolNote);
 					}
 				}
-			});
-
-			for (note in dumbNotes)
-			{
-				FlxG.log.add("killing dumb ass note at " + note.strumTime);
-				note.kill();
-				notes.remove(note, true);
-				note.destroy();
+				else if (!FunkinOptions.get('ghostTapping'))
+					ghostHit();
 			}
 
-			possibleNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
-
-			calculateAccuracy();
-
-			if (perfectMode)
-				opponentNoteHit(possibleNotes[0]);
-			else if (possibleNotes.length > 0)
+			if (dad.holdTimer >= Conductor.stepCrochet * dad.singTime * 0.001 && (!holdArray.contains(true) && canIdle))
 			{
-				for (shit in 0...pressArray.length)
+				if (dad.animation.curAnim.name.startsWith('sing') && !dad.animation.curAnim.name.endsWith('miss'))
 				{
-					if (pressArray[shit] && !directionList.contains(shit))
-						noteMiss(possibleNotes[0]);
-				}
-				for (coolNote in possibleNotes)
-				{
-					if (pressArray[coolNote.noteData])
-						opponentNoteHit(coolNote);
+					dad.dance();
 				}
 			}
-			else if (!FunkinOptions.get('ghostTapping'))
-				ghostHit();
-		}
 
-		if (dad.holdTimer >= Conductor.stepCrochet * dad.singTime * 0.001 && (!holdArray.contains(true) && canIdle))
-		{
-			if (dad.animation.curAnim.name.startsWith('sing') && !dad.animation.curAnim.name.endsWith('miss'))
+			for (i in 0...opponentStrums.notes)
 			{
-				dad.dance();
-			}
-		}
+				if (pressArray[i] && opponentStrums.getNote(i).animation.curAnim.name != 'confirm')
+					opponentStrums.playNoteAnim(i, 'pressed');
 
-		for (i in 0...opponentStrums.notes)
-		{
-			if (pressArray[i] && opponentStrums.getNote(i).animation.curAnim.name != 'confirm')
-				opponentStrums.playNoteAnim(i, 'pressed');
+				if (!holdArray[i])
+					opponentStrums.playNoteAnim(i, 'static');
 
-			if (!holdArray[i])
-				opponentStrums.playNoteAnim(i, 'static');
-
-			if (opponentStrums.getNote(i).animation.curAnim.name != 'static')
-				canIdle = false;
-		}
+				if (opponentStrums.getNote(i).animation.curAnim.name != 'static')
+					canIdle = false;
+		}*/
 	}
 
 	function missThing()
