@@ -109,7 +109,7 @@
     "scale": [1, 1],
 
     "gameplay": {
-        "position": [0, 350],
+        "position": [0, 0],
         "camera_position": [0, 0],
         "danceEvery": 2.0,
         "singTime": 8.0,
