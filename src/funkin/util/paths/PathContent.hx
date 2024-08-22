@@ -196,47 +196,64 @@ class PathContent
 	}
 
 	/**
-	 * Clears the audio cache.
+	 * Clears all audios in the audio cache and then runs the garbage collector.
 	 */
 	public function clearAudioCache():Void
 	{
 		for (audioKey in audioCache.keys())
 		{
-			if (!clearCacheExcludeKeys.contains(audioKey))
-			{
-				Assets.cache.removeSound(audioKey);
-
-				var sound:Sound = audioCache.get(audioKey);
-				audioCache.remove(audioKey);
-				sound.close();
-			}
+			removeFromAudioCache(audioKey);
 		}
 
 		System.gc();
 	}
 
 	/**
-	 * Clears the image cache and runs the system garbage collector.
+	 * Clears all images inside the image cache then runs the garbage collector.
 	 */
 	public function clearImageCache():Void
 	{
 		for (graphicKey in imgGraphicCache.keys())
 		{
-			// Note to self: Don't return in a loop learned that the hard way
-			if (!clearCacheExcludeKeys.contains(graphicKey))
-			{
-				@:privateAccess
-				FlxG.bitmap._cache.remove(graphicKey);
-				Assets.cache.removeBitmapData(graphicKey);
-
-				var graphic:FlxGraphic = imgGraphicCache.get(graphicKey);
-				graphic.persist = false;
-				graphic.destroyOnNoUse = true;
-				imgGraphicCache.remove(graphicKey);
-				graphic.destroy();
-			}
+			removeFromImageCache(graphicKey);
 		}
 
 		System.gc();
+	}
+
+	/**
+	 * Removes and destroys an audio from the adio cache.
+	 * @param key Audio to remove and destroy.
+	 */
+	public function removeFromAudioCache(key:String):Void
+	{
+		if (clearCacheExcludeKeys.contains(key))
+			return;
+
+		Assets.cache.removeSound(key);
+
+		var sound:Sound = audioCache.get(key);
+		audioCache.remove(key);
+		sound.close();
+	}
+
+	/**
+	 * Removes and destroys an image from the image cache.
+	 * @param key Image to remove and destroy.
+	 */
+	public function removeFromImageCache(key:String):Void
+	{
+		if (clearCacheExcludeKeys.contains(key))
+			return;
+
+		@:privateAccess
+		FlxG.bitmap._cache.remove(key);
+		Assets.cache.removeBitmapData(key);
+
+		var graphic:FlxGraphic = imgGraphicCache.get(key);
+		graphic.persist = false;
+		graphic.destroyOnNoUse = true;
+		imgGraphicCache.remove(key);
+		graphic.destroy();
 	}
 }
