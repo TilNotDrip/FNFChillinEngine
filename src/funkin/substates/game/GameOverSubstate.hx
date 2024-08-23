@@ -1,9 +1,9 @@
 package funkin.substates.game;
 
-import funkin.stages.StageBackend;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import funkin.objects.game.Character;
+import funkin.stages.StageBackend;
 import funkin.states.tools.AnimationDebug;
 
 /**

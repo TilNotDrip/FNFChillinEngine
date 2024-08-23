@@ -1,5 +1,8 @@
-package funkin.display;
+package funkin.graphics.display;
 
+#if cpp
+import cpp.vm.Gc;
+#end
 import flixel.util.FlxStringUtil;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
@@ -8,7 +11,7 @@ import openfl.text.TextFormat;
 	The FPS class provides an easy-to-use monitor to display
 	the current frame rate of an OpenFL project
 **/
-class FPS extends TextField
+class FunkinFPSCounter extends TextField
 {
 	/**
 	 * The current frame rate, expressed using frames-per-second
@@ -36,14 +39,6 @@ class FPS extends TextField
 
 		currentFPS = 0;
 
-		#if cpp
-		currentMEM = "0";
-		#end
-
-		#if debug
-		currentState = "";
-		#end
-
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
@@ -67,18 +62,10 @@ class FPS extends TextField
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
 
-		#if cpp
-		currentMEM = FlxStringUtil.formatBytes(cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE), 2);
-		#end
-
-		#if debug
-		currentState = Type.getClassName(Type.getClass(FlxG.state));
-		#end
-
 		if (currentCount != cacheCount)
 		{
-			text = 'FPS: $currentFPS' #if cpp + '\nMEM: $currentMEM' #end
-			#if debug + '\nSTATE: $currentState' + '\nVERSION: ${Application.current.meta.get('version')}' #end;
+			text = 'FPS: $currentFPS' #if cpp + '\nMEM: ${FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE), 2)}' #end
+			#if debug + '\nSTATE: ${Type.getClassName(Type.getClass(FlxG.state))}' + '\nVERSION: ${Application.current.meta.get('version')}' #end;
 		}
 		cacheCount = currentCount;
 	}

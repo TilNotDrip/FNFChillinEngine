@@ -1,7 +1,7 @@
 package funkin.stages.bgs;
 
-import funkin.objects.game.BGSprite;
 import flixel.addons.display.FlxTiledSprite;
+import funkin.objects.game.BGSprite;
 
 class Streets extends StageBackend
 {

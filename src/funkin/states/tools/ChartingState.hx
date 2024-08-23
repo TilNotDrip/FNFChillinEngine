@@ -1,29 +1,29 @@
 package funkin.states.tools;
 
-import funkin.structures.ChartStructures.LegacyChartStructure;
-import funkin.structures.ChartStructures.LegacySectionStructure;
-import funkin.util.Song;
-import funkin.util.SongEvent;
-import funkin.util.SongEvent.SwagEvent;
-import funkin.util.Conductor.BPMChangeEvent;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
-import texter.flixel.FlxInputTextRTL as FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.ui.FlxButton;
 import flixel.util.FlxSave;
 import flixel.util.FlxSort;
-import haxe.Json;
 import funkin.objects.game.HealthIcon;
 import funkin.objects.game.Note;
+import funkin.structures.ChartStructures.LegacyChartStructure;
+import funkin.structures.ChartStructures.LegacySectionStructure;
+import funkin.util.Conductor.BPMChangeEvent;
+import funkin.util.Song;
+import funkin.util.SongEvent.SwagEvent;
+import funkin.util.SongEvent;
+import haxe.Json;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
+import texter.flixel.FlxInputTextRTL as FlxUIInputText;
 
 class ChartingState extends MusicBeatState
 {

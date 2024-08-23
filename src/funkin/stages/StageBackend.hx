@@ -1,10 +1,10 @@
 package funkin.stages;
 
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.math.FlxPoint;
 import funkin.objects.game.Character;

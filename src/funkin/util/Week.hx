@@ -1,8 +1,8 @@
 package funkin.util;
 
+import flixel.util.FlxSave;
 import funkin.structures.ChartStructures.LegacyChartStructure;
 import funkin.util.Song;
-import flixel.util.FlxSave;
 
 class Week
 {

@@ -1,13 +1,13 @@
 package funkin.objects.game;
 
+import flixel.math.FlxPoint;
+import flixel.util.FlxSort;
 import funkin.structures.CharacterStructure;
 import funkin.util.SongEvent.SwagEvent;
 // import funkin.util.VersionUtil;
-import flixel.math.FlxPoint;
-import flixel.util.FlxSort;
 import haxe.Json;
-import openfl.utils.Assets;
 import json2object.JsonParser;
+import openfl.utils.Assets;
 import thx.semver.VersionRule;
 
 class Character extends FlxSprite

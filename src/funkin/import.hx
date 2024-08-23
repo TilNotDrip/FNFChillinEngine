@@ -13,7 +13,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.app.Application;
 // Stuff from Chillin' Engine/Friday Night Funkin' itself
 #if FUNKIN_DISCORD_RPC
 import funkin.api.DiscordRPC;
@@ -21,12 +20,13 @@ import funkin.api.DiscordRPC;
 import funkin.data.FunkinControls;
 import funkin.data.FunkinHighscore;
 import funkin.data.FunkinOptions;
-import funkin.objects.*;
+import funkin.objects.Alphabet;
+import funkin.objects.FlxVideo;
+import funkin.states.LoadingState;
 import funkin.states.game.PlayState;
-import funkin.states.menus.StoryMenuState;
 import funkin.states.menus.FreeplayState;
 import funkin.states.menus.MainMenuState;
-import funkin.states.LoadingState;
+import funkin.states.menus.StoryMenuState;
 import funkin.util.Conductor;
 import funkin.util.Constants;
 import funkin.util.Controls;
@@ -34,6 +34,7 @@ import funkin.util.CoolUtil;
 import funkin.util.DateUtil;
 import funkin.util.MathUtil;
 import funkin.util.paths.Paths;
+import lime.app.Application;
 
 // Using
 using StringTools;

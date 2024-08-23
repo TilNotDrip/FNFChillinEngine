@@ -23,8 +23,6 @@ class OptionsState extends MusicBeatState
 		DiscordRPC.details = 'Options Menu';
 		#end
 
-		FlxG.cameras.reset(new SwagCamera());
-
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('mainmenu/menuBG'));
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();

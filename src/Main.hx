@@ -3,14 +3,14 @@ package;
 #if FUNKIN_DISCORD_RPC
 import funkin.api.DiscordRPC;
 #end
+import flixel.FlxG;
+import flixel.FlxGame;
 import funkin.data.FunkinControls;
 import funkin.data.FunkinHighscore;
 import funkin.data.FunkinOptions;
-import funkin.display.FPS;
-import funkin.display.FunkinSoundTray;
+import funkin.graphics.display.FunkinFPSCounter;
+import funkin.graphics.display.FunkinSoundTray;
 import funkin.states.menus.TitleState;
-import flixel.FlxG;
-import flixel.FlxGame;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
@@ -51,7 +51,7 @@ class Main extends Sprite
 
 	var overlay:Sprite;
 
-	public static var fpsCounter:FPS;
+	public static var fpsCounter:FunkinFPSCounter;
 
 	function setupGame():Void
 	{
@@ -64,7 +64,7 @@ class Main extends Sprite
 		initGame();
 
 		#if !mobile
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
+		fpsCounter = new FunkinFPSCounter(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
 	}

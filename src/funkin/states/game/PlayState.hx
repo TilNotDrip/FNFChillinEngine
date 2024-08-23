@@ -1,33 +1,35 @@
 package funkin.states.game;
 
-import openfl.events.KeyboardEvent;
-import funkin.substates.game.GameOverSubstate;
-import funkin.substates.game.PauseSubState;
-import funkin.substates.game.EndSubState;
-import funkin.util.Song;
-import funkin.util.Week;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.addons.text.FlxTypeText;
-import funkin.structures.ChartStructures.LegacySectionStructure;
-import funkin.util.SongEvent.SwagEvent;
-import funkin.structures.ChartStructures.LegacyChartStructure;
 import flixel.FlxCamera;
 import flixel.FlxObject;
-import flixel.addons.effects.FlxTrail;
+import flixel.addons.text.FlxTypeText;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.math.FlxPoint;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.math.FlxRect;
 import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
+import funkin.objects.SwagCamera;
+import funkin.objects.game.Character;
+import funkin.objects.game.HealthIcon;
+import funkin.objects.game.Note;
+import funkin.objects.game.NoteSplash;
+import funkin.objects.game.Strumline;
+import funkin.objects.game.Strums;
+import funkin.stages.StageBackend;
+import funkin.states.tools.AnimationDebug;
+import funkin.states.tools.ChartingState;
+import funkin.structures.ChartStructures.LegacyChartStructure;
+import funkin.structures.ChartStructures.LegacySectionStructure;
+import funkin.substates.game.EndSubState;
+import funkin.substates.game.GameOverSubstate;
+import funkin.substates.game.PauseSubState;
+import funkin.util.Song;
+import funkin.util.SongEvent.SwagEvent;
+import funkin.util.Week;
 #if hxvlc
 import hxvlc.flixel.FlxVideo;
 #end
-import funkin.objects.game.*;
-import funkin.stages.StageBackend;
-import funkin.stages.bgs.*;
-import funkin.states.tools.*;
-import funkin.substates.*;
 
 class PlayState extends MusicBeatState
 {
@@ -214,25 +216,25 @@ class PlayState extends MusicBeatState
 		switch (curStage)
 		{
 			case 'mainStage':
-				new MainStage();
+				new funkin.stages.bgs.MainStage();
 			case 'spooky':
-				new Spooky();
+				new funkin.stages.bgs.Spooky();
 			case 'philly':
-				new Philly();
+				new funkin.stages.bgs.Philly();
 			case 'limo':
-				new Limo();
+				new funkin.stages.bgs.Limo();
 			case 'mall':
-				new Mall();
+				new funkin.stages.bgs.Mall();
 			case 'mallEvil':
-				new MallEvil();
+				new funkin.stages.bgs.MallEvil();
 			case 'school':
-				new School();
+				new funkin.stages.bgs.School();
 			case 'schoolEvil':
-				new SchoolEvil();
+				new funkin.stages.bgs.SchoolEvil();
 			case 'tank':
-				new Tank();
+				new funkin.stages.bgs.Tank();
 			case 'streets':
-				new Streets();
+				new funkin.stages.bgs.Streets();
 		}
 
 		ui = StageBackend.stage.ui;
@@ -693,20 +695,16 @@ class PlayState extends MusicBeatState
 		if (FunkinOptions.get('middleScroll'))
 			arrows.screenCenter(X);
 
-		var dummyNotes:Array<Note> = [];
-
-		// TODO: Redo this much nicer im pretty sure i can do that now with my skill.
 		for (i in 0...arrows.notes)
-			dummyNotes.push(new Note(0, i, (player == 1) ? boyfriend.ui : dad.ui));
+		{
+			var dumbass:Note = new Note(0, i, (player == 1) ? boyfriend.ui : dad.ui);
+			arrows.pressNoteShader[i].rgb = dumbass.returnColors(i);
+			dumbass.destroy(); // oh i just destroyed a dumbass
+		}
 
 		if (player == 1)
 		{
 			playerStrums = arrows;
-
-			playerStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
-			playerStrums.pressNoteDown.rgb = dummyNotes[1].returnColors(1);
-			playerStrums.pressNoteUp.rgb = dummyNotes[2].returnColors(2);
-			playerStrums.pressNoteRight.rgb = dummyNotes[3].returnColors(3);
 		}
 		else
 		{
@@ -714,15 +712,7 @@ class PlayState extends MusicBeatState
 
 			if (FunkinOptions.get('middleScroll'))
 				arrows.visible = false;
-
-			opponentStrums.pressNoteLeft.rgb = dummyNotes[0].returnColors(0);
-			opponentStrums.pressNoteDown.rgb = dummyNotes[1].returnColors(1);
-			opponentStrums.pressNoteUp.rgb = dummyNotes[2].returnColors(2);
-			opponentStrums.pressNoteRight.rgb = dummyNotes[3].returnColors(3);
 		}
-
-		for (i in dummyNotes)
-			i.destroy();
 
 		strumLineNotes.add(arrows);
 	}

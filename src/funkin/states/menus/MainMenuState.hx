@@ -4,6 +4,7 @@ import flixel.FlxObject;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.ui.FlxButton;
+import funkin.objects.SwagCamera;
 import funkin.objects.menu.MenuItem;
 
 class MainMenuState extends MusicBeatState

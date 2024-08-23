@@ -1,7 +1,7 @@
 package funkin.states;
 
-import funkin.util.Conductor.BPMChangeEvent;
 import flixel.addons.ui.FlxUIState;
+import funkin.util.Conductor.BPMChangeEvent;
 
 class MusicBeatState extends FlxUIState
 {

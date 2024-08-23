@@ -1,12 +1,12 @@
 package funkin.states.menus;
 
-import funkin.util.SongEvent;
-import funkin.util.Song;
-import funkin.util.Week;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.misc.ColorTween;
 import funkin.objects.menu.MenuCharacter;
 import funkin.objects.menu.WeekItem;
+import funkin.util.Song;
+import funkin.util.SongEvent;
+import funkin.util.Week;
 
 class StoryMenuState extends MusicBeatState
 {

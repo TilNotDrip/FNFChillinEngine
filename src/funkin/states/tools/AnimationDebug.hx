@@ -4,6 +4,7 @@ import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
+import funkin.objects.SwagCamera;
 import funkin.objects.game.Character;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;

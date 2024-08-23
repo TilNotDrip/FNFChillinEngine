@@ -4,6 +4,7 @@ import flixel.graphics.FlxGraphic;
 import haxe.Json;
 import openfl.display.BitmapData;
 
+// TODO: redo this and maybe move this version to unused
 class CreditsState extends MusicBeatState
 {
 	static var curSelected:Int = 0;

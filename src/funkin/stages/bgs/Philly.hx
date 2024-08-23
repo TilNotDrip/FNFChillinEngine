@@ -1,7 +1,7 @@
 package funkin.stages.bgs;
 
+import funkin.graphics.shaders.BuildingShaders;
 import funkin.objects.game.BGSprite;
-import funkin.shaders.BuildingShaders;
 
 class Philly extends StageBackend
 {

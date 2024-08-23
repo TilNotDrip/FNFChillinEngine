@@ -10,7 +10,7 @@ class TrackedSprite extends FlxSprite
 	public var sprOffsetX:Float = 0.0;
 	public var sprOffsetY:Float = 0.0;
 
-	override public function update(elapsed:Float)
+	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 

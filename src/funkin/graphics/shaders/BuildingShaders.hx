@@ -1,4 +1,4 @@
-package funkin.shaders;
+package funkin.graphics.shaders;
 
 import flixel.system.FlxAssets.FlxShader;
 
@@ -37,10 +37,9 @@ class BuildingShader extends FlxShader
 
             if (color.a > 0.0)
                 color -= alphaShit;
-            
+
             gl_FragColor = color;
         }
-
     ')
 	public function new()
 	{

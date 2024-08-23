@@ -1,6 +1,6 @@
 package funkin.objects.game;
 
-import funkin.shaders.RGBShader;
+import funkin.graphics.shaders.RGBShader;
 
 class NoteSplash extends FlxSprite
 {

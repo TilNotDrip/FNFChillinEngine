@@ -20,8 +20,5 @@
         "*.haxe": "haxe",
         "*.hxs": "haxe",
         "*.hxc": "haxe"
-    },
-    "projectManager.git.baseFolders": [
-        "./"
-    ]
+    }
 }

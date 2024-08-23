@@ -1,7 +1,7 @@
 package funkin.objects.game;
 
 import flixel.group.FlxSpriteGroup;
-import funkin.shaders.RGBShader;
+import funkin.graphics.shaders.RGBShader;
 
 class Strums extends FlxSpriteGroup
 {
@@ -9,13 +9,8 @@ class Strums extends FlxSpriteGroup
 
 	var noteArray:Array<String> = ['left', 'down', 'up', 'right'];
 
-	public var staticNotes:RGBShader = new RGBShader();
-
-	// lmao idk how to do this correctly
-	public var pressNoteLeft:RGBShader = new RGBShader();
-	public var pressNoteDown:RGBShader = new RGBShader();
-	public var pressNoteUp:RGBShader = new RGBShader();
-	public var pressNoteRight:RGBShader = new RGBShader();
+	public var staticNoteShader:RGBShader = new RGBShader();
+	public var pressNoteShader:Array<RGBShader> = [new RGBShader(), new RGBShader(), new RGBShader(), new RGBShader()];
 
 	var staticNoteColors:Array<FlxColor>;
 
@@ -44,7 +39,7 @@ class Strums extends FlxSpriteGroup
 					newNote.animation.add('pressed', [0 + note, 4 + note], 12, false);
 					newNote.animation.add('confirm', [8 + note, 12 + note], 24, false);
 
-					staticNotes.rgb = [0xFFA2BAC8, 0xFFFFF5FC, 0xFF404047];
+					staticNoteShader.rgb = [0xFFA2BAC8, 0xFFFFF5FC, 0xFF404047];
 
 				default:
 					var directions:Array<String> = ['left', 'down', 'up', 'right'];
@@ -56,10 +51,10 @@ class Strums extends FlxSpriteGroup
 					newNote.animation.addByPrefix('pressed', directions[note] + ' press', 24, false);
 					newNote.animation.addByPrefix('confirm', directions[note] + ' confirm', 24, false);
 
-					staticNotes.rgb = [0xFF87A3AD, 0xFFFFFFFF, 0xFF000000];
+					staticNoteShader.rgb = [0xFF87A3AD, 0xFFFFFFFF, 0xFF000000];
 			}
 
-			shader = staticNotes.shader;
+			shader = staticNoteShader.shader;
 
 			newNote.animation.play('static');
 			newNote.ID = note;
@@ -85,20 +80,12 @@ class Strums extends FlxSpriteGroup
 			spr.updateHitbox();
 
 			if (spr.animation.curAnim.name == 'static')
-				spr.shader = staticNotes.shader;
+			{
+				spr.shader = staticNoteShader.shader;
+			}
 			else
 			{
-				switch (i)
-				{
-					case 0:
-						spr.shader = pressNoteLeft.shader;
-					case 1:
-						spr.shader = pressNoteDown.shader;
-					case 2:
-						spr.shader = pressNoteUp.shader;
-					case 3:
-						spr.shader = pressNoteRight.shader;
-				}
+				spr.shader = pressNoteShader[i].shader;
 			}
 
 			if (spr.animation.curAnim.name == 'confirm' && ui == 'funkin')

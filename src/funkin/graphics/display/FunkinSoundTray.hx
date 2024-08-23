@@ -1,13 +1,13 @@
-package funkin.display;
+package funkin.graphics.display;
 
-import flixel.system.ui.FlxSoundTray;
-import flixel.tweens.FlxTween;
 import flixel.system.FlxAssets;
+import flixel.system.ui.FlxSoundTray;
 import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.util.MathUtil;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.utils.Assets;
-import funkin.util.MathUtil;
 
 /**
  *  Extends the default flixel soundtray, but with some art
