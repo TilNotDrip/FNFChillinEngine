@@ -167,6 +167,7 @@ class PathLocation
 	public function exists(key:String, ?type:AssetType = null):Bool
 	{
 		// I hate my life
+		// this hurts to look at
 		if (Assets.exists(key, type))
 			return true;
 
