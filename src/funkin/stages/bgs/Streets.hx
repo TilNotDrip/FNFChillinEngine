@@ -14,6 +14,23 @@ class Streets extends StageBackend
 	{
 		zoom = 0.77;
 
+		BF_POSITION = [2151, 1228];
+		BF_POSITION[0] -= 219.5;
+		BF_POSITION[1] -= 785;
+		BF_POSITION[1] += 350;
+
+		DAD_POSITION = [900, 1110];
+		DAD_POSITION[0] -= 219.5;
+		DAD_POSITION[1] -= 785;
+		DAD_POSITION[1] += 350;
+		DAD_POSITION[0] -= 20;
+		DAD_POSITION[1] -= 100;
+
+		GF_POSITION = [1453, 900];
+		GF_POSITION[0] -= 219.5;
+		GF_POSITION[1] -= 785;
+		GF_POSITION[1] += 350;
+
 		scrollingSky = new FlxTiledSprite(Paths.content.imageGraphic('phillyStreets/phillySkybox'), 2922, 718, true, false);
 		scrollingSky.setPosition(-650, -375);
 		scrollingSky.scrollFactor.set(0.1, 0.1);
@@ -64,20 +81,6 @@ class Streets extends StageBackend
 	{
 		var spraycanPile:BGSprite = new BGSprite('SpraycanPile', 920, 1045, 1, 1);
 		add(spraycanPile);
-
-		BF_POSITION = [2151, 1228];
-		BF_POSITION[0] -= 219.5;
-		BF_POSITION[1] -= 785;
-
-		DAD_POSITION = [900, 1110];
-		DAD_POSITION[0] -= 219.5;
-		DAD_POSITION[1] -= 785;
-		DAD_POSITION[1] += 350;
-
-		GF_POSITION = [1453, 900];
-		GF_POSITION[0] -= 219.5;
-		GF_POSITION[1] -= 785;
-		GF_POSITION[1] += 350;
 	}
 
 	override public function update(elapsed:Float)
