@@ -22,7 +22,7 @@
 	<!-- ____________________________ Chillin' Engine Settings ___________________________ -->
 
 	<define name="FUNKIN_DISCORD_RPC" if="desktop cpp" />
-	<!-- define name="FUNKIN_MOD_SUPPORT" /-->
+	<define name="FUNKIN_MOD_SUPPORT" if="desktop" />
 	<define name="FUNKIN_VIDEOS" />
 
 	<define name="PRELOAD_ALL" unless="web" />
@@ -59,7 +59,7 @@
 	<assets path="assets/weekend1" library="weekend1" exclude="*.ogg" if="web" />
 	<assets path="assets/weekend1" library="weekend1" exclude="*.mp3" unless="web" />
 	<assets path="docs/CHANGELOG.md" rename='changelog.txt' />
-	<assets path="example_mods" rename="mods" />
+	<!-- assets path="example_mods" rename="mods" /-->
 
 	<section if="PRELOAD_ALL">
 		<library name="songs" preload="true" />
@@ -95,6 +95,8 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxanimate" unless="html5" />
+	<haxelib name="hscript" />
+	<haxelib name="hscript-ex" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="FUNKIN_DISCORD_RPC" />
 	<section if="FUNKIN_VIDEOS"><haxelib name="hxvlc" if="desktop cpp || mobile cpp" /></section>

@@ -1,13 +1,9 @@
 package funkin.graphics.display;
 
-import flixel.system.FlxAssets;
 import flixel.system.ui.FlxSoundTray;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import funkin.util.MathUtil;
 import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.utils.Assets;
+import openfl.media.Sound;
 
 /**
  *  Extends the default flixel soundtray, but with some art
@@ -22,7 +18,9 @@ class FunkinSoundTray extends FlxSoundTray
 	var lerpYPos:Float = 0;
 	var alphaTarget:Float = 0;
 
-	var volumeMaxSound:String;
+	var volumeUp:Sound = null;
+	var volumeDown:Sound = null;
+	var volumeMax:Sound = null;
 
 	public function new()
 	{
@@ -32,6 +30,7 @@ class FunkinSoundTray extends FlxSoundTray
 		var bg:Bitmap = new Bitmap(Paths.content.imageBitmap('soundtray/volumebox'));
 		bg.scaleX = graphicScale;
 		bg.scaleY = graphicScale;
+		bg.smoothing = true;
 		addChild(bg);
 
 		y = -height;
@@ -42,6 +41,7 @@ class FunkinSoundTray extends FlxSoundTray
 		backingBar.y = 5;
 		backingBar.scaleX = graphicScale;
 		backingBar.scaleY = graphicScale;
+		backingBar.smoothing = true;
 		addChild(backingBar);
 		backingBar.alpha = 0.4;
 
@@ -54,6 +54,7 @@ class FunkinSoundTray extends FlxSoundTray
 			bar.y = 5;
 			bar.scaleX = graphicScale;
 			bar.scaleY = graphicScale;
+			bar.smoothing = true;
 			addChild(bar);
 			_bars.push(bar);
 		}
@@ -61,11 +62,9 @@ class FunkinSoundTray extends FlxSoundTray
 		y = -height;
 		screenCenter();
 
-		volumeUpSound = Paths.location.sound("soundtray/Volup");
-		volumeDownSound = Paths.location.sound("soundtray/Voldown");
-		volumeMaxSound = Paths.location.sound("soundtray/VolMAX");
-
-		trace("Custom tray added!");
+		volumeUp = Paths.content.sound('soundtray/Volup');
+		volumeDown = Paths.content.sound('soundtray/Voldown');
+		volumeMax = Paths.content.sound('soundtray/VolMAX');
 	}
 
 	override public function update(MS:Float):Void
@@ -73,7 +72,6 @@ class FunkinSoundTray extends FlxSoundTray
 		y = MathUtil.coolLerp(y, lerpYPos, 0.1);
 		alpha = MathUtil.coolLerp(alpha, alphaTarget, 0.25);
 
-		// Animate sound tray thing
 		if (_timer > 0)
 		{
 			_timer -= (MS / 1000);
@@ -104,7 +102,7 @@ class FunkinSoundTray extends FlxSoundTray
 	/**
 	 * Makes the little volume tray slide out.
 	 *
-	 * @param	up Whether the volume is increasing.
+	 * @param up Whether the volume is increasing.
 	 */
 	override public function show(up:Bool = false):Void
 	{
@@ -122,10 +120,10 @@ class FunkinSoundTray extends FlxSoundTray
 
 		if (!silent)
 		{
-			var sound = up ? volumeUpSound : volumeDownSound;
+			var sound:Sound = up ? volumeUp : volumeDown;
 
 			if (globalVolume == 10)
-				sound = volumeMaxSound;
+				sound = volumeMax;
 
 			if (sound != null)
 				FlxG.sound.load(sound).play();
