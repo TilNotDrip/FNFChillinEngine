@@ -6,6 +6,9 @@ import openfl.Assets;
 import openfl.display.BitmapData;
 import openfl.media.Sound;
 import openfl.system.System;
+#if FUNKIN_MOD_SUPPORT
+import sys.io.File;
+#end
 
 /**
  * A Path class for returning content from locations.
@@ -50,15 +53,21 @@ class PathContent
 	 * Returns and also caches a graphic of a image bitmap.
 	 * @param key Image File name.
 	 * @param library Library the image is in.
+	 * @param checkMods Allow mod images to be returned?
 	 * @return A BitampData instance of a image.
 	 */
-	public function imageBitmap(key:String, ?library:String):BitmapData
+	public function imageBitmap(key:String, ?library:String, ?checkMods:Bool = true):BitmapData
 	{
 		var bitmap:BitmapData = null;
-		var assetKey:String = Paths.location.image(key, library);
+		var assetKey:String = Paths.location.image(key, library, checkMods);
 
 		try
 		{
+			#if FUNKIN_MOD_SUPPORT
+			if (assetKey.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+				bitmap = BitmapData.fromFile(assetKey);
+			else
+			#end
 			bitmap = Assets.getBitmapData(assetKey);
 		}
 		catch (e)
@@ -74,19 +83,20 @@ class PathContent
 	 * Returns and also caches a graphic of a image.
 	 * @param key Image File name.
 	 * @param library Library the image is in.
+	 * @param checkMods Allow mod images to be returned?
 	 * @return A FlxGraphic instance of a image.
 	 */
-	public function imageGraphic(key:String, ?library:String):FlxGraphic
+	public function imageGraphic(key:String, ?library:String, ?checkMods:Bool = true):FlxGraphic
 	{
 		var bitmap:BitmapData = null;
 		var graphic:FlxGraphic = null;
-		var assetKey:String = Paths.location.image(key, library);
+		var assetKey:String = Paths.location.image(key, library, checkMods);
 
 		if (!imgGraphicCache.exists(key))
 		{
 			try
 			{
-				bitmap = imageBitmap(key, library);
+				bitmap = imageBitmap(key, library, checkMods);
 			}
 			catch (e)
 			{
@@ -110,66 +120,89 @@ class PathContent
 	/**
 	 * @param key Json File name.
 	 * @param library Library the json is in.
+	 * @param checkMods Allow mod jsons to be returned?
 	 * @return A Parsed JSON from the text asset in Paths.location.json
 	 */
-	public function json(key:String, ?library:String, ?trim:Bool = false):Dynamic
+	public function json(key:String, ?library:String, ?trim:Bool = false, ?checkMods:Bool = true):Dynamic
 	{
 		if (trim)
-			return Json.parse(Assets.getText(Paths.location.json(key, library)).trim());
+			return Json.parse(jsonText(key, library, checkMods).trim());
 
-		return Json.parse(Assets.getText(Paths.location.json(key, library)));
+		return Json.parse(jsonText(key, library, checkMods));
 	}
 
 	/**
 	 * @param key Json File name.
 	 * @param library Library the json is in.
+	 * @param checkMods Allow mod jsons to be returned?
 	 * @return A JSON turned into a string from the text asset in Paths.location.json
 	 */
-	public function jsonText(key:String, ?library:String):String
+	public function jsonText(key:String, ?library:String, ?checkMods:Bool = true):String
 	{
-		return Assets.getText(Paths.location.json(key, library));
+		return getText(Paths.location.json(key, library, checkMods), checkMods);
 	}
 
 	/**
 	 * Returns and also caches a music file.
 	 * @param key Music File name.
 	 * @param library Library the music is in.
+	 * @param checkMods Allow mod music to be returned?
 	 * @return OpenFL Sound instance of a music audio.
 	 */
-	public function music(key:String, ?library:String):Sound
+	public function music(key:String, ?library:String, ?checkMods:Bool = true):Sound
 	{
-		return getAudio(Paths.location.music(key, library));
+		return getAudio(Paths.location.music(key, library, checkMods));
 	}
 
 	/**
 	 * Returns and also caches a sound file.
 	 * @param key Sound File name.
 	 * @param library Library the sound is in.
+	 * @param checkMods Allow mod sounds to be returned?
 	 * @return OpenFL Sound instance of a sound audio.
 	 */
-	public function sound(key:String, ?library:String):Sound
+	public function sound(key:String, ?library:String, ?checkMods:Bool = true):Sound
 	{
-		return getAudio(Paths.location.sound(key, library));
+		return getAudio(Paths.location.sound(key, library, checkMods));
 	}
 
 	/**
 	 * @param key The image and xml name.
 	 * @param library The library the image and xml are located.
+	 * @param checkMods Allow mod sparrow atlases to be returned?
 	 * @return Sparrow Atlas frames from library:assets/images/key.png&.xml
 	 */
-	public function sparrowAtlas(key:String, ?library:String):FlxAtlasFrames
+	public function sparrowAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxAtlasFrames
 	{
-		return FlxAtlasFrames.fromSparrow(imageGraphic(key, library), xml('images/$key', library));
+		return FlxAtlasFrames.fromSparrow(imageGraphic(key, library, checkMods), xml('images/$key', library, checkMods));
+	}
+
+	/**
+	 * @param key Text File name. (get() IS NOT INCLUDED YOU HAVE TO DO IT YOURSELF!)
+	 * @param checkMods Allow mod texts to be returned?
+	 * @return String with text from specified file.
+	 */
+	public function getText(key:String, ?checkMods:Bool = true):String
+	{
+		#if FUNKIN_MOD_SUPPORT
+		if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+		{
+			return File.getContent(key);
+		}
+		#end
+
+		return Assets.getText(key);
 	}
 
 	/**
 	 * @param key Xml File name.
 	 * @param library Library the xml is in.
+	 * @param checkMods Allow mod xmls to be returned?
 	 * @return A Parsed XML Document from the text asset in Paths.location.xml
 	 */
-	public function xml(key:String, ?library:String):Xml
+	public function xml(key:String, ?library:String, ?checkMods:Bool = true):Xml
 	{
-		return Xml.parse(Assets.getText(Paths.location.xml(key, library)));
+		return Xml.parse(getText(Paths.location.xml(key, library, checkMods), checkMods));
 	}
 
 	/**
@@ -183,6 +216,11 @@ class PathContent
 		{
 			try
 			{
+				#if FUNKIN_MOD_SUPPORT
+				if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+					audioCache.set(key, Sound.fromFile(key));
+				else
+				#end
 				audioCache.set(key, Assets.getSound(key));
 			}
 			catch (e)
@@ -231,10 +269,7 @@ class PathContent
 			return;
 
 		Assets.cache.removeSound(key);
-
-		var sound:Sound = audioCache.get(key);
 		audioCache.remove(key);
-		sound.close();
 	}
 
 	/**

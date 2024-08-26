@@ -1,13 +1,9 @@
 package funkin.objects.game;
 
 import flixel.math.FlxPoint;
-import flixel.util.FlxSort;
 import funkin.structures.CharacterStructure;
-import funkin.util.SongEvent.SwagEvent;
-// import funkin.util.VersionUtil;
-import haxe.Json;
+import funkin.util.VersionUtil;
 import json2object.JsonParser;
-import openfl.utils.Assets;
 import thx.semver.VersionRule;
 
 class Character extends FlxSprite
@@ -69,9 +65,11 @@ class Character extends FlxSprite
 
 		if (characterData != null)
 		{
-			/*
-				if (!VersionUtil.validateVersion(characterData.version, funkin.util.constants.VersionConstants.CHARACTER_VERSION_RULE))
-					return; */
+			if (!VersionUtil.validateVersion(characterData.version, funkin.util.Constants.VERSION_CHARACTER_RULE))
+			{
+				trace('[ERROR]: Character version doesn\'t match current character version rule!');
+				return;
+			}
 
 			frames = Paths.content.sparrowAtlas(characterData.image, 'shared');
 

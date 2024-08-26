@@ -1,7 +1,5 @@
 package funkin.structures;
 
-import thx.semver.Version;
-
 typedef CharacterStructure =
 {
 	/**
@@ -9,7 +7,7 @@ typedef CharacterStructure =
 	 * @default Current Character Version
 	 */
 	@:default(funkin.util.Constants.VERSION_CHARACTER)
-	var version:Version;
+	var version:String;
 
 	/**
 	 * The image (and xml) that gets loaded for the character.

@@ -33,10 +33,12 @@ import funkin.util.Controls;
 import funkin.util.CoolUtil;
 import funkin.util.DateUtil;
 import funkin.util.MathUtil;
+import funkin.util.SystemUtil;
 import funkin.util.paths.Paths;
 import lime.app.Application;
 
 // Using
+using Lambda;
 using StringTools;
 using funkin.util.CoolTools;
 #end

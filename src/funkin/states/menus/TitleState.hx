@@ -4,16 +4,9 @@ import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
-import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import haxe.Json;
 import openfl.Assets;
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-import sys.thread.Thread;
-#end
 
 typedef TitleJSON =
 {
@@ -144,7 +137,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<String>
 	{
-		var fullText:String = Assets.getText(Paths.location.txt('data/${introText.introText.path}'));
+		var fullText:String = Paths.content.getText(Paths.location.txt('data/' + introText.introText.path));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -160,9 +153,9 @@ class TitleState extends MusicBeatState
 	var jingleState:Bool = false;
 
 	/**
-	 * 0 is Left, 
-	 * 1 is Down, 
-	 * 2 is Up, 
+	 * 0 is Left,
+	 * 1 is Down,
+	 * 2 is Up,
 	 * 3 is Right
 	 */
 	final JINGLE_CODE:Array<Int> = [0, 3, 0, 3, 2, 1, 2, 1];

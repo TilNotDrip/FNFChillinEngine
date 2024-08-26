@@ -10,6 +10,10 @@ import funkin.data.FunkinHighscore;
 import funkin.data.FunkinOptions;
 import funkin.graphics.display.FunkinFPSCounter;
 import funkin.graphics.display.FunkinSoundTray;
+import funkin.modding.FunkinHScriptLoader;
+#if FUNKIN_MOD_SUPPORT
+import funkin.modding.FunkinModLoader;
+#end
 import funkin.states.menus.TitleState;
 import openfl.Lib;
 import openfl.display.Sprite;
@@ -88,5 +92,11 @@ class Main extends Sprite
 		#if FUNKIN_DISCORD_RPC
 		DiscordRPC.initialize();
 		#end
+
+		#if FUNKIN_MOD_SUPPORT
+		FunkinModLoader.initializeMods();
+		#end
+
+		FunkinHScriptLoader.init();
 	}
 }

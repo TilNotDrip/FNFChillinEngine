@@ -204,11 +204,11 @@ class PlayState extends MusicBeatState
 					":dad:Only then I will even CONSIDER letting you\ndate my daughter!"
 				];
 			case 'senpai':
-				dialogue = CoolUtil.coolTextFile(Paths.location.txt('data/charts/senpai/senpaiDialogue'));
+				dialogue = CoolUtil.coolTextFile('data/charts/senpai/senpaiDialogue');
 			case 'roses':
-				dialogue = CoolUtil.coolTextFile(Paths.location.txt('data/charts/roses/rosesDialogue'));
+				dialogue = CoolUtil.coolTextFile('data/charts/roses/rosesDialogue');
 			case 'thorns':
-				dialogue = CoolUtil.coolTextFile(Paths.location.txt('data/charts/thorns/thornsDialogue'));
+				dialogue = CoolUtil.coolTextFile('data/charts/thorns/thornsDialogue');
 		}
 
 		curStage = SONG.stage;

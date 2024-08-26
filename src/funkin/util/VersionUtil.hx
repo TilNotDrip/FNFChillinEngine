@@ -25,7 +25,6 @@ class VersionUtil
 		try
 		{
 			var versionRaw:thx.semver.Version.SemVer = version;
-			trace('${versionRaw} satisfies (${versionRule})? ${version.satisfies(versionRule)}');
 			return version.satisfies(versionRule);
 		}
 		catch (e)

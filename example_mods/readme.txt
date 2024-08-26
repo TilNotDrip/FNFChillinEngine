@@ -1,1 +1,0 @@
-The mods folder is just here as of right now. This will be used later on

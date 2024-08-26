@@ -29,7 +29,20 @@
             "name": "flxanimate",
             "type": "git",
             "dir": null,
+            "ref": "dev",
             "url": "https://github.com/TilNotDrip/flxanimate/"
+        },
+        {
+            "name": "hscript",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "hscript-ex",
+            "type": "git",
+            "dir": null,
+            "ref": "master",
+            "url": "https://github.com/TilNotDrip/hscript-ex"
         },
         {
             "name": "hxcpp-debug-server",

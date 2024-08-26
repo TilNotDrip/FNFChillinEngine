@@ -1,5 +1,5 @@
 # Chillin' Engine - Todo List
-<!-- TODO: Organize this better, maybe alphabetical order and add Sections to the _Size_ Changes (or add sections and put _Size_ Changes inside the sections for each one. And also a name list e.g. songName == Song being played || player == Boyfriend / Player || user == The person playing this game. -->
+<!-- TODO: Organize this better, priority systyem, maybe alphabetical order and add Sections to the _Size_ Changes (or add sections and put _Size_ Changes inside the sections for each one. And also a name list e.g. songName == Song being played || player == Boyfriend / Player || user == The person playing this game. -->
 ## Big Changes
  - [ ] Credits Menu (not GitHub Contributors menu :D)
  - [x] Controller Support
