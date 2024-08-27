@@ -22,14 +22,22 @@ class FunkinModLoader
 	public static var loadedMods:Array<Mod> = [];
 
 	/**
-	 * The mods that are currently used. Story Mode and Freeplay change this array.
-	 */
-	public static var currentMods:Array<Mod> = [];
-
-	/**
-	 * The mods that the user is currently using.
+	 * The mods that are currently enabled.
 	 */
 	public static var enabledMods(get, never):Array<Mod>;
+
+	inline static function get_enabledMods():Array<Mod>
+	{
+		return loadedMods.filter(function(mod:Mod)
+		{
+			return mod.enabled;
+		});
+	}
+
+	/**
+	 * The mods that the game is currently using. Story Mode and Freeplay change this array.
+	 */
+	public static var currentMods:Array<Mod> = [];
 
 	/**
 	 * Loads and initializes all mods in the mods folder.
@@ -65,6 +73,8 @@ class FunkinModLoader
 				trace('Loaded Mod!\n$mod');
 			}
 		}
+
+		rebuildCurrentMods();
 	}
 
 	static function buildBlockList():Void
@@ -108,11 +118,15 @@ class FunkinModLoader
 		return true;
 	}
 
-	static function get_enabledMods():Array<Mod>
+	/**
+	 * Rebuilds the Current Mods used by the game. 
+	 * @param selectedMod Current Mod selected in Story Mode/Freeplay.
+	 */
+	public static function rebuildCurrentMods(?selectedMod:String = '')
 	{
-		return loadedMods.filter(function(mod:Mod)
+		currentMods = enabledMods.filter(function(mod:Mod)
 		{
-			return mod.enabled;
+			return (mod.metadata.global || mod.folder == selectedMod);
 		});
 	}
 }

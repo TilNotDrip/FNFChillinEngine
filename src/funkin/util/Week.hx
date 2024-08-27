@@ -94,6 +94,13 @@ class Week
 	 */
 	public var motto:String;
 
+	#if FUNKIN_MOD_SUPPORT
+	/**
+	 * @param mod The mod this week comes from. It will be null if it's in base assets.
+	 */
+	public var mod:String;
+	#end
+
 	/**
 	 * @param songs Songs inside the week and if its Explicit or not (e.g. [['The Cuss Song', true], ['No Swearing', false]]
 	 */
@@ -159,6 +166,18 @@ class Week
 				daIcon = daIcon.split('-')[0].trim();
 
 			icons.push(daIcon);
+
+			#if FUNKIN_MOD_SUPPORT
+			if (mod != null)
+			{
+				var path:String = Paths.location.json('data/charts/' + difficulties[0].formatToPath() + '/' + song[0].formatToPath()).trim();
+				if (path.startsWith(Constants.MODS_FOLDER + '/'))
+				{
+					path = path.substring('${Constants.MODS_FOLDER}/'.length);
+					mod = path.split('/')[0];
+				}
+			}
+			#end
 		}
 	}
 }

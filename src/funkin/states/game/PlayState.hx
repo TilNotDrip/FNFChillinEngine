@@ -1488,7 +1488,7 @@ class PlayState extends MusicBeatState
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$pixelShitPart1/combo'));
 		comboSpr.y = (FlxG.height * 0.44);
-		comboSpr.x = (FlxG.width * 0.507);
+		comboSpr.x = (FlxG.width * 0.507) - 90;
 		// comboSpr.x -= FlxG.camera.scroll.x * 0.2;
 
 		comboSpr.acceleration.y = 600;
@@ -1499,11 +1499,11 @@ class PlayState extends MusicBeatState
 
 		if (ui == 'funkin-pixel')
 		{
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.65));
 			comboSpr.antialiasing = false;
 		}
 		else
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.65));
 
 		comboSpr.updateHitbox();
 

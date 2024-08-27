@@ -261,7 +261,7 @@ class PathLocation
 			#if FUNKIN_MOD_SUPPORT
 			if (checkMods)
 			{
-				for (mod in FunkinModLoader.enabledMods)
+				for (mod in FunkinModLoader.currentMods)
 				{
 					if (FileSystem.exists('${Constants.MODS_FOLDER}/${mod.folder}/$key'))
 						return '${Constants.MODS_FOLDER}/${mod.folder}/$key';
@@ -275,7 +275,7 @@ class PathLocation
 		#if FUNKIN_MOD_SUPPORT
 		if (checkMods)
 		{
-			for (mod in FunkinModLoader.enabledMods)
+			for (mod in FunkinModLoader.currentMods)
 			{
 				if (FileSystem.exists('${Constants.MODS_FOLDER}/${mod.folder}/$library/$key'))
 					return '${Constants.MODS_FOLDER}/${mod.folder}/$library/$key';

@@ -1,5 +1,8 @@
 package funkin.states.menus;
 
+#if FUNKIN_MOD_SUPPORT
+import funkin.modding.FunkinModLoader;
+#end
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.misc.ColorTween;
 import funkin.objects.menu.MenuCharacter;
@@ -330,6 +333,10 @@ class StoryMenuState extends MusicBeatState
 			curWeek = daWeeks.length - 1;
 
 		curWeekClass = daWeeks[curWeek];
+
+		#if FUNKIN_MOD_SUPPORT
+		FunkinModLoader.rebuildCurrentMods(curWeekClass.mod);
+		#end
 
 		if (!curWeekClass.difficulties.contains(curWeekClass.difficulties[curDifficulty]))
 			changeDifficulty();

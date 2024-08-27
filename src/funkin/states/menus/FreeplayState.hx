@@ -1,5 +1,8 @@
 package funkin.states.menus;
 
+#if FUNKIN_MOD_SUPPORT
+import funkin.modding.FunkinModLoader;
+#end
 import flixel.tweens.misc.ColorTween;
 import funkin.objects.game.HealthIcon;
 import funkin.objects.TrackedSprite;
@@ -180,8 +183,6 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
-
 		curSelected += change;
 
 		if (curSelected < 0)
@@ -189,6 +190,12 @@ class FreeplayState extends MusicBeatState
 
 		if (curSelected >= songs.length)
 			curSelected = 0;
+
+		#if FUNKIN_MOD_SUPPORT
+		FunkinModLoader.rebuildCurrentMods(songs[curSelected].week.mod);
+		#end
+
+		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
 
 		if (!songs[curSelected].week.difficulties.contains(songs[curSelected].week.difficulties[curDifficulty]))
 			changeDifficulty();
