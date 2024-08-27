@@ -1544,7 +1544,8 @@ class PlayState extends MusicBeatState
 
 			numScore.updateHitbox();
 
-			numScore.x = comboSpr.x - (36 * daLoop) - 65; //- 90;
+			numScore.x = comboSpr.x - (36 * daLoop) - 65;
+				+ 90;
 			numScore.acceleration.y = FlxG.random.int(250, 300);
 			numScore.velocity.y -= FlxG.random.int(130, 150);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
