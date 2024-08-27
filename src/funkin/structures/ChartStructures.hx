@@ -400,14 +400,6 @@ typedef ChillinMetadata =
 typedef ChillinEvent =
 {
 	/**
-	 * The difficulties that this event is allowed to be triggered on. For Example, the opponent tell you that you suck at the game if you are on playing on easy! Remember, practice makes perfect!
-	 *
-	 * Leave empty for all.
-	 */
-	@:default([''])
-	var difficulties:Array<String>;
-
-	/**
 	 * The time that this event gets played on.
 	 */
 	var time:Float;
