@@ -118,6 +118,8 @@ class PlayState extends MusicBeatState
 	public var healthPlayerTxt:FlxText;
 	public var scoreTxt:FlxText;
 
+	public var comboGrp:FlxTypedGroup<FlxSprite>;
+
 	public var possibleScore:Int = 0;
 	public var songAccuracy:Float = 0;
 
@@ -388,6 +390,9 @@ class PlayState extends MusicBeatState
 
 		updateHealthBar();
 
+		comboGrp = new FlxTypedGroup<FlxSprite>();
+		add(comboGrp);
+
 		lyricText = new FlxTypeText(0, 0, FlxG.width, "", 36);
 		lyricText.setFormat(Paths.location.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(lyricText);
@@ -420,6 +425,7 @@ class PlayState extends MusicBeatState
 		}
 
 		scoreTxt.cameras = [camHUD];
+		comboGrp.cameras = [camHUD];
 		lyricText.cameras = [camHUD];
 
 		startingSong = true;
@@ -1375,17 +1381,14 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public function popUpScore(strumtime:Float, daNote:Note):Void
+	public function popUpScore(daNote:Note):Void
 	{
-		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
+		var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
 		vocals.volume = 1;
 
-		var rating:FlxSprite = new FlxSprite();
-		var score:Int = 350;
-
 		var daRating:String = "sick";
-
 		var isSick:Bool = true;
+		var score:Int = 350;
 
 		if (!botplay) // behind the scenes trick!! part 3
 		{
@@ -1439,13 +1442,15 @@ class PlayState extends MusicBeatState
 		if (ui == 'funkin-pixel')
 			ratingPath = "gameplay-ui/pixel/" + daRating;
 
-		rating.loadGraphic(Paths.content.imageGraphic(ratingPath));
-		rating.x = gfGroup.x + 200 - 40;
+		var rating:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic(ratingPath));
+		rating.scrollFactor.set(0.2, 0.2);
 
-		rating.y = gfGroup.y + 200 - 60;
+		rating.x = (FlxG.width * 0.474);
+		rating.y = (FlxG.height * 0.45 - 60);
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
+		comboGrp.add(rating);
 
 		if (ui == 'funkin-pixel')
 		{
@@ -1453,11 +1458,14 @@ class PlayState extends MusicBeatState
 			rating.antialiasing = false;
 		}
 		else
-			rating.setGraphicSize(Std.int(rating.width * 0.7));
-
+		{
+			rating.setGraphicSize(Std.int(rating.width * 0.65));
+			rating.antialiasing = true;
+		}
 		rating.updateHitbox();
 
-		add(rating);
+		rating.x -= rating.width / 2;
+		rating.y -= rating.height / 2;
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween)
@@ -1479,19 +1487,15 @@ class PlayState extends MusicBeatState
 			pixelShitPart1 = 'pixel';
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$pixelShitPart1/combo'));
-		comboSpr.y = gfGroup.y + 200 + 80;
-		comboSpr.x = gfGroup.x + 200;
-
-		if (comboSpr.x < camGAME.scroll.x + 194)
-			comboSpr.x = camGAME.scroll.x + 194;
-		else if (comboSpr.x > camGAME.scroll.x + camGAME.width - comboSpr.width)
-			comboSpr.x = camGAME.scroll.x + camGAME.width - comboSpr.width;
+		comboSpr.y = (FlxG.height * 0.44);
+		comboSpr.x = (FlxG.width * 0.507);
+		// comboSpr.x -= FlxG.camera.scroll.x * 0.2;
 
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 
-		add(comboSpr);
+		comboGrp.add(comboSpr);
 
 		if (ui == 'funkin-pixel')
 		{
@@ -1532,20 +1536,20 @@ class PlayState extends MusicBeatState
 
 			if (ui == 'funkin-pixel')
 			{
-				numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
+				numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom * 0.7));
 				numScore.antialiasing = false;
 			}
 			else
-				numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+				numScore.setGraphicSize(Std.int(numScore.width * 0.45));
 
 			numScore.updateHitbox();
 
-			numScore.x = comboSpr.x - (43 * daLoop);
-			numScore.acceleration.y = FlxG.random.int(200, 300);
-			numScore.velocity.y -= FlxG.random.int(140, 160);
+			numScore.x = comboSpr.x - (36 * daLoop) - 65; //- 90;
+			numScore.acceleration.y = FlxG.random.int(250, 300);
+			numScore.velocity.y -= FlxG.random.int(130, 150);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 
-			add(numScore);
+			comboGrp.add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
@@ -1871,7 +1875,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				combo += 1;
-				popUpScore(note.strumTime, note);
+				popUpScore(note);
 			}
 
 			if (note.noteData >= 0)
