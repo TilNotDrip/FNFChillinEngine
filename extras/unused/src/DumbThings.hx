@@ -37,3 +37,11 @@ class MyAsshole // :troll:
 		trace('im bouta ' + what.toUpperCase() + holdon);
 	}
 }
+
+class BetterSystemUtil
+{
+	function isComputerOn():Bool
+	{
+		return false;
+	}
+}
