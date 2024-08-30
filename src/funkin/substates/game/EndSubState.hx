@@ -1,5 +1,6 @@
 package funkin.substates.game;
 
+import funkin.util.ChillinAnimationController;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import funkin.stages.StageBackend;
@@ -36,11 +37,12 @@ class EndSubState extends MusicBeatSubstate
 
 		bfCheeringYouOn = new FlxSprite();
 		bfCheeringYouOn.frames = Paths.content.sparrowAtlas('endScreen/bf');
+		bfCheeringYouOn.animation = new ChillinAnimationController(bfCheeringYouOn);
 		bfCheeringYouOn.animation.addByIndices('uhh', 'yayy0', [0, 1], '', 24, false);
 		bfCheeringYouOn.animation.addByPrefix('yippee', 'yayy0', 24, false);
-		bfCheeringYouOn.animation.addByPrefix('tbh', 'yayy loop', 24, true);
+		bfCheeringYouOn.animation.addByPrefix('yippee-loop', 'yayy loop', 24, true);
 		bfCheeringYouOn.animation.play('uhh', true);
-		bfCheeringYouOn.screenCenter();
+		bfCheeringYouOn.screenCenter(Y);
 		bfCheeringYouOn.x = 150;
 		add(bfCheeringYouOn);
 
@@ -63,13 +65,7 @@ class EndSubState extends MusicBeatSubstate
 		{
 			hitEnd = true;
 
-			StageBackend.stage.endingStuff();
-		}
-
-		if (bfCheeringYouOn.animation.curAnim != null)
-		{
-			if (bfCheeringYouOn.animation.curAnim.finished && bfCheeringYouOn.animation.curAnim.name == 'yippee')
-				bfCheeringYouOn.animation.play('tbh', true);
+			PlayState.instance.curStage.endingStuff();
 		}
 	}
 }

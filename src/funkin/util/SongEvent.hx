@@ -25,16 +25,10 @@ class SongEvent
 
 	public static function loadFromJson(folder:String):Array<SwagEvent>
 	{
-		var rawJson:String = null;
+		var rawJson:String = Paths.content.jsonText('data/charts/${folder.formatToPath()}/events').trim();
 
-		try
-		{
-			rawJson = Paths.content.jsonText('data/charts/${folder.formatToPath()}/events').trim();
-		}
-		catch (e)
-		{
+		if (rawJson == null)
 			return null;
-		}
 
 		while (!rawJson.endsWith("}"))
 			rawJson = rawJson.substr(0, rawJson.length - 1);

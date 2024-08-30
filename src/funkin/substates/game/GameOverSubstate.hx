@@ -95,7 +95,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
-		character = new Character(StageBackend.stage.BF_POSITION[0], StageBackend.stage.BF_POSITION[1], PlayState.instance.boyfriend.deathChar, true);
+		character = new Character(PlayState.instance.curStage.BF_POSITION[0], PlayState.instance.curStage.BF_POSITION[1],
+			PlayState.instance.boyfriend.deathChar, true);
 		ui = character.ui;
 
 		if (!secretGameover)

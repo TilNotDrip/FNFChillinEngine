@@ -1,5 +1,6 @@
 package funkin.objects.game;
 
+import funkin.util.ChillinAnimationController;
 import flixel.math.FlxPoint;
 import funkin.structures.CharacterStructure;
 import funkin.util.VersionUtil;
@@ -41,6 +42,8 @@ class Character extends FlxSprite
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
 		super(x, y);
+
+		animation = new ChillinAnimationController(this);
 
 		curCharacter = character;
 		this.isPlayer = isPlayer;

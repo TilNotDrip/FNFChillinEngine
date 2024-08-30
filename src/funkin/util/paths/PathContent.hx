@@ -184,14 +184,25 @@ class PathContent
 	 */
 	public function getText(key:String, ?checkMods:Bool = true):String
 	{
-		#if FUNKIN_MOD_SUPPORT
-		if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+		var toReturn:String;
+		try
 		{
-			return File.getContent(key);
-		}
-		#end
+			#if FUNKIN_MOD_SUPPORT
+			if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+			{
+				toReturn = File.getContent(key);
+			}
+			#end
 
-		return Assets.getText(key);
+			toReturn = Assets.getText(key);
+		}
+		catch (e)
+		{
+			// trace('[ERROR] Error loading $key! Does it not exist?');
+			toReturn = null;
+		}
+
+		return toReturn;
 	}
 
 	/**

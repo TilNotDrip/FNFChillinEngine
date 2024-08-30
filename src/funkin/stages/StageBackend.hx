@@ -11,7 +11,35 @@ import funkin.objects.game.Character;
 
 class StageBackend extends FlxBasic
 {
-	public static var stage:StageBackend;
+	public static function loadStageByName(stage:String):StageBackend
+	{
+		var stageClass:StageBackend = null;
+		switch (stage)
+		{
+			case 'mainStage':
+				stageClass = new funkin.stages.bgs.MainStage();
+			case 'spooky':
+				stageClass = new funkin.stages.bgs.Spooky();
+			case 'philly':
+				stageClass = new funkin.stages.bgs.Philly();
+			case 'limo':
+				stageClass = new funkin.stages.bgs.Limo();
+			case 'mall':
+				stageClass = new funkin.stages.bgs.Mall();
+			case 'mallEvil':
+				stageClass = new funkin.stages.bgs.MallEvil();
+			case 'school':
+				stageClass = new funkin.stages.bgs.School();
+			case 'schoolEvil':
+				stageClass = new funkin.stages.bgs.SchoolEvil();
+			case 'tank':
+				stageClass = new funkin.stages.bgs.Tank();
+			case 'streets':
+				stageClass = new funkin.stages.bgs.Streets();
+		}
+
+		return stageClass;
+	}
 
 	var game:PlayState = PlayState.instance;
 
@@ -56,8 +84,6 @@ class StageBackend extends FlxBasic
 	public function new()
 	{
 		super();
-
-		stage = this;
 		create();
 	}
 

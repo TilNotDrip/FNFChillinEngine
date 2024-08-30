@@ -59,10 +59,22 @@ class FunkinModLoader
 		{
 			var modFolder:String = Constants.MODS_FOLDER + '/' + folder;
 
+			var metadataText:String = '';
+
+			try
+			{
+				metadataText = File.getContent(modFolder + '/metadata.' + Constants.EXT_DATA);
+			}
+			catch (e)
+			{
+				trace('[ERROR]: Unable to load the Metadata of $folder! Maybe it doesnt exist?');
+				continue;
+			}
+
 			var mod:Mod = {
 				folder: folder,
 				enabled: true,
-				metadata: cast new JsonParser<ModMetadata>().fromJson(File.getContent(modFolder + '/metadata.' + Constants.EXT_DATA))
+				metadata: cast new JsonParser<ModMetadata>().fromJson(metadataText)
 			};
 
 			var canLoadMod:Bool = canLoadMod(mod);

@@ -35,7 +35,6 @@ class PlayState extends MusicBeatState
 {
 	public static var instance:PlayState;
 
-	public static var curStage:String = '';
 	public static var SONG:LegacyChartStructure;
 	public static var songEvents:Array<SwagEvent>;
 	public static var isStoryMode:Bool = false;
@@ -77,6 +76,8 @@ class PlayState extends MusicBeatState
 
 	public var opponentStrums:Strums;
 	public var opponentSplashes:FlxTypedGroup<NoteSplash>;
+
+	public var curStage:StageBackend;
 
 	public var health:Float = 1;
 
@@ -213,38 +214,14 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile('data/charts/thorns/thornsDialogue');
 		}
 
-		curStage = SONG.stage;
+		curStage = StageBackend.loadStageByName(SONG.stage);
 
-		switch (curStage)
-		{
-			case 'mainStage':
-				new funkin.stages.bgs.MainStage();
-			case 'spooky':
-				new funkin.stages.bgs.Spooky();
-			case 'philly':
-				new funkin.stages.bgs.Philly();
-			case 'limo':
-				new funkin.stages.bgs.Limo();
-			case 'mall':
-				new funkin.stages.bgs.Mall();
-			case 'mallEvil':
-				new funkin.stages.bgs.MallEvil();
-			case 'school':
-				new funkin.stages.bgs.School();
-			case 'schoolEvil':
-				new funkin.stages.bgs.SchoolEvil();
-			case 'tank':
-				new funkin.stages.bgs.Tank();
-			case 'streets':
-				new funkin.stages.bgs.Streets();
-		}
+		ui = curStage.ui;
+		cameraZoom = curStage.zoom;
 
-		ui = StageBackend.stage.ui;
-		cameraZoom = StageBackend.stage.zoom;
-
-		gfGroup = new FlxTypedSpriteGroup<Character>(StageBackend.stage.GF_POSITION[0], StageBackend.stage.GF_POSITION[1]);
-		dadGroup = new FlxTypedSpriteGroup<Character>(StageBackend.stage.DAD_POSITION[0], StageBackend.stage.DAD_POSITION[1]);
-		boyfriendGroup = new FlxTypedSpriteGroup<Character>(StageBackend.stage.BF_POSITION[0], StageBackend.stage.BF_POSITION[1]);
+		gfGroup = new FlxTypedSpriteGroup<Character>(curStage.GF_POSITION[0], curStage.GF_POSITION[1]);
+		dadGroup = new FlxTypedSpriteGroup<Character>(curStage.DAD_POSITION[0], curStage.DAD_POSITION[1]);
+		boyfriendGroup = new FlxTypedSpriteGroup<Character>(curStage.BF_POSITION[0], curStage.BF_POSITION[1]);
 
 		addCharacterToList(SONG.player3, 'gf');
 		addCharacterToList(SONG.player2, 'dad');
@@ -432,12 +409,12 @@ class PlayState extends MusicBeatState
 
 		super.create();
 
-		StageBackend.stage.createPost();
+		curStage.createPost();
 
 		if (!seenCutscene && FunkinOptions.get('cutscenes'))
 		{
-			if (StageBackend.stage.startCallback != null)
-				StageBackend.stage.startCallback();
+			if (curStage.startCallback != null)
+				curStage.startCallback();
 			else
 				startCountdown();
 		}
@@ -468,7 +445,7 @@ class PlayState extends MusicBeatState
 
 	function videoCallback()
 	{
-		StageBackend.stage.endingVideo();
+		curStage.endingVideo();
 
 		startCountdown();
 	}
@@ -915,8 +892,8 @@ class PlayState extends MusicBeatState
 			updateHealthBar();
 		}
 
-		iconP1.animation.curAnim.curFrame = (healthBar.percent < 20) ? 1 : 0;
-		iconP2.animation.curAnim.curFrame = (healthBar.percent > 80) ? 1 : 0;
+		iconP1.updateIconAnimation(healthBar.percent);
+		iconP2.updateIconAnimation(100 - healthBar.percent);
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - 26);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - 26);
@@ -1585,7 +1562,7 @@ class PlayState extends MusicBeatState
 		else
 			camFollow.setPosition(char.getMidpoint().x - (100 - char.cameraPosition[0]), char.getMidpoint().y - (100 + char.cameraPosition[1]));
 
-		StageBackend.stage.cameraMovement(char);
+		curStage.cameraMovement(char);
 
 		if (SONG.song.formatToPath() == 'tutorial')
 			tweenCam(char != boyfriend);
@@ -1967,8 +1944,8 @@ class PlayState extends MusicBeatState
 			|| (SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20))
 			resyncVocals();
 
-		StageBackend.stage.curStep = curStep;
-		StageBackend.stage.stepHit();
+		curStage.curStep = curStep;
+		curStage.stepHit();
 	}
 
 	override public function beatHit()
@@ -1987,8 +1964,8 @@ class PlayState extends MusicBeatState
 				char.dance();
 		}
 
-		StageBackend.stage.curBeat = curBeat;
-		StageBackend.stage.beatHit();
+		curStage.curBeat = curBeat;
+		curStage.beatHit();
 	}
 
 	override public function sectionHit()
@@ -2014,8 +1991,8 @@ class PlayState extends MusicBeatState
 			camZoom();
 		}
 
-		StageBackend.stage.curSection = curSection;
-		StageBackend.stage.sectionHit();
+		curStage.curSection = curSection;
+		curStage.sectionHit();
 	}
 
 	public function addCharacterToList(name:String, type:String)
@@ -2029,7 +2006,7 @@ class PlayState extends MusicBeatState
 						return;
 				});
 
-				var newDad:Character = new Character(StageBackend.stage.DAD_POSITION[0], StageBackend.stage.DAD_POSITION[1], name, false);
+				var newDad:Character = new Character(curStage.DAD_POSITION[0], curStage.DAD_POSITION[1], name, false);
 				newDad.x += newDad.characterPosition[0];
 				newDad.y += newDad.characterPosition[1];
 				newDad.alpha = 0.00001;
@@ -2042,7 +2019,7 @@ class PlayState extends MusicBeatState
 						return;
 				});
 
-				var newGF:Character = new Character(StageBackend.stage.GF_POSITION[0], StageBackend.stage.GF_POSITION[1], name, false);
+				var newGF:Character = new Character(curStage.GF_POSITION[0], curStage.GF_POSITION[1], name, false);
 				newGF.x += newGF.characterPosition[0];
 				newGF.y += newGF.characterPosition[1];
 				newGF.alpha = 0.00001;
@@ -2055,7 +2032,7 @@ class PlayState extends MusicBeatState
 						return;
 				});
 
-				var newBoyfriend:Character = new Character(StageBackend.stage.BF_POSITION[0], StageBackend.stage.BF_POSITION[1], name, true);
+				var newBoyfriend:Character = new Character(curStage.BF_POSITION[0], curStage.BF_POSITION[1], name, true);
 				newBoyfriend.x += newBoyfriend.characterPosition[0];
 				newBoyfriend.y += newBoyfriend.characterPosition[1];
 				newBoyfriend.alpha = 0.00001;

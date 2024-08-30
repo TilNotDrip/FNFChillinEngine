@@ -10,6 +10,7 @@ class Spooky extends StageBackend
 	override public function create()
 	{
 		halloweenBG = new BGSprite('halloween_bg', -200, -100, 1, 1, ['halloweem bg lightning strike']);
+		halloweenBG.animation.finish();
 		add(halloweenBG);
 
 		super.create();
