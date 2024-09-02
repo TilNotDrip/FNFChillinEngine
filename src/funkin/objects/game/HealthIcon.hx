@@ -87,8 +87,6 @@ class HealthIcon extends TrackedSprite
 				else
 					animation.addByPrefix(anim.name, anim.prefix, anim.framerate, anim.looped, anim.flipX, anim.flipY);
 			}
-
-			trace(anim);
 		}
 
 		updateIconAnimation(50);
