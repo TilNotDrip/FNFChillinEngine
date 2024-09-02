@@ -29,13 +29,13 @@
 	"healthAnimations":
 	[
 		{
-			"atHealth": 19,
-			"goesUnder": true,
+			"maximumHealth": 19,
+			"minimumHealth": 0,
 			"anim": "lose"
 		},
 		{
-			"atHealth": 20,
-			"goesUnder": false,
+			"maximumHealth": 100,
+			"minimumHealth": 20,
 			"anim": "normal"
 		}
 	]

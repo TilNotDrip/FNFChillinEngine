@@ -189,11 +189,9 @@ class PathContent
 		{
 			#if FUNKIN_MOD_SUPPORT
 			if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
-			{
 				toReturn = File.getContent(key);
-			}
+			else
 			#end
-
 			toReturn = Assets.getText(key);
 		}
 		catch (e)

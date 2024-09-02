@@ -4,7 +4,6 @@ package funkin.modding;
 import funkin.structures.ModStructures;
 import funkin.util.VersionUtil;
 import haxe.Http;
-import haxe.Json;
 import json2object.JsonParser;
 import sys.io.File;
 import sys.FileSystem;
@@ -50,14 +49,12 @@ class FunkinModLoader
 
 		var loadList:Array<String> = !(selectFolders == [] || selectFolders == null) ? selectFolders : FileSystem.readDirectory(Constants.MODS_FOLDER);
 
-		loadList = loadList.filter(function(folder:String)
-		{
-			return FileSystem.isDirectory(folder);
-		});
-
 		for (folder in loadList)
 		{
 			var modFolder:String = Constants.MODS_FOLDER + '/' + folder;
+
+			if (!FileSystem.isDirectory(modFolder))
+				continue;
 
 			var metadataText:String = '';
 

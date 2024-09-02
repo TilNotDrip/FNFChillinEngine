@@ -28,7 +28,7 @@ typedef IconStructure =
 
 typedef HealthAnimation =
 {
-	var atHealth:Float;
-	var goesUnder:Bool;
+	var minimumHealth:Float;
+	var maximumHealth:Float;
 	var anim:String;
 }

@@ -119,12 +119,7 @@ class HealthIcon extends TrackedSprite
 			if (animation.curAnim != null && animation.curAnim.name == check.anim)
 				continue;
 
-			if (check.goesUnder)
-			{
-				if (health < check.atHealth)
-					animation.play(check.anim, true);
-			}
-			else if (health >= check.atHealth)
+			if (health >= check.minimumHealth && health <= check.maximumHealth)
 				animation.play(check.anim, true);
 		}
 	}
