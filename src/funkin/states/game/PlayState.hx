@@ -351,6 +351,12 @@ class PlayState extends MusicBeatState
 			changeHealthText();
 		}
 
+		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
+		add(iconP1);
+
+		iconP2 = new HealthIcon(dad.healthIcon, false);
+		add(iconP2);
+
 		scoreTxt = new FlxText(0, healthBarBG.y + 30, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.location.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.screenCenter(X);
@@ -358,13 +364,6 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		changeScoreText();
-
-		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
-		add(iconP1);
-
-		iconP2 = new HealthIcon(dad.healthIcon, false);
-		add(iconP2);
-
 		updateHealthBar();
 
 		comboGrp = new FlxTypedGroup<FlxSprite>();
@@ -1299,11 +1298,7 @@ class PlayState extends MusicBeatState
 
 	public function changeScoreText(miss:Bool = false)
 	{
-		var score:String = '[Score: $songScore]';
-		var misses:String = '[Misses: $songMisses]';
-		var accuracy:String = '[Accuracy: $songAccuracy%]';
-
-		scoreTxt.text = '$score $misses $accuracy';
+		scoreTxt.text = '[Score: ${FlxStringUtil.formatMoney(songScore, false)}] [Misses: $songMisses] [Accuracy: $songAccuracy%]';
 
 		if (miss)
 		{
@@ -1803,13 +1798,8 @@ class PlayState extends MusicBeatState
 		health -= 0.04;
 		songMisses++;
 		killCombo();
-
-		if (!practiceMode)
-		{
-			songScore -= 10;
-			possibleScore += 350;
-		}
-
+		songScore -= 10;
+		possibleScore += 350;
 		vocals.volume = 0;
 		FlxG.sound.play(Paths.content.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
 	}
@@ -1929,14 +1919,15 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function calculateAccuracy()
+	function calculateAccuracy():Void
 	{
 		songAccuracy = FlxMath.roundDecimal((songScore / possibleScore) * 100, 2);
+
 		if (Math.isNaN(songAccuracy))
 			songAccuracy = 0;
 	}
 
-	override public function stepHit()
+	override public function stepHit():Void
 	{
 		super.stepHit();
 
@@ -1948,7 +1939,7 @@ class PlayState extends MusicBeatState
 		curStage.stepHit();
 	}
 
-	override public function beatHit()
+	override public function beatHit():Void
 	{
 		super.beatHit();
 
@@ -1968,7 +1959,7 @@ class PlayState extends MusicBeatState
 		curStage.beatHit();
 	}
 
-	override public function sectionHit()
+	override public function sectionHit():Void
 	{
 		super.sectionHit();
 

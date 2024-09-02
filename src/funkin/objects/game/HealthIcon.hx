@@ -5,12 +5,6 @@ import funkin.structures.IconStructure;
 
 class HealthIcon extends TrackedSprite
 {
-	public static var healthBarColors:Map<String, FlxColor> = [
-		'bf' => 0xFF31B0D1, 'bf-old' => 0xFFE9FF48, 'bf-pixel' => 0xFF7BD6F6, 'bf-pixel-old' => 0xFFFFF97A, 'dad' => 0xFFAF66CE, 'face' => 0xFFA1A1A1,
-		'gf' => 0xFFA5004D, 'mom' => 0xFFD8558E, 'monster' => 0xFFF3FF6E, 'parents' => 0xFFAF66CE, 'pico' => 0xFFB7D855, 'senpai' => 0xFFFFAA6F,
-		'spirit' => 0xFFFF3C6E, 'spooky' => 0xFFB4B4B4, 'tankman' => 0xFFE1E1E1, 'darnell' => 0xFF735EB0
-	];
-
 	public var curHealthBarColor:FlxColor;
 	public var metadata:IconStructure;
 
@@ -93,14 +87,12 @@ class HealthIcon extends TrackedSprite
 				else
 					animation.addByPrefix(anim.name, anim.prefix, anim.framerate, anim.looped, anim.flipX, anim.flipY);
 			}
-
-			trace(anim);
 		}
 
 		updateIconAnimation(50);
 	}
 
-	public dynamic function bop()
+	public dynamic function bop():Void
 	{
 		if (metadata == null || !metadata.shouldBop)
 			return;
@@ -109,7 +101,7 @@ class HealthIcon extends TrackedSprite
 		FlxTween.tween(scale, {x: 1, y: 1}, (Conductor.crochet / 1000) * 0.9, {ease: FlxEase.cubeOut, startDelay: (Conductor.crochet / 1000) * 0.1});
 	}
 
-	public function updateIconAnimation(health:Float)
+	public function updateIconAnimation(health:Float):Void
 	{
 		if (metadata == null)
 			return;
