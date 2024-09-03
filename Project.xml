@@ -29,6 +29,8 @@ xsi:schemaLocation="http://lime.openfl.org/project/1.0.4 http://lime.openfl.org/
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
 
+	<define name="REDIRECT_ASSETS_FOLDER" if="debug" />
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="ARCH_DIR" value="64-bit" />

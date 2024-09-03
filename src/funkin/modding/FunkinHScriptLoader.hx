@@ -20,34 +20,35 @@ class FunkinHScriptLoader
 
 	static function loadScripts():Void
 	{
-		for (path in Paths.location.list('scripts'))
-		{
-			if (path.endsWith('.${Constants.EXT_SCRIPT}'))
+		// TODO: make this work
+		/*for (path in Paths.location.list('scripts'))
 			{
-				var parser:ParserEx = new ParserEx();
-
-				var module:Array<hscript.Expr.ModuleDecl> = parser.parseModule(Paths.content.getText(path));
-				interp.registerModule(module);
-
-				var pkg:Array<String> = null;
-				var classesToLoad:Array<String> = [];
-
-				for (moduleScript in module)
+				if (path.endsWith('.${Constants.EXT_SCRIPT}'))
 				{
-					switch (moduleScript)
-					{
-						case DPackage(path):
-							pkg = path;
-						case DClass(c):
-							classesToLoad.push(((pkg != null) ? (pkg.join(".") + ".") : '') + c.name);
-						case DImport(oke, ok):
-						case DTypedef(ok):
-					}
-				}
+					var parser:ParserEx = new ParserEx();
 
-				for (scriptedClass in classesToLoad)
-					loadedScripts.set(scriptedClass, interp.createScriptClassInstance(scriptedClass));
-			}
-		}
+					var module:Array<hscript.Expr.ModuleDecl> = parser.parseModule(Paths.content.getText(path));
+					interp.registerModule(module);
+
+					var pkg:Array<String> = null;
+					var classesToLoad:Array<String> = [];
+
+					for (moduleScript in module)
+					{
+						switch (moduleScript)
+						{
+							case DPackage(path):
+								pkg = path;
+							case DClass(c):
+								classesToLoad.push(((pkg != null) ? (pkg.join(".") + ".") : '') + c.name);
+							case DImport(oke, ok):
+							case DTypedef(ok):
+						}
+					}
+
+					for (scriptedClass in classesToLoad)
+						loadedScripts.set(scriptedClass, interp.createScriptClassInstance(scriptedClass));
+				}
+		}*/
 	}
 }
