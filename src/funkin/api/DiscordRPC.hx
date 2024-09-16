@@ -14,10 +14,7 @@ import sys.thread.Thread;
  */
 class DiscordRPC
 {
-	/**
-	 * The current Discord application ID that's being used right now.
-	 */
-	inline static final applicationId:String = '1271369174844837939';
+	static inline final clientID:String = '1209233449928360036';
 
 	/**
 	 * The user's current party status.
@@ -174,7 +171,6 @@ class DiscordRPC
 	 */
 	public static var joinSecret(default, set):String;
 
-	static inline final clientID:String = '1209233449928360036';
 	static var presence:DiscordRichPresence = DiscordRichPresence.create();
 
 	/**
