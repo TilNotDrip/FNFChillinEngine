@@ -1,0 +1,40 @@
+{
+    "resolution": [150, 150],
+    "color": "#A1A1A1",
+    "antialiasing": true,
+    "shouldBop": true,
+
+    "animations": [
+        {
+            "name": "normal",
+            "prefix": "",
+            "framerate": 24,
+            "indices": [0],
+            "looped": false,
+            "flipX": false,
+            "flipY": false
+        },
+        {
+            "name": "lose",
+            "prefix": "",
+            "framerate": 24,
+            "indices": [1],
+            "looped": false,
+            "flipX": false,
+            "flipY": false
+        }
+    ],
+
+    "healthAnimations": [
+        {
+            "atHealth": 20,
+            "goesUnder": true,
+            "anim": "lose"
+        },
+        {
+            "atHealth": 20,
+            "goesUnder": false,
+            "anim": "normal"
+        }
+    ]
+}

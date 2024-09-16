@@ -3,39 +3,182 @@ package funkin.api;
 #if FUNKIN_DISCORD_RPC
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
+import sys.thread.Thread;
 
+/**
+ * The Discord RPC handler for Chillin' Engine.
+ *
+ * This contains quick functions like booting up the rpc.
+ *
+ * This also has variables that update the RPC when changed.
+ */
 class DiscordRPC
 {
-	static inline final clientID:String = '1209233449928360036';
-	static var presence:DiscordRichPresence = DiscordRichPresence.create();
+	/**
+	 * The current Discord application ID that's being used right now.
+	 */
+	inline static final applicationId:String = '1271369174844837939';
 
-	// Activity
+	/**
+	 * The user's current party status.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "Looking to Play"
+	 * "Playing Solo"
+	 * "In a Group"
+	 * ```
+	 */
 	public static var state(default, set):String;
+
+	/**
+	 * What the player is currently doing.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "Competitive - Captain's Mode"
+	 * "In Queue"
+	 * "Unranked PvP"
+	 * ```
+	 */
 	public static var details(default, set):String;
 
-	// Time
+	/**
+	 * epoch seconds for game start - including will show time as "elapsed".
+	 *
+	 * Sending `startTimestamp` will show "elapsed" as long as there is no `endTimestamp` sent.
+	 *
+	 * Example:
+	 * ```haxe
+	 * 1507665886
+	 * ```
+	 */
 	public static var startTimestamp(default, set):Float;
+
+	/**
+	 * epoch seconds for game end - including will show time as "remaining"
+	 *
+	 * Sending `endTimestamp` will **always** have the time displayed as "remaining" until the given time.
+	 *
+	 * Example:
+	 * ```haxe
+	 * 1507665886
+	 * ```
+	 */
 	public static var endTimestamp(default, set):Float;
 
-	// Images
+	/**
+	 * Name of the uploaded image for the large profile artwork.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "default"
+	 * ```
+	 */
 	public static var largeImageKey(default, set):String;
+
+	/**
+	 * Tooltip for the largeImageKey.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "Blade's Edge Arena"
+	 * "Numbani"
+	 * "Danger Zone"
+	 * ```
+	 */
 	public static var largeImageText(default, set):String;
 
+	/**
+	 * Name of the uploaded image for the small profile artwork.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "rogue"
+	 * ```
+	 */
 	public static var smallImageKey(default, set):String;
+
+	/**
+	 * Tooltip for the smallImageKey.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "Rogue - Level 100"
+	 * ```
+	 */
 	public static var smallImageText(default, set):String;
 
-	// Parties
+	/**
+	 * ID of the player's party, lobby, or group.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "ae488379-351d-4a4f-ad32-2b9b01c91657"
+	 * ```
+	 */
 	public static var partyId(default, set):String;
+
+	/**
+	 * Current size of the player's party, lobby, or group.
+	 *
+	 * Example:
+	 * ```haxe
+	 * 1
+	 * ```
+	 */
 	public static var partySize(default, set):Int;
+
+	/**
+	 * Maximum size of the player's party, lobby, or group.
+	 *
+	 * Example:
+	 * ```haxe
+	 * 5
+	 * ```
+	 */
 	public static var partyMax(default, set):Int;
+
+	/**
+	 * No documentation was given on this.
+	 */
 	public static var partyPrivacy(default, set):Int;
 
+	/**
+	 * Unique hashed string for a player's match.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "MmhuZToxMjMxMjM6cWl3amR3MWlqZA=="
+	 * ```
+	 */
 	public static var matchSecret(default, set):String;
-	public static var joinSecret(default, set):String;
+
+	/**
+	 * Unique hashed string for Spectate button.
+	 *
+	 * Example:
+	 * ```haxe
+	 * "MTIzNDV8MTIzNDV8MTMyNDU0"
+	 * ```
+	 */
 	public static var spectateSecret(default, set):String;
 
 	/**
-	 * Initializes the Discord RPC.
+	 * Unique hashed string for chat invitations and Ask to Join.
+	 *
+	 * Example:
+	 * ```haxe
+	 * 	"MTI4NzM0OjFpMmhuZToxMjMxMjM="
+	 * ```
+	 */
+	public static var joinSecret(default, set):String;
+
+	static inline final clientID:String = '1209233449928360036';
+	static var presence:DiscordRichPresence = DiscordRichPresence.create();
+
+	/**
+	 * Initializes and boots up the Discord RPC.
 	 */
 	public static function initialize():Void
 	{
@@ -48,7 +191,7 @@ class DiscordRPC
 		handlers.errored = cpp.Function.fromStaticFunction(onError);
 		Discord.Initialize(clientID, cpp.RawPointer.addressOf(handlers), 1, null);
 
-		sys.thread.Thread.create(function()
+		Thread.create(function()
 		{
 			while (true)
 			{
@@ -62,11 +205,26 @@ class DiscordRPC
 		});
 	}
 
+	/**
+	 * Restarts the Discord RPC by shutting it down and re-initializing it again.
+	 */
+	public static function restart():Void
+	{
+		shutdown();
+		initialize();
+	}
+
+	/**
+	 * Shuts down the Discord RPC.
+	 */
 	public static function shutdown():Void
 	{
 		Discord.Shutdown();
 	}
 
+	/**
+	 * Resets all the values back to either null or 0 (if it's a number type.)
+	 */
 	public static function clearValues():Void
 	{
 		if (!FunkinOptions.get('discordRPC'))
@@ -94,6 +252,9 @@ class DiscordRPC
 		spectateSecret = null;
 	}
 
+	/**
+	 * Updates the presence on the user's Discord profile.
+	 */
 	public static function updatePresence():Void
 	{
 		if (!FunkinOptions.get('discordRPC'))
@@ -105,25 +266,24 @@ class DiscordRPC
 	// Handlers
 	static function onReady(request:cpp.RawConstPointer<DiscordUser>):Void
 	{
-		var userName:String = cast(request[0].username, String);
-		var userDiscrim:String = '';
+		var displayDiscrim:String = '';
 
 		if (Std.parseInt(cast(request[0].discriminator, String)) != 0)
-			userDiscrim += '#${cast (request[0].discriminator, String)}';
+			displayDiscrim += '#' + request[0].discriminator;
 
 		updatePresence();
 
-		trace('Discord RPC Successfully connected! ($userName$userDiscrim)');
+		trace('[INFO]: Discord RPC Successfully connected! Connected to ${request[0].globalName} (${request[0].username}$displayDiscrim)');
 	}
 
 	static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void
 	{
-		trace('Discord RPC Disconnected! ($errorCode: ${cast (message, String)})');
+		trace('[INFO]: Discord RPC Disconnected! $message ($errorCode)');
 	}
 
 	static function onError(errorCode:Int, message:cpp.ConstCharStar):Void
 	{
-		trace('Discord RPC Error! ($errorCode: ${cast (message, String)})');
+		trace('[ERROR]: Discord RPC Error! $message ($errorCode)');
 	}
 
 	// Setting Discord RPC Variables

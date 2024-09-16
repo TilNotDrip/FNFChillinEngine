@@ -51,7 +51,7 @@ class FunkinFPSCounter extends TextField
 		times = [];
 	}
 
-	override function __enterFrame(deltaTime:Float):Void
+	override public function __enterFrame(deltaTime:Float):Void
 	{
 		currentTime += deltaTime;
 		times.push(currentTime);
@@ -67,6 +67,7 @@ class FunkinFPSCounter extends TextField
 			text = 'FPS: $currentFPS' #if cpp + '\nMEM: ${FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE), 2)}' #end
 			#if debug + '\nSTATE: ${Type.getClassName(Type.getClass(FlxG.state))}' + '\nVERSION: ${Application.current.meta.get('version')}' #end;
 		}
+
 		cacheCount = currentCount;
 	}
 }
