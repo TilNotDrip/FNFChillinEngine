@@ -220,7 +220,7 @@ class PathLocation
         	{
             	if(toPush.startsWith(library + '/'))
             	{
-                	toPush.substring(library + '/');
+                	toPush.substring('$library/'.length);
                 	toPush = library + ':' + toPush;
                 	break;
             	}
@@ -252,7 +252,7 @@ class PathLocation
                 	{
                     	if(toPush.startsWith(library + '/'))
                     	{
-                        	toPush.substring(library + '/');
+                        	toPush.substring('$library/'.length);
                         	toPush = library + ':' + toPush;
                         	break;
                     	}
