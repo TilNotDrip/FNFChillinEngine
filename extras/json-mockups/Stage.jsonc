@@ -1,0 +1,99 @@
+{
+    "version": "0.1.0", // The current stage api version that this stage uses. If this doesn't match the version rule in Chillin' Engine than it won't load.
+    "displayName": "Mockup Stage", // The display name of the stage used in menus.
+    "directory": "week0", // The library that this stage loads.
+    "ui": "funkin", // The UI for stuff like the countdown.
+    "zoom": 1.0, // The camera zoom for in-game.
+    "props": [ // The objects displayed on the stage.
+        {
+            // This is a color graphic prop.
+            "name": "colorGraphic", // The name used for scripting.
+            "image": "#0000FF", // If it starts with a # than it will call makeGraphic.
+            "position": [100.0, 100.0], // Where the prop is located.
+            "scrollFactor": [0.0, 0.0], // The prop's scroll factor.
+            "scale": [2560.0, 1440.0], // The graphic size. (This gets converted into an int since its a color graphic.)
+            "alpha": 1.0, // How visible the prop is.
+            "antialiasing": false, // Whether the prop is antialiased. I don't really fw antialiasing on makeGraphic sprites.
+            "flipX": false, // Whether the sprite is flipped _learn math_, not like this would matter on a solid color sprite.
+            "flipY": false // Whether the sprite is flipped _learn math_, not like this would matter on a solid color sprite.
+        },
+        {
+            // This is a static graphic prop.
+            "name": "staticGraphic", // The name used for scripting.
+            "image": "static", // The image name.
+            "position": [600.0, 200.0], // Where the prop is located.
+            "scrollFactor": [0.0, 0.0], // The prop's scroll factor.
+            "scale": [1.0, 1.0], // The graphic scale.
+            "alpha": 1.0, // How visible the prop is.
+            "antialiasing": true, // Whether the prop is antialiased. If the option for antialiasing is disabled then this won't matter.
+            "flipX": false, // Whether the sprite is flipped _learn math_.
+            "flipY": false // Whether the sprite is flipped _learn math_.
+        },
+        {
+            // This is a animated graphic prop.
+            "name": "animatedGraphic", // The name used for scripting.
+            "image": "animated", // The image name.
+            "position": [600.0, 200.0], // Where the prop is located.
+            "animations": [ // The animation data for this prop.
+                {
+                    // Prefix animation
+                    "name": "idle", // Animation name. If an animation is named idle then it will play that animation.
+                    "prefix": "Idle0", // Animation prefix thats defined in the animated.xml
+                    "framerate": 24, // The framerate the animation is played at.
+                    "indices": [], // The animation frames to play, leave blank for all.
+                    "looped": true, // Whether the animation is looped. If this is the idle animation im probably gonna be seeing it a lot so true!
+                    "flipX": false, // Whether the animation gets flipped _learn math_ when playing it.
+                    "flipY": false // Whether the animation gets flipped _learn math_ when playing it.
+                },
+                {
+                    // Indice prefix animation.
+                    "name": "idle", // Animation name.
+                    "prefix": "Idle0", // Animation prefix thats defined in the animated.xml
+                    "framerate": 24, // The framerate the animation is played at.
+                    "indices": [1, 2, 3], // The animation frames to play, we will play frames 1, 2, 3. (Frames start at 0)
+                    "looped": true, // Whether the animation is looped.
+                    "flipX": false, // Whether the animation gets flipped _learn math_ when playing it.
+                    "flipY": false // Whether the animation gets flipped _learn math_ when playing it.
+                }
+            ],
+            "scrollFactor": [0.0, 0.0], // The prop's scroll factor.
+            "scale": [1.0, 1.0], // The graphic scale.
+            "alpha": 1.0, // How visible the prop is.
+            "antialiasing": true, // Whether the prop is antialiased. If the option for antialiasing is disabled then this won't matter.
+            "flipX": false, // Whether the sprite is flipped _learn math_.
+            "flipY": false // Whether the sprite is flipped _learn math_.
+        }
+    ],
+    "characters": { // The character data for the stage.
+        "player": { // The player/boyfriend.
+            "position": [770.0, 350.0], // Where the player is located on this stage.
+            "cameraOffsets": [0.0, 0.0], // The player camera offsets on this stage.
+            "alpha": 1.0, // How visible the player is on this stage.
+            "scrollFactor": [1.0, 1.0], // The player's scroll factor on this stage.
+            "positioning": { // The positioning data for the player
+                "x": "left", // The player's X is located at the very left of the hitbox.
+                "y": "top" // The player's Y is located at the very top of the hitbox.
+            }
+        },
+        "opponent": { // The opponent/dad.
+            "position": [100.0, 100.0], // Where the opponent is located on this stage.
+            "cameraOffsets": [0.0, 0.0], // The opponent camera offsets on this stage.
+            "alpha": 1.0, // How visible the opponent is on this stage.
+            "scrollFactor": [1.0, 1.0], // The opponent's scroll factor on this stage.
+            "positioning": { // The positioning data for the opponent
+                "x": "center", // The player's X is located at the dead center of the hitbox.
+                "y": "center" // The player's Y is located at the dead center of the hitbox.
+            }
+        },
+        "spectator": { // The spectator/girlfriend.
+            "position": [400.0, 130.0], // Where the spectator is located on this stage.
+            "cameraOffsets": [0.0, 0.0], // The spectator camera offsets on this stage.
+            "alpha": 1.0, // How visible the spectator is on this stage.
+            "scrollFactor": [0.95, 0.95], // The spectator's scroll factor on this stage.
+            "positioning": { // The positioning data for the spectator
+                "x": "right", // The spectator's X is located at the very right of the hitbox.
+                "y": "bottom" // The spectator's Y is located at the very bottom of the hitbox.
+            }
+        }
+    }
+}
