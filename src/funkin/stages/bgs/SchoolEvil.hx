@@ -25,18 +25,18 @@ class SchoolEvil extends StageBackend
 		var evilTrail = new FlxTrail(opponent, null, 4, 4, 0.3, 0.069);
 		addBehindOpponent(evilTrail);
 
-		if (isStoryMode && curSong.formatToPath() == 'thorns')
-			startCallback = spiritCutscene;
-	}
+		if (FunkinOptions.get('cutscenes') && isStoryMode && curSong.formatToPath() == 'thorns')
+		{
+			startCallback = () ->
+			{
+				var doof:DialogueBox = new DialogueBox(false, game.dialogue);
+				doof.scrollFactor.set();
+				doof.finishThing = startCountdown;
+				doof.cameras = [camDIALOGUE];
 
-	function spiritCutscene()
-	{
-		var doof:DialogueBox = new DialogueBox(false, game.dialogue);
-		doof.scrollFactor.set();
-		doof.finishThing = startCountdown;
-		doof.cameras = [camDIALOGUE];
-
-		schoolIntro(doof);
+				schoolIntro(doof);
+			};
+		}
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void

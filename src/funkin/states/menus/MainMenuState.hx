@@ -10,15 +10,14 @@ import funkin.objects.menu.MenuItem;
 class MainMenuState extends MusicBeatState
 {
 	public static var funkinVer:String = '0.2.8';
-
-	var magenta:FlxSprite;
-
-	var itemNames:Array<String> = ['story-mode', 'freeplay', 'donate', 'options'];
-	var menuItems:FlxTypedGroup<MenuItem>;
-
 	static var curSelected:Int = 0;
 
+	var itemNames:Array<String> = ['storymode', 'freeplay', 'donate', 'options'];
+	var menuItems:FlxTypedGroup<MenuItem>;
+
 	var selected:Bool = false;
+
+	var magenta:FlxSprite;
 
 	var camFollow:FlxObject;
 
@@ -49,33 +48,71 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuDesat'));
-		magenta.scrollFactor.x = bg.scrollFactor.x;
-		magenta.scrollFactor.y = bg.scrollFactor.y;
-		magenta.setGraphicSize(Std.int(bg.width));
-		magenta.updateHitbox();
-		magenta.x = bg.x;
-		magenta.y = bg.y;
-		magenta.visible = false;
-		magenta.color = 0xFFfd719b;
-
 		if (FunkinOptions.get('flashingLights'))
+		{
+			magenta = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuDesat'));
+			magenta.x = bg.x;
+			magenta.y = bg.y;
+			magenta.scrollFactor.x = bg.scrollFactor.x;
+			magenta.scrollFactor.y = bg.scrollFactor.y;
+			magenta.setGraphicSize(bg.width);
+			magenta.updateHitbox();
+			magenta.visible = false;
+			magenta.color = 0xFFfd719b;
 			add(magenta);
+		}
 
 		menuItems = new FlxTypedGroup<MenuItem>();
 		add(menuItems);
 
 		for (i in 0...itemNames.length)
 		{
-			var menuItem:MenuItem = new MenuItem(60 + (i * 160), itemNames[i]);
+			var spacing:Float = 160;
+			var top:Float = (FlxG.height - (spacing * (itemNames.length - 1))) / 2;
+			var menuItem:MenuItem = new MenuItem(top + spacing * i, itemNames[i]);
+			menuItem.x = FlxG.width / 2;
+			menuItem.scrollFactor.set(0, 0.4);
+
+			switch (menuItem.name)
+			{
+				case 'storymode':
+					menuItem.pressCallback = () ->
+					{
+						FlxG.switchState(new StoryMenuState());
+					}
+
+				case 'freeplay':
+					menuItem.pressCallback = () ->
+					{
+						FlxG.switchState(new FreeplayState());
+					}
+
+				case 'credits':
+					menuItem.pressCallback = () ->
+					{
+						FlxG.switchState(new CreditsState());
+					}
+
+				/*case 'merch':
+					menuItem.pressCallback = () ->
+					{
+						CoolUtil.openURL(Constants.URL_MERCH);
+						resetItems();
+				}*/
+
+				case 'options':
+					menuItem.pressCallback = () ->
+					{
+						FlxG.switchState(new OptionsState());
+					}
+			}
+
 			menuItem.ID = i;
 			menuItems.add(menuItem);
 		}
 
 		changeItem();
-
-		FlxG.cameras.reset(new SwagCamera());
-		FlxG.camera.follow(camFollow, null, 0.06);
+		resetCamStuff();
 
 		var verChillEngine:FlxText = new FlxText(-5, FlxG.height - 18, FlxG.width, "Chillin' Engine v" + Application.current.meta.get('version'), 12);
 		verChillEngine.scrollFactor.set();
@@ -88,6 +125,13 @@ class MainMenuState extends MusicBeatState
 		add(verFunkin);
 
 		super.create();
+	}
+
+	function resetCamStuff():Void
+	{
+		FlxG.cameras.reset(new SwagCamera());
+		FlxG.camera.follow(camFollow, null, 0.06);
+		FlxG.camera.snapToTarget();
 	}
 
 	override public function update(elapsed:Float)
@@ -108,14 +152,20 @@ class MainMenuState extends MusicBeatState
 
 			menuItems.forEach(function(item:MenuItem)
 			{
-				if (item.ID != curSelected)
-					FlxTween.tween(item, {alpha: 0}, 0.4, {ease: FlxEase.quadOut});
-				else
+				if (item.ID == curSelected)
+				{
 					item.press();
+				}
+				else
+				{
+					item.disappear();
+				}
 			});
 
 			if (FunkinOptions.get('flashingLights'))
+			{
 				FlxFlicker.flicker(magenta, 1, 0.1, false, false);
+			}
 		}
 
 		if (controls.BACK && !selected)
@@ -124,17 +174,7 @@ class MainMenuState extends MusicBeatState
 			FlxG.switchState(new TitleState());
 		}
 
-		if (FlxG.keys.justPressed.C) // test
-		{
-			FlxG.switchState(new CreditsState());
-		}
-
 		super.update(elapsed);
-
-		menuItems.forEach(function(item:MenuItem)
-		{
-			item.screenCenter(X);
-		});
 	}
 
 	function changeItem(change:Int = 0)
@@ -158,6 +198,24 @@ class MainMenuState extends MusicBeatState
 				item.animation.play('idle', true);
 
 			item.updateHitbox();
+			item.centerOrigin();
+			item.offset.copyFrom(item.origin);
+		});
+	}
+
+	function resetItems():Void
+	{
+		menuItems.forEach(function(item:MenuItem)
+		{
+			menuItems.members[curSelected].visible = true;
+			menuItems.members[curSelected].alpha = 0;
+
+			FlxTween.tween(item, {alpha: 1}, item.waitTime / 0.5, {
+				onComplete: function(twn:FlxTween)
+				{
+					selected = false;
+				}
+			});
 		});
 	}
 }

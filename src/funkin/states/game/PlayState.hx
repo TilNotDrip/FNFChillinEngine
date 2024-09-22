@@ -410,7 +410,7 @@ class PlayState extends MusicBeatState
 
 		curStage.createPost();
 
-		if (!seenCutscene && FunkinOptions.get('cutscenes'))
+		if (!seenCutscene)
 		{
 			if (curStage.startCallback != null)
 				curStage.startCallback();
@@ -418,7 +418,9 @@ class PlayState extends MusicBeatState
 				startCountdown();
 		}
 		else
+		{
 			startCountdown();
+		}
 	}
 
 	public function playVideo(videoFile:String)

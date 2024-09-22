@@ -44,8 +44,23 @@ class Mall extends StageBackend
 		santa = new BGSprite('christmas/santa', -840, 150, 1, 1, ['santa idle in fear']);
 		add(santa);
 
-		if (isStoryMode && curSong.formatToPath() == 'eggnog')
-			endCallback = lightsOut;
+		if (FunkinOptions.get('cutscenes') && isStoryMode && curSong.formatToPath() == 'eggnog')
+		{
+			endCallback = () ->
+			{
+				inCutscene = true;
+
+				var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGAME.zoom,
+					-FlxG.height * camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+				blackShit.scrollFactor.set();
+				add(blackShit);
+
+				FlxG.sound.play(Paths.content.sound('Lights_Shut_off'), function()
+				{
+					endingStuff();
+				});
+			};
+		}
 	}
 
 	override public function cameraMovement(char:Character)
@@ -59,20 +74,5 @@ class Mall extends StageBackend
 		upperBoppers.animation.play('Upper Crowd Bob', true);
 		bottomBoppers.animation.play('Bottom Level Boppers', true);
 		santa.animation.play('santa idle in fear', true);
-	}
-
-	function lightsOut()
-	{
-		inCutscene = true;
-
-		var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGAME.zoom,
-			-FlxG.height * camGAME.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-		blackShit.scrollFactor.set();
-		add(blackShit);
-
-		FlxG.sound.play(Paths.content.sound('Lights_Shut_off'), function()
-		{
-			endingStuff();
-		});
 	}
 }

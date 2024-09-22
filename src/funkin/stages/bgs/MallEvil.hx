@@ -24,44 +24,44 @@ class MallEvil extends StageBackend
 
 	override public function createPost()
 	{
-		if (isStoryMode && curSong.formatToPath() == 'winter-horrorland')
-			startCallback = whCutscene;
+		if (FunkinOptions.get('cutscenes') && isStoryMode && curSong.formatToPath() == 'winter-horrorland')
+		{
+			startCallback = () ->
+			{
+				inCutscene = true;
+
+				var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+				add(blackScreen);
+				blackScreen.scrollFactor.set();
+
+				new FlxTimer().start(0.1, function(tmr:FlxTimer)
+				{
+					remove(blackScreen);
+					FlxG.sound.play(Paths.content.sound('Lights_Turn_On'));
+					camFollow.y = -2050;
+					camFollow.x += 200;
+					camGAME.focusOn(camFollow.getPosition());
+					camGAME.zoom = 1.5;
+
+					new FlxTimer().start(0.8, function(tmr:FlxTimer)
+					{
+						remove(blackScreen);
+						FlxTween.tween(camGAME, {zoom: zoom}, 2.5, {
+							ease: FlxEase.quadInOut,
+							onComplete: function(twn:FlxTween)
+							{
+								startCountdown();
+							}
+						});
+					});
+				});
+			};
+		}
 	}
 
 	override public function cameraMovement(char:Character)
 	{
 		if (char == player)
 			camFollow.y = player.getMidpoint().y - 200;
-	}
-
-	function whCutscene()
-	{
-		inCutscene = true;
-
-		var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-		add(blackScreen);
-		blackScreen.scrollFactor.set();
-
-		new FlxTimer().start(0.1, function(tmr:FlxTimer)
-		{
-			remove(blackScreen);
-			FlxG.sound.play(Paths.content.sound('Lights_Turn_On'));
-			camFollow.y = -2050;
-			camFollow.x += 200;
-			camGAME.focusOn(camFollow.getPosition());
-			camGAME.zoom = 1.5;
-
-			new FlxTimer().start(0.8, function(tmr:FlxTimer)
-			{
-				remove(blackScreen);
-				FlxTween.tween(camGAME, {zoom: zoom}, 2.5, {
-					ease: FlxEase.quadInOut,
-					onComplete: function(twn:FlxTween)
-					{
-						startCountdown();
-					}
-				});
-			});
-		});
 	}
 }

@@ -73,19 +73,21 @@ class School extends StageBackend
 
 	override public function createPost()
 	{
-		if (isStoryMode && (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses'))
-			startCallback = senpaiCutscene;
-	}
+		if (FunkinOptions.get('cutscenes') && isStoryMode && (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses'))
+		{
+			startCallback = () ->
+			{
+				var doof:DialogueBox = new DialogueBox(false, game.dialogue);
+				doof.scrollFactor.set();
+				doof.finishThing = startCountdown;
+				doof.cameras = [camDIALOGUE];
 
-	function senpaiCutscene()
-	{
-		var doof:DialogueBox = new DialogueBox(false, game.dialogue);
-		doof.scrollFactor.set();
-		doof.finishThing = startCountdown;
-		doof.cameras = [camDIALOGUE];
-
-		if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
-			schoolIntro(doof);
+				if (curSong.formatToPath() == 'senpai' || curSong.formatToPath() == 'roses')
+				{
+					schoolIntro(doof);
+				}
+			};
+		}
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
