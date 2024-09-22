@@ -13,7 +13,7 @@ class Song
 
 		try
 		{
-			rawJson = Paths.content.jsonText('data/charts/' + folder.formatToPath() + '/' + jsonInput.formatToPath()).trim();
+			rawJson = Paths.content.json('data/charts/' + folder.formatToPath() + '/' + jsonInput.formatToPath()).trim();
 		}
 		catch (e)
 		{

@@ -6,6 +6,7 @@ import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
+import json2object.JsonParser;
 import openfl.Assets;
 
 typedef TitleJSON =
@@ -71,7 +72,7 @@ class TitleState extends MusicBeatState
 		DiscordRPC.details = 'Title Screen';
 		#end
 
-		introText = cast Paths.content.json('data/title', true);
+		introText = cast new JsonParser<TitleJSON>().fromJson(Paths.content.json('data/title'));
 
 		startedIntro = false;
 

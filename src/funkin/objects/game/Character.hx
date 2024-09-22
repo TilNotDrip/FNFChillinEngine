@@ -64,7 +64,7 @@ class Character extends FlxSprite
 			assetChar = 'bf';
 		}
 
-		characterData = cast new JsonParser<CharacterStructure>().fromJson(Paths.content.jsonText('data/characters/$assetChar'));
+		characterData = cast new JsonParser<CharacterStructure>().fromJson(Paths.content.json('data/characters/$assetChar'));
 
 		if (characterData != null)
 		{
@@ -79,9 +79,13 @@ class Character extends FlxSprite
 			for (anim in characterData.animations)
 			{
 				if (anim.indices.length != 0)
+				{
 					animation.addByIndices(anim.name, anim.prefix, anim.indices, '', anim.framerate, anim.looped, anim.flipX, anim.flipY);
+				}
 				else
+				{
 					animation.addByPrefix(anim.name, anim.prefix, anim.framerate, anim.looped, anim.flipX, anim.flipY);
+				}
 
 				addOffset(anim.name, anim.offsets[0], anim.offsets[1]);
 			}

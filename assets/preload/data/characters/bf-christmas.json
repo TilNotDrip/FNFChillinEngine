@@ -113,10 +113,5 @@
         "isPlayer": true
     },
 
-    "positioning": {
-        "x": "left",
-        "y": "top"
-    },
-
     "generatedBy": "CrusherNotDrip (Manually)"
 }

@@ -45,14 +45,14 @@ class HealthIcon extends TrackedSprite
 
 	public function changeIcon(newChar:String):Void
 	{
-		var metadataText:String = Paths.content.jsonText('images/icons/$newChar');
+		var metadataText:String = Paths.content.json('images/icons/$newChar');
 
 		if (metadataText == null)
 		{
 			trace('[ERROR]: Unable to load the Icon Metadata of $newChar! Maybe it doesnt exist? Falling Back to Default...');
 
 			newChar = 'face';
-			metadataText = Paths.content.jsonText('images/icons/$newChar');
+			metadataText = Paths.content.json('images/icons/$newChar');
 
 			if (metadataText == null)
 			{

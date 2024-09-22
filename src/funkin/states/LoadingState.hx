@@ -250,6 +250,9 @@ class LoadingState extends MusicBeatState
 	{
 		return switch (PlayState?.SONG?.stage)
 		{
+			case 'mainStage':
+				'week1';
+
 			case 'spooky':
 				'week2';
 

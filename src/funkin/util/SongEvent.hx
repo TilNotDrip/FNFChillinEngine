@@ -25,7 +25,7 @@ class SongEvent
 
 	public static function loadFromJson(folder:String):Array<SwagEvent>
 	{
-		var rawJson:String = Paths.content.jsonText('data/charts/${folder.formatToPath()}/events').trim();
+		var rawJson:String = Paths.content.json('data/charts/${folder.formatToPath()}/events').trim();
 
 		if (rawJson == null)
 			return null;

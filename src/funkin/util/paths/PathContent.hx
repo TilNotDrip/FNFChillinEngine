@@ -121,23 +121,9 @@ class PathContent
 	 * @param key Json File name.
 	 * @param library Library the json is in.
 	 * @param checkMods Allow mod jsons to be returned?
-	 * @return A Parsed JSON from the text asset in Paths.location.json
-	 */
-	public function json(key:String, ?library:String, ?trim:Bool = false, ?checkMods:Bool = true):Dynamic
-	{
-		if (trim)
-			return Json.parse(jsonText(key, library, checkMods).trim());
-
-		return Json.parse(jsonText(key, library, checkMods));
-	}
-
-	/**
-	 * @param key Json File name.
-	 * @param library Library the json is in.
-	 * @param checkMods Allow mod jsons to be returned?
 	 * @return A JSON turned into a string from the text asset in Paths.location.json
 	 */
-	public function jsonText(key:String, ?library:String, ?checkMods:Bool = true):String
+	public function json(key:String, ?library:String, ?checkMods:Bool = true):String
 	{
 		return getText(Paths.location.json(key, library, checkMods), checkMods);
 	}

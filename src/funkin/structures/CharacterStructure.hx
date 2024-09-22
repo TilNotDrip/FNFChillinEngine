@@ -64,12 +64,6 @@ typedef CharacterStructure =
 	var editor:CharacterEditorStructure;
 
 	/**
-	 * The positioning information for the character.
-	 */
-	@:optional
-	var positioning:CharacterPositioningStructure;
-
-	/**
 	 * Who / What generated the json file.
 	 * @default Unknown
 	 */
@@ -169,37 +163,4 @@ typedef CharacterEditorStructure =
 	@:default(false)
 	@:optional
 	var ?isPlayer:Bool;
-}
-
-typedef CharacterPositioningStructure =
-{
-	/**
-	 * Where the X is located on the character.
-	 * @default LEFT
-	 */
-	@:default(LEFT)
-	@:optional
-	var x:CharacterPositionX;
-
-	/**
-	 * Where the Y is located on the character.
-	 * @default TOP
-	 */
-	@:default(TOP)
-	@:optional
-	var y:CharacterPositionY;
-}
-
-enum abstract CharacterPositionX(String)
-{
-	var LEFT = 'left';
-	var CENTER = 'center';
-	var RIGHT = 'right';
-}
-
-enum abstract CharacterPositionY(String)
-{
-	var TOP = 'top';
-	var CENTER = 'center';
-	var BOTTOM = 'bottom';
 }
