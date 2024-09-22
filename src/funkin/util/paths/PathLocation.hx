@@ -1,9 +1,10 @@
 package funkin.util.paths;
 
-import funkin.modding.FunkinModLoader;
 import openfl.utils.Assets;
 import openfl.utils.AssetType;
+
 #if FUNKIN_MOD_SUPPORT
+import funkin.modding.FunkinModLoader;
 import sys.FileSystem;
 #end
 
@@ -201,57 +202,86 @@ class PathLocation
 	}
 
 	/**
-	 * Returns a list of files from a directory (and directories from that directory).
-	 * @param key Directory to check.
-	 * @param library Library the directory is in.
-	 * @param checkMods Allow mods to be included in the scan?
-	 * @return An array of found files in the directory.
+	 * Returns every file currently in the game
+	 * @return An array of found files.
 	 */
-	public function list(key:String = null, ?library:String, checkMods:Bool = true):Array<String>
+	public function list():Array<String>
 	{
-		var path:String = get(key, library, null, false);
-		var pathMods:String = get(key, library, null, true);
-		trace(path);
-		var files:Array<String> = [];
+    	var results:Array<String> = [];
 
-		for (pathFound in Assets.list())
+	    for(i in openfl.utils.Assets.list())
+    	{
+        	var toPush:String = i;
+
+        	toPush.substring('assets/'.length);
+
+        	@:privateAccess
+        	for(library in lime.utils.Assets.libraries.keys())
+        	{
+            	if(toPush.startsWith(library + '/'))
+            	{
+                	toPush.substring('$library/'.length);
+                	toPush = library + ':' + toPush;
+                	break;
+            	}
+        	}
+
+        	results.push(toPush);
+    	}
+
+    	#if FUNKIN_MOD_SUPPORT
+    	var currentDirectories:Array<String> = [];
+		for (mod in FunkinModLoader.currentMods)
+        	currentDirectories.push('${Constants.MODS_FOLDER}/${mod.folder}');
+
+    	while (currentDirectories.length > 0)
 		{
-			if (pathFound.startsWith(path))
+			var curDirectory:String = currentDirectories.shift();
+			for (path in FileSystem.readDirectory(curDirectory))
 			{
-				trace(pathFound);
-				files.push(pathFound);
+				var fullPath:String = curDirectory + '/' + path;
+				if (!FileSystem.isDirectory(fullPath))
+            	{
+                	var toPush:String = fullPath;
+
+                	toPush.substring('mods/'.length);
+                	toPush.substring(toPush.indexOf('/')+1);
+
+                	@:privateAccess
+                	for(library in lime.utils.Assets.libraries.keys())
+                	{
+                    	if(toPush.startsWith(library + '/'))
+                    	{
+                        	toPush.substring('$library/'.length);
+                        	toPush = library + ':' + toPush;
+                        	break;
+                    	}
+                	}
+
+                	if(!results.contains(toPush))
+                    	results.push(toPush);
+            	}
+            	else
+					currentDirectories.push(fullPath);
 			}
 		}
+    	#end
 
-		#if FUNKIN_MOD_SUPPORT
-		if (checkMods && pathMods.startsWith(Constants.MODS_FOLDER + '/'))
-		{
-			var curDirectories:Array<String> = [pathMods];
+		return results;
+	}
 
-			while (curDirectories.length > 0)
-			{
-				var curDirectory:String = curDirectories.shift();
+	public function stripLibrary(path:String):String
+	{
+    	var parts:Array<String> = path.split(':');
+    	if (parts.length < 2) return path;
+    	return parts[1];
+	}
 
-				for (pathFound in FileSystem.readDirectory(curDirectory))
-				{
-					var fullPath:String = curDirectory + '/' + pathFound;
-
-					if (FileSystem.isDirectory(fullPath))
-					{
-						trace(pathFound);
-						curDirectories.push(fullPath);
-					}
-					else
-					{
-						trace(pathFound);
-						files.push(fullPath);
-					}
-				}
-			}
-		}
-		#end
-
-		return files;
+	public function getLibrary(path:String):String
+	{
+    	var parts:Array<String> = path.split(':');
+    	if (parts.length < 2) return 'default';
+    	return parts[0];
 	}
 
 	function getLibraryPath(key:String, ?library:String, ?checkMods:Bool = true):String
