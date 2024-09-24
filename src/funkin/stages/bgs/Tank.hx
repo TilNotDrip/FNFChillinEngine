@@ -353,7 +353,8 @@ class Tank extends StageBackend
 		player.visible = false;
 
 		// Setup a Fake Girlfriend.
-		var fakeGF:Character = new Character(gfGroup.x, gfGroup.y, 'gf-tankmen');
+		var fakeGF:Character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter('gf-tankmen', false);
+		fakeGF.setPosition(gfGroup.x, gfGroup.y);
 		fakeGF.x += fakeGF.characterPosition[0];
 		fakeGF.y += fakeGF.characterPosition[1];
 		fakeGF.scrollFactor.set(0.95, 0.95);
@@ -374,7 +375,8 @@ class Tank extends StageBackend
 		addBehindGF(picoCutsceneObj);
 
 		// Setup a Fake Boyfriend.
-		var fakeBF:Character = new Character(playerGroup.x, playerGroup.y, 'bf', true);
+		var fakeBF:Character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter('bf', true);
+		fakeBF.setPosition(playerGroup.x, playerGroup.y);
 		fakeBF.x += fakeBF.characterPosition[0];
 		fakeBF.y += fakeBF.characterPosition[1];
 		fakeBF.dance();

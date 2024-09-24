@@ -28,4 +28,16 @@ class CoolTools
 
 		return converted;
 	}
+
+	/**
+	 * Return a list of keys from the map (as an array, rather than an iterator).
+	 * @param map The map.
+	 */
+	public static function keyValues<K, T>(map:Map<K, T>):Array<K>
+	{
+		if (map == null)
+			return [];
+
+		return [for (i in map.keys()) i];
+	}
 }

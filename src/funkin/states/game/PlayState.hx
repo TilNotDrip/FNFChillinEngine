@@ -231,14 +231,14 @@ class PlayState extends MusicBeatState
 		add(dadGroup);
 		add(boyfriendGroup);
 
-		gf = new Character(0, 0, SONG.player3);
+		gf = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(SONG.player3);
 		gf.x += gf.characterPosition[0];
 		gf.y += gf.characterPosition[1];
 		gfGroup.scrollFactor.set(0.95, 0.95);
 		gf.dance();
 		gf.animation.finish();
 
-		dad = new Character(0, 0, SONG.player2);
+		dad = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(SONG.player2);
 		dad.x += dad.characterPosition[0];
 		dad.y += dad.characterPosition[1];
 		dad.dance();
@@ -254,7 +254,7 @@ class PlayState extends MusicBeatState
 				tweenCam(true);
 		}
 
-		boyfriend = new Character(0, 0, SONG.player1, true);
+		boyfriend = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(SONG.player1, true);
 		boyfriend.x += boyfriend.characterPosition[0];
 		boyfriend.y += boyfriend.characterPosition[1];
 		boyfriend.dance();
@@ -1999,7 +1999,8 @@ class PlayState extends MusicBeatState
 						return;
 				});
 
-				var newDad:Character = new Character(curStage.DAD_POSITION[0], curStage.DAD_POSITION[1], name, false);
+				var newDad:Character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(name, false);
+				newDad.setPosition(curStage.DAD_POSITION[0], curStage.DAD_POSITION[1]);
 				newDad.x += newDad.characterPosition[0];
 				newDad.y += newDad.characterPosition[1];
 				newDad.alpha = 0.00001;
@@ -2012,7 +2013,8 @@ class PlayState extends MusicBeatState
 						return;
 				});
 
-				var newGF:Character = new Character(curStage.GF_POSITION[0], curStage.GF_POSITION[1], name, false);
+				var newGF:Character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(name, false);
+				newGF.setPosition(curStage.GF_POSITION[0], curStage.GF_POSITION[1]);
 				newGF.x += newGF.characterPosition[0];
 				newGF.y += newGF.characterPosition[1];
 				newGF.alpha = 0.00001;
@@ -2025,7 +2027,8 @@ class PlayState extends MusicBeatState
 						return;
 				});
 
-				var newBoyfriend:Character = new Character(curStage.BF_POSITION[0], curStage.BF_POSITION[1], name, true);
+				var newBoyfriend:Character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(name, true);
+				newBoyfriend.setPosition(curStage.BF_POSITION[0], curStage.BF_POSITION[1]);
 				newBoyfriend.x += newBoyfriend.characterPosition[0];
 				newBoyfriend.y += newBoyfriend.characterPosition[1];
 				newBoyfriend.alpha = 0.00001;

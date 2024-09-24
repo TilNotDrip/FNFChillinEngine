@@ -3,9 +3,6 @@ package funkin.objects.game;
 import funkin.util.ChillinAnimationController;
 import flixel.math.FlxPoint;
 import funkin.structures.CharacterStructure;
-import funkin.util.VersionUtil;
-import json2object.JsonParser;
-import thx.semver.VersionRule;
 
 class Character extends FlxSprite
 {
@@ -39,41 +36,22 @@ class Character extends FlxSprite
 
 	public var isDead:Bool = false;
 
-	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
+	public function new(?isPlayer:Bool = false)
 	{
-		super(x, y);
-
+		super(0, 0);
 		animation = new ChillinAnimationController(this);
 
-		curCharacter = character;
 		this.isPlayer = isPlayer;
-
-		loadJson(character);
-
-		if (isPlayer)
-			flipX = !flipX;
 	}
 
-	function loadJson(character:String):Void
+	@:allow(funkin.data.registry.CharacterRegistry)
+	function loadJson(curCharacter:String, characterData:CharacterStructure):Void
 	{
-		var assetChar:String = character;
-
-		if (!Paths.location.exists(Paths.location.json('data/characters/$assetChar'), TEXT))
-		{
-			curCharacter = 'bf';
-			assetChar = 'bf';
-		}
-
-		characterData = cast new JsonParser<CharacterStructure>().fromJson(Paths.content.json('data/characters/$assetChar'));
+		this.characterData = characterData;
+		this.curCharacter = curCharacter;
 
 		if (characterData != null)
 		{
-			if (!VersionUtil.validateVersion(characterData.version, funkin.util.Constants.VERSION_CHARACTER_RULE))
-			{
-				trace('[ERROR]: Character version doesn\'t match current character version rule!');
-				return;
-			}
-
 			frames = Paths.content.autoAtlas(characterData.image, 'shared');
 
 			for (anim in characterData.animations)
@@ -95,6 +73,9 @@ class Character extends FlxSprite
 			flipY = characterData.flipY;
 			scale.set(characterData.scale[0], characterData.scale[1]);
 			updateHitbox();
+
+			if (isPlayer)
+				flipX = !flipX;
 
 			// Gameplay
 			characterPosition = characterData.gameplay.position;

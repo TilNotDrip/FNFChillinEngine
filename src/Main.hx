@@ -66,6 +66,7 @@ class Main extends Sprite
 		addChild(funkinGame);
 
 		initGame();
+		loadRegistryEntries();
 
 		#if !mobile
 		fpsCounter = new FunkinFPSCounter(10, 3, 0xFFFFFF);
@@ -98,5 +99,13 @@ class Main extends Sprite
 		#end
 
 		FunkinHScriptLoader.init();
+	}
+
+	/**
+	 * (Re)Loads Registry Entries.
+	 */
+	public static function loadRegistryEntries():Void
+	{
+		funkin.data.registry.CharacterRegistry.instance.loadEntries();
 	}
 }

@@ -52,7 +52,7 @@ class AnimationDebug extends MusicBeatState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		add(gridBG);
 
-		char = new Character(0, 0, daAnim, isPlayer);
+		char = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(daAnim, isPlayer);
 		char.screenCenter();
 		char.debugMode = true;
 		add(char);

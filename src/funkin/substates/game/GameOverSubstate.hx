@@ -95,8 +95,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
-		character = new Character(PlayState.instance.curStage.BF_POSITION[0], PlayState.instance.curStage.BF_POSITION[1],
-			PlayState.instance.boyfriend.deathChar, true);
+		character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(PlayState.instance.boyfriend.deathChar, true);
+		character.setPosition(PlayState.instance.curStage.BF_POSITION[0], PlayState.instance.curStage.BF_POSITION[1]);
 		ui = character.ui;
 
 		if (!secretGameover)
