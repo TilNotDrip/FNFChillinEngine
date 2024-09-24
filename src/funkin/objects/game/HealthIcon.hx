@@ -69,7 +69,7 @@ class HealthIcon extends TrackedSprite
 		if (metadata.resolution != null)
 			loadGraphic(Paths.content.imageGraphic('icons/' + newChar), true, metadata.resolution[0], metadata.resolution[1]);
 		else
-			frames = Paths.content.sparrowAtlas('icons/' + newChar);
+			frames = Paths.content.autoAtlas('icons/' + newChar);
 
 		curHealthBarColor = FlxColor.fromString(metadata.color);
 

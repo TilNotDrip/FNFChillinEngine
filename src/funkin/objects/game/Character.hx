@@ -74,7 +74,7 @@ class Character extends FlxSprite
 				return;
 			}
 
-			frames = Paths.content.sparrowAtlas(characterData.image, 'shared');
+			frames = Paths.content.autoAtlas(characterData.image, 'shared');
 
 			for (anim in characterData.animations)
 			{

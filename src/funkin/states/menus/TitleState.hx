@@ -384,7 +384,7 @@ class TitleState extends MusicBeatState
 			if (jsonSpr.animations == null)
 				daSprite.loadGraphic(Paths.content.imageGraphic(jsonSpr.path));
 			else
-				daSprite.frames = Paths.content.sparrowAtlas(jsonSpr.path);
+				daSprite.frames = Paths.content.autoAtlas(jsonSpr.path);
 
 			if (jsonSpr.animations != null)
 			{

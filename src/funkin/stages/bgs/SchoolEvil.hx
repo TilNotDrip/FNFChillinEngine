@@ -48,7 +48,7 @@ class SchoolEvil extends StageBackend
 		red.scrollFactor.set();
 
 		var senpaiEvil:FlxSprite = new FlxSprite();
-		senpaiEvil.frames = Paths.content.sparrowAtlas('weeb/senpaiCrazy');
+		senpaiEvil.frames = Paths.content.autoAtlas('weeb/senpaiCrazy');
 		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion', 24, false);
 		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * PlayState.daPixelZoom));
 		senpaiEvil.antialiasing = false;

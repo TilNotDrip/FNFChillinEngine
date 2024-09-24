@@ -44,7 +44,7 @@ class Strums extends FlxSpriteGroup
 				default:
 					var directions:Array<String> = ['left', 'down', 'up', 'right'];
 
-					newNote.frames = Paths.content.sparrowAtlas('gameplay-ui/funkin/Notes');
+					newNote.frames = Paths.content.autoAtlas('gameplay-ui/funkin/Notes');
 					newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 
 					newNote.animation.addByPrefix('static', directions[note] + ' static');

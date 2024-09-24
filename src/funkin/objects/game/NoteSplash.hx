@@ -57,7 +57,7 @@ class NoteSplash extends FlxSprite
 				antialiasing = false;
 
 			default:
-				frames = Paths.content.sparrowAtlas('gameplay-ui/funkin/Splashes');
+				frames = Paths.content.autoAtlas('gameplay-ui/funkin/Splashes');
 
 				animation.addByPrefix('splash-0', 'note impact 1', 24, false);
 				animation.addByPrefix('splash-1', 'note impact 2', 24, false);

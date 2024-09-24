@@ -62,12 +62,12 @@ class DialogueBox extends FlxSpriteGroup
 			{
 				case 'roses':
 					portraitLeft = new FlxSprite(-20, 45);
-					portraitLeft.frames = Paths.content.sparrowAtlas('weeb/senpaiMadPortrait');
+					portraitLeft.frames = Paths.content.autoAtlas('weeb/senpaiMadPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
 
 				default:
 					portraitLeft = new FlxSprite(-20, 40);
-					portraitLeft.frames = Paths.content.sparrowAtlas('weeb/senpaiPortrait');
+					portraitLeft.frames = Paths.content.autoAtlas('weeb/senpaiPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
 			};
 
@@ -79,7 +79,7 @@ class DialogueBox extends FlxSpriteGroup
 			add(portraitLeft);
 
 			portraitRight = new FlxSprite(0, 40);
-			portraitRight.frames = Paths.content.sparrowAtlas('weeb/bfPortrait');
+			portraitRight.frames = Paths.content.autoAtlas('weeb/bfPortrait');
 			portraitRight.animation.addByPrefix('enter', 'Boyfriend portrait enter', 24, false);
 			portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));
 			portraitRight.antialiasing = false;
@@ -97,7 +97,7 @@ class DialogueBox extends FlxSpriteGroup
 		{
 			case 'senpai':
 				hasDialog = true;
-				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-pixel');
+				box.frames = Paths.content.autoAtlas('pixelui/dialogueBox-pixel');
 				box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 				box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 
@@ -105,13 +105,13 @@ class DialogueBox extends FlxSpriteGroup
 				hasDialog = true;
 				FlxG.sound.play(Paths.content.sound('ANGRY_TEXT_BOX'));
 
-				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-mad');
+				box.frames = Paths.content.autoAtlas('pixelui/dialogueBox-mad');
 				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
 				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH', [4], "", 24);
 
 			case 'thorns':
 				hasDialog = true;
-				box.frames = Paths.content.sparrowAtlas('pixelui/dialogueBox-evil');
+				box.frames = Paths.content.autoAtlas('pixelui/dialogueBox-evil');
 				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn', 24, false);
 				box.animation.addByIndices('normal', 'Spirit Textbox spawn', [11], "", 24);
 

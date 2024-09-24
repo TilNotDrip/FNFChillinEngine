@@ -2,7 +2,6 @@ package funkin.util.paths;
 
 import openfl.utils.Assets;
 import openfl.utils.AssetType;
-
 #if FUNKIN_MOD_SUPPORT
 import funkin.modding.FunkinModLoader;
 import sys.FileSystem;
@@ -163,11 +162,11 @@ class PathLocation
 		if (currentLevel != null)
 		{
 			var levelPath:String = getLibraryPath(key, currentLevel, checkMods);
-			if (exists(levelPath, type, checkMods))
+			if (exists(levelPath, type))
 				return levelPath;
 
 			levelPath = getLibraryPath(key, 'shared', checkMods);
-			if (exists(levelPath, type, checkMods))
+			if (exists(levelPath, type))
 				return levelPath;
 		}
 
@@ -182,10 +181,10 @@ class PathLocation
 	 * @param checkMods Checks to see if a mod file exists too.
 	 * @return File existence.
 	 */
-	public function exists(key:String, ?type:AssetType = null, ?checkMods:Bool = true):Bool
+	public function exists(key:String, ?type:AssetType = null):Bool
 	{
 		#if FUNKIN_MOD_SUPPORT
-		if (checkMods && key.startsWith(Constants.MODS_FOLDER + '/'))
+		if (key.startsWith(Constants.MODS_FOLDER + '/'))
 		{
 			if (FileSystem.exists(key))
 				return true;
@@ -207,81 +206,67 @@ class PathLocation
 	 */
 	public function list():Array<String>
 	{
-    	var results:Array<String> = [];
+		var results:Array<String> = [];
 
-	    for(i in openfl.utils.Assets.list())
-    	{
-        	var toPush:String = i;
+		for (i in openfl.utils.Assets.list())
+		{
+			var toPush:String = i;
 
-        	toPush.substring('assets/'.length);
+			toPush = toPush.substring('assets/'.length);
 
-        	@:privateAccess
-        	for(library in lime.utils.Assets.libraries.keys())
-        	{
-            	if(toPush.startsWith(library + '/'))
-            	{
-                	toPush.substring('$library/'.length);
-                	toPush = library + ':' + toPush;
-                	break;
-            	}
-        	}
+			@:privateAccess
+			for (library in lime.utils.Assets.libraries.keys())
+			{
+				if (toPush.startsWith(library + '/'))
+				{
+					toPush = toPush.substring('$library/'.length);
+					break;
+				}
+			}
 
-        	results.push(toPush);
-    	}
+			// sometimes duplicates can happen
+			if (!results.contains(toPush))
+				results.push(toPush);
+		}
 
-    	#if FUNKIN_MOD_SUPPORT
-    	var currentDirectories:Array<String> = [];
+		#if FUNKIN_MOD_SUPPORT
+		var currentDirectories:Array<String> = [];
 		for (mod in FunkinModLoader.currentMods)
-        	currentDirectories.push('${Constants.MODS_FOLDER}/${mod.folder}');
+			currentDirectories.push('${Constants.MODS_FOLDER}/${mod.folder}');
 
-    	while (currentDirectories.length > 0)
+		while (currentDirectories.length > 0)
 		{
 			var curDirectory:String = currentDirectories.shift();
 			for (path in FileSystem.readDirectory(curDirectory))
 			{
 				var fullPath:String = curDirectory + '/' + path;
 				if (!FileSystem.isDirectory(fullPath))
-            	{
-                	var toPush:String = fullPath;
+				{
+					var toPush:String = fullPath;
 
-                	toPush.substring('mods/'.length);
-                	toPush.substring(toPush.indexOf('/')+1);
+					toPush = toPush.substring('mods/'.length);
+					toPush = toPush.substring(toPush.indexOf('/') + 1);
 
-                	@:privateAccess
-                	for(library in lime.utils.Assets.libraries.keys())
-                	{
-                    	if(toPush.startsWith(library + '/'))
-                    	{
-                        	toPush.substring('$library/'.length);
-                        	toPush = library + ':' + toPush;
-                        	break;
-                    	}
-                	}
+					@:privateAccess
+					for (library in lime.utils.Assets.libraries.keys())
+					{
+						if (toPush.startsWith(library + '/'))
+						{
+							toPush = toPush.substring('$library/'.length);
+							break;
+						}
+					}
 
-                	if(!results.contains(toPush))
-                    	results.push(toPush);
-            	}
-            	else
+					if (!results.contains(toPush))
+						results.push(toPush);
+				}
+				else
 					currentDirectories.push(fullPath);
 			}
 		}
-    	#end
+		#end
 
 		return results;
-	}
-
-	public function stripLibrary(path:String):String
-	{
-    	var parts:Array<String> = path.split(':');
-    	if (parts.length < 2) return path;
-    	return parts[1];
-	}
-
-	public function getLibrary(path:String):String
-	{
-    	var parts:Array<String> = path.split(':');
-    	if (parts.length < 2) return 'default';
-    	return parts[0];
 	}
 
 	function getLibraryPath(key:String, ?library:String, ?checkMods:Bool = true):String

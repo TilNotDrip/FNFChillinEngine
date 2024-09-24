@@ -134,7 +134,7 @@ class StoryMenuState extends MusicBeatState
 		add(difficultySelectors);
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
-		leftArrow.frames = Paths.content.sparrowAtlas('storymode/ui/arrowLeft');
+		leftArrow.frames = Paths.content.autoAtlas('storymode/ui/arrowLeft');
 		leftArrow.animation.addByPrefix('idle', "arrow left");
 		leftArrow.animation.addByPrefix('press', "arrow push left");
 		leftArrow.animation.play('idle');
@@ -147,7 +147,7 @@ class StoryMenuState extends MusicBeatState
 		difficultySelectors.add(sprDifficulty);
 
 		rightArrow = new FlxSprite(leftArrow.x + 380, leftArrow.y);
-		rightArrow.frames = Paths.content.sparrowAtlas('storymode/ui/arrowRight');
+		rightArrow.frames = Paths.content.autoAtlas('storymode/ui/arrowRight');
 		rightArrow.animation.addByPrefix('idle', 'arrow right');
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
 		rightArrow.animation.play('idle');

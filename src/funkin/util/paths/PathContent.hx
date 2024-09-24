@@ -1,5 +1,6 @@
 package funkin.util.paths;
 
+import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.FlxGraphic;
 import haxe.Json;
 import openfl.Assets;
@@ -8,6 +9,7 @@ import openfl.media.Sound;
 import openfl.system.System;
 #if FUNKIN_MOD_SUPPORT
 import sys.io.File;
+import sys.FileSystem;
 #end
 
 /**
@@ -125,7 +127,7 @@ class PathContent
 	 */
 	public function json(key:String, ?library:String, ?checkMods:Bool = true):String
 	{
-		return getText(Paths.location.json(key, library, checkMods), checkMods);
+		return getText(Paths.location.json(key, library, checkMods));
 	}
 
 	/**
@@ -164,11 +166,49 @@ class PathContent
 	}
 
 	/**
+	 * @param key The image and txt name.
+	 * @param library The library the image and txt are located.
+	 * @param checkMods Allow mod packer atlases to be returned?
+	 * @return Packer Atlas frames from library:assets/images/key.png&.txt
+	 */
+	public function packerAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxAtlasFrames
+	{
+		return FlxAtlasFrames.fromSpriteSheetPacker(imageGraphic(key, library, checkMods),
+			getText(Paths.location.get('images/$key.txt', library, TEXT, checkMods)));
+	}
+
+	/**
+	 * @param key The image and the description name.
+	 * @param library The library the image and description are located.
+	 * @param checkMods Allow mod atlases to be returned?
+	 * @return Atlas frames from key.
+	 */
+	public function autoAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxFramesCollection
+	{
+		if (Paths.location.exists(Paths.location.get('images/$key.txt', library, TEXT, checkMods), TEXT))
+		{
+			return FlxAtlasFrames.fromSpriteSheetPacker(imageGraphic(key, library, checkMods),
+				getText(Paths.location.get('images/$key.txt', library, TEXT, checkMods)));
+		}
+		else if (Paths.location.exists(Paths.location.get('images/$key.xml', library, TEXT, checkMods), TEXT))
+		{
+			return FlxAtlasFrames.fromSparrow(imageGraphic(key, library, checkMods), xml('images/$key', library, checkMods));
+		}
+		else if (ImageFrames.isFrameDirectory(key))
+		{
+			return ImageFrames.fromDirectory(key);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
 	 * @param key Text File name. (get() IS NOT INCLUDED YOU HAVE TO DO IT YOURSELF!)
-	 * @param checkMods Allow mod texts to be returned?
 	 * @return String with text from specified file.
 	 */
-	public function getText(key:String, ?checkMods:Bool = true):String
+	public function getText(key:String):String
 	{
 		var toReturn:String;
 		try
@@ -197,7 +237,7 @@ class PathContent
 	 */
 	public function xml(key:String, ?library:String, ?checkMods:Bool = true):Xml
 	{
-		return Xml.parse(getText(Paths.location.xml(key, library, checkMods), checkMods));
+		return Xml.parse(getText(Paths.location.xml(key, library, checkMods)));
 	}
 
 	/**

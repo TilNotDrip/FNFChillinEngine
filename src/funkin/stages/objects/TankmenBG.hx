@@ -14,7 +14,7 @@ class TankmenBG extends FlxSprite
 	{
 		super(x, y);
 
-		frames = Paths.content.sparrowAtlas('tankmanKilled1');
+		frames = Paths.content.autoAtlas('tankmanKilled1');
 		animation.addByPrefix('run', 'tankman running', 24, true);
 		animation.addByPrefix('shot', 'John Shot ' + FlxG.random.int(1, 2), 24, false);
 

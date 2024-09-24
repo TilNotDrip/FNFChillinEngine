@@ -31,7 +31,7 @@ class MenuItem extends FlxSprite
 
 		super(0, y);
 
-		frames = Paths.content.sparrowAtlas('mainmenu/items/' + name);
+		frames = Paths.content.autoAtlas('mainmenu/items/' + name);
 		animation.addByPrefix('idle', name + ' idle', 24);
 		animation.addByPrefix('selected', name + ' selected', 24);
 		animation.play('idle');

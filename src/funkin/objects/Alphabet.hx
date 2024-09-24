@@ -1,5 +1,6 @@
 package funkin.objects;
 
+import flixel.graphics.frames.FlxFramesCollection;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxStringUtil;
 
@@ -15,7 +16,7 @@ class Alphabet extends FlxTypedSpriteGroup<AtlasChar>
 	public var targetY:Float = 0;
 	public var isMenuItem:Bool = false;
 
-	public var atlas(get, never):FlxAtlasFrames;
+	public var atlas(get, never):FlxFramesCollection;
 
 	inline function get_atlas()
 		return font.atlas;
@@ -182,7 +183,7 @@ class AtlasChar extends FlxSprite
 {
 	public var char(default, set):String;
 
-	public function new(x = 0.0, y = 0.0, atlas:FlxAtlasFrames, char:String)
+	public function new(x = 0.0, y = 0.0, atlas:FlxFramesCollection, char:String)
 	{
 		super(x, y);
 		frames = atlas;
@@ -225,13 +226,13 @@ class AtlasFontData
 	public static var upperChar = ~/^[A-Z]\d+$/;
 	public static var lowerChar = ~/^[a-z]\d+$/;
 
-	public var atlas:FlxAtlasFrames;
+	public var atlas:FlxFramesCollection;
 	public var maxHeight:Float = 0.0;
 	public var caseAllowed:Case = Both;
 
 	public function new(name:AtlasFont)
 	{
-		atlas = Paths.content.sparrowAtlas("fonts/" + name.getName().formatToPath());
+		atlas = Paths.content.autoAtlas("fonts/" + name.getName().formatToPath());
 		atlas.parent.destroyOnNoUse = false;
 		atlas.parent.persist = true;
 

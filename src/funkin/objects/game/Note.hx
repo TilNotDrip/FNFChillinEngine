@@ -81,7 +81,7 @@ class Note extends FlxSprite
 				arrowColorsBlue = [0xFF60008D, 0xFF003060, 0xFF003100, 0xFF6C0000];
 
 			default:
-				frames = Paths.content.sparrowAtlas('gameplay-ui/funkin/Notes');
+				frames = Paths.content.autoAtlas('gameplay-ui/funkin/Notes');
 
 				animation.addByPrefix('purpleScroll', 'left static');
 				animation.addByPrefix('blueScroll', 'down static');

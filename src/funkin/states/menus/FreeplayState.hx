@@ -75,7 +75,7 @@ class FreeplayState extends MusicBeatState
 				if (week.songs[i][1] == true)
 				{
 					var explicit:TrackedSprite = new TrackedSprite();
-					explicit.frames = Paths.content.sparrowAtlas('freeplay/explicit');
+					explicit.frames = Paths.content.autoAtlas('freeplay/explicit');
 					explicit.animation.addByPrefix('idle', 'Idle', 24, true);
 					explicit.animation.play('idle');
 					explicit.sprOffsetY + 70;

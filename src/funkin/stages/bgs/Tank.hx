@@ -363,7 +363,7 @@ class Tank extends StageBackend
 
 		// Setup GF Turning Sparrow object.
 		var gfCutsceneObj:FlxSprite = new FlxSprite(fakeGF.x - 220, fakeGF.y - 463);
-		gfCutsceneObj.frames = Paths.content.sparrowAtlas("cutscenes/GF_Turn", "week7");
+		gfCutsceneObj.frames = Paths.content.autoAtlas("cutscenes/GF_Turn", "week7");
 		gfCutsceneObj.animation.addByPrefix("gfTurn", "GF STARTS TO TURN", 24, false);
 		gfCutsceneObj.visible = false;
 		addBehindGF(gfCutsceneObj);

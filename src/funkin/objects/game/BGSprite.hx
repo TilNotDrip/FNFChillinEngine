@@ -10,7 +10,7 @@ class BGSprite extends FlxSprite
 
 		if (daAnimations != null)
 		{
-			frames = Paths.content.sparrowAtlas(image);
+			frames = Paths.content.autoAtlas(image);
 
 			for (anims in daAnimations)
 			{
