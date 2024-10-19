@@ -81,8 +81,18 @@ class Constants
 	public static final VERSION_MOD:String = "0.1.0";
 
 	/**
-	 * The version rule of mod that Chillin' Engine support right now.
+	 * The version rule of mods that Chillin' Engine support right now.
 	 */
 	public static final VERSION_MOD_RULE:String = "0.1.x";
 	#end
+
+	/**
+	 * The current stage version that Chillin' Engine is on right now.
+	 */
+	public static final VERSION_STAGE:String = "0.1.0";
+
+	/**
+	 * The version rule of stages that Chillin' Engine support right now.
+	 */
+	public static final VERSION_STAGE_RULE:String = "0.1.x";
 }

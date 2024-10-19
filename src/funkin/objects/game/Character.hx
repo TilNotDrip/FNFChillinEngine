@@ -136,14 +136,17 @@ class Character extends FlxSprite
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
+		if (!animation.exists(AnimName))
+			return;
+
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var currentOffset:Array<Float> = animOffsets.get(AnimName);
 
 		if (animOffsets.exists(AnimName))
-			offset.set(currentOffset[0], currentOffset[1]);
+			offset.set(characterPosition[0] + currentOffset[0], characterPosition[1] + currentOffset[1]);
 		else
-			offset.set(0, 0);
+			offset.set(characterPosition[0], characterPosition[1]);
 
 		if (AnimName == 'singLEFT')
 			danced = true;

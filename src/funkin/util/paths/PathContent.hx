@@ -32,7 +32,7 @@ class PathContent
 		'default:assets/images/fonts/default.png',
 		'default:assets/images/mainmenu/menuBG.png',
 		'default:assets/images/mainmenu/menuDesat.png',
-		'default:assets/images/soundtray/bars_1.png', // The entire soundtray won't have an effect mainly because it uses Paths.location like the homosexual it is.
+		'default:assets/images/soundtray/bars_1.png',
 		'default:assets/images/soundtray/bars_2.png',
 		'default:assets/images/soundtray/bars_3.png',
 		'default:assets/images/soundtray/bars_4.png',
@@ -127,7 +127,7 @@ class PathContent
 	 */
 	public function json(key:String, ?library:String, ?checkMods:Bool = true):String
 	{
-		return getText(Paths.location.json(key, library, checkMods));
+		return getText(Paths.location.json(key, library, checkMods), checkMods);
 	}
 
 	/**
@@ -206,15 +206,17 @@ class PathContent
 
 	/**
 	 * @param key Text File name. (get() IS NOT INCLUDED YOU HAVE TO DO IT YOURSELF!)
+	 * @param checkMods Allow mod texts to be returned?
 	 * @return String with text from specified file.
 	 */
-	public function getText(key:String):String
+	public function getText(key:String, ?checkMods:Bool = true):String
 	{
 		var toReturn:String;
 		try
 		{
 			#if FUNKIN_MOD_SUPPORT
-			if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+			if (checkMods
+				&& key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
 				toReturn = File.getContent(key);
 			else
 			#end
@@ -237,7 +239,7 @@ class PathContent
 	 */
 	public function xml(key:String, ?library:String, ?checkMods:Bool = true):Xml
 	{
-		return Xml.parse(getText(Paths.location.xml(key, library, checkMods)));
+		return Xml.parse(getText(Paths.location.xml(key, library, checkMods), checkMods));
 	}
 
 	/**

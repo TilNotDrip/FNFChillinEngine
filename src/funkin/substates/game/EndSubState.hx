@@ -3,7 +3,6 @@ package funkin.substates.game;
 import funkin.util.ChillinAnimationController;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
-import funkin.stages.StageBackend;
 
 class EndSubState extends MusicBeatSubstate
 {
@@ -65,7 +64,8 @@ class EndSubState extends MusicBeatSubstate
 		{
 			hitEnd = true;
 
-			PlayState.instance.curStage.endingStuff();
+			// PlayState.instance.curStage.endingStuff();
+			PlayState.instance.endSong();
 		}
 	}
 }

@@ -76,8 +76,10 @@
     },
     {
       "name": "thx.semver",
-      "type": "haxelib",
-      "version": null
+      "type": "git",
+      "dir": null,
+      "ref": "a7d1e155e22a2918bcd4e1ccf04304e98729583a",
+      "url": "https://github.com/fponticelli/thx.semver"
     }
   ]
 }

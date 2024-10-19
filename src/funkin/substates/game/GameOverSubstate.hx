@@ -3,8 +3,6 @@ package funkin.substates.game;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import funkin.objects.game.Character;
-import funkin.stages.StageBackend;
-import funkin.states.tools.AnimationDebug;
 
 /**
  * A substate which renders over the PlayState when the player dies.
@@ -95,8 +93,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
-		character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(PlayState.instance.boyfriend.deathChar, true);
-		character.setPosition(PlayState.instance.curStage.BF_POSITION[0], PlayState.instance.curStage.BF_POSITION[1]);
+		character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(PlayState.instance.curStage.getPlayer().deathChar, true);
+		character.setPosition(PlayState.instance.curStage.data.characters.player.position[0], PlayState.instance.curStage.data.characters.player.position[1]);
 		ui = character.ui;
 
 		if (!secretGameover)
@@ -127,7 +125,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxTween.tween(restart, {alpha: 1}, 1, {ease: FlxEase.quartInOut});
 			FlxTween.tween(restart, {y: restart.y + 40}, 7, {ease: FlxEase.quartInOut, type: PINGPONG});
 
-			if (!playingJeffQuote && PlayState.instance.dad.curCharacter == 'tankman')
+			if (!playingJeffQuote && PlayState.instance.curStage.getOpponent().curCharacter == 'tankman')
 			{
 				playingJeffQuote = true;
 				playJeffQuote();
@@ -184,7 +182,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			if (character?.animation?.curAnim?.name == 'firstDeath' && character?.animation?.curAnim?.finished)
 			{
-				if (!playingJeffQuote && PlayState.instance.dad.curCharacter == 'tankman')
+				if (!playingJeffQuote && PlayState.instance.curStage.getOpponent().curCharacter == 'tankman')
 				{
 					playingJeffQuote = true;
 					playJeffQuote();
