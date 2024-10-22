@@ -36,8 +36,9 @@ typedef StageStructure =
 	@:optional
 	var props:Array<StageProp>;
 
+	@:default([])
 	@:optional
-	var characters:StageCharacters;
+	var characters:Map<String, StageCharacterData>;
 }
 
 typedef StageProp =
@@ -131,36 +132,6 @@ typedef StageProp =
 	@:default(false)
 	@:optional
 	var flipY:Bool;
-}
-
-typedef StageCharacters =
-{
-	@:default({
-		position: [0.0, 0.0],
-		cameraPosition: [0.0, 0.0],
-		alpha: 1.0,
-		scrollFactor: [1.0, 1.0]
-	})
-	@:optional
-	var player:StageCharacterData;
-
-	@:default({
-		position: [0.0, 0.0],
-		cameraPosition: [0.0, 0.0],
-		alpha: 1.0,
-		scrollFactor: [1.0, 1.0]
-	})
-	@:optional
-	var opponent:StageCharacterData;
-
-	@:default({
-		position: [0.0, 0.0],
-		cameraPosition: [0.0, 0.0],
-		alpha: 1.0,
-		scrollFactor: [0.95, 0.95]
-	})
-	@:optional
-	var spectator:StageCharacterData;
 }
 
 typedef StageCharacterData =

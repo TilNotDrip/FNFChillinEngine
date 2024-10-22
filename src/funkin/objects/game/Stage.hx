@@ -144,23 +144,22 @@ class Stage extends FlxSpriteGroup
 		}
 	}
 
-	public function addCharacter(characterName:String, characterType:String, characterData:StageCharacterData, isPlayer:Bool):Void
+	public function addCharacter(characterName:String, characterType:String, isPlayer:Bool):Void
 	{
-		if (characterData != null)
-		{
-			var character:Character = CharacterRegistry.instance.fetchCharacter(characterName, isPlayer);
+		var character:Character = CharacterRegistry.instance.fetchCharacter(characterName, isPlayer);
+		var characterData:StageCharacterData = data.characters.get(characterType) ?? {};
+		var characterPosition:FlxPoint = getCharacterPosition(character, characterData);
 
-			var characterPosition:FlxPoint = getCharacterPosition(character, characterData);
+		character.setPosition(characterPosition.x + character.characterPosition[0], characterPosition.y + character.characterPosition[1]);
+		character.alpha = characterData.alpha;
+		character.scrollFactor.set(characterData.scrollFactor[0], characterData.scrollFactor[1]);
+		character.dance();
+		character.animation.finish();
+		add(character);
 
-			character.setPosition(characterPosition.x, characterPosition.y);
-			character.alpha = data.characters.spectator.alpha;
-			character.scrollFactor.set(data.characters.spectator.scrollFactor[0], data.characters.spectator.scrollFactor[1]);
-			character.dance();
-			character.animation.finish();
-			add(character);
+		characterPosition.put();
 
-			characters.set(characterType, character);
-		}
+		characters.set(characterType, character);
 	}
 
 	function getCharacterPosition(characterObject:Character, characterData:StageCharacterData):FlxPoint
@@ -193,6 +192,6 @@ class Stage extends FlxSpriteGroup
 				yPos = characterData.position[1] + (characterObject.height);
 		}
 
-		return new FlxPoint(xPos, yPos);
+		return FlxPoint.get(xPos, yPos);
 	}
 }

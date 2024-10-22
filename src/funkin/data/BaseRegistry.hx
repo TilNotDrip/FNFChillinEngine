@@ -15,18 +15,8 @@ typedef EntryConstructorFunction = String->Void;
  * @param J The type of the JSON data used when constructing.
  */
 @:generic
-abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructorFunction>), J>
+abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructorFunction>), J> extends BaseDataRegistry<J>
 {
-	/**
-	 * The ID of the registry. Used when logging.
-	 */
-	public final registryID:String;
-
-	/**
-	 * Where to search for JSON files in `assets/data/`. These will be converted to entries.
-	 */
-	var dataFilePath:String;
-
 	/**
 	 * A map of entry IDs to entries.
 	 */
@@ -38,35 +28,21 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 	final scriptedEntryIds:Map<String, String>;
 
 	/**
-	 * The version rule to use when loading entries.
-	 * If the entry's version does not match this rule, migration is needed.
-	 */
-	final versionRule:thx.semver.VersionRule;
-
-	/**
 	 * @param registryId A readable ID for this registry, used when logging.
 	 * @param dataFilePath The path to search for JSON files.
 	 */
 	public function new(registryID:String, dataFilePath:String, ?versionRule:thx.semver.VersionRule)
 	{
-		this.registryID = registryID;
-		this.dataFilePath = dataFilePath;
-		this.versionRule = versionRule == null ? '1.0.x' : versionRule;
-
 		this.entries = new Map<String, T>();
 		this.scriptedEntryIds = [];
 
-		// Lazy initialization of singletons should let this get called,
-		// but we have this check just in case.
-		if (FlxG.game != null)
-		{
-			FlxG.console.registerObject('registry$registryID', this);
-		}
+		super();
 	}
 
-	public function loadEntries():Void
+	override public function loadEntries():Void
 	{
 		clearEntries();
+		super.loadEntries();
 
 		//
 		// SCRIPTED ENTRIES
@@ -105,7 +81,7 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 		//
 		// UNSCRIPTED ENTRIES
 		//
-		var entryIdList:Array<String> = listIDs();
+		var entryIdList:Array<String> = entryData.keyValues();
 		var unscriptedEntryIds:Array<String> = entryIdList.filter(function(entryId:String):Bool
 		{
 			return !entries.exists(entryId);
@@ -205,24 +181,6 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 		return 'Registry(' + registryID + ', ${countEntries()} entries)';
 	}
 
-	/**
-	 * Retrieve the data for an entry and parse its Semantic Version.
-	 * @param id The ID of the entry.
-	 * @return The entry's version, or `null` if it does not exist or is invalid.
-	 */
-	public function fetchEntryVersion(id:String):Null<thx.semver.Version>
-	{
-		var entryStr:String = loadEntryFile(id);
-		var entryVersion:thx.semver.Version = VersionUtil.getVersionFromJSON(entryStr);
-		return entryVersion;
-	}
-
-	function loadEntryFile(id:String):String
-	{
-		var rawJson:String = Paths.content.json('data/${dataFilePath}/${id}').trim();
-		return rawJson;
-	}
-
 	//
 	// FUNCTIONS TO IMPLEMENT
 	//
@@ -232,7 +190,7 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 	 * This needs to exist because JsonParser doesn't take type parameters.
 	 * @return The json parser.
 	 */
-	public abstract function getJsonParser():Dynamic;
+	override public abstract function getJsonParser():Dynamic;
 
 	/**
 	 * Retrieve the list of scripted class names to load.
@@ -245,120 +203,6 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 	 * @param clsName
 	 */
 	abstract function createScriptedEntry(clsName:String):Null<T>;
-
-	/**
-	 * Read, parse, and validate the JSON data and produce the corresponding data object.
-	 *
-	 * NOTE: Must be implemented on the implementation class.
-	 * @param id The ID of the entry.
-	 * @return The created entry.
-	 */
-	public function parseEntryData(id:String):Null<J>
-	{
-		// JsonParser does not take type parameters,
-		// otherwise this function wouldn't exist.
-		var parser = getJsonParser();
-
-		parser.fromJson(loadEntryFile(id));
-
-		if (parser.errors.length > 0)
-		{
-			// TODO: Add printErrors
-			// printErrors(parser.errors, id);
-			return null;
-		}
-		return parser.value;
-	}
-
-	/**
-	 * Parse and validate the JSON data and produce the corresponding data object.
-	 *
-	 * NOTE: Must be implemented on the implementation class.
-	 * @param contents The JSON as a string.
-	 * @param fileName An optional file name for error reporting.
-	 * @return The created entry.
-	 */
-	public function parseEntryDataRaw(contents:String, ?fileName:String):Null<J>
-	{
-		// JsonParser does not take type parameters,
-		// otherwise this function wouldn't exist.
-		var parser = getJsonParser();
-
-		parser.fromJson(contents, fileName);
-
-		if (parser.errors.length > 0)
-		{
-			// TODO: Add printErrors
-			// printErrors(parser.errors, id);
-			return null;
-		}
-		return parser.value;
-	}
-
-	/**
-	 * Read, parse, and validate the JSON data and produce the corresponding data object,
-	 * accounting for old versions of the data.
-	 *
-	 * NOTE: Extend this function to handle migration.
-	 * @param id The ID of the entry.
-	 * @param version The entry's version (use `fetchEntryVersion(id)`).
-	 * @return The created entry.
-	 */
-	public function parseEntryDataWithMigration(id:String, version:Null<thx.semver.Version>):Null<J>
-	{
-		if (version == null)
-		{
-			throw '[${registryID}] Entry ${id} could not be JSON-parsed or does not have a parseable version.';
-		}
-
-		// If a version rule is not specified, do not check against it.
-		if (versionRule == null || VersionUtil.validateVersion(version, versionRule))
-		{
-			return parseEntryData(id);
-		}
-		else
-		{
-			throw '[${registryID}] Entry ${id} does not support migration to version ${versionRule}.';
-		}
-
-		/*
-		 * An example of what you should override this with:
-		 *
-		 * ```haxe
-		 * if (VersionUtil.validateVersion(version, "0.1.x")) {
-		 *   return parseEntryData_v0_1_x(id);
-		 * } else {
-		 *   super.parseEntryDataWithMigration(id, version);
-		 * }
-		 * ```
-		 */
-	}
-
-	/**
-	 * Lists all of the IDs that should be loaded into the registry.
-	 * Override this to add your own IDs to load.
-	 * @return List of IDs.
-	 */
-	public function listIDs():Array<String>
-	{
-		var textAssets = Paths.location.list();
-
-		var queryPath = 'data/' + dataFilePath + '/';
-
-		var results:Array<String> = [];
-		for (textPath in textAssets)
-		{
-			if (textPath.startsWith(queryPath) && textPath.endsWith('.json'))
-			{
-				var pathNoSuffix = textPath.substring(0, textPath.length - '.json'.length);
-				var pathNoPrefix = pathNoSuffix.substring(queryPath.length);
-
-				results.push(pathNoPrefix);
-			}
-		}
-
-		return results;
-	}
 
 	function createEntry(id:String):Null<T>
 	{

@@ -94,7 +94,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(bg);
 
 		character = funkin.data.registry.CharacterRegistry.instance.fetchCharacter(PlayState.instance.curStage.getPlayer().deathChar, true);
-		character.setPosition(PlayState.instance.curStage.data.characters.player.position[0], PlayState.instance.curStage.data.characters.player.position[1]);
+		character.setPosition(PlayState.instance.curStage.data.characters.get('player').position[0],
+			PlayState.instance.curStage.data.characters.get('player').position[1]);
 		ui = character.ui;
 
 		if (!secretGameover)

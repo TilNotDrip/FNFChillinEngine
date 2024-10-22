@@ -3,6 +3,26 @@ package funkin.util;
 class Constants
 {
 	/**
+	 * GAMEPLAY
+	 */
+	// ==============================
+
+	/**
+	 * The lowest amount of health a player can have.
+	 */
+	public static final HEALTH_MIN:Float = 0;
+
+	/**
+	 * The highest amount of health a player can have.
+	 */
+	public static final HEALTH_MAX:Float = 2;
+
+	/**
+	 * The amount of health a player starts with.
+	 */
+	public static final HEALTH_STARTING:Float = 1;
+
+	/**
 	 * FILE EXTENSIONS
 	 */
 	// ==============================

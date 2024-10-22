@@ -254,11 +254,11 @@ class PlayState extends MusicBeatState
 
 		if (SONG.player3 != SONG.player2)
 		{
-			curStage.addCharacter(SONG.player3, 'spectator', curStage.data.characters.spectator, false);
+			curStage.addCharacter(SONG.player3, 'spectator', false);
 		}
 
-		curStage.addCharacter(SONG.player2, 'opponent', curStage.data.characters.opponent, false);
-		curStage.addCharacter(SONG.player1, 'player', curStage.data.characters.player, true);
+		curStage.addCharacter(SONG.player2, 'opponent', false);
+		curStage.addCharacter(SONG.player1, 'player', true);
 
 		Conductor.songPosition = -5000;
 
