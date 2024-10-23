@@ -103,7 +103,6 @@ xsi:schemaLocation="http://lime.openfl.org/project/1.0.4 http://lime.openfl.org/
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxanimate" unless="html5" />
 	<haxelib name="hscript" />
-	<haxelib name="hscript-chillin" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 	<haxelib name="hxdiscord_rpc" if="FUNKIN_DISCORD_RPC" />
 	<section if="FUNKIN_VIDEOS"><haxelib name="hxvlc" if="desktop cpp || mobile cpp" /></section>
