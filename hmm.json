@@ -28,13 +28,6 @@
       "version": null
     },
     {
-      "name": "hscript-chillin",
-      "type": "git",
-      "dir": null,
-      "ref": "master",
-      "url": "https://github.com/TilNotDrip/hscript-chillin"
-    },
-    {
       "name": "hxcpp-debug-server",
       "type": "haxelib",
       "version": null
