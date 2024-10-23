@@ -1,19 +1,17 @@
 package funkin.modding;
 
-import hscript.AbstractScriptClass;
-import hscript.InterpEx;
-import hscript.ParserEx;
-
+/*import hscript.AbstractScriptClass;
+	import hscript.InterpEx;
+	import hscript.ParserEx; */
 class FunkinHScriptLoader
 {
-	private static var interp:InterpEx;
+	/*private static var interp:InterpEx;
 
-	private static var loadedScripts:Map<String, AbstractScriptClass>;
-
+		private static var loadedScripts:Map<String, AbstractScriptClass>; */
 	public static function init():Void
 	{
-		interp = new InterpEx();
-		loadedScripts = new Map<String, AbstractScriptClass>();
+		/*interp = new InterpEx();
+			loadedScripts = new Map<String, AbstractScriptClass>(); */
 
 		loadScripts();
 	}
