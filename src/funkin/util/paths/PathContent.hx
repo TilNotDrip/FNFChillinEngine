@@ -185,12 +185,12 @@ class PathContent
 	 */
 	public function autoAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxFramesCollection
 	{
-		if (Paths.location.exists(Paths.location.get('images/$key.txt', library, TEXT, checkMods), TEXT))
+		if (Paths.location.exists('images/$key.txt', library, TEXT, checkMods))
 		{
 			return FlxAtlasFrames.fromSpriteSheetPacker(imageGraphic(key, library, checkMods),
 				getText(Paths.location.get('images/$key.txt', library, TEXT, checkMods)));
 		}
-		else if (Paths.location.exists(Paths.location.get('images/$key.xml', library, TEXT, checkMods), TEXT))
+		else if (Paths.location.exists('images/$key.xml', library, TEXT, checkMods))
 		{
 			return FlxAtlasFrames.fromSparrow(imageGraphic(key, library, checkMods), xml('images/$key', library, checkMods));
 		}

@@ -1,9 +1,19 @@
 package funkin.structures;
 
+import funkin.util.LegacyObjects;
+
 /**
  * LEGACY
  */
 // ==============================
+
+/**
+ * The... song...
+ */
+typedef LegacySong =
+{
+	var song:LegacyChartStructure;
+}
 
 /**
  * Legacy Chart Structure, too lazy to add documentation to these, figure it out yourself lmao
@@ -65,29 +75,8 @@ typedef LegacyChartStructure =
 	var stage:String;
 
 	// GOTTA MAKE SURE. (variables we have in other mods, or stuff people have in other engines)
-	// also, we are messing around with half of these. -Til
-	// you just never know -Crusher
-	@:optional var dnbModchart:Bool;
-	@:optional var detectedModchart:Bool;
-	@:optional var spinningNotes:Bool;
-	@:optional var chartBlocks:Bool; // SNc CLientPrefs.hx reference
-	@:optional var credits:SongCredits; // snc credits, this is actually the only one serious.;
-	@:optional var healthDrain:Bool;
-	@:optional var healthDrainCap:Bool;
-	@:optional var healthDrainValue:Float;
-	@:optional var watermark:Bool;
-	@:optional var iconBounce:Bool;
-	@:optional var camFollow:Bool;
-	@:optional var stripedHealthBar:Bool;
-	@:optional var disableAntiMash:Bool;
-	@:optional var swapStrumLines:Bool;
-	@:optional var boyfriendTrail:Bool;
-	@:optional var dadTrail:Bool;
-	@:optional var gfTrail:Bool;
-
 	@:optional
-	@:default('drake')
-	var chooseYourPredator:Any;
+	var credits:SongCredits; // snc credits
 }
 
 /**
@@ -95,7 +84,8 @@ typedef LegacyChartStructure =
  */
 typedef LegacySectionStructure =
 {
-	var sectionNotes:Array<Dynamic>;
+	@:jcustomparse(funkin.data.json2object.DataParse.jsonArrayToLegacyNotes)
+	var sectionNotes:Array<LegacyNotes>;
 	var lengthInSteps:Int;
 	var typeOfSection:Int;
 	var mustHitSection:Bool;
@@ -311,18 +301,22 @@ typedef VSliceMetadataStructure =
 
 // i am so sorry for the comments, it is 1:39 for Til and 3:39 for crusher.
 
-/*
-	CHART STRUCTURE
+typedef ChillinChartJson =
+{
+	var charts:Array<ChillinChartArrayElement>;
 
-	Dingaling/*:
-		chart.json
-		events.json
-		metadata.json
-		chart-erect.json
-		events-erect.json
-		metadata-erect.json
-		variations.txt
- */
+	@:default(funkin.util.Constants.VERSION_CHART)
+	var version:String;
+}
+
+typedef ChillinEventsJson =
+{
+	var events:Array<ChillinEvent>;
+
+	@:default(funkin.util.Constants.VERSION_SONG_EVENTS)
+	var version:String;
+}
+
 /**
  * That FUCKING oughhhhh~~~~~~~ BIRD THAT I HATE
  */
@@ -418,7 +412,7 @@ typedef ChillinEvent =
 	 * ```
 	 */
 	@:default([])
-	var args:Map<String, Any>;
+	var args:Dynamic;
 }
 
 typedef ChillinBPMChange =
