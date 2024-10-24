@@ -7,7 +7,7 @@ class NewSong implements IRegistryEntry<ChillinMetadata>
 {
 	public final id:String;
 
-	public final _data:T;
+	public final _data:ChillinMetadata;
 
 	/**
 	 * Every Metadata for this Song, excluding default.

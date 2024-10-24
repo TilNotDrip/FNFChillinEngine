@@ -1,7 +1,5 @@
 package funkin.structures;
 
-import funkin.util.LegacyObjects;
-
 /**
  * LEGACY
  */
@@ -64,7 +62,6 @@ typedef LegacyChartStructure =
 	/**
 	 * idk burppppppppppppppp
 	 */
-	@:alias('gfVersion') // accomodate some psych builds (like snc)
 	@:default('gf')
 	var player3:String;
 
@@ -85,13 +82,17 @@ typedef LegacyChartStructure =
 typedef LegacySectionStructure =
 {
 	@:jcustomparse(funkin.data.json2object.DataParse.jsonArrayToLegacyNotes)
-	var sectionNotes:Array<LegacyNotes>;
+	var sectionNotes:Array<Dynamic>;
 	var lengthInSteps:Int;
 	var typeOfSection:Int;
 	var mustHitSection:Bool;
 	var bpm:Float;
 	var changeBPM:Bool;
 	var altAnim:Bool;
+
+	@:optional
+	@:default(false)
+	var gfSection:Bool;
 }
 
 /**
@@ -349,30 +350,16 @@ typedef ChillinChartArrayElement =
 typedef ChillinMetadata =
 {
 	/**
-	 * The Character to play as.
+	 * The Characters in this song.
+	 * This goes by Character Type to Character ID.
 	 */
-	@:alias('bf')
-	@:default('bf')
-	var player:String;
-
-	/**
-	 * The Character to play against.
-	 */
-	@:alias('dad')
-	@:default('dad')
-	var opponent:String;
-
-	/**
-	 * The Character that spectates you during the song.
-	 */
-	@:alias('gf')
-	@:default('gf')
-	var spectator:String;
+	@:default(['player' => 'bf', 'opponent' => 'dad', 'spectator' => 'gf'])
+	var characters:Map<String, String>;
 
 	/**
 	 * The setting (stay in school kids) you are in. Are you in a street where two maniacs want to kill you? Sure bud, youre not pico fnf.
 	 */
-	@:default('stage')
+	@:default('mainStage')
 	var stage:String;
 
 	/**
@@ -412,7 +399,9 @@ typedef ChillinEvent =
 	 * ```
 	 */
 	@:default([])
-	var args:Dynamic;
+	@:jcustomparse(funkin.data.json2object.DataParse.jsonStringAnyMap)
+	// TODO: add jcustomwrite for this
+	var args:Map<String, Any>;
 }
 
 typedef ChillinBPMChange =
@@ -432,6 +421,12 @@ typedef ChillinBPMChange =
 	 */
 	var sectionSteps:Float; // making it float cuz some person is gonna complain. I WILL BLOW YOUR HOSUE UP BITHC FUCK YOU
 
+	/**
+	 * The time in beats. This is used internally to calculate beats after the change.
+	 */
+	@:optional
+	@:default(0)
+	var beatTime:Float;
 }
 
 typedef ChillinNote =
@@ -461,7 +456,8 @@ typedef ChillinNote =
 	 * The *sus*tain length of the note.
 	 * @see https://www.innersloth.com/games/among-us/
 	 */
-	@:optional var length:Float;
+	@:optional
+	var length:Float;
 }
 
 typedef SongCredits =
