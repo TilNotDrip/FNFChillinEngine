@@ -76,7 +76,7 @@ class ControlsSubState extends MusicBeatSubstate
 			rebindingStage++;
 		}
 
-		if (controls.checkKey('ACCEPT', 'released') && !okAcceptIsOver)
+		if (controls.checkKey('ACCEPT', RELEASED) && !okAcceptIsOver)
 			okAcceptIsOver = true;
 
 		if (controls.checkKey('BACK') && rebindingStage != -1)
