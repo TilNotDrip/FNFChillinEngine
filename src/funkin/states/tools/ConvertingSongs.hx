@@ -112,7 +112,7 @@ class ConvertingSongs extends MusicBeatState
 
 		var charts:Array<ChillinChartArrayElement> = [];
 		var events:Array<ChillinEvent> = [];
-		var metadata:ChillinMetadata;
+		var metadata:ChillinMetadata = null;
 		var defaultDifficulty:String = 'normal';
 
 		if (!difficulties.contains('normal'))
@@ -270,7 +270,7 @@ class ConvertingSongs extends MusicBeatState
 
 			for (legacyEvent in legacyEvents)
 			{
-				var eventToPush:ChillinEvent;
+				var eventToPush:ChillinEvent = null;
 
 				switch (legacyEvent.name)
 				{
