@@ -1,6 +1,8 @@
 package funkin.data.json2object;
 
 import hxjsonast.Tools;
+import hxjsonast.Json;
+import funkin.structures.ChartStructures.LegacyNotesAbstractCuzJsonIsABaldRetard;
 
 class DataParse
 {
@@ -32,25 +34,28 @@ class DataParse
 		return Tools.getValue(json);
 	}
 
-	public static function jsonArrayToLegacyNotes(json:Json, name:String):Array<Dynamic>
+	public static function jsonArrayToLegacyNotes(json:Json, name:String):LegacyNotesAbstractCuzJsonIsABaldRetard
 	{
 		var results:Array<Dynamic> = [];
 
 		switch (json.value)
 		{
 			case JArray(values):
-				switch (jsonArray.value)
+				for (jsonArray in values)
 				{
-					case JArray(values):
-						results.push([for (value in values) anyValue(value, name + ' index value')]);
-					default:
-						throw 'Expected ${name} index to be an array, but it was ${json.value}.';
+					switch (jsonArray.value)
+					{
+						case JArray(values):
+							results.push([for (value in values) anyValue(value, name + ' index value')]);
+						default:
+							throw 'Expected ${name} index to be an array, but it was ${jsonArray.value}.';
+					}
 				}
 			default:
 				throw 'Expected ${name} to be an array, but it was ${json.value}.';
 		}
 
-		return results;
+		return cast results;
 	}
 
 	/**
@@ -59,7 +64,7 @@ class DataParse
 	 * @param name 
 	 * @return The value of the property.
 	 */
-	static function jsonStringAnyMap(json:Json, name:String):Map<String, Any>
+	public static function jsonStringAnyMap(json:Json, name:String):Map<String, Any>
 	{
 		switch (json.value)
 		{

@@ -1,6 +1,8 @@
 package funkin.data.registry;
 
 import funkin.structures.ChartStructures;
+import funkin.util.NewSong;
+import funkin.util.VersionUtil;
 
 class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 {
@@ -38,6 +40,8 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 		{
 			throw '[${registryID}] Metadata ${id} (${variation}) does not support migration to version ${versionRule}.';
 		}
+
+		return null; // erroring if i didnt do this
 	}
 
 	public function parseMetadata(id:String, variation:String):Null<ChillinMetadata>
@@ -68,7 +72,7 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 		return rawJson;
 	}
 
-	public function parseSongChartWithMigration(id:String, variation:String, version:Null<thx.semver.Version>):ChillinMetadata
+	public function parseSongChartWithMigration(id:String, variation:String, version:Null<thx.semver.Version>):ChillinChartJson
 	{
 		if (version == null)
 		{
@@ -115,7 +119,7 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 		return rawJson;
 	}
 
-	public function parseSongEventsWithMigration(id:String, variation:String, version:Null<thx.semver.Version>):ChillinMetadata
+	public function parseSongEventsWithMigration(id:String, variation:String, version:Null<thx.semver.Version>):ChillinEventsJson
 	{
 		if (version == null)
 		{
@@ -165,5 +169,16 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 	public function getJsonParser():Dynamic
 	{
 		return null; // we dont need it
+	}
+
+	// FOR NOW.
+	function createScriptedEntry(clsName:String):Null<NewSong>
+	{
+		return null;
+	}
+
+	function getScriptedClassNames():Array<String>
+	{
+		return [];
 	}
 }

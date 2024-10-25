@@ -14,6 +14,14 @@ typedef LegacySong =
 }
 
 /**
+ * The... events...
+ */
+typedef LegacyEvents =
+{
+	var events:LegacyEventStructure;
+}
+
+/**
  * Legacy Chart Structure, too lazy to add documentation to these, figure it out yourself lmao
  */
 typedef LegacyChartStructure =
@@ -81,7 +89,8 @@ typedef LegacyChartStructure =
  */
 typedef LegacySectionStructure =
 {
-	@:jcustomparse(funkin.data.json2object.DataParse.jsonArrayToLegacyNotes)
+	// TODO: make this FUCKING work
+	// @:jcustomparse(funkin.data.json2object.DataParse.jsonArrayToLegacyNotes) // why cant this FUCKING work
 	var sectionNotes:Array<Dynamic>;
 	var lengthInSteps:Int;
 	var typeOfSection:Int;
@@ -93,6 +102,13 @@ typedef LegacySectionStructure =
 	@:optional
 	@:default(false)
 	var gfSection:Bool;
+}
+
+typedef LegacyEventStructure =
+{
+	var name:String;
+	var value:String;
+	var strumTime:Float;
 }
 
 /**
@@ -400,7 +416,7 @@ typedef ChillinEvent =
 	 */
 	@:default([])
 	@:jcustomparse(funkin.data.json2object.DataParse.jsonStringAnyMap)
-	// TODO: add jcustomwrite for this
+	@:jcustomwrite(funkin.data.json2object.DataWrite.jsonStringAnyMap)
 	var args:Map<String, Any>;
 }
 
@@ -474,3 +490,5 @@ typedef SongCredits =
 	@:default('Unknown')
 	var charter:String;
 }
+
+abstract LegacyNotesAbstractCuzJsonIsABaldRetard(Array<Dynamic>) from Array<Dynamic> to Array<Dynamic> {}

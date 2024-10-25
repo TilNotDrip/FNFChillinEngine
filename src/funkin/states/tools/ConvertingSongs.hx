@@ -1,6 +1,8 @@
 package funkin.states.tools;
 
 import funkin.structures.ChartStructures;
+import json2object.JsonParser;
+import json2object.JsonWriter;
 
 @:deprecated('This will soon be removed to be used in FunkinConverter. Also, just don\'t use it in general.')
 class ConvertingSongs extends MusicBeatState
@@ -46,7 +48,7 @@ class ConvertingSongs extends MusicBeatState
 			}
 		}
 
-		super.update();
+		super.update(elapsed);
 	}
 
 	public function changeSelection(?huh:Int = 0):Void
@@ -77,12 +79,16 @@ class ConvertingSongs extends MusicBeatState
 			if (!results.contains(pathNoSuffix))
 				results.push(pathNoSuffix);
 		}
+
+		return results;
 	}
 
 	public function convertLegacySong():Void
 	{
 		var queryPath:String = 'data/charts/${songs[curSong]}/';
 		var difficulties:Array<String> = [];
+		var hasEvents:Bool = true;
+
 		for (path in Paths.location.list())
 		{
 			if (!queryPath.startsWith(path))
@@ -100,26 +106,28 @@ class ConvertingSongs extends MusicBeatState
 				continue;
 			}
 
-			if (!results.contains(pathNoSuffix))
-				results.push(pathNoSuffix);
+			if (!difficulties.contains(pathNoSuffix))
+				difficulties.push(pathNoSuffix);
 		}
 
+		var charts:Array<ChillinChartArrayElement> = [];
 		var events:Array<ChillinEvent> = [];
-		var defaultDifficulty:Bool = 'normal';
+		var metadata:ChillinMetadata;
+		var defaultDifficulty:String = 'normal';
 
-		for (difficulty in results)
+		if (!difficulties.contains('normal'))
+			defaultDifficulty = difficulties[0];
+
+		for (difficulty in difficulties)
 		{
-			var chart:ChillinChartArrayElement;
-			var metadata:ChillinMetadata;
-			var events:Array<ChillinEvent> = [];
-
 			var legacyChartTxt:String = '';
 			if (Paths.location.exists(queryPath + difficulty + '.json', null, TEXT))
 				legacyChartTxt = Paths.content.json(queryPath + difficulty);
 			else
 				legacyChartTxt = Paths.content.json(queryPath + songs[curSong] + '-' + difficulty);
 
-			var legacyChart:LegacyChartStructure = (cast new JsonParser<LegacySong>().fromJson(legacyChartTxt)).song;
+			// var legacyChart:LegacyChartStructure = (cast new JsonParser<LegacySong>().fromJson(legacyChartTxt)).song;
+			var legacyChart:LegacyChartStructure = cast haxe.Json.parse(legacyChartTxt).song; // dynamic was being a BITCHH
 
 			var notes:Array<ChillinNote> = [];
 
@@ -130,17 +138,19 @@ class ConvertingSongs extends MusicBeatState
 			for (i => section in legacyChart.notes)
 			{
 				if (section == null || section.sectionNotes.length < 0)
-					continue; // in case its a bad converter or smth
+					continue;
 
-				var firstNote:Array<Dynamic> = section.sectionNotes[0];
+				var firstNote:Dynamic = section.sectionNotes[0];
 
-				if (section.changeBPM)
+				if (section.changeBPM && defaultDifficulty == difficulty)
 				{
-					curBpmChange = {
+					var newBpmChange:ChillinBPMChange = {
 						time: firstNote[0],
 						bpm: section.bpm,
 						sectionSteps: section.lengthInSteps
 					};
+					curBpmChange = newBpmChange;
+					bpmArray.push(newBpmChange);
 				}
 
 				var curCamera:String = 'opponent';
@@ -150,7 +160,7 @@ class ConvertingSongs extends MusicBeatState
 				else if (section.mustHitSection)
 					curCamera = 'player';
 
-				if (curCamera != lastCamera)
+				if (curCamera != lastCamera && defaultDifficulty == difficulty)
 				{
 					events.push({
 						name: 'camera-focus',
@@ -167,16 +177,19 @@ class ConvertingSongs extends MusicBeatState
 
 					if (direction < 0)
 					{
-						var value1:String = note[3];
-						var value2:String = note[4];
-						switch (note[2]) // TODO: add more of these (snc ones maybe wink wink)
+						if (defaultDifficulty == difficulty)
 						{
-							default:
-								events.push({
-									name: note[2].formatToPath(),
-									args: ['value1' => value1, 'value2' => value2],
-									time: note[0]
-								});
+							var value1:String = note[3];
+							var value2:String = note[4];
+							switch (note[2]) // TODO: add more of these (snc ones maybe wink wink)
+							{
+								default:
+									events.push({
+										name: note[2].formatToPath(),
+										args: ['value1' => value1, 'value2' => value2],
+										time: note[0]
+									});
+							}
 						}
 
 						continue;
@@ -208,7 +221,7 @@ class ConvertingSongs extends MusicBeatState
 						// cool string manipulation
 						var splitType:Array<String> = type.formatToPath().split('-');
 						while (splitType.contains('note'))
-							splitType.remove(splitType.indexOf('note'));
+							splitType.remove('note');
 
 						type = splitType.join('-');
 					}
@@ -223,8 +236,118 @@ class ConvertingSongs extends MusicBeatState
 						length: note[2]
 					});
 				}
+
+				if (defaultDifficulty == difficulty)
+				{
+					metadata = {
+						characters: [
+							'player' => legacyChart.player1,
+							'opponent' => legacyChart.player2,
+							'spectator' => legacyChart.player3
+						],
+						stage: legacyChart.stage,
+						preview: {
+							start: 0,
+							end: 150000
+						},
+						bpmChanges: bpmArray,
+						credits: legacyChart.credits
+					};
+				}
+
+				charts.push({
+					difficulty: difficulty,
+					speed: legacyChart.speed,
+					rating: 0,
+					chart: notes
+				});
 			}
 		}
+
+		if (hasEvents)
+		{
+			var legacyEvents:Array<LegacyEventStructure> = (cast new JsonParser<LegacyEvents>().fromJson(Paths.content.json(queryPath + 'events'))).events;
+
+			for (legacyEvent in legacyEvents)
+			{
+				var eventToPush:ChillinEvent;
+
+				switch (legacyEvent.name)
+				{
+					case 'Camera Bop':
+						var params:Array<String> = legacyEvent.value.split(', ');
+
+						eventToPush = {
+							name: 'camera-bop',
+							args: ['zoomGame' => Std.parseFloat(params[0]), 'zoomHUD' => Std.parseFloat(params[1])],
+							time: legacyEvent.strumTime
+						};
+
+					case 'Hey!': // this got merged into play anim
+						var chars:Array<String> = [];
+
+						if (legacyEvent.value.contains('bf'))
+							chars.push('player');
+
+						if (legacyEvent.value.contains('gf'))
+							chars.push('spectator');
+
+						if (legacyEvent.value.contains('dad'))
+							chars.push('opponent');
+
+						eventToPush = {
+							name: 'play-anim',
+							args: ['anim' => 'hey', 'sprs' => chars],
+							time: legacyEvent.strumTime
+						};
+
+					case 'Pico Animation': // would merge into play-anim, but this has some backend things goin on
+						eventToPush = {
+							name: 'pico-shoot',
+							args: ['dir' => legacyEvent.value],
+							time: legacyEvent.strumTime
+						};
+
+					case 'Lyrics':
+						eventToPush = {
+							name: 'lyrics',
+							args: ['text' => legacyEvent.value],
+							time: legacyEvent.strumTime
+						};
+				}
+
+				if (eventToPush != null)
+					events.push(eventToPush);
+			}
+		}
+
+		events.sort(function(a, b)
+		{
+			return flixel.util.FlxSort.byValues(flixel.util.FlxSort.ASCENDING, a.time, b.time);
+		});
+
+		saveConvertedSong(charts, metadata, events);
+	}
+
+	public function saveConvertedSong(charts:Array<ChillinChartArrayElement>, metadata:ChillinMetadata, events:Array<ChillinEvent>):Void
+	{
+		var chartJsonElement:ChillinChartJson = {
+			charts: charts,
+			version: funkin.util.Constants.VERSION_CHART
+		};
+
+		var eventsJsonElement:ChillinEventsJson = {
+			events: events,
+			version: funkin.util.Constants.VERSION_SONG_EVENTS
+		};
+
+		var chartJsonString:String = new JsonWriter<ChillinChartJson>(true).write(chartJsonElement, '  ');
+		var metadataJsonString:String = new JsonWriter<ChillinMetadata>(true).write(metadata, '  ');
+		var eventsJsonString:String = new JsonWriter<ChillinEventsJson>(true).write(eventsJsonElement, '  ');
+
+		sys.io.File.saveContent('../../../../assets/preload/data/charts/${songs[curSong]}/chart.json', chartJsonString);
+		sys.io.File.saveContent('../../../../assets/preload/data/charts/${songs[curSong]}/metadata.json', metadataJsonString);
+		sys.io.File.saveContent('../../../../assets/preload/data/charts/${songs[curSong]}/events.json', eventsJsonString);
 	}
 	#end
 }

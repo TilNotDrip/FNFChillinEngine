@@ -2,6 +2,7 @@ package funkin.util;
 
 import funkin.data.IRegistryEntry;
 import funkin.structures.ChartStructures;
+import funkin.data.registry.SongRegistry;
 
 class NewSong implements IRegistryEntry<ChillinMetadata>
 {
@@ -34,21 +35,43 @@ class NewSong implements IRegistryEntry<ChillinMetadata>
 	{
 		this.id = id;
 
+		_extraMetadata = new Map<String, ChillinMetadata>();
+		_chartData = new Map<String, ChillinChartArrayElement>();
+		_eventData = new Map<String, Array<ChillinEvent>>();
+
 		for (variation in getVariations())
 		{
+			var metadataVersion = SongRegistry.instance.fetchMetadataVersion(id, variation);
+			var loadedMetadata:ChillinMetadata = SongRegistry.instance.parseMetadataWithMigration(id, variation, metadataVersion);
+
 			if (variation == Constants.DEFAULT_VARIATION)
-				_data = SongRegistry.instance.parseMetadataWithMigration(id, variation);
+				_data = loadedMetadata;
+			else
+				_extraMetadata.set(variation, loadedMetadata);
+
+			var chartVersion = SongRegistry.instance.fetchSongChartVersion(id, variation);
+			var loadedCharts:Array<ChillinChartArrayElement> = SongRegistry.instance.parseSongChartWithMigration(id, variation, chartVersion).charts;
+
+			for (chart in loadedCharts)
+				_chartData.set('${variation}-${chart.difficulty}', chart);
+
+			var eventsVersion = SongRegistry.instance.fetchSongEventsVersion(id, variation);
+			var loadedEvents:Array<ChillinEvent> = SongRegistry.instance.parseSongEventsWithMigration(id, variation, eventsVersion).events;
+
+			_eventData.set(variation, loadedEvents);
 		}
 	}
 
 	public function destroy():Void
 	{
-		// TODO: make stuff happen here
+		_extraMetadata.clear();
+		_chartData.clear();
+		_eventData.clear();
 	}
 
 	public function toString():String
 	{
-		return 'Song($id)';
+		return 'Song($id, ${getVariations()})';
 	}
 
 	var _variations:Array<String>;

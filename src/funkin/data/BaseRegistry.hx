@@ -36,7 +36,7 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 		this.entries = new Map<String, T>();
 		this.scriptedEntryIds = [];
 
-		super();
+		super(registryID, dataFilePath, versionRule);
 	}
 
 	override public function loadEntries():Void
@@ -208,10 +208,5 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 	{
 		// We enforce that T is Constructible to ensure this is valid.
 		return new T(id);
-	}
-
-	inline function log(message:String):Void
-	{
-		trace('[' + registryID + '] ' + message);
 	}
 }

@@ -5,7 +5,7 @@ import flixel.group.FlxSpriteGroup;
 
 class HealthBar extends FlxSpriteGroup
 {
-	public var health:Float = Constants.HEALTH_STARTING;
+	public var _health:Float = Constants.HEALTH_STARTING;
 
 	public var ui(default, set):String = 'funkin';
 	public var iconP1(default, set):String = 'face';
@@ -36,17 +36,12 @@ class HealthBar extends FlxSpriteGroup
 		downScroll = params.downScroll;
 
 		super(0, 0, 0);
-	}
 
-	override public function create():Void
-	{
 		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$ui/healthBar'));
 		add(bg);
 
 		/*bar = new FlxBar();
 			add(bar); */
-
-		super.create();
 	}
 
 	function set_iconP1(value:String):String

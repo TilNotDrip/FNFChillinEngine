@@ -1095,7 +1095,7 @@ class ChartingState extends MusicBeatState
 	{
 		for (i in _song.notes[curSec].sectionNotes)
 		{
-			if (i.strumTime == note.strumTime && i.noteData == note.noteData)
+			if (i[0] == note.strumTime && i[1] == note.noteData)
 			{
 				curSelectedNote = i;
 				trace('Found Note!');

@@ -145,6 +145,11 @@ class MainMenuState extends MusicBeatState
 		if (controls.UI_DOWN_P && !selected)
 			changeItem(1);
 
+		if (FlxG.keys.justPressed.C)
+		{
+			FlxG.switchState(new funkin.states.tools.ConvertingSongs());
+		}
+
 		if (controls.ACCEPT && !selected)
 		{
 			selected = true;

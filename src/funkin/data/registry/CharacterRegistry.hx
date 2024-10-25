@@ -23,7 +23,7 @@ class CharacterRegistry extends BaseDataRegistry<CharacterStructure>
 	public function fetchCharacter(id:String, ?isPlayer:Bool = false):Character
 	{
 		var character:Character = new Character(isPlayer);
-		character.loadJson(fetchEntryData(id), data);
+		character.loadJson(id, fetchEntryData(id));
 		return character;
 	}
 

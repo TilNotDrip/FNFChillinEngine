@@ -1987,7 +1987,7 @@ class PlayState extends MusicBeatState
 	{
 		switch (name)
 		{
-			case 'Camera Zoom':
+			case 'Camera Bop':
 				var daZoomGame:Float = 0.015;
 				var daZoomHUD:Float = 0.03;
 

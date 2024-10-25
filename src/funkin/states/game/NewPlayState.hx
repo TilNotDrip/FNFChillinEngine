@@ -2,6 +2,8 @@ package funkin.states.game;
 
 import funkin.objects.game.HealthBar;
 import funkin.objects.game.Stage;
+import flixel.FlxCamera;
+import funkin.util.NewSong;
 
 class NewPlayState extends MusicBeatState
 {
