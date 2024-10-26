@@ -181,14 +181,12 @@ class PathLocation
 	 * @param checkMods Checks to see if a mod file exists too.
 	 * @return File existence.
 	 */
-	public function exists(key:String, ?library:String, ?type:AssetType = null, ?checkMods:Bool = true):Bool
+	public function exists(key:String, ?type:AssetType = null):Bool
 	{
-		var getKey:String = get(key, library, type, checkMods);
-
 		#if FUNKIN_MOD_SUPPORT
-		if (getKey.startsWith(Constants.MODS_FOLDER + '/'))
+		if (key.startsWith(Constants.MODS_FOLDER + '/'))
 		{
-			if (FileSystem.exists(getKey))
+			if (FileSystem.exists(key))
 				return true;
 		}
 		#end
@@ -196,7 +194,7 @@ class PathLocation
 		// I hate my life
 		// this hurts to look at
 		// it doesn't work when i put it in the return i swear ...
-		if (Assets.exists(getKey, type))
+		if (Assets.exists(key, type))
 			return true;
 
 		return false;

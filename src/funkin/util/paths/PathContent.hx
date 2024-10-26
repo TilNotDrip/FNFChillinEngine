@@ -46,7 +46,9 @@ class PathContent
 		'default:assets/music/freakyMenu.${Constants.EXT_SOUND}'
 	];
 
-	var imgGraphicCache:Map<String, FlxGraphic> = new Map();
+	var imgCacheKeys:Array<String> = [];
+	var bitmapCache:Map<String, BitmapData> = new Map();
+	var flxGraphicCache:Map<String, FlxGraphic> = new Map();
 	var audioCache:Map<String, Sound> = new Map();
 
 	public function new() {}
@@ -63,26 +65,36 @@ class PathContent
 		var bitmap:BitmapData = null;
 		var assetKey:String = Paths.location.image(key, library, checkMods);
 
-		try
+		if (!bitmapCache.exists(assetKey))
 		{
-			#if FUNKIN_MOD_SUPPORT
-			if (assetKey.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
-				bitmap = BitmapData.fromFile(assetKey);
-			else
-			#end
-			bitmap = Assets.getBitmapData(assetKey);
+			try
+			{
+				#if FUNKIN_MOD_SUPPORT
+				if (assetKey.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
+					bitmap = BitmapData.fromFile(assetKey);
+				else
+				#end
+				bitmap = Assets.getBitmapData(assetKey, false);
+			}
+			catch (e)
+			{
+				trace('[WARNING]: Bitmap is null! $assetKey');
+				return null;
+			}
+
+			bitmapCache.set(assetKey, bitmap);
+			imgCacheKeys.push(assetKey);
 		}
-		catch (e)
+		else
 		{
-			trace('[WARNING]: Bitmap is null! $assetKey');
-			return null;
+			bitmap = bitmapCache.get(assetKey);
 		}
 
 		return bitmap;
 	}
 
 	/**
-	 * Returns and also caches a graphic of a image.
+	 * Returns and also caches a FlxGraphic of a image.
 	 * @param key Image File name.
 	 * @param library Library the image is in.
 	 * @param checkMods Allow mod images to be returned?
@@ -90,12 +102,13 @@ class PathContent
 	 */
 	public function imageGraphic(key:String, ?library:String, ?checkMods:Bool = true):FlxGraphic
 	{
-		var bitmap:BitmapData = null;
 		var graphic:FlxGraphic = null;
 		var assetKey:String = Paths.location.image(key, library, checkMods);
 
-		if (!imgGraphicCache.exists(key))
+		if (!flxGraphicCache.exists(key))
 		{
+			var bitmap:BitmapData = null;
+
 			try
 			{
 				bitmap = imageBitmap(key, library, checkMods);
@@ -106,14 +119,15 @@ class PathContent
 				return null;
 			}
 
-			graphic = FlxGraphic.fromBitmapData(bitmap, false, assetKey);
+			graphic = FlxGraphic.fromBitmapData(bitmap, false, assetKey, false);
 			graphic.persist = true;
 			graphic.destroyOnNoUse = false;
-			imgGraphicCache.set(assetKey, graphic);
+			flxGraphicCache.set(assetKey, graphic);
+			imgCacheKeys.push(assetKey);
 		}
 		else
 		{
-			graphic = imgGraphicCache.get(assetKey);
+			graphic = flxGraphicCache.get(assetKey);
 		}
 
 		return graphic;
@@ -185,23 +199,20 @@ class PathContent
 	 */
 	public function autoAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxFramesCollection
 	{
-		if (Paths.location.exists('images/$key.txt', library, TEXT, checkMods))
+		if (Paths.location.exists(Paths.location.txt('images/$key', library, checkMods)))
 		{
-			return FlxAtlasFrames.fromSpriteSheetPacker(imageGraphic(key, library, checkMods),
-				getText(Paths.location.get('images/$key.txt', library, TEXT, checkMods)));
+			return packerAtlas(key, library, checkMods);
 		}
-		else if (Paths.location.exists('images/$key.xml', library, TEXT, checkMods))
+		else if (Paths.location.exists(Paths.location.xml('images/$key', library, checkMods)))
 		{
-			return FlxAtlasFrames.fromSparrow(imageGraphic(key, library, checkMods), xml('images/$key', library, checkMods));
+			return sparrowAtlas(key, library, checkMods);
 		}
 		else if (ImageFrames.isFrameDirectory(key))
 		{
 			return ImageFrames.fromDirectory(key);
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	/**
@@ -258,7 +269,7 @@ class PathContent
 					audioCache.set(key, Sound.fromFile(key));
 				else
 				#end
-				audioCache.set(key, Assets.getSound(key));
+				audioCache.set(key, Assets.getSound(key, false));
 			}
 			catch (e)
 			{
@@ -288,16 +299,19 @@ class PathContent
 	 */
 	public function clearImageCache():Void
 	{
-		for (graphicKey in imgGraphicCache.keys())
+		for (imgKey in imgCacheKeys)
 		{
-			removeFromImageCache(graphicKey);
+			removeFromImgCache(imgKey);
 		}
+
+		@:privateAccess
+		FlxG.bitmap._cache.clear();
 
 		System.gc();
 	}
 
 	/**
-	 * Removes and destroys an audio from the adio cache.
+	 * Removes and destroys an audio from the audio cache.
 	 * @param key Audio to remove and destroy.
 	 */
 	public function removeFromAudioCache(key:String):Void
@@ -305,27 +319,51 @@ class PathContent
 		if (clearCacheExcludeKeys.contains(key))
 			return;
 
-		Assets.cache.removeSound(key);
 		audioCache.remove(key);
 	}
 
 	/**
-	 * Removes and destroys an image from the image cache.
+	 * Removes and destroys a BitmapData and a FlxGraphic instance from their cache.
 	 * @param key Image to remove and destroy.
 	 */
-	public function removeFromImageCache(key:String):Void
+	public function removeFromImgCache(key:String):Void
 	{
 		if (clearCacheExcludeKeys.contains(key))
 			return;
 
-		@:privateAccess
-		FlxG.bitmap._cache.remove(key);
-		Assets.cache.removeBitmapData(key);
+		if (bitmapCache.exists(key))
+			removeFromBitmapCache(key);
 
-		var graphic:FlxGraphic = imgGraphicCache.get(key);
+		if (flxGraphicCache.exists(key))
+			removeFromFlxGraphicCache(key);
+
+		imgCacheKeys.remove(key);
+	}
+
+	function removeFromBitmapCache(key:String):Void
+	{
+		if (clearCacheExcludeKeys.contains(key))
+			return;
+
+		bitmapCache.remove(key);
+	}
+
+	function removeFromFlxGraphicCache(key:String):Void
+	{
+		if (clearCacheExcludeKeys.contains(key))
+			return;
+
+		// This is only because my formatter doesnt like me.
+		// This also shouldn't even be here but just for good measure.
+		@:privateAccess
+		var flxBitmapCache:Map<String, FlxGraphic> = FlxG.bitmap._cache;
+		if (flxBitmapCache.exists(key))
+			flxBitmapCache.remove(key);
+
+		var graphic:FlxGraphic = flxGraphicCache.get(key);
 		graphic.persist = false;
 		graphic.destroyOnNoUse = true;
-		imgGraphicCache.remove(key);
+		flxGraphicCache.remove(key);
 		graphic.destroy();
 	}
 }

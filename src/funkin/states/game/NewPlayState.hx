@@ -1,15 +1,18 @@
 package funkin.states.game;
 
+import flixel.FlxCamera;
 import funkin.objects.game.HealthBar;
 import funkin.objects.game.Stage;
-import flixel.FlxCamera;
 import funkin.util.NewSong;
 
 class NewPlayState extends MusicBeatState
 {
 	/**
 	 * The current instance of this class.
-	 * TODO: explain more
+	 *
+	 * This should only be used while PlayState is active.
+	 *
+	 * Useful in scripts and such.
 	 */
 	public static var instance:NewPlayState;
 
@@ -57,6 +60,21 @@ class NewPlayState extends MusicBeatState
 		super.create();
 	}
 
+	function initHealthbar():Void
+	{
+		healthBar = new HealthBar({
+			ui: 'funkin',
+			iconP1: 'bf',
+			iconP2: 'dad',
+			downScroll: FunkinOptions.get('downScroll'),
+			easterEgg: true
+		});
+		healthBar.screenCenter(X);
+		healthBar.scrollFactor.set();
+		healthBar.camera = camHUD;
+		add(healthBar);
+	}
+
 	function initCameras():Void
 	{
 		camGAME = new FlxCamera();
@@ -71,6 +89,12 @@ class NewPlayState extends MusicBeatState
 	{
 		updateHealth();
 		deathCheck();
+
+		if (FlxG.keys.justPressed.T)
+			health += 0.03;
+
+		if (FlxG.keys.justPressed.Y)
+			health -= 0.03;
 
 		super.update(elapsed);
 	}
@@ -102,7 +126,7 @@ class NewPlayState extends MusicBeatState
 	function set_healthLerp(value:Float):Float
 	{
 		healthLerp = value;
-		healthBar.health = healthLerp;
+		healthBar._health = healthLerp;
 		return healthLerp;
 	}
 }

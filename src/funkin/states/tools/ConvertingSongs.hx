@@ -121,7 +121,7 @@ class ConvertingSongs extends MusicBeatState
 		for (difficulty in difficulties)
 		{
 			var legacyChartTxt:String = '';
-			if (Paths.location.exists(queryPath + difficulty + '.json', null, TEXT))
+			if (Paths.location.exists(queryPath + difficulty + '.json', TEXT))
 				legacyChartTxt = Paths.content.json(queryPath + difficulty);
 			else
 				legacyChartTxt = Paths.content.json(queryPath + songs[curSong] + '-' + difficulty);

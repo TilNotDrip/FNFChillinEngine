@@ -260,19 +260,18 @@ class LoadingState extends MusicBeatState
 
 	static function getStageDirectory():String
 	{
-		var library:String = null;
+		var stageData:StageStructure = null;
 
 		try
 		{
-			var stageData:StageStructure = cast new JsonParser<StageStructure>().fromJson(Paths.content.json('data/stages/' + PlayState.SONG.stage));
-			library = stageData.directory;
+			stageData = cast new JsonParser<StageStructure>().fromJson(Paths.content.json('data/stages/' + PlayState.SONG.stage));
 		}
 		catch (e:Exception)
 		{
 			return null;
 		}
 
-		return library;
+		return stageData.directory;
 	}
 }
 

@@ -64,6 +64,7 @@
  - [ ] Add Skip Cutscene feature
  - [x] Daddy Dearest extended Left Pose
  - [x] Seperate Death Sprites from Boyfriend's Spritesheet
+ - [ ] Force library versions in HMM and Project.xml
 
 # Chillin' Engine - Options Todo List <!-- These are just what options we r gunna add (assuming til wil aggree with me (crusher)) its not for the whole menu itself tho -->
 

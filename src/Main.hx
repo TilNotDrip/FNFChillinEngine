@@ -15,6 +15,7 @@ import funkin.modding.FunkinHScriptLoader;
 import funkin.modding.FunkinModLoader;
 #end
 import funkin.states.menus.TitleState;
+import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
@@ -83,6 +84,10 @@ class Main extends Sprite
 
 	function initGame():Void
 	{
+		// This is disabled as we have our own cache system (except for fonts but we'll cross that bridge when we do.)
+		Assets.cache.enabled = false;
+		Assets.cache.clear(); // Just incase there are some that managed to get past.
+
 		FlxG.debugger.setLayout(MICRO);
 		FlxG.game.focusLostFramerate = 30;
 		FlxG.sound.muteKeys = [ZERO];

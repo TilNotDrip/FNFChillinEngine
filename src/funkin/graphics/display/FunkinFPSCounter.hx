@@ -1,5 +1,6 @@
 package funkin.graphics.display;
 
+import haxe.Timer;
 #if cpp
 import cpp.vm.Gc;
 #end
@@ -16,19 +17,17 @@ class FunkinFPSCounter extends TextField
 	/**
 	 * The current frame rate, expressed using frames-per-second
 	 */
-	public var currentFPS(default, null):Float;
+	public var currentFPS:Float = 0;
 
 	#if cpp
-	public var currentMEM(default, null):String;
+	public var currentMEM:String = '';
 	#end
 
 	#if debug
-	public var currentState(default, null):String;
+	public var currentState:String = '';
 	#end
 
-	@:noCompletion var cacheCount:Int;
-	@:noCompletion var currentTime:Float;
-	@:noCompletion var times:Array<Float>;
+	var framesThisSecond:Float = 0.0;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
@@ -37,8 +36,6 @@ class FunkinFPSCounter extends TextField
 		this.x = x;
 		this.y = y;
 
-		currentFPS = 0;
-
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
@@ -46,28 +43,49 @@ class FunkinFPSCounter extends TextField
 		multiline = true;
 		width += #if debug 350 #else 100 #end;
 
-		cacheCount = 0;
-		currentTime = 0;
-		times = [];
+		var timer:Timer = new Timer(1000);
+		timer.run = () ->
+		{
+			currentFPS = framesThisSecond;
+			framesThisSecond = 0;
+		}
 	}
 
 	override public function __enterFrame(deltaTime:Float):Void
 	{
-		currentTime += deltaTime;
-		times.push(currentTime);
+		framesThisSecond++;
+		text = getFPSText() + getMEMText() + getStateText() + getVersionText();
+	}
 
-		while (times[0] < currentTime - 1000)
-			times.shift();
+	function getFPSText():String
+	{
+		return '[FPS]: $currentFPS\n';
+	}
 
-		var currentCount = times.length;
-		currentFPS = Math.round((currentCount + cacheCount) / 2);
+	function getMEMText():String
+	{
+		#if cpp
+		return '[MEM]: ${FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE), 2)}\n';
+		#else
+		return '';
+		#end
+	}
 
-		if (currentCount != cacheCount)
-		{
-			text = 'FPS: $currentFPS' #if cpp + '\nMEM: ${FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE), 2)}' #end
-			#if debug + '\nSTATE: ${Type.getClassName(Type.getClass(FlxG.state))}' + '\nVERSION: ${Application.current.meta.get('version')}' #end;
-		}
+	function getStateText():String
+	{
+		#if debug
+		return '[STATE]: ${Type.getClassName(Type.getClass(FlxG.state))}\n';
+		#else
+		return '';
+		#end
+	}
 
-		cacheCount = currentCount;
+	function getVersionText():String
+	{
+		#if debug
+		return '[VERSION]: ${Application.current.meta.get('version')}\n';
+		#else
+		return '';
+		#end
 	}
 }

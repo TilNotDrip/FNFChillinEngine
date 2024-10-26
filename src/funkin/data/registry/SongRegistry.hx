@@ -1,5 +1,6 @@
 package funkin.data.registry;
 
+import json2object.JsonParser;
 import funkin.structures.ChartStructures;
 import funkin.util.NewSong;
 import funkin.util.VersionUtil;
@@ -164,6 +165,30 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 	{
 		var rawJson:String = Paths.content.json('data/${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}events').trim();
 		return rawJson;
+	}
+
+	/**
+	 * Read, parse, and validate the JSON data and produce the corresponding data object.
+	 *
+	 * NOTE: Must be implemented on the implementation class.
+	 * @param id The ID of the entry.
+	 * @return The created entry.
+	 */
+	public function parseEntryData(id:String):Null<ChillinMetadata>
+	{
+		// JsonParser does not take type parameters,
+		// otherwise this function wouldn't exist.
+		var parser:JsonParser<ChillinMetadata> = cast(getJsonParser(), JsonParser<ChillinMetadata>);
+
+		parser.fromJson(loadEntryFile(id));
+
+		if (parser.errors.length > 0)
+		{
+			// TODO: Add printErrors
+			// printErrors(parser.errors, id);
+			return null;
+		}
+		return parser.value;
 	}
 
 	public function getJsonParser():Dynamic

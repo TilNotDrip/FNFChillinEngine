@@ -193,6 +193,15 @@ abstract class BaseRegistry<T:(IRegistryEntry<J> & Constructible<EntryConstructo
 	override public abstract function getJsonParser():Dynamic;
 
 	/**
+	 * Read, parse, and validate the JSON data and produce the corresponding data object.
+	 *
+	 * NOTE: Must be implemented on the implementation class.
+	 * @param id The ID of the entry.
+	 * @return The created entry.
+	 */
+	override public abstract function parseEntryData(id:String):Null<J>;
+
+	/**
 	 * Retrieve the list of scripted class names to load.
 	 * @return An array of scripted class names.
 	 */

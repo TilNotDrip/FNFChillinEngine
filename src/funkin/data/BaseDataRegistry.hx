@@ -144,22 +144,7 @@ abstract class BaseDataRegistry<J>
 	 * @param id The ID of the entry.
 	 * @return The created entry.
 	 */
-	public function parseEntryData(id:String):Null<J>
-	{
-		// JsonParser does not take type parameters,
-		// otherwise this function wouldn't exist.
-		var parser = getJsonParser();
-
-		parser.fromJson(loadEntryFile(id));
-
-		if (parser.errors.length > 0)
-		{
-			// TODO: Add printErrors
-			// printErrors(parser.errors, id);
-			return null;
-		}
-		return parser.value;
-	}
+	public abstract function parseEntryData(id:String):Null<J>;
 
 	/**
 	 * Parse and validate the JSON data and produce the corresponding data object.

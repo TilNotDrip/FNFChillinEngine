@@ -1,5 +1,6 @@
 package funkin.data.registry;
 
+import json2object.JsonParser;
 import funkin.objects.game.Character;
 import funkin.structures.CharacterStructure;
 
@@ -25,6 +26,30 @@ class CharacterRegistry extends BaseDataRegistry<CharacterStructure>
 		var character:Character = new Character(isPlayer);
 		character.loadJson(id, fetchEntryData(id));
 		return character;
+	}
+
+	/**
+	 * Read, parse, and validate the JSON data and produce the corresponding data object.
+	 *
+	 * NOTE: Must be implemented on the implementation class.
+	 * @param id The ID of the entry.
+	 * @return The created entry.
+	 */
+	public function parseEntryData(id:String):Null<CharacterStructure>
+	{
+		// JsonParser does not take type parameters,
+		// otherwise this function wouldn't exist.
+		var parser:JsonParser<CharacterStructure> = cast(getJsonParser(), JsonParser<CharacterStructure>);
+
+		parser.fromJson(loadEntryFile(id));
+
+		if (parser.errors.length > 0)
+		{
+			// TODO: Add printErrors
+			// printErrors(parser.errors, id);
+			return null;
+		}
+		return parser.value;
 	}
 
 	override public function fetchEntryData(id):CharacterStructure
