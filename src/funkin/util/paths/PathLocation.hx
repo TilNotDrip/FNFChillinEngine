@@ -17,26 +17,15 @@ class PathLocation
 	public function new() {}
 
 	/**
-	 * Returns the string of a atlas location.
-	 * @param key Atlas Folder name.
-	 * @param library Library the atlas is in.
-	 * @param checkMods Allow mod atlases to be returned?
-	 * @return library:assets/library/images/key
+	 * Returns the string of a audio location.
+	 * @param key Audio File name.
+	 * @param library Library the music is in.
+	 * @param checkMods Allow mod music to be returned?
+	 * @return library:assets/library/music/key.ogg|.mp3
 	 */
-	public function atlas(key:String, ?library, ?checkMods:Bool = true):String
+	public function audio(key:String, ?checkMods:Bool = true):String
 	{
-		return get('images/$key', library, null, checkMods);
-	}
-
-	/**
-	 * Returns the string of a font location. (MUST BE LOCATED IN PRELOAD PATH!)
-	 * @param key Font File name. (INCLUDE THE EXT TOO!)
-	 * @param checkMods Allow mod fonts to be returned?
-	 * @return default:assets/fonts/key
-	 */
-	public function font(key:String, ?checkMods:Bool = true):String
-	{
-		return get('fonts/$key', 'preload', FONT, checkMods);
+		return get('$key.${Constants.EXT_SOUND}', checkMods);
 	}
 
 	/**
@@ -46,20 +35,14 @@ class PathLocation
 	 * @param checkMods Allow mod images to be returned?
 	 * @return library:assets/library/images/key.png
 	 */
-	public function image(key:String, ?library, ?checkMods:Bool = true):String
+	public function image(key:String, ?checkMods:Bool = true):String
 	{
-		return get('images/$key.${Constants.EXT_IMAGE}', library, IMAGE, checkMods);
+		return get('$key.${Constants.EXT_IMAGE}', checkMods);
 	}
 
-	/**
-	 * Returns the string of a instrumental location.
-	 * @param songKey The song that the instrumental file is in.
-	 * @param checkMods Allow mod instrumentals to be returned?
-	 * @return songs:assets/songs/songKey/Inst.ogg|.mp3
-	 */
-	public function inst(songKey:String, ?checkMods:Bool = true):String
+	public function inst(key:String, ?checkMods:Bool = true):String
 	{
-		return get('${songKey.formatToPath()}/Inst.${Constants.EXT_SOUND}', 'songs', MUSIC, checkMods);
+		return audio('gameplay/songs/${key.formatToPath()}/Inst');
 	}
 
 	/**
@@ -69,33 +52,9 @@ class PathLocation
 	 * @param checkMods Allow mod jsons to be returned?
 	 * @return library:assets/library/key.json
 	 */
-	public function json(key:String, ?library, ?checkMods:Bool = true):String
+	public function json(key:String, ?checkMods:Bool = true):String
 	{
-		return get('$key.json', library, TEXT, checkMods);
-	}
-
-	/**
-	 * Returns the string of a music location.
-	 * @param key Music File name.
-	 * @param library Library the music is in.
-	 * @param checkMods Allow mod music to be returned?
-	 * @return library:assets/library/music/key.ogg|.mp3
-	 */
-	public function music(key:String, ?library, ?checkMods:Bool = true):String
-	{
-		return get('music/$key.${Constants.EXT_SOUND}', library, MUSIC, checkMods);
-	}
-
-	/**
-	 * Returns the string of a sound location.
-	 * @param key Sound File name.
-	 * @param library Library the sound is in.
-	 * @param checkMods Allow mod sounds to be returned?
-	 * @return library:assets/library/sounds/key.ogg|.mp3
-	 */
-	public function sound(key:String, ?library, ?checkMods:Bool = true):String
-	{
-		return get('sounds/$key.${Constants.EXT_SOUND}', library, SOUND, checkMods);
+		return get('$key.json', checkMods);
 	}
 
 	/**
@@ -105,9 +64,9 @@ class PathLocation
 	 * @param checkMods Allow mod txts to be returned?
 	 * @return library:assets/library/key.txt
 	 */
-	public function txt(key:String, ?library, ?checkMods:Bool = true):String
+	public function txt(key:String, ?checkMods:Bool = true):String
 	{
-		return get('$key.txt', library, TEXT, checkMods);
+		return get('$key.txt', checkMods);
 	}
 
 	/**
@@ -119,19 +78,12 @@ class PathLocation
 	 */
 	public function video(key:String, ?checkMods:Bool = true):String
 	{
-		return get('$key.${Constants.EXT_VIDEO}', 'videos', BINARY, checkMods);
+		return get('$key.${Constants.EXT_VIDEO}', checkMods);
 	}
 
-	/**
-	 * Returns the string of a voices location.
-	 * @param songKey The song that the voices file is in.
-	 * @param suffix The voices file suffix (like -Opponent or -dad)
-	 * @param checkMods Allow mod voices to be returned?
-	 * @return songs:assets/songs/songKey/Voices?-suffix.ogg|.mp3
-	 */
-	public function voices(songKey:String, ?suffix:String = ''):String
+	public function voices(key:String, suffix:String = '', ?checkMods:Bool = true):String
 	{
-		return get('${songKey.formatToPath()}/Voices${(suffix != '') ? '-$suffix' : ''}.${Constants.EXT_SOUND}', 'songs', MUSIC);
+		return audio('gameplay/songs/${key.formatToPath()}/Voices$suffix');
 	}
 
 	/**
@@ -141,9 +93,9 @@ class PathLocation
 	 * @param checkMods Allow mod xmls to be returned?
 	 * @return library:assets/library/key.xml
 	 */
-	public function xml(key:String, ?library, ?checkMods:Bool = true):String
+	public function xml(key:String, ?checkMods:Bool = true):String
 	{
-		return get('$key.xml', library, TEXT, checkMods);
+		return get('$key.xml', checkMods);
 	}
 
 	/**
@@ -154,23 +106,22 @@ class PathLocation
 	 * @param checkMods Allow mod files to be returned?
 	 * @return library:assets/library/key
 	 */
-	public function get(key:String, ?library:String, ?type:AssetType = null, ?checkMods:Bool = true):String
+	public function get(key:String, ?checkMods:Bool = true):String
 	{
-		if (library != null) // Forced library return.
-			return getLibraryPath(key, library, checkMods);
-
-		if (currentLevel != null)
+		#if FUNKIN_MOD_SUPPORT
+		if (checkMods)
 		{
-			var levelPath:String = getLibraryPath(key, currentLevel, checkMods);
-			if (exists(levelPath, type))
-				return levelPath;
+			for (mod in FunkinModLoader.currentMods)
+			{
+				var modPath:String = '${Constants.MODS_FOLDER}/${mod.folder}/$key';
 
-			levelPath = getLibraryPath(key, 'shared', checkMods);
-			if (exists(levelPath, type))
-				return levelPath;
+				if (FileSystem.exists(modPath))
+					return modPath;
+			}
 		}
+		#end
 
-		return getLibraryPath(key, 'preload', checkMods);
+		return 'assets/$key';
 	}
 
 	/**
@@ -181,12 +132,14 @@ class PathLocation
 	 * @param checkMods Checks to see if a mod file exists too.
 	 * @return File existence.
 	 */
-	public function exists(key:String, ?type:AssetType = null):Bool
+	public function exists(key:String, ?type:AssetType = null, ?checkMods:Bool = true):Bool
 	{
+		var assetKey:String = get(key);
+
 		#if FUNKIN_MOD_SUPPORT
-		if (key.startsWith(Constants.MODS_FOLDER + '/'))
+		if (checkMods && assetKey.startsWith(Constants.MODS_FOLDER + '/'))
 		{
-			if (FileSystem.exists(key))
+			if (FileSystem.exists(assetKey))
 				return true;
 		}
 		#end
@@ -194,97 +147,64 @@ class PathLocation
 		// I hate my life
 		// this hurts to look at
 		// it doesn't work when i put it in the return i swear ...
-		if (Assets.exists(key, type))
+		if (Assets.exists(assetKey, type))
 			return true;
 
 		return false;
 	}
 
 	/**
-	 * Returns every file currently in the game
-	 * @return An array of found files.
+	 * Returns a path list of files in a folder, this will NOT return the assets/ and mods/ part of the asset.
+	 * @param key The folder to check.
+	 * @param includeSubFolders Whether to include the subfolders of that folder.
+	 * @param checkMods Check the mods folder?
+	 * @return An string array filled with paths in a folder.
 	 */
-	public function list():Array<String>
+	public function list(key:String, ?includeSubFolders:Bool = false, ?checkMods:Bool = true):Array<String>
 	{
-		var results:Array<String> = [];
+		var assetList:Array<String> = listRaw(key, checkMods);
+		var returnList:Array<String> = [];
 
-		for (i in openfl.utils.Assets.list())
+		for (asset in assetList)
 		{
-			var toPush:String = i;
-
-			toPush = toPush.substring('assets/'.length);
-
-			@:privateAccess
-			for (library in lime.utils.Assets.libraries.keys())
-			{
-				if (toPush.startsWith(library + '/'))
-				{
-					toPush = toPush.substring('$library/'.length);
-					break;
-				}
-			}
-
-			// sometimes duplicates can happen
-			if (!results.contains(toPush))
-				results.push(toPush);
+			returnList.push(asset.cutRawPath(false));
 		}
 
-		#if FUNKIN_MOD_SUPPORT
-		var currentDirectories:Array<String> = [];
-		for (mod in FunkinModLoader.currentMods)
-			currentDirectories.push('${Constants.MODS_FOLDER}/${mod.folder}');
-
-		while (currentDirectories.length > 0)
-		{
-			var curDirectory:String = currentDirectories.shift();
-			for (path in FileSystem.readDirectory(curDirectory))
-			{
-				var fullPath:String = curDirectory + '/' + path;
-				if (!FileSystem.isDirectory(fullPath))
-				{
-					var toPush:String = fullPath;
-
-					toPush = toPush.substring('mods/'.length);
-					toPush = toPush.substring(toPush.indexOf('/') + 1);
-
-					@:privateAccess
-					for (library in lime.utils.Assets.libraries.keys())
-					{
-						if (toPush.startsWith(library + '/'))
-						{
-							toPush = toPush.substring('$library/'.length);
-							break;
-						}
-					}
-
-					if (!results.contains(toPush))
-						results.push(toPush);
-				}
-				else
-					currentDirectories.push(fullPath);
-			}
-		}
-		#end
-
-		return results;
+		return returnList;
 	}
 
-	function getLibraryPath(key:String, ?library:String, ?checkMods:Bool = true):String
+	/**
+	 * Returns a raw path list of files in a folder, Raw meaning it returns the assets/ and mods/ part of the asset.
+	 * @param key The folder to check.
+	 * @param includeSubFolders Whether to include the subfolders of that folder.
+	 * @param checkMods Check the mods folder?
+	 * @return An string array filled with paths in a folder.
+	 */
+	public function listRaw(key:String, ?includeSubFolders:Bool = false, ?checkMods:Bool = true):Array<String>
 	{
-		if (returnLibrary(library) == 'default')
-		{
-			#if FUNKIN_MOD_SUPPORT
-			if (checkMods)
-			{
-				for (mod in FunkinModLoader.currentMods)
-				{
-					if (FileSystem.exists('${Constants.MODS_FOLDER}/${mod.folder}/$key'))
-						return '${Constants.MODS_FOLDER}/${mod.folder}/$key';
-				}
-			}
-			#end
+		if (!key.endsWith('/'))
+			key += '/';
 
-			return '${returnLibrary(library)}:assets/$key';
+		var assetList:Array<String> = listAll(false);
+		var returnList:Array<String> = [];
+
+		for (asset in assetList)
+		{
+			final path:String = 'assets/' + key;
+			var returnFolder:String = null;
+
+			if (asset.startsWith(path))
+				returnFolder = path;
+
+			if (returnFolder != null)
+			{
+				if (!includeSubFolders)
+					returnFolder = returnFolder.split(path)[0];
+
+				// TODO: This returns ui/ui/ui/ui/ui/ui/ because i forgot to add the actual file to the returnFolder. fix it.
+
+				returnList.push(returnFolder);
+			}
 		}
 
 		#if FUNKIN_MOD_SUPPORT
@@ -292,20 +212,93 @@ class PathLocation
 		{
 			for (mod in FunkinModLoader.currentMods)
 			{
-				if (FileSystem.exists('${Constants.MODS_FOLDER}/${mod.folder}/$library/$key'))
-					return '${Constants.MODS_FOLDER}/${mod.folder}/$library/$key';
+				final modPath:String = '${Constants.MODS_FOLDER}/${mod.folder}/$key';
+				var curDirectories:Array<String> = [];
+
+				for (path in FileSystem.readDirectory(modPath))
+				{
+					final fullPath:String = modPath + path;
+
+					if (!FileSystem.isDirectory(fullPath))
+						returnList.push(fullPath);
+					else if (includeSubFolders)
+						curDirectories.push(fullPath);
+
+					if (!includeSubFolders)
+						break;
+
+					while (curDirectories.length > 0)
+					{
+						final directory:String = curDirectories.shift();
+
+						for (paths2 in FileSystem.readDirectory(directory))
+						{
+							final fullPath2:String = directory + '/' + paths2;
+
+							if (!FileSystem.isDirectory(fullPath2))
+								returnList.push(fullPath2);
+							else
+								curDirectories.push(fullPath2);
+						}
+					}
+				}
 			}
 		}
 		#end
 
-		return '${returnLibrary(library)}:assets/$library/$key';
+		return returnList;
 	}
 
-	function returnLibrary(library:String):String
+	/**
+	 * Lists all files found inside of the game.
+	 * @param checkMods Check the mods folder as well?
+	 * @return Files found in the game.
+	 */
+	public function listAll(?checkMods:Bool = true):Array<String>
 	{
-		if (library == 'preload' || library == null)
-			return 'default';
+		var returnList:Array<String> = [];
 
-		return library;
+		for (asset in openfl.Assets.list())
+		{
+			returnList.push(asset);
+		}
+
+		#if FUNKIN_MOD_SUPPORT
+		if (checkMods)
+		{
+			for (mod in FunkinModLoader.currentMods)
+			{
+				final modPath:String = '${Constants.MODS_FOLDER}/${mod.folder}';
+				var curDirectories:Array<String> = [];
+
+				for (path in FileSystem.readDirectory(modPath))
+				{
+					final fullPath:String = modPath + '/' + path;
+
+					if (!FileSystem.isDirectory(fullPath))
+						returnList.push(fullPath);
+					else
+						curDirectories.push(fullPath);
+
+					while (curDirectories.length > 0)
+					{
+						final directory:String = curDirectories.shift();
+
+						for (paths2 in FileSystem.readDirectory(directory))
+						{
+							final fullPath2:String = directory + '/' + paths2;
+
+							if (!FileSystem.isDirectory(fullPath2))
+								returnList.push(fullPath2);
+							else
+								curDirectories.push(fullPath2);
+						}
+					}
+				}
+			}
+		}
+		#end
+
+		return returnList;
 	}
 }

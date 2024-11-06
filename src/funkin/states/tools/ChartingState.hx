@@ -109,7 +109,7 @@ class ChartingState extends MusicBeatState
 
 		curSection = lastSection;
 
-		var actualBG:FlxSprite = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuDesat'));
+		var actualBG:FlxSprite = new FlxSprite(Paths.content.imageGraphic('ui/mainmenu/menuDesat'));
 		actualBG.scale.set(1.2, 1.2);
 		actualBG.updateHitbox();
 		actualBG.screenCenter();
@@ -280,8 +280,8 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		var characters:Array<String> = CoolUtil.coolTextFile('data/characterList');
-		var stages:Array<String> = CoolUtil.coolTextFile('data/stageList');
+		var characters:Array<String> = CoolUtil.coolTextFile('gameplay/characters/characterList');
+		var stages:Array<String> = CoolUtil.coolTextFile('gameplay/stages/stageList');
 
 		var player1DropDown = new FlxUIDropDownMenu(10, loadAutosaveBtn.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
 			function(character:String)
@@ -481,12 +481,12 @@ class ChartingState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		FlxG.sound.playMusic(Paths.content.getAudio(Paths.location.inst(daSong)), 0.6);
+		FlxG.sound.playMusic(Paths.content.audio(Paths.location.inst(daSong).cutRawPath()), 0.6);
 
-		vocals = new FlxSound().loadEmbedded(Paths.content.getAudio(Paths.location.voices(daSong)));
+		vocals = new FlxSound().loadEmbedded(Paths.content.audio(Paths.location.voices(daSong).cutRawPath()));
 		FlxG.sound.list.add(vocals);
 
-		hitsound = new FlxSound().loadEmbedded(Paths.content.sound('hitsound'));
+		hitsound = new FlxSound().loadEmbedded(Paths.content.audio('ui/editors/charting/hitsound'));
 		FlxG.sound.list.add(hitsound);
 
 		FlxG.sound.music.pause();
@@ -1068,7 +1068,7 @@ class ChartingState extends MusicBeatState
 				&& i.strumTime <= sectionStartTime() + (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps))
 			{
 				var event:FlxSprite = new FlxSprite(-GRID_SIZE);
-				event.loadGraphic(Paths.content.imageGraphic('charting/event'));
+				event.loadGraphic(Paths.content.imageGraphic('ui/editors/charting/event'));
 				event.y = Math.floor(getYfromStrum((i.strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSec].lengthInSteps)));
 				curRenderedEvents.add(event);
 				spriteToEvent.set(event, i);

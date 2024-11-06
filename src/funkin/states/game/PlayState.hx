@@ -186,8 +186,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		Paths.content.getAudio(Paths.location.inst(SONG.song));
-		Paths.content.getAudio(Paths.location.voices(SONG.song));
+		Paths.content.audio(Paths.location.inst(SONG.song).cutRawPath());
+		Paths.content.audio(Paths.location.voices(SONG.song).cutRawPath());
 
 		camGAME = new SwagCamera();
 
@@ -237,13 +237,13 @@ class PlayState extends MusicBeatState
 				];
 
 			case 'senpai':
-				dialogue = CoolUtil.coolTextFile('data/charts/senpai/senpaiDialogue');
+				dialogue = CoolUtil.coolTextFile('gameplay/songs/senpai/cutscene/senpaiDialogue');
 
 			case 'roses':
-				dialogue = CoolUtil.coolTextFile('data/charts/roses/rosesDialogue');
+				dialogue = CoolUtil.coolTextFile('gameplay/songs/roses/cutscene/rosesDialogue');
 
 			case 'thorns':
-				dialogue = CoolUtil.coolTextFile('data/charts/thorns/thornsDialogue');
+				dialogue = CoolUtil.coolTextFile('gameplay/songs/thorns/cutscene/thornsDialogue');
 		}
 
 		curStage = new Stage(SONG.stage);
@@ -310,7 +310,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.content.imageGraphic('gameplay-ui/funkin/healthBar'));
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.content.imageGraphic('gameplay/play/ui/funkin/healthBar'));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -327,23 +327,23 @@ class PlayState extends MusicBeatState
 		if (FunkinOptions.get('hudType') == 'Advanced')
 		{
 			songTxt = new FlxText(-5, 5, FlxG.width, "", 20);
-			songTxt.setFormat(Paths.location.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			songTxt.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			songTxt.scrollFactor.set();
 			add(songTxt);
 
 			ratingCounterTxt = new FlxText(5, 0, FlxG.width, "", 20);
-			ratingCounterTxt.setFormat(Paths.location.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			ratingCounterTxt.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			ratingCounterTxt.screenCenter(Y);
 			ratingCounterTxt.scrollFactor.set();
 			add(ratingCounterTxt);
 
 			healthOppTxt = new FlxText((-healthBarBG.x + -healthBarBG.width) + -135, healthBarBG.y, FlxG.width, "", 20);
-			healthOppTxt.setFormat(Paths.location.font("vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			healthOppTxt.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 16, 0xFFFF0000, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			healthOppTxt.scrollFactor.set();
 			add(healthOppTxt);
 
 			healthPlayerTxt = new FlxText((healthBarBG.x + healthBarBG.width) + 135, healthBarBG.y, FlxG.width, "", 20);
-			healthPlayerTxt.setFormat(Paths.location.font("vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			healthPlayerTxt.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 16, 0xFF66FF33, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			healthPlayerTxt.scrollFactor.set();
 			add(healthPlayerTxt);
 
@@ -357,7 +357,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		scoreTxt = new FlxText(0, healthBarBG.y + 30, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.location.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.screenCenter(X);
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
@@ -369,7 +369,7 @@ class PlayState extends MusicBeatState
 		add(comboGrp);
 
 		lyricText = new FlxTypeText(0, 0, FlxG.width, "", 36);
-		lyricText.setFormat(Paths.location.font("vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		lyricText.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(lyricText);
 
 		if (FunkinOptions.get('hudType') == 'Advanced')
@@ -459,33 +459,23 @@ class PlayState extends MusicBeatState
 			if (generatedMusic)
 				notes.sort(sortNotes, FlxSort.DESCENDING);
 
-			var altSuffix:String = "funkin";
-
-			if (ui == 'funkin-pixel')
-				altSuffix = 'pixel';
-
 			var introSprPaths:Array<String> = [
-				'gameplay-ui/$altSuffix/ready',
-				'gameplay-ui/$altSuffix/set',
-				'gameplay-ui/$altSuffix/go'
+				'gameplay/play/ui/$ui/ready',
+				'gameplay/play/ui/$ui/set',
+				'gameplay/play/ui/$ui/go'
 			];
 
-			var altSuffix2:String = "";
-
-			if (ui == 'funkin-pixel')
-				altSuffix2 = '-pixel';
-
 			var introSndPaths:Array<String> = [
-				"intro3" + altSuffix2,
-				"intro2" + altSuffix2,
-				"intro1" + altSuffix2,
-				"introGo" + altSuffix2
+				'gameplay/play/ui/$ui/intro3',
+				'gameplay/play/ui/$ui/intro2',
+				'gameplay/play/ui/$ui/intro1',
+				'gameplay/play/ui/$ui/introGo'
 			];
 
 			if (swagCounter > 0)
 				readySetGo(introSprPaths[swagCounter - 1]);
 
-			FlxG.sound.play(Paths.content.sound(introSndPaths[swagCounter]), 0.6);
+			FlxG.sound.play(Paths.content.audio(introSndPaths[swagCounter]), 0.6);
 
 			swagCounter += 1;
 		}, 4);
@@ -528,7 +518,7 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 
 		if (!paused)
-			FlxG.sound.playMusic(Paths.content.getAudio(Paths.location.inst(SONG.song)), 1, false);
+			FlxG.sound.playMusic(Paths.content.audio(Paths.location.inst(SONG.song).cutRawPath()), 1, false);
 
 		vocals.play();
 
@@ -548,7 +538,7 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(songData.bpm);
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.content.getAudio(Paths.location.voices(SONG.song)));
+			vocals = new FlxSound().loadEmbedded(Paths.content.audio(Paths.location.voices(SONG.song).cutRawPath()));
 		else
 			vocals = new FlxSound();
 
@@ -1236,7 +1226,7 @@ class PlayState extends MusicBeatState
 
 		if (storyPlaylist.length <= 0)
 		{
-			FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.content.audio('ui/mainmenu/freakyMenu'));
 
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
@@ -1391,10 +1381,7 @@ class PlayState extends MusicBeatState
 		songScore += score;
 		possibleScore += 350;
 
-		var ratingPath:String = "gameplay-ui/funkin/" + daRating;
-
-		if (ui == 'funkin-pixel')
-			ratingPath = "gameplay-ui/pixel/" + daRating;
+		var ratingPath:String = 'gameplay/play/ui/$ui/' + daRating;
 
 		var rating:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic(ratingPath));
 		rating.scrollFactor.set(0.2, 0.2);
@@ -1435,12 +1422,7 @@ class PlayState extends MusicBeatState
 
 	function displayCombo():Void
 	{
-		var pixelShitPart1:String = "funkin";
-
-		if (ui == 'funkin-pixel')
-			pixelShitPart1 = 'pixel';
-
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$pixelShitPart1/combo'));
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay/play/ui/$ui/combo'));
 		comboSpr.y = (FlxG.height * 0.44);
 		comboSpr.x = (FlxG.width * 0.507) - 90;
 		// comboSpr.x -= FlxG.camera.scroll.x * 0.2;
@@ -1485,7 +1467,7 @@ class PlayState extends MusicBeatState
 
 		for (i in seperatedScore)
 		{
-			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$pixelShitPart1/num' + Std.int(i)));
+			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay/play/ui/$ui/num' + Std.int(i)));
 			numScore.y = comboSpr.y;
 
 			if (ui == 'funkin-pixel')
@@ -1782,7 +1764,7 @@ class PlayState extends MusicBeatState
 		songScore -= 10;
 		possibleScore += 350;
 		vocals.volume = 0;
-		FlxG.sound.play(Paths.content.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
+		FlxG.sound.play(Paths.content.audio('gameplay/play/ui/funkin/missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
 	}
 
 	function ghostHit()
@@ -1979,7 +1961,7 @@ class PlayState extends MusicBeatState
 				if (value == 'right')
 					daDirection = 3;
 
-				funkin.stages.objects.TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
+				// funkin.stages.objects.TankmenBG.animationNotes.push([strumTime, daDirection, 0]);
 		}
 	}
 

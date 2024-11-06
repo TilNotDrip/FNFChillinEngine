@@ -63,8 +63,7 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		Paths.content.clearAudioCache();
-		Paths.content.clearImageCache();
+		Paths.content.cache.clear();
 
 		changeWindowName('Title Screen');
 
@@ -72,7 +71,7 @@ class TitleState extends MusicBeatState
 		DiscordRPC.details = 'Title Screen';
 		#end
 
-		introText = cast new JsonParser<TitleJSON>().fromJson(Paths.content.json('data/title'));
+		introText = cast new JsonParser<TitleJSON>().fromJson(Paths.content.json('ui/titlescreen/metadata'));
 
 		startedIntro = false;
 
@@ -102,7 +101,7 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing)
 		{
-			FlxG.sound.playMusic(Paths.content.music('freakyMenu'), 0);
+			FlxG.sound.playMusic(Paths.content.audio('ui/mainmenu/freakyMenu'), 0);
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
@@ -138,7 +137,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<String>
 	{
-		var fullText:String = Paths.content.getText(Paths.location.txt('data/' + introText.introText.path));
+		var fullText:String = Paths.content.getText(Paths.location.txt('ui/titlescreen/' + introText.introText.path));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -189,11 +188,11 @@ class TitleState extends MusicBeatState
 				jingleState = true;
 				codeIndex = 0;
 
-				FlxG.sound.playMusic(Paths.content.music('girlfriendsRingtone'), 0);
+				FlxG.sound.playMusic(Paths.content.audio('ui/titlescreen/girlfriendsRingtone'), 0);
 				FlxG.sound.music.fadeIn(4.0);
 
 				FlxG.camera.flash(FlxColor.WHITE, 1);
-				FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'), 0.7);
+				FlxG.sound.play(Paths.content.audio('ui/mainmenu/confirmMenu'), 0.7);
 
 				Conductor.changeBPM(160);
 			}
@@ -223,7 +222,7 @@ class TitleState extends MusicBeatState
 			if (FunkinOptions.get('flashingLights'))
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 
-			FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'), 0.7);
+			FlxG.sound.play(Paths.content.audio('ui/mainmenu/confirmMenu'), 0.7);
 
 			transitioning = true;
 
@@ -384,7 +383,7 @@ class TitleState extends MusicBeatState
 			if (jsonSpr.animations == null)
 				daSprite.loadGraphic(Paths.content.imageGraphic(jsonSpr.path));
 			else
-				daSprite.frames = Paths.content.autoAtlas(jsonSpr.path);
+				daSprite.frames = Paths.content.sparrowAtlas(jsonSpr.path);
 
 			if (jsonSpr.animations != null)
 			{

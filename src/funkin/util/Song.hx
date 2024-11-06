@@ -13,7 +13,7 @@ class Song
 
 		try
 		{
-			rawJson = Paths.content.json('data/charts/' + folder.formatToPath() + '/' + jsonInput.formatToPath()).trim();
+			rawJson = Paths.content.json('gameplay/songs/' + folder.formatToPath() + '/' + jsonInput.formatToPath()).trim();
 		}
 		catch (e)
 		{

@@ -45,14 +45,14 @@ class HealthIcon extends TrackedSprite
 
 	public function changeIcon(newChar:String):Void
 	{
-		var metadataText:String = Paths.content.json('images/icons/$newChar');
+		var metadataText:String = Paths.content.json('gameplay/icons/' + newChar + '/data');
 
 		if (metadataText == null)
 		{
 			trace('[ERROR]: Unable to load the Icon Metadata of $newChar! Maybe it doesnt exist? Falling Back to Default...');
 
 			newChar = 'face';
-			metadataText = Paths.content.json('images/icons/$newChar');
+			metadataText = Paths.content.json('gameplay/icons/' + newChar + '/data');
 
 			if (metadataText == null)
 			{
@@ -67,9 +67,9 @@ class HealthIcon extends TrackedSprite
 		metadata = cast new JsonParser<IconStructure>().fromJson(metadataText);
 
 		if (metadata.resolution != null)
-			loadGraphic(Paths.content.imageGraphic('icons/' + newChar), true, metadata.resolution[0], metadata.resolution[1]);
+			loadGraphic(Paths.content.imageGraphic('gameplay/icons/' + newChar + '/texture'), true, metadata.resolution[0], metadata.resolution[1]);
 		else
-			frames = Paths.content.autoAtlas('icons/' + newChar);
+			frames = Paths.content.sparrowAtlas('gameplay/icons/' + newChar + '/texture');
 
 		curHealthBarColor = FlxColor.fromString(metadata.color);
 

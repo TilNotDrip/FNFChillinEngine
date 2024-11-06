@@ -33,11 +33,11 @@ class MainMenuState extends MusicBeatState
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		if (!FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.content.audio('ui/mainmenu/freakyMenu'));
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuBG'));
+		var bg:FlxSprite = new FlxSprite(Paths.content.imageGraphic('ui/mainmenu/menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.17;
 		bg.setGraphicSize(Std.int(bg.width * 1.2));
@@ -50,7 +50,7 @@ class MainMenuState extends MusicBeatState
 
 		if (FunkinOptions.get('flashingLights'))
 		{
-			magenta = new FlxSprite(Paths.content.imageGraphic('mainmenu/menuDesat'));
+			magenta = new FlxSprite(Paths.content.imageGraphic('ui/mainmenu/menuDesat'));
 			magenta.x = bg.x;
 			magenta.y = bg.y;
 			magenta.scrollFactor.x = bg.scrollFactor.x;
@@ -145,15 +145,10 @@ class MainMenuState extends MusicBeatState
 		if (controls.UI_DOWN_P && !selected)
 			changeItem(1);
 
-		if (FlxG.keys.justPressed.C)
-		{
-			FlxG.switchState(new funkin.states.tools.ConvertingSongs());
-		}
-
 		if (controls.ACCEPT && !selected)
 		{
 			selected = true;
-			FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'));
+			FlxG.sound.play(Paths.content.audio('ui/mainmenu/confirmMenu'));
 
 			menuItems.forEach(function(item:MenuItem)
 			{
@@ -175,7 +170,7 @@ class MainMenuState extends MusicBeatState
 
 		if (controls.BACK && !selected)
 		{
-			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.audio('ui/mainmenu/cancelMenu'));
 			FlxG.switchState(new TitleState());
 		}
 

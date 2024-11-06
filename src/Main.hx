@@ -1,5 +1,6 @@
 package;
 
+import funkin.util.paths.Paths;
 #if FUNKIN_DISCORD_RPC
 import funkin.api.DiscordRPC;
 #end
@@ -104,6 +105,8 @@ class Main extends Sprite
 		#end
 
 		FunkinHScriptLoader.init();
+
+		trace(Paths.location.list('ui'));
 	}
 
 	/**

@@ -57,7 +57,7 @@ class MenuCharacter extends FlxSprite
 					prefixes = ['Tankman Menu BLACK'];
 			}
 
-			frames = Paths.content.autoAtlas('storymode/characters/' + char);
+			frames = Paths.content.sparrowAtlas('ui/storymode/characters/' + char);
 
 			animation.addByPrefix('idle', prefixes[0], 24, false);
 

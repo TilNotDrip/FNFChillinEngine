@@ -1,5 +1,6 @@
 package funkin.util;
 
+import haxe.Exception;
 import haxe.Json;
 import lime.utils.Assets;
 
@@ -25,10 +26,15 @@ class SongEvent
 
 	public static function loadFromJson(folder:String):Array<SwagEvent>
 	{
-		var rawJson:String = Paths.content.json('data/charts/${folder.formatToPath()}/events').trim();
-
-		if (rawJson == null)
+		var rawJson:String = null;
+		try
+		{
+			rawJson = Paths.content.json('gameplay/songs/${folder.formatToPath()}/events').trim();
+		}
+		catch (e:Exception)
+		{
 			return null;
+		}
 
 		while (!rawJson.endsWith("}"))
 			rawJson = rawJson.substr(0, rawJson.length - 1);

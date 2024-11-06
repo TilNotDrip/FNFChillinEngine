@@ -21,7 +21,7 @@ class ConvertingSongs extends MusicBeatState
 	override public function create():Void
 	{
 		songDetails = new FlxText(0, 0, FlxG.width);
-		songDetails.setFormat(Paths.location.font("vcr.ttf"), 64, FlxColor.WHITE, CENTER);
+		songDetails.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 64, FlxColor.WHITE, CENTER);
 		songDetails.screenCenter();
 		add(songDetails);
 
@@ -66,14 +66,15 @@ class ConvertingSongs extends MusicBeatState
 
 	public function getSongs():Array<String>
 	{
-		var queryPath:String = 'data/charts/';
+		var queryPath:String = 'gameplay/songs';
 		var results:Array<String> = [];
-		for (path in Paths.location.list())
+
+		for (path in Paths.location.list(queryPath))
 		{
 			if (!queryPath.startsWith(path))
 				continue;
 
-			var pathNoPrefix:String = path.substring(queryPath.length);
+			var pathNoPrefix:String = path.substring((queryPath + '/').length);
 			var pathNoSuffix:String = pathNoPrefix.substring(0, pathNoPrefix.indexOf('/'));
 
 			if (!results.contains(pathNoSuffix))
@@ -85,22 +86,19 @@ class ConvertingSongs extends MusicBeatState
 
 	public function convertLegacySong():Void
 	{
-		var queryPath:String = 'data/charts/${songs[curSong]}/';
+		var queryPath:String = 'gameplay/songs/${songs[curSong]}';
 		var difficulties:Array<String> = [];
 		var hasEvents:Bool = true;
 
-		for (path in Paths.location.list())
+		for (path in Paths.location.list(queryPath))
 		{
-			if (!queryPath.startsWith(path))
-				continue;
-
-			var pathNoPrefix:String = path.substring(queryPath.length);
+			var pathNoPrefix:String = path.substring((queryPath + '/').length);
 			var pathNoSuffix:String = pathNoPrefix.substring(0, pathNoPrefix.indexOf('.json'));
 
 			if (pathNoSuffix.startsWith('${songs[curSong]}-'))
 				pathNoSuffix = pathNoPrefix.substring(pathNoPrefix.indexOf('${songs[curSong]}-'));
 
-			if (pathNoSuffix == 'events') // must be my old crappy events!
+			if (pathNoSuffix == 'events') // must be my old crappy events! erm i think you mean OUR crappy events! (I did nothing to contribute to the events)
 			{
 				hasEvents = true;
 				continue;
@@ -345,9 +343,9 @@ class ConvertingSongs extends MusicBeatState
 		var metadataJsonString:String = new JsonWriter<ChillinMetadata>(true).write(metadata, '  ');
 		var eventsJsonString:String = new JsonWriter<ChillinEventsJson>(true).write(eventsJsonElement, '  ');
 
-		sys.io.File.saveContent('../../../../assets/preload/data/charts/${songs[curSong]}/chart.json', chartJsonString);
-		sys.io.File.saveContent('../../../../assets/preload/data/charts/${songs[curSong]}/metadata.json', metadataJsonString);
-		sys.io.File.saveContent('../../../../assets/preload/data/charts/${songs[curSong]}/events.json', eventsJsonString);
+		sys.io.File.saveContent('../../../../assets/gameplay/songs/${songs[curSong]}/chart.json', chartJsonString);
+		sys.io.File.saveContent('../../../../assets/gameplay/songs/${songs[curSong]}/metadata.json', metadataJsonString);
+		sys.io.File.saveContent('../../../../assets/gameplay/songs/${songs[curSong]}/events.json', eventsJsonString);
 	}
 	#end
 }

@@ -37,8 +37,7 @@ class StoryMenuState extends MusicBeatState
 
 	override public function create()
 	{
-		Paths.content.clearAudioCache();
-		Paths.content.clearImageCache();
+		Paths.content.cache.clear();
 
 		changeWindowName('Story Menu');
 
@@ -52,7 +51,7 @@ class StoryMenuState extends MusicBeatState
 		if (FlxG.sound.music != null)
 		{
 			if (!FlxG.sound.music.playing)
-				FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
+				FlxG.sound.playMusic(Paths.content.audio('ui/mainmenu/freakyMenu'));
 		}
 
 		persistentUpdate = persistentDraw = true;
@@ -66,7 +65,7 @@ class StoryMenuState extends MusicBeatState
 
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'RANK: ';
-		rankText.setFormat(Paths.location.font("vcr.ttf"), 32);
+		rankText.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
@@ -97,7 +96,7 @@ class StoryMenuState extends MusicBeatState
 
 			if (daWeeks[i].locked)
 			{
-				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x).loadGraphic(Paths.content.imageGraphic('storymode/ui/lock'));
+				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x).loadGraphic(Paths.content.imageGraphic('ui/storymode/lock'));
 				lock.ID = i;
 				grpLocks.add(lock);
 			}
@@ -134,20 +133,20 @@ class StoryMenuState extends MusicBeatState
 		add(difficultySelectors);
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
-		leftArrow.frames = Paths.content.autoAtlas('storymode/ui/arrowLeft');
+		leftArrow.frames = Paths.content.sparrowAtlas('ui/storymode/arrowLeft');
 		leftArrow.animation.addByPrefix('idle', "arrow left");
 		leftArrow.animation.addByPrefix('press', "arrow push left");
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
 		sprDifficulty = new FlxSprite(leftArrow.x + 130,
-			leftArrow.y).loadGraphic(Paths.content.imageGraphic('storymode/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
+			leftArrow.y).loadGraphic(Paths.content.imageGraphic('ui/storymode/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
 		changeDifficulty();
 
 		difficultySelectors.add(sprDifficulty);
 
 		rightArrow = new FlxSprite(leftArrow.x + 380, leftArrow.y);
-		rightArrow.frames = Paths.content.autoAtlas('storymode/ui/arrowRight');
+		rightArrow.frames = Paths.content.sparrowAtlas('ui/storymode/arrowRight');
 		rightArrow.animation.addByPrefix('idle', 'arrow right');
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
 		rightArrow.animation.play('idle');
@@ -239,7 +238,7 @@ class StoryMenuState extends MusicBeatState
 
 		if (controls.BACK && !movedBack && !selectedWeek)
 		{
-			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.audio('ui/mainmenu/cancelMenu'));
 			movedBack = true;
 			FlxG.switchState(new MainMenuState());
 		}
@@ -257,7 +256,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			if (!stopspamming)
 			{
-				FlxG.sound.play(Paths.content.sound('mainmenu/confirmMenu'));
+				FlxG.sound.play(Paths.content.audio('ui/mainmenu/confirmMenu'));
 
 				if (FunkinOptions.get('flashingLights'))
 					grpWeekText.members[curWeek].startFlashing();
@@ -312,7 +311,7 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty.offset.x = 20;
 		}
 
-		sprDifficulty.loadGraphic(Paths.content.imageGraphic('storymode/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
+		sprDifficulty.loadGraphic(Paths.content.imageGraphic('ui/storymode/difficulties/' + curWeekClass.difficulties[curDifficulty].formatToPath()));
 		sprDifficulty.alpha = 0;
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 
@@ -353,7 +352,7 @@ class StoryMenuState extends MusicBeatState
 			bullShit++;
 		}
 
-		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'));
+		FlxG.sound.play(Paths.content.audio('ui/mainmenu/scrollMenu'));
 
 		updateText();
 	}

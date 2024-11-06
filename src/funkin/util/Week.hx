@@ -170,7 +170,7 @@ class Week
 			#if FUNKIN_MOD_SUPPORT
 			if (mod != null)
 			{
-				var path:String = Paths.location.json('data/charts/' + difficulties[0].formatToPath() + '/' + song[0].formatToPath()).trim();
+				var path:String = Paths.location.json('gameplay/songs/' + difficulties[0].formatToPath() + '/' + song[0].formatToPath()).trim();
 				if (path.startsWith(Constants.MODS_FOLDER + '/'))
 				{
 					path = path.substring('${Constants.MODS_FOLDER}/'.length);

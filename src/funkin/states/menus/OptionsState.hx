@@ -23,7 +23,7 @@ class OptionsState extends MusicBeatState
 		DiscordRPC.details = 'Options Menu';
 		#end
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('mainmenu/menuBG'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('ui/mainmenu/menuBG'));
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();
 		bg.screenCenter();
@@ -59,7 +59,7 @@ class OptionsState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.audio('ui/mainmenu/cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -87,7 +87,7 @@ class OptionsState extends MusicBeatState
 				option.alpha = 0.6;
 		});
 
-		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.audio('ui/mainmenu/scrollMenu'), 0.4);
 	}
 
 	function openMenu(option:String)

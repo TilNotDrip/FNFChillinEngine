@@ -54,7 +54,7 @@ class HealthBar extends FlxSpriteGroup
 
 		super(0, 0, 0);
 
-		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay-ui/$ui/healthBar'));
+		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay/play/ui/$ui/healthBar'));
 		add(bg);
 
 		bar = new FlxBar(4, 4, RIGHT_TO_LEFT, Std.int(bg.width - 8), Std.int(bg.height - 8), this, "_health", 0, 2, false);
@@ -67,7 +67,7 @@ class HealthBar extends FlxSpriteGroup
 		if (iconP2 != null)
 			initIcon(iconP2, iconP2Spr, false);
 
-		health = Constants.HEALTH_STARTING;
+		_health = Constants.HEALTH_STARTING;
 
 		initialized = true;
 	}
@@ -116,7 +116,7 @@ class HealthBar extends FlxSpriteGroup
 		for (spr in [iconP1Spr, iconP2Spr])
 		{
 			if (spr != null)
-				spr.updateIconAnimation(health);
+				spr.updateIconAnimation(_health);
 		}
 
 		return _health;

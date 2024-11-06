@@ -45,9 +45,9 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.content.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.content.audio('ui/mainmenu/freakyMenu'));
 
-		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('mainmenu/menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.content.imageGraphic('ui/mainmenu/menuDesat'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -72,16 +72,17 @@ class FreeplayState extends MusicBeatState
 				iconArray.push(icon);
 				add(icon);
 
-				if (week.songs[i][1] == true)
+				if (week.songs[i][1])
 				{
-					var explicit:TrackedSprite = new TrackedSprite();
-					explicit.frames = Paths.content.autoAtlas('freeplay/explicit');
-					explicit.animation.addByPrefix('idle', 'Idle', 24, true);
-					explicit.animation.play('idle');
-					explicit.sprOffsetY + 70;
-					explicit.sprTracker = icon;
-					explicit.ID = iconArray.indexOf(icon);
-					explicitSpr.add(explicit);
+					/*
+						var explicit:TrackedSprite = new TrackedSprite();
+						explicit.frames = Paths.content.sparrowAtlas('freeplay/explicit');
+						explicit.animation.addByPrefix('idle', 'Idle', 24, true);
+						explicit.animation.play('idle');
+						explicit.sprOffsetY + 70;
+						explicit.sprTracker = icon;
+						explicit.ID = iconArray.indexOf(icon);
+						explicitSpr.add(explicit); */
 				}
 			}
 		}
@@ -89,7 +90,7 @@ class FreeplayState extends MusicBeatState
 		add(explicitSpr);
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.location.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText.setFormat(Paths.location.get("ui/fonts/vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0x99000000);
 		scoreBG.antialiasing = false;
@@ -139,7 +140,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.play(Paths.content.sound('mainmenu/cancelMenu'));
+			FlxG.sound.play(Paths.content.audio('ui/mainmenu/cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -195,7 +196,7 @@ class FreeplayState extends MusicBeatState
 		FunkinModLoader.rebuildCurrentMods(songs[curSelected].week.mod);
 		#end
 
-		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.audio('ui/mainmenu/scrollMenu'), 0.4);
 
 		if (!songs[curSelected].week.difficulties.contains(songs[curSelected].week.difficulties[curDifficulty]))
 			changeDifficulty();

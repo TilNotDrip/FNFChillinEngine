@@ -42,12 +42,12 @@ class ImageFrames extends FlxFramesCollection
 	{
 		var graphicArray:Array<ImageFramesArrayIndex> = [];
 
-		for (path in Paths.location.list())
+		for (path in Paths.location.list(directory))
 		{
-			if (!(path.startsWith('images/' + directory + '/') && path.endsWith('.${Constants.EXT_IMAGE}')))
+			if (!path.endsWith('.${Constants.EXT_IMAGE}'))
 				continue;
 
-			var pathNoDir:String = path.substring('images/$directory/'.length);
+			var pathNoDir:String = path.substring('$directory/'.length);
 			var removingDot:Array<String> = pathNoDir.split('.');
 			removingDot.pop();
 			pathNoDir = removingDot.join('.');
@@ -63,9 +63,9 @@ class ImageFrames extends FlxFramesCollection
 
 	public static function isFrameDirectory(directory:String):Bool
 	{
-		return Paths.location.list().filter(function(path:String)
+		return Paths.location.list(directory).filter(function(path:String)
 		{
-			return (path.startsWith('images/' + directory + '/') && path.endsWith('.${Constants.EXT_IMAGE}'));
+			return (path.endsWith('.${Constants.EXT_IMAGE}'));
 		}).length > 0;
 	}
 }

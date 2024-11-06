@@ -59,7 +59,7 @@ class FunkinFPSCounter extends TextField
 
 	function getFPSText():String
 	{
-		return '[FPS]: $currentFPS\n';
+		return '[FPS]: ∞\n';
 	}
 
 	function getMEMText():String

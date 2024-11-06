@@ -74,7 +74,7 @@ class CreditsState extends MusicBeatState
 			html_url: 'https://twitter.com/gameboy1969'
 		}); // tweeeter
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('mainmenu/menuBG'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('ui/mainmenu/menuBG'));
 		bg.screenCenter();
 		add(bg);
 
@@ -139,7 +139,7 @@ class CreditsState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.content.sound('mainmenu/scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.content.audio('ui/mainmenu/scrollMenu'), 0.4);
 
 		curSelected += change;
 

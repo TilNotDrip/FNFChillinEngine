@@ -87,16 +87,16 @@ class NewSong implements IRegistryEntry<ChillinMetadata>
 
 		_variations = [Constants.DEFAULT_VARIATION];
 
-		var textAssets:Array<String> = Paths.location.list();
-		@:privateAccess var queryPath = 'data/' + SongRegistry.instance.dataFilePath + '/' + id + '/';
+		@:privateAccess var queryPath = 'gameplay/' + SongRegistry.instance.dataFilePath + '/' + id;
+		var textAssets:Array<String> = Paths.location.list(queryPath);
 		var fileSuffix:String = 'metadata.json';
 
 		for (file in textAssets)
 		{
-			if (!file.startsWith(queryPath) || !file.endsWith(fileSuffix))
+			if (!file.endsWith(fileSuffix))
 				continue;
 
-			var fileWithoutSuffix:String = file.substring(queryPath.length, file.lastIndexOf(fileSuffix));
+			var fileWithoutSuffix:String = file.substring((queryPath + '/').length, file.lastIndexOf(fileSuffix));
 
 			if (fileWithoutSuffix == '') // default
 				continue;

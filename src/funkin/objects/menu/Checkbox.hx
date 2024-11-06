@@ -6,7 +6,7 @@ class Checkbox extends FlxSprite
 	{
 		super(x, y);
 
-		frames = Paths.content.autoAtlas('mainmenu/checkbox');
+		frames = Paths.content.sparrowAtlas('ui/options/checkbox');
 		animation.addByIndices('idle', 'Unselect', [13, 13], '', 24, true);
 		animation.addByIndices('idle selected', 'Press', [13, 13], '', 24, true);
 		animation.addByPrefix('checked', 'Press', 24, false);
@@ -16,13 +16,17 @@ class Checkbox extends FlxSprite
 		updateHitbox();
 	}
 
+	/**
+	 * (Un)Checks the checkbox.
+	 * @param value Whether to check or uncheck the checkbox.
+	 */
 	public function check(value:Bool):Void
 	{
 		if (value)
 		{
 			animation.play('checked', true);
 
-			animation.finishCallback = function(anim:String)
+			animation.finishCallback = (anim:String) ->
 			{
 				animation.play('idle selected', true);
 				animation.finishCallback = null;
@@ -32,7 +36,7 @@ class Checkbox extends FlxSprite
 		{
 			animation.play('unchecked', true);
 
-			animation.finishCallback = function(anim:String)
+			animation.finishCallback = (anim:String) ->
 			{
 				animation.play('idle', true);
 				animation.finishCallback = null;

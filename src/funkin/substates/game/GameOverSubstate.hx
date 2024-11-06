@@ -112,12 +112,12 @@ class GameOverSubstate extends MusicBeatSubstate
 			character = null;
 
 			var loser:FlxSprite = new FlxSprite(100, 100);
-			loser.frames = Paths.content.autoAtlas('gameOver/lose');
+			loser.frames = Paths.content.sparrowAtlas('gameplay/play/gameover/lose');
 			loser.animation.addByPrefix('lose', 'lose...', 24, false);
 			loser.animation.play('lose');
 			add(loser);
 
-			var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.content.imageGraphic('gameOver/restart'));
+			var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.content.imageGraphic('gameplay/play/gameover/restart'));
 			restart.setGraphicSize(Std.int(restart.width * 0.6));
 			restart.updateHitbox();
 			restart.alpha = 0;
@@ -237,12 +237,12 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	function playBlueballSfx():Void
 	{
-		FlxG.sound.play(Paths.content.sound('gameplay/$ui/fnf_loss_sfx'));
+		FlxG.sound.play(Paths.content.audio('gameplay/play/ui/$ui/fnf_loss_sfx'));
 	}
 
 	function playGameOverMusic(startVolume:Float = 1):Void
 	{
-		FlxG.sound.playMusic(Paths.content.music('gameplay/$ui/gameOver${isEnding ? 'End' : 'Start'}'), startVolume);
+		FlxG.sound.playMusic(Paths.content.audio('gameplay/play/ui/$ui/gameOver${isEnding ? 'End' : 'Start'}'), startVolume);
 		gameOverMusic = FlxG.sound.music;
 	}
 
@@ -253,7 +253,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	 */
 	function playJeffQuote():Void
 	{
-		FlxG.sound.play(Paths.content.sound('gameplay/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1.0, false, null, true, function()
+		FlxG.sound.play(Paths.content.audio('gameplay/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1.0, false, null, true, function()
 		{
 			// Once the quote ends, fade in the game over music.
 			if (!isEnding && gameOverMusic != null)

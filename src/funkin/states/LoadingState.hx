@@ -44,7 +44,7 @@ class LoadingState extends MusicBeatState
 		add(bg);
 
 		funkay = new FlxSprite();
-		funkay.loadGraphic(Paths.content.imageGraphic('mainmenu/funkay'));
+		funkay.loadGraphic(Paths.content.imageGraphic('ui/mainmenu/funkay'));
 		funkay.setGraphicSize(0, FlxG.height);
 		funkay.updateHitbox();
 		add(funkay);
@@ -85,7 +85,7 @@ class LoadingState extends MusicBeatState
 	function checkLoadSong(path:String)
 	{
 		var callback = callbacks.add("song:" + path);
-		Paths.content.getAudio(path);
+		Paths.content.audio(path.cutRawPath());
 		callback();
 	}
 
@@ -162,31 +162,11 @@ class LoadingState extends MusicBeatState
 	{
 		Paths.location.currentLevel = getStageDirectory();
 
-		#if NO_PRELOAD_ALL
-		var loaded:Bool = isSoundLoaded(getSongPath())
-			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()))
-			&& isLibraryLoaded("shared");
-
-		if (!loaded)
-			return new LoadingState(target, stopMusic);
-		#end
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
 		return target;
 	}
-
-	#if NO_PRELOAD_ALL
-	static function isSoundLoaded(path:String):Bool
-	{
-		return Assets.cache.hasSound(path);
-	}
-
-	static function isLibraryLoaded(library:String):Bool
-	{
-		return Assets.getLibrary(library) != null;
-	}
-	#end
 
 	override public function destroy()
 	{
@@ -264,7 +244,7 @@ class LoadingState extends MusicBeatState
 
 		try
 		{
-			stageData = cast new JsonParser<StageStructure>().fromJson(Paths.content.json('data/stages/' + PlayState.SONG.stage));
+			stageData = cast new JsonParser<StageStructure>().fromJson(Paths.content.json('gameplay/stages/' + PlayState.SONG.stage + '/data'));
 		}
 		catch (e:Exception)
 		{

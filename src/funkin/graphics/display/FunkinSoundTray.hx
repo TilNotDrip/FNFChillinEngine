@@ -27,7 +27,7 @@ class FunkinSoundTray extends FlxSoundTray
 		super();
 		removeChildren();
 
-		var bg:Bitmap = new Bitmap(Paths.content.imageBitmap('soundtray/volumebox'));
+		var bg:Bitmap = new Bitmap(Paths.content.imageBitmap('ui/soundtray/volumebox'));
 		bg.scaleX = graphicScale;
 		bg.scaleY = graphicScale;
 		bg.smoothing = true;
@@ -36,7 +36,7 @@ class FunkinSoundTray extends FlxSoundTray
 		y = -height;
 		visible = false;
 
-		var backingBar:Bitmap = new Bitmap(Paths.content.imageBitmap('soundtray/bars_10'));
+		var backingBar:Bitmap = new Bitmap(Paths.content.imageBitmap('ui/soundtray/bars_10'));
 		backingBar.x = 9;
 		backingBar.y = 5;
 		backingBar.scaleX = graphicScale;
@@ -49,7 +49,7 @@ class FunkinSoundTray extends FlxSoundTray
 
 		for (i in 1...11)
 		{
-			var bar:Bitmap = new Bitmap(Paths.content.imageBitmap('soundtray/bars_' + i));
+			var bar:Bitmap = new Bitmap(Paths.content.imageBitmap('ui/soundtray/bars_' + i));
 			bar.x = 9;
 			bar.y = 5;
 			bar.scaleX = graphicScale;
@@ -62,9 +62,9 @@ class FunkinSoundTray extends FlxSoundTray
 		y = -height;
 		screenCenter();
 
-		volumeUp = Paths.content.sound('soundtray/Volup');
-		volumeDown = Paths.content.sound('soundtray/Voldown');
-		volumeMax = Paths.content.sound('soundtray/VolMAX');
+		volumeUp = Paths.content.audio('ui/soundtray/up');
+		volumeDown = Paths.content.audio('ui/soundtray/down');
+		volumeMax = Paths.content.audio('ui/soundtray/max');
 	}
 
 	override public function update(MS:Float):Void

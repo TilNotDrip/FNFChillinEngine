@@ -1,5 +1,8 @@
 package funkin.util;
 
+#if FUNKIN_MOD_SUPPORT
+import funkin.modding.FunkinModLoader;
+#end
 import lime.utils.Assets;
 
 class CoolTools
@@ -27,6 +30,38 @@ class CoolTools
 		}
 
 		return converted;
+	}
+
+	/**
+	 * Removes the assets/ and mods/modFolder part of a string. Really useful for making some paths work together.
+	 * @param path The raw path string.
+	 * @return `path` without default:assets/ and mods/
+	 */
+	public static function cutRawPath(path:String, removeExt:Bool = true):String
+	{
+		var cutWords:Array<String> = ['assets/'];
+
+		#if FUNKIN_MOD_SUPPORT
+		for (mod in FunkinModLoader.currentMods)
+		{
+			cutWords.push('${Constants.MODS_FOLDER}/${mod.folder}/');
+		}
+		#end
+
+		for (assetPath in cutWords)
+		{
+			if (path.startsWith(assetPath))
+			{
+				path = path.split(assetPath)[1];
+
+				if (removeExt)
+					path = path.split('.')[0];
+
+				return path;
+			}
+		}
+
+		return null;
 	}
 
 	/**

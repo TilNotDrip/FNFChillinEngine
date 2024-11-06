@@ -52,7 +52,7 @@ class Character extends FlxSprite
 
 		if (characterData != null)
 		{
-			frames = Paths.content.autoAtlas(characterData.image, 'shared');
+			frames = Paths.content.autoAtlas('gameplay/characters/$curCharacter/' + characterData.image);
 
 			for (anim in characterData.animations)
 			{

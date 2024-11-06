@@ -18,7 +18,7 @@ class CharacterRegistry extends BaseDataRegistry<CharacterStructure>
 
 	public function new()
 	{
-		super('CHARACTER', 'characters', funkin.util.Constants.VERSION_CHARACTER_RULE);
+		super('CHARACTER', 'gameplay/characters', funkin.util.Constants.VERSION_CHARACTER_RULE);
 	}
 
 	public function fetchCharacter(id:String, ?isPlayer:Bool = false):Character

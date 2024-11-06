@@ -23,27 +23,27 @@ class GitarooPause extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('pauseAlt/pauseBG'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.content.imageGraphic('gameplay/play/pause/pauseBG'));
 		add(bg);
 
 		var bf:FlxSprite = new FlxSprite(0, 30);
-		bf.frames = Paths.content.autoAtlas('pauseAlt/bfLol');
-		bf.animation.addByPrefix('lol', "funnyThing instance", 13);
+		bf.frames = Paths.content.sparrowAtlas('gameplay/play/pause/bfLol');
+		bf.animation.addByPrefix('lol', "funnyThing", 13);
 		bf.animation.play('lol');
 		add(bf);
 		bf.screenCenter(X);
 
 		replayButton = new FlxSprite(FlxG.width * 0.28, FlxG.height * 0.7);
-		replayButton.frames = Paths.content.autoAtlas('pauseAlt/pauseUI');
-		replayButton.animation.addByPrefix('selected', 'bluereplay instance', 0, false);
-		replayButton.animation.appendByPrefix('selected', 'yellowreplay instance');
+		replayButton.frames = Paths.content.sparrowAtlas('gameplay/play/pause/pauseUI');
+		replayButton.animation.addByPrefix('selected', 'bluereplay', 0, false);
+		replayButton.animation.appendByPrefix('selected', 'yellowreplay');
 		replayButton.animation.play('selected');
 		add(replayButton);
 
 		cancelButton = new FlxSprite(FlxG.width * 0.58, replayButton.y);
-		cancelButton.frames = Paths.content.autoAtlas('pauseAlt/pauseUI');
-		cancelButton.animation.addByPrefix('selected', 'bluecancel instance', 0, false);
-		cancelButton.animation.appendByPrefix('selected', 'cancelyellow instance');
+		cancelButton.frames = Paths.content.sparrowAtlas('gameplay/play/pause/pauseUI');
+		cancelButton.animation.addByPrefix('selected', 'bluecancel', 0, false);
+		cancelButton.animation.appendByPrefix('selected', 'cancelyellow');
 		cancelButton.animation.play('selected');
 		add(cancelButton);
 

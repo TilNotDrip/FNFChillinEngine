@@ -232,7 +232,7 @@ class AtlasFontData
 
 	public function new(name:AtlasFont)
 	{
-		atlas = Paths.content.autoAtlas("fonts/" + name.getName().formatToPath());
+		atlas = Paths.content.sparrowAtlas("ui/fonts/" + name.getName().formatToPath());
 		atlas.parent.destroyOnNoUse = false;
 		atlas.parent.persist = true;
 

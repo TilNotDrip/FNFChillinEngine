@@ -74,7 +74,7 @@ class Stage extends FlxSpriteGroup
 
 		try
 		{
-			data = cast new JsonParser<StageStructure>().fromJson(Paths.content.json('data/stages/' + id));
+			data = cast new JsonParser<StageStructure>().fromJson(Paths.content.json('gameplay/stages/' + id + '/data'));
 		}
 		catch (e:Exception)
 		{
@@ -99,7 +99,7 @@ class Stage extends FlxSpriteGroup
 			}
 			else if (propIsAnimated)
 			{
-				object.frames = Paths.content.sparrowAtlas(prop.image);
+				object.frames = Paths.content.sparrowAtlas('gameplay/stages/$id/' + prop.image);
 
 				for (anim in prop.animations)
 				{
@@ -120,7 +120,7 @@ class Stage extends FlxSpriteGroup
 			}
 			else
 			{
-				object.loadGraphic(Paths.content.imageGraphic(prop.image));
+				object.loadGraphic(Paths.content.imageGraphic('gameplay/stages/$id/' + prop.image));
 			}
 
 			object.scrollFactor.set(prop.scrollFactor[0], prop.scrollFactor[1]);

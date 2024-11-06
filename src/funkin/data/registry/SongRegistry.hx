@@ -19,7 +19,7 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 
 	public function new()
 	{
-		super('SONG', 'charts'); // No version rule here, because there are 3 different ones!
+		super('SONG', 'gameplay/songs'); // No version rule here, because there are 3 different ones!
 	}
 
 	override public function loadEntryStructures():Void {} // we dont need this, because songs load it themselves!
@@ -69,7 +69,7 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 
 	function loadSongMetadataFile(id:String, variation:String):String
 	{
-		var rawJson:String = Paths.content.json('data/${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}metadata').trim();
+		var rawJson:String = Paths.content.json('${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}metadata').trim();
 		return rawJson;
 	}
 
@@ -116,7 +116,7 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 
 	function loadSongChartFile(id:String, variation:String):String
 	{
-		var rawJson:String = Paths.content.json('data/${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}chart').trim();
+		var rawJson:String = Paths.content.json('${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}chart').trim();
 		return rawJson;
 	}
 
@@ -163,7 +163,7 @@ class SongRegistry extends BaseRegistry<NewSong, ChillinMetadata>
 
 	function loadSongEventsFile(id:String, variation:String):String
 	{
-		var rawJson:String = Paths.content.json('data/${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}events').trim();
+		var rawJson:String = Paths.content.json('${dataFilePath}/${id}/${variation == Constants.DEFAULT_VARIATION ? '' : '$variation-'}events').trim();
 		return rawJson;
 	}
 

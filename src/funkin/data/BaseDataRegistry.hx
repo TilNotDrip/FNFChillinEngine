@@ -93,17 +93,16 @@ abstract class BaseDataRegistry<J>
 	 */
 	public function listIDs():Array<String>
 	{
-		var textAssets = Paths.location.list();
-
-		var queryPath = 'data/' + dataFilePath + '/';
-
+		var queryPath:String = dataFilePath;
+		var textAssets:Array<String> = Paths.location.list(queryPath);
 		var results:Array<String> = [];
+
 		for (textPath in textAssets)
 		{
-			if (textPath.startsWith(queryPath) && textPath.endsWith('.json'))
+			if (textPath.endsWith('.json'))
 			{
-				var pathNoSuffix = textPath.substring(0, textPath.length - '.json'.length);
-				var pathNoPrefix = pathNoSuffix.substring(queryPath.length);
+				var pathNoSuffix:String = textPath.substring(0, textPath.length - '.json'.length);
+				var pathNoPrefix:String = pathNoSuffix.substring((queryPath + '/').length);
 
 				results.push(pathNoPrefix);
 			}
@@ -133,7 +132,7 @@ abstract class BaseDataRegistry<J>
 
 	function loadEntryFile(id:String):String
 	{
-		var rawJson:String = Paths.content.json('data/${dataFilePath}/${id}').trim();
+		var rawJson:String = Paths.content.json('${dataFilePath}/${id}').trim();
 		return rawJson;
 	}
 

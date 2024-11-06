@@ -21,7 +21,6 @@ import funkin.data.FunkinControls;
 import funkin.data.FunkinHighscore;
 import funkin.data.FunkinOptions;
 import funkin.objects.Alphabet;
-import funkin.objects.FlxVideo;
 import funkin.states.LoadingState;
 import funkin.states.game.PlayState;
 import funkin.states.menus.FreeplayState;

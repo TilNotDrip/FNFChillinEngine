@@ -1,5 +1,6 @@
 package funkin.util.paths;
 
+import haxe.Exception;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.FlxGraphic;
 import haxe.Json;
@@ -13,45 +14,29 @@ import sys.FileSystem;
 #end
 
 /**
- * A Path class for returning content from locations.
- *
- * This class also handles caching for audios and images.
+ * A Path class for returning content from locations whether it be a FlxGraphic, Sound, or a String with a files content that you can parse using another class.
  */
 class PathContent
 {
 	/**
-	 * The content that doesn't get wiped from a cache clean.
-	 *
-	 * You should only put something here if you use it on a daily basis.
-	 *
-	 * TODO: Alphabet loves getting fucked on a cache clear if its not in exclude idk why.
-	 * TODO: Sound gets fucked if it's not in exclude mainly music tho.
+	 * The cache handler for this class.
 	 */
-	public var clearCacheExcludeKeys:Array<String> = [
-		'default:assets/images/fonts/bold.png',
-		'default:assets/images/fonts/default.png',
-		'default:assets/images/mainmenu/menuBG.png',
-		'default:assets/images/mainmenu/menuDesat.png',
-		'default:assets/images/soundtray/bars_1.png',
-		'default:assets/images/soundtray/bars_2.png',
-		'default:assets/images/soundtray/bars_3.png',
-		'default:assets/images/soundtray/bars_4.png',
-		'default:assets/images/soundtray/bars_5.png',
-		'default:assets/images/soundtray/bars_6.png',
-		'default:assets/images/soundtray/bars_7.png',
-		'default:assets/images/soundtray/bars_8.png',
-		'default:assets/images/soundtray/bars_9.png',
-		'default:assets/images/soundtray/bars_10.png',
-		'default:assets/images/soundtray/volumebox.png',
-		'default:assets/music/freakyMenu.${Constants.EXT_SOUND}'
-	];
+	public var cache:PathCache;
 
-	var imgCacheKeys:Array<String> = [];
-	var bitmapCache:Map<String, BitmapData> = new Map();
-	var flxGraphicCache:Map<String, FlxGraphic> = new Map();
-	var audioCache:Map<String, Sound> = new Map();
+	public function new()
+	{
+		cache = new PathCache();
+	}
 
-	public function new() {}
+	/**
+	 * Adds an OpenFL sound to the audio cache and also returns it.
+	 * @param key The key to cache.
+	 * @return OpenFL Sound instance of a audio.
+	 */
+	public function audio(key:String, ?checkMods:Bool = true):Sound
+	{
+		return cache.getAudio(Paths.location.audio(key, checkMods));
+	}
 
 	/**
 	 * Returns and also caches a graphic of a image bitmap.
@@ -60,37 +45,9 @@ class PathContent
 	 * @param checkMods Allow mod images to be returned?
 	 * @return A BitampData instance of a image.
 	 */
-	public function imageBitmap(key:String, ?library:String, ?checkMods:Bool = true):BitmapData
+	public function imageBitmap(key:String, ?checkMods:Bool = true):BitmapData
 	{
-		var bitmap:BitmapData = null;
-		var assetKey:String = Paths.location.image(key, library, checkMods);
-
-		if (!bitmapCache.exists(assetKey))
-		{
-			try
-			{
-				#if FUNKIN_MOD_SUPPORT
-				if (assetKey.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
-					bitmap = BitmapData.fromFile(assetKey);
-				else
-				#end
-				bitmap = Assets.getBitmapData(assetKey, false);
-			}
-			catch (e)
-			{
-				trace('[WARNING]: Bitmap is null! $assetKey');
-				return null;
-			}
-
-			bitmapCache.set(assetKey, bitmap);
-			imgCacheKeys.push(assetKey);
-		}
-		else
-		{
-			bitmap = bitmapCache.get(assetKey);
-		}
-
-		return bitmap;
+		return cache.getBitmapData(Paths.location.image(key, checkMods));
 	}
 
 	/**
@@ -100,37 +57,9 @@ class PathContent
 	 * @param checkMods Allow mod images to be returned?
 	 * @return A FlxGraphic instance of a image.
 	 */
-	public function imageGraphic(key:String, ?library:String, ?checkMods:Bool = true):FlxGraphic
+	public function imageGraphic(key:String, ?checkMods:Bool = true):FlxGraphic
 	{
-		var graphic:FlxGraphic = null;
-		var assetKey:String = Paths.location.image(key, library, checkMods);
-
-		if (!flxGraphicCache.exists(key))
-		{
-			var bitmap:BitmapData = null;
-
-			try
-			{
-				bitmap = imageBitmap(key, library, checkMods);
-			}
-			catch (e)
-			{
-				trace('[WARNING]: Bitmap is null! $assetKey');
-				return null;
-			}
-
-			graphic = FlxGraphic.fromBitmapData(bitmap, false, assetKey, false);
-			graphic.persist = true;
-			graphic.destroyOnNoUse = false;
-			flxGraphicCache.set(assetKey, graphic);
-			imgCacheKeys.push(assetKey);
-		}
-		else
-		{
-			graphic = flxGraphicCache.get(assetKey);
-		}
-
-		return graphic;
+		return cache.getFlxGraphic(Paths.location.image(key, checkMods));
 	}
 
 	/**
@@ -139,33 +68,9 @@ class PathContent
 	 * @param checkMods Allow mod jsons to be returned?
 	 * @return A JSON turned into a string from the text asset in Paths.location.json
 	 */
-	public function json(key:String, ?library:String, ?checkMods:Bool = true):String
+	public function json(key:String, ?checkMods:Bool = true):String
 	{
-		return getText(Paths.location.json(key, library, checkMods), checkMods);
-	}
-
-	/**
-	 * Returns and also caches a music file.
-	 * @param key Music File name.
-	 * @param library Library the music is in.
-	 * @param checkMods Allow mod music to be returned?
-	 * @return OpenFL Sound instance of a music audio.
-	 */
-	public function music(key:String, ?library:String, ?checkMods:Bool = true):Sound
-	{
-		return getAudio(Paths.location.music(key, library, checkMods));
-	}
-
-	/**
-	 * Returns and also caches a sound file.
-	 * @param key Sound File name.
-	 * @param library Library the sound is in.
-	 * @param checkMods Allow mod sounds to be returned?
-	 * @return OpenFL Sound instance of a sound audio.
-	 */
-	public function sound(key:String, ?library:String, ?checkMods:Bool = true):Sound
-	{
-		return getAudio(Paths.location.sound(key, library, checkMods));
+		return getText(Paths.location.json(key, checkMods), checkMods);
 	}
 
 	/**
@@ -174,9 +79,9 @@ class PathContent
 	 * @param checkMods Allow mod sparrow atlases to be returned?
 	 * @return Sparrow Atlas frames from library:assets/images/key.png&.xml
 	 */
-	public function sparrowAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxAtlasFrames
+	public function sparrowAtlas(key:String, ?checkMods:Bool = true):FlxAtlasFrames
 	{
-		return FlxAtlasFrames.fromSparrow(imageGraphic(key, library, checkMods), xml('images/$key', library, checkMods));
+		return FlxAtlasFrames.fromSparrow(imageGraphic(key, checkMods), xml(key, checkMods));
 	}
 
 	/**
@@ -185,27 +90,29 @@ class PathContent
 	 * @param checkMods Allow mod packer atlases to be returned?
 	 * @return Packer Atlas frames from library:assets/images/key.png&.txt
 	 */
-	public function packerAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxAtlasFrames
+	public function packerAtlas(key:String, ?checkMods:Bool = true):FlxAtlasFrames
 	{
-		return FlxAtlasFrames.fromSpriteSheetPacker(imageGraphic(key, library, checkMods),
-			getText(Paths.location.get('images/$key.txt', library, TEXT, checkMods)));
+		return FlxAtlasFrames.fromSpriteSheetPacker(imageGraphic(key, checkMods), getText(Paths.location.txt(key, checkMods)));
 	}
 
 	/**
+	 * Auto picks an atlas and returns an FlxFramesCollection.
 	 * @param key The image and the description name.
 	 * @param library The library the image and description are located.
 	 * @param checkMods Allow mod atlases to be returned?
 	 * @return Atlas frames from key.
 	 */
-	public function autoAtlas(key:String, ?library:String, ?checkMods:Bool = true):FlxFramesCollection
+	public function autoAtlas(key:String, ?checkMods:Bool = true):FlxFramesCollection
 	{
-		if (Paths.location.exists(Paths.location.txt('images/$key', library, checkMods)))
+		var path:String = Paths.location.get(key, checkMods).cutRawPath();
+
+		if (Paths.location.exists('$path.txt'))
 		{
-			return packerAtlas(key, library, checkMods);
+			return packerAtlas(key, checkMods);
 		}
-		else if (Paths.location.exists(Paths.location.xml('images/$key', library, checkMods)))
+		else if (Paths.location.exists('$path.xml'))
 		{
-			return sparrowAtlas(key, library, checkMods);
+			return sparrowAtlas(key, checkMods);
 		}
 		else if (ImageFrames.isFrameDirectory(key))
 		{
@@ -222,7 +129,7 @@ class PathContent
 	 */
 	public function getText(key:String, ?checkMods:Bool = true):String
 	{
-		var toReturn:String;
+		var toReturn:String = null;
 		try
 		{
 			#if FUNKIN_MOD_SUPPORT
@@ -233,9 +140,9 @@ class PathContent
 			#end
 			toReturn = Assets.getText(key);
 		}
-		catch (e)
+		catch (e:Exception)
 		{
-			// trace('[ERROR] Error loading $key! Does it not exist?');
+			trace('[ERROR]: Error loading $key! Does it not exist?');
 			toReturn = null;
 		}
 
@@ -248,122 +155,8 @@ class PathContent
 	 * @param checkMods Allow mod xmls to be returned?
 	 * @return A Parsed XML Document from the text asset in Paths.location.xml
 	 */
-	public function xml(key:String, ?library:String, ?checkMods:Bool = true):Xml
+	public function xml(key:String, ?checkMods:Bool = true):Xml
 	{
-		return Xml.parse(getText(Paths.location.xml(key, library, checkMods), checkMods));
-	}
-
-	/**
-	 * Adds an OpenFL sound to the audio cache and also returns it.
-	 * @param key The key to cache. (Paths.location.get is not called you have to do it yourself!)
-	 * @return OpenFL Sound instance of a audio.
-	 */
-	public function getAudio(key:String):Sound
-	{
-		if (!audioCache.exists(key))
-		{
-			try
-			{
-				#if FUNKIN_MOD_SUPPORT
-				if (key.startsWith(Constants.MODS_FOLDER + '/')) // I should REALLY find a better way of doing this im just too lazy rn
-					audioCache.set(key, Sound.fromFile(key));
-				else
-				#end
-				audioCache.set(key, Assets.getSound(key, false));
-			}
-			catch (e)
-			{
-				trace('[WARNING]: Sound is null! $key');
-				return null;
-			}
-		}
-
-		return audioCache.get(key);
-	}
-
-	/**
-	 * Clears all audios in the audio cache and then runs the garbage collector.
-	 */
-	public function clearAudioCache():Void
-	{
-		for (audioKey in audioCache.keys())
-		{
-			removeFromAudioCache(audioKey);
-		}
-
-		System.gc();
-	}
-
-	/**
-	 * Clears all images inside the image cache then runs the garbage collector.
-	 */
-	public function clearImageCache():Void
-	{
-		for (imgKey in imgCacheKeys)
-		{
-			removeFromImgCache(imgKey);
-		}
-
-		@:privateAccess
-		FlxG.bitmap._cache.clear();
-
-		System.gc();
-	}
-
-	/**
-	 * Removes and destroys an audio from the audio cache.
-	 * @param key Audio to remove and destroy.
-	 */
-	public function removeFromAudioCache(key:String):Void
-	{
-		if (clearCacheExcludeKeys.contains(key))
-			return;
-
-		audioCache.remove(key);
-	}
-
-	/**
-	 * Removes and destroys a BitmapData and a FlxGraphic instance from their cache.
-	 * @param key Image to remove and destroy.
-	 */
-	public function removeFromImgCache(key:String):Void
-	{
-		if (clearCacheExcludeKeys.contains(key))
-			return;
-
-		if (bitmapCache.exists(key))
-			removeFromBitmapCache(key);
-
-		if (flxGraphicCache.exists(key))
-			removeFromFlxGraphicCache(key);
-
-		imgCacheKeys.remove(key);
-	}
-
-	function removeFromBitmapCache(key:String):Void
-	{
-		if (clearCacheExcludeKeys.contains(key))
-			return;
-
-		bitmapCache.remove(key);
-	}
-
-	function removeFromFlxGraphicCache(key:String):Void
-	{
-		if (clearCacheExcludeKeys.contains(key))
-			return;
-
-		// This is only because my formatter doesnt like me.
-		// This also shouldn't even be here but just for good measure.
-		@:privateAccess
-		var flxBitmapCache:Map<String, FlxGraphic> = FlxG.bitmap._cache;
-		if (flxBitmapCache.exists(key))
-			flxBitmapCache.remove(key);
-
-		var graphic:FlxGraphic = flxGraphicCache.get(key);
-		graphic.persist = false;
-		graphic.destroyOnNoUse = true;
-		flxGraphicCache.remove(key);
-		graphic.destroy();
+		return Xml.parse(getText(Paths.location.xml(key, checkMods), checkMods));
 	}
 }
